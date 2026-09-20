@@ -1,4 +1,28 @@
 {
-  "updatedAt": "2026-09-20T15:38:05.556118+00:00",
-  "properties": []
+  "updatedAt": "2026-09-20T15:59:20.824673+00:00",
+  "properties": [
+    {
+      "id": "demo-kashiwa-001",
+      "area": "柏の葉",
+      "name": "自動取得テスト物件",
+      "price": 8490,
+      "land": 150,
+      "building": 105,
+      "walk": 10,
+      "year": 2023,
+      "layout": "4LDK",
+      "url": "",
+      "school": "柏の葉小学校区",
+      "flat": true,
+      "retainingWall": false,
+      "history": [
+        {
+          "date": "2026-09-20",
+          "price": 8490
+        }
+      ],
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20"
+    }
+  ]
 }
