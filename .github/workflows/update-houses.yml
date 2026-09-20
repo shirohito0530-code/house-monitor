@@ -1,11 +1,14 @@
 name: Update house data
 
 on:
+  # 毎日 06:00 JST に実行
   schedule:
     - cron: "0 21 * * *"
 
+  # GitHub Actions画面から手動実行可能
   workflow_dispatch:
 
+# houses.jsonを書き換えてpushするために必要
 permissions:
   contents: write
 
@@ -16,17 +19,57 @@ jobs:
 
     steps:
 
+      # ==========================================
+      # GitHubリポジトリ取得
+      # ==========================================
+
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ==========================================
+      # Python環境
+      # ==========================================
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
+      # ==========================================
+      # 設定ファイル確認
+      # ==========================================
+
+      - name: Show search config
+        run: |
+          echo "================================"
+          echo "SEARCH CONFIG"
+          echo "================================"
+          cat config/search.json
+          echo "================================"
+
+      # ==========================================
+      # 物件データ更新
+      # ==========================================
+
       - name: Update house data
         run: |
           python scripts/update_houses.py
+
+      # ==========================================
+      # 更新結果確認
+      # ==========================================
+
+      - name: Show updated house data
+        run: |
+          echo "================================"
+          echo "UPDATED HOUSE DATA"
+          echo "================================"
+          cat data/houses.json
+          echo "================================"
+
+      # ==========================================
+      # GitHubへ保存
+      # ==========================================
 
       - name: Commit changes
         run: |
