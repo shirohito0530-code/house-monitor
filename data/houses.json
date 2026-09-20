@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-20T16:14:13.045415+00:00",
+  "updatedAt": "2026-09-20T16:30:47.756152+00:00",
   "properties": [
     {
       "id": "demo-kashiwa-001",
       "area": "柏の葉",
       "name": "柏の葉テスト物件",
-      "price": 8290,
+      "price": 8490,
       "land": 150,
       "building": 105,
       "walk": 10,
@@ -16,6 +16,10 @@
       "flat": true,
       "retainingWall": false,
       "history": [
+        {
+          "date": "2026-09-20",
+          "price": 8490
+        },
         {
           "date": "2026-09-20",
           "price": 8490
