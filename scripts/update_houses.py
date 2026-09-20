@@ -416,7 +416,8 @@ def main():
     for property_data in data["properties"]:
 
         calculate_metrics(
-            property_data
+            property_data,
+            config
         )
 
     data["updatedAt"] = datetime.now(
