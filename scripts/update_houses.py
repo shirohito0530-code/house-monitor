@@ -6,6 +6,10 @@ from pathlib import Path
 DATA_FILE = Path("data/houses.json")
 
 
+def now_date():
+    return datetime.now(timezone.utc).date().isoformat()
+
+
 def load_data():
     if not DATA_FILE.exists():
         return {
@@ -21,73 +25,159 @@ def save_data(data):
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
 
     with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        json.dump(
+            data,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
         f.write("\n")
 
 
-def add_or_update_property(data, property_data):
+def add_or_update_property(data, new_property):
+
     properties = data.setdefault("properties", [])
 
-    property_id = property_data["id"]
+    property_id = new_property["id"]
 
     existing = next(
-        (p for p in properties if p.get("id") == property_id),
+        (
+            p for p in properties
+            if p.get("id") == property_id
+        ),
         None
     )
 
-    today = datetime.now(timezone.utc).date().isoformat()
+    today = now_date()
+
+    # -------------------------
+    # 新規物件
+    # -------------------------
 
     if existing is None:
-        property_data["history"] = [
+
+        new_property["firstSeen"] = today
+        new_property["lastSeen"] = today
+        new_property["status"] = "active"
+
+        new_property["history"] = [
             {
                 "date": today,
-                "price": property_data["price"]
+                "price": new_property["price"]
             }
         ]
 
-        property_data["firstSeen"] = today
-        property_data["lastSeen"] = today
+        properties.append(new_property)
 
-        properties.append(property_data)
+        print(
+            f"NEW PROPERTY: "
+            f"{new_property['name']}"
+        )
 
-        print(f"NEW: {property_data['name']}")
+        return
+
+    # -------------------------
+    # 既存物件
+    # -------------------------
+
+    old_price = existing.get("price")
+    new_price = new_property.get("price")
+
+    existing.update(new_property)
+
+    existing["lastSeen"] = today
+    existing["status"] = "active"
+
+    # -------------------------
+    # 価格変更
+    # -------------------------
+
+    if old_price != new_price:
+
+        history = existing.setdefault(
+            "history",
+            []
+        )
+
+        history.append(
+            {
+                "date": today,
+                "price": new_price
+            }
+        )
+
+        difference = new_price - old_price
+
+        print(
+            f"PRICE CHANGE: "
+            f"{existing['name']} "
+            f"{old_price} -> {new_price} "
+            f"({difference:+}万円)"
+        )
 
     else:
-        old_price = existing.get("price")
 
-        existing.update(property_data)
-        existing["lastSeen"] = today
+        print(
+            f"NO PRICE CHANGE: "
+            f"{existing['name']}"
+        )
 
-        if old_price != property_data["price"]:
-            history = existing.setdefault("history", [])
 
-            history.append({
-                "date": today,
-                "price": property_data["price"]
-            })
+def calculate_metrics(property_data):
 
-            print(
-                f"PRICE CHANGE: "
-                f"{existing['name']} "
-                f"{old_price} -> {property_data['price']}"
-            )
+    history = property_data.get(
+        "history",
+        []
+    )
+
+    if not history:
+        return
+
+    first_price = history[0]["price"]
+    current_price = property_data["price"]
+
+    property_data["priceChange"] = (
+        current_price - first_price
+    )
+
+    property_data["priceChangePercent"] = round(
+        (
+            current_price
+            / first_price
+            - 1
+        ) * 100,
+        2
+    )
+
+    if property_data.get("firstSeen"):
+
+        first = datetime.fromisoformat(
+            property_data["firstSeen"]
+        ).date()
+
+        today = datetime.now(
+            timezone.utc
+        ).date()
+
+        property_data["daysListed"] = (
+            today - first
+        ).days
 
 
 def main():
 
     data = load_data()
 
-    # ---------------------------------------
+    # ==========================================
     # 現在はテストデータ
-    # 後で正式な取得元に置き換える
-    # ---------------------------------------
+    # ==========================================
 
-    sample_properties = [
+    properties = [
 
         {
             "id": "demo-kashiwa-001",
             "area": "柏の葉",
-            "name": "自動取得テスト物件",
+            "name": "柏の葉テスト物件",
             "price": 8490,
             "land": 150,
             "building": 105,
@@ -98,12 +188,62 @@ def main():
             "school": "柏の葉小学校区",
             "flat": True,
             "retainingWall": False
+        },
+
+        {
+            "id": "demo-otaka-001",
+            "area": "おおたかの森",
+            "name": "おおたかの森テスト物件",
+            "price": 7980,
+            "land": 135,
+            "building": 101,
+            "walk": 12,
+            "year": 2022,
+            "layout": "4LDK",
+            "url": "",
+            "school": "おおたかの森",
+            "flat": True,
+            "retainingWall": False
+        },
+
+        {
+            "id": "demo-kashiwa-002",
+            "area": "柏の葉",
+            "name": "柏の葉テスト物件2",
+            "price": 8980,
+            "land": 165,
+            "building": 110,
+            "walk": 8,
+            "year": 2024,
+            "layout": "4LDK",
+            "url": "",
+            "school": "柏の葉小学校区",
+            "flat": True,
+            "retainingWall": False
         }
 
     ]
 
-    for property_data in sample_properties:
-        add_or_update_property(data, property_data)
+    # ==========================================
+    # 保存
+    # ==========================================
+
+    for property_data in properties:
+
+        add_or_update_property(
+            data,
+            property_data
+        )
+
+    # ==========================================
+    # 指標計算
+    # ==========================================
+
+    for property_data in data["properties"]:
+
+        calculate_metrics(
+            property_data
+        )
 
     data["updatedAt"] = datetime.now(
         timezone.utc
@@ -112,7 +252,17 @@ def main():
     save_data(data)
 
     print(
-        f"Updated {len(data['properties'])} properties."
+        "--------------------------------"
+    )
+
+    print(
+        f"Total properties: "
+        f"{len(data['properties'])}"
+    )
+
+    print(
+        f"Updated at: "
+        f"{data['updatedAt']}"
     )
 
 
