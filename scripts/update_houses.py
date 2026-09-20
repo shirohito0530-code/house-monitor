@@ -135,31 +135,34 @@ def add_or_update_property(data, new_property):
         )
 
 
-def calculate_metrics(property_data):
+def calculate_metrics(property_data, config):
 
-    history = property_data.get(
-        "history",
-        []
-    )
+    history = property_data.get("history", [])
 
-    if not history:
-        return
+    # --------------------------------
+    # 価格履歴
+    # --------------------------------
 
-    first_price = history[0]["price"]
-    current_price = property_data["price"]
+    if history:
 
-    property_data["priceChange"] = (
-        current_price - first_price
-    )
+        first_price = history[0]["price"]
+        current_price = property_data["price"]
 
-    property_data["priceChangePercent"] = round(
-        (
-            current_price
-            / first_price
-            - 1
-        ) * 100,
-        2
-    )
+        property_data["priceChange"] = (
+            current_price - first_price
+        )
+
+        if first_price:
+            property_data["priceChangePercent"] = round(
+                (
+                    current_price / first_price - 1
+                ) * 100,
+                2
+            )
+
+    # --------------------------------
+    # 掲載日数
+    # --------------------------------
 
     if property_data.get("firstSeen"):
 
@@ -175,6 +178,120 @@ def calculate_metrics(property_data):
             today - first
         ).days
 
+    # --------------------------------
+    # 土地㎡単価
+    # --------------------------------
+
+    land = property_data.get("land")
+    price = property_data.get("price")
+
+    if land and price:
+
+        property_data["pricePerLand"] = round(
+            price * 10000 / land
+        )
+
+    # --------------------------------
+    # 基本条件判定
+    # --------------------------------
+
+    conditions = {
+        "area": False,
+        "propertyType": False,
+        "price": False,
+        "walk": False,
+        "land": False,
+        "building": False
+    }
+
+    # エリア
+    target_areas = [
+        area["name"]
+        for area in config.get("areas", [])
+    ]
+
+    if property_data.get("area") in target_areas:
+        conditions["area"] = True
+
+    # 物件種別
+    if property_data.get("propertyType") in \
+            config.get("propertyTypes", []):
+        conditions["propertyType"] = True
+
+    # 価格
+    if property_data.get("price") is not None:
+        if property_data["price"] <= \
+                config["maxPrice"]:
+            conditions["price"] = True
+
+    # 駅徒歩
+    if property_data.get("walk") is not None:
+        if property_data["walk"] <= \
+                config["maxWalkMinutes"]:
+            conditions["walk"] = True
+
+    # 土地
+    if property_data.get("land") is not None:
+        if property_data["land"] >= \
+                config["minLandArea"]:
+            conditions["land"] = True
+
+    # 建物
+    if property_data.get("building") is not None:
+        if property_data["building"] >= \
+                config["minBuildingArea"]:
+            conditions["building"] = True
+
+    property_data["conditions"] = conditions
+
+    property_data["isWithinCriteria"] = all(
+        conditions.values()
+    )
+
+    # --------------------------------
+    # 自動フラグ
+    # --------------------------------
+
+    flags = []
+
+    # 新着
+    if property_data.get("daysListed", 9999) <= 7:
+        flags.append("新着")
+
+    # 値下げ
+    if property_data.get("priceChange", 0) < 0:
+        flags.append("値下げ")
+
+    # 500万円以上値下げ
+    if property_data.get("priceChange", 0) <= -500:
+        flags.append("大幅値下げ")
+
+    # 長期掲載
+    if property_data.get("daysListed", 0) >= 90:
+        flags.append("長期掲載")
+
+    # 土地150㎡以上
+    if property_data.get("land", 0) >= 150:
+        flags.append("土地150㎡以上")
+
+    # 徒歩10分以内
+    if property_data.get("walk", 999) <= 10:
+        flags.append("駅徒歩10分以内")
+
+    # 柏の葉小学校区
+    if "柏の葉小学校" in \
+            str(property_data.get("school", "")):
+        flags.append("柏の葉小学校区")
+
+    # 平坦地
+    if property_data.get("flat") is True:
+        flags.append("平坦地")
+
+    # 擁壁なし
+    if property_data.get("retainingWall") is False:
+        flags.append("擁壁なし")
+
+    property_data["flags"] = flags
 
 def main():
 
