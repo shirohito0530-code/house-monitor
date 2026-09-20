@@ -135,6 +135,14 @@ def add_or_update_property(data, new_property):
         )
 
 
+AREA_ALIASES = {
+    "柏の葉": "柏の葉キャンパス",
+    "柏の葉キャンパス": "柏の葉キャンパス",
+    "おおたかの森": "流山おおたかの森",
+    "流山おおたかの森": "流山おおたかの森",
+}
+
+
 def calculate_metrics(property_data, config):
 
     history = property_data.get("history", [])
