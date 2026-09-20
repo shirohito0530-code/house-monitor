@@ -178,7 +178,7 @@ def main():
             "id": "demo-kashiwa-001",
             "area": "柏の葉",
             "name": "柏の葉テスト物件",
-            "price": 8490,
+            "price": 8290,
             "land": 150,
             "building": 105,
             "walk": 10,
