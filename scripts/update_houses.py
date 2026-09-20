@@ -179,6 +179,51 @@ def calculate_metrics(property_data):
 def main():
 
     data = load_data()
+    config = load_config()
+
+    print("================================")
+    print("HOUSE SEARCH CONFIG")
+    print("================================")
+
+    print(
+        "Areas:",
+        [
+            area["name"]
+            for area in config["areas"]
+        ]
+    )
+
+    print(
+        "Property types:",
+        config["propertyTypes"]
+    )
+
+    print(
+        "Max price:",
+        config["maxPrice"],
+        "万円"
+    )
+
+    print(
+        "Max walk:",
+        config["maxWalkMinutes"],
+        "minutes"
+    )
+
+    print(
+        "Min land:",
+        config["minLandArea"],
+        "㎡"
+    )
+
+    print(
+        "Min building:",
+        config["minBuildingArea"],
+        "㎡"
+    )
+
+    print("================================")
+
 
     # ==========================================
     # 現在はテストデータ
