@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-20T17:12:36.173405+00:00",
+  "updatedAt": "2026-09-20T17:57:12.467484+00:00",
   "properties": [
     {
       "id": "demo-kashiwa-001",
@@ -38,14 +38,14 @@
       "propertyType": "中古戸建",
       "pricePerLand": 552667,
       "conditions": {
-        "area": false,
+        "area": true,
         "propertyType": true,
         "price": true,
         "walk": true,
         "land": true,
         "building": true
       },
-      "isWithinCriteria": false,
+      "isWithinCriteria": true,
       "flags": [
         "新着",
         "値下げ",
@@ -54,7 +54,9 @@
         "柏の葉小学校区",
         "平坦地",
         "擁壁なし"
-      ]
+      ],
+      "normalizedArea": "柏の葉キャンパス",
+      "lastPriceChange": 0
     },
     {
       "id": "demo-otaka-001",
@@ -85,19 +87,21 @@
       "propertyType": "中古戸建",
       "pricePerLand": 591111,
       "conditions": {
-        "area": false,
+        "area": true,
         "propertyType": true,
         "price": true,
         "walk": true,
         "land": true,
         "building": true
       },
-      "isWithinCriteria": false,
+      "isWithinCriteria": true,
       "flags": [
         "新着",
         "平坦地",
         "擁壁なし"
-      ]
+      ],
+      "normalizedArea": "流山おおたかの森",
+      "lastPriceChange": 0
     },
     {
       "id": "demo-kashiwa-002",
@@ -128,14 +132,14 @@
       "propertyType": "中古戸建",
       "pricePerLand": 544242,
       "conditions": {
-        "area": false,
+        "area": true,
         "propertyType": true,
         "price": true,
         "walk": true,
         "land": true,
         "building": true
       },
-      "isWithinCriteria": false,
+      "isWithinCriteria": true,
       "flags": [
         "新着",
         "土地150㎡以上",
@@ -143,7 +147,9 @@
         "柏の葉小学校区",
         "平坦地",
         "擁壁なし"
-      ]
+      ],
+      "normalizedArea": "柏の葉キャンパス",
+      "lastPriceChange": 0
     }
   ]
 }
