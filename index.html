@@ -1,90 +1,762 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0f172a">
-<title>住宅モニター・価格履歴</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
+<title>House Monitor</title>
+
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans",sans-serif;background:#f1f5f9;color:#0f172a;margin:0}
-header{background:#0f172a;color:#fff;padding:20px 16px}main{max-width:760px;margin:auto;padding:14px}
-.panel{background:#fff;border-radius:16px;padding:15px;margin-bottom:12px;box-shadow:0 2px 10px #0001}
-h1{font-size:20px;margin:0 0 5px}h2{font-size:16px}label{display:block;font-size:12px;color:#475569;margin-top:8px}
-input,textarea,select{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:10px;font-size:14px;box-sizing:border-box}
-button{border:0;border-radius:10px;background:#2563eb;color:white;padding:11px 14px;font-size:13px;margin-top:10px}
-.secondary{background:#475569}.danger{background:#b91c1c}.muted{font-size:12px;color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{border:1px solid #e2e8f0;border-radius:13px;padding:12px;margin-top:10px}.top{display:flex;justify-content:space-between;gap:8px}.price{font-weight:800;color:#047857}.tag{display:inline-block;background:#e2e8f0;border-radius:999px;padding:4px 8px;font-size:11px;margin:3px 3px 0 0}.warn{background:#fef3c7;color:#92400e}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+
+    background: #f5f6f8;
+    color: #222;
+}
+
+header {
+    background: #1f2937;
+    color: white;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: 24px;
+}
+
+#updatedAt {
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 16px;
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+
+.filter {
+    border: none;
+    background: white;
+    padding: 10px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow:
+        0 1px 4px rgba(0,0,0,0.08);
+}
+
+.filter.active {
+    background: #1f2937;
+    color: white;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+
+    box-shadow:
+        0 1px 5px rgba(0,0,0,0.08);
+}
+
+.summary-number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: #666;
+}
+
+.property {
+    background: white;
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.08);
+}
+
+.property-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.property-name {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.meta {
+    display: grid;
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 8px;
+
+    font-size: 14px;
+}
+
+.meta-item {
+    background: #f7f7f7;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+}
+
+.flag {
+    background: #eef2ff;
+    color: #3730a3;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    font-size: 12px;
+}
+
+.price-down {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.price-up {
+    color: #2563eb;
+    font-weight: bold;
+}
+
+.property-footer {
+    margin-top: 14px;
+}
+
+.property-footer a {
+    display: inline-block;
+
+    padding: 9px 14px;
+
+    background: #1f2937;
+    color: white;
+
+    border-radius: 8px;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+.empty {
+    text-align: center;
+    padding: 40px 10px;
+    color: #777;
+}
+
+@media (min-width: 700px) {
+
+    .meta {
+        grid-template-columns:
+            repeat(4, 1fr);
+    }
+
+}
+
 </style>
 </head>
+
+
 <body>
-<header><h1>住宅モニター</h1><div class="muted" style="color:#cbd5e1">iPhone対応・手動登録＋価格履歴保存版</div></header>
-<main>
-<section class="panel">
-<h2>物件を登録・更新</h2>
-<div class="grid">
-<div><label>物件ID</label><input id="id" placeholder="例：suumo-001"></div>
-<div><label>エリア</label><input id="area" placeholder="柏の葉 / おおたかの森"></div>
-<div><div><label>物件名</label><input id="name"></div></div>
-<div><label>現在価格（万円）</label><input id="price" type="number"></div>
-<div><label>土地面積（㎡）</label><input id="land" type="number"></div>
-<div><label>徒歩（分）</label><input id="walk" type="number"></div>
-<div><label>築年</label><input id="year" type="number"></div>
-<div><label>初回確認価格（万円）</label><input id="first" type="number"></div>
-<div class="grid" style="grid-column:1/-1"><div><label>掲載開始/初回確認日</label><input id="listed" type="date"></div><div><label>情報確認日</label><input id="checked" type="date"></div></div>
+
+<header>
+
+    <h1>🏠 House Monitor</h1>
+
+    <div id="updatedAt">
+        データ読み込み中...
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="filters">
+
+        <button
+            class="filter active"
+            data-area="all">
+            すべて
+        </button>
+
+        <button
+            class="filter"
+            data-area="柏の葉">
+            柏の葉
+        </button>
+
+        <button
+            class="filter"
+            data-area="おおたかの森">
+            おおたかの森
+        </button>
+
+    </div>
+
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <div
+                id="newCount"
+                class="summary-number">
+                -
+            </div>
+
+            <div class="summary-label">
+                新着
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div
+                id="priceDownCount"
+                class="summary-number">
+                -
+            </div>
+
+            <div class="summary-label">
+                値下げ
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div
+                id="longCount"
+                class="summary-number">
+                -
+            </div>
+
+            <div class="summary-label">
+                長期掲載
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div id="properties"></div>
+
 </div>
-<label>出典URL</label><input id="url" type="url" placeholder="https://...">
-<label>メモ</label><textarea id="memo" rows="2" placeholder="学区、施工会社、擁壁、ハザード等"></textarea>
-<button onclick="save()">登録・価格履歴を保存</button>
-<button class="secondary" onclick="clearForm()">入力をクリア</button>
-</section>
-<section class="panel">
-<h2>登録物件</h2>
-<div class="grid">
-<div><label>エリア絞り込み</label><select id="filterArea" onchange="render()"><option value="">すべて</option><option>柏の葉</option><option>おおたかの森</option></select></div>
-<div><label>上限価格（万円）</label><input id="filterPrice" type="number" value="10000" onchange="render()"></div>
-</div>
-<div id="list"></div>
-<button class="secondary" onclick="exportData()">データを書き出す（JSON）</button>
-<label>バックアップ復元</label><input type="file" id="importFile" accept=".json" onchange="importData(event)">
-</section>
-<section class="panel">
-<h2>使い方と制約</h2>
-<p class="muted">各ポータルサイトで公開情報を確認し、物件情報を登録してください。同じ物件IDで再登録すると価格履歴が追加されます。データはこのブラウザのローカル保存領域に保存されます。ブラウザ消去・端末変更に備え、定期的にJSONバックアップを保存してください。</p>
-</section>
-</main>
+
+
 <script>
-let data=JSON.parse(localStorage.getItem("homes_tracker")||"[]");
-const $=id=>document.getElementById(id);
-function save(){
- const id=$("id").value.trim(); if(!id||!$("price").value){alert("物件IDと現在価格は必須です");return}
- const now=$("checked").value||new Date().toISOString().slice(0,10);
- let h=data.find(x=>x.id===id);
- const record={date:now,price:+$("price").value};
- if(!h){h={id,history:[]};data.push(h)}
- Object.assign(h,{area:$("area").value,name:$("name").value,land:+$("land").value||0,walk:+$("walk").value||0,year:+$("year").value||0,first:+$("first").value||record.price,listed:$("listed").value,url:$("url").value,memo:$("memo").value});
- if(!h.history.some(r=>r.date===record.date&&r.price===record.price))h.history.push(record);
- localStorage.setItem("homes_tracker",JSON.stringify(data));clearForm();render();
+
+let properties = [];
+
+let currentArea = "all";
+
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(
+                "data/houses.json?" +
+                Date.now()
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "データ取得失敗"
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        properties =
+            data.properties || [];
+
+        updateHeader(
+            data.updatedAt
+        );
+
+        render();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document
+            .getElementById(
+                "properties"
+            )
+            .innerHTML = `
+                <div class="empty">
+                    データを読み込めませんでした。
+                </div>
+            `;
+
+    }
+
 }
-function clearForm(){["id","area","name","price","land","walk","year","first","listed","checked","url","memo"].forEach(k=>$(k).value="")}
-function render(){
- const area=$("filterArea").value,max=+$("filterPrice").value||999999;
- const list=data.filter(h=>(!area||h.area===area)&&(!h.history.length||h.history[h.history.length-1].price<=max));
- $("list").innerHTML=list.length?list.map(h=>{
-  const latest=h.history[h.history.length-1]||{price:h.first,date:""};
-  const first=h.history[0]||latest,change=first.price?Math.round((latest.price-first.price)/first.price*1000)/10:0;
-  const days=h.listed?Math.max(0,Math.floor((Date.now()-new Date(h.listed))/86400000)):"—";
-  return `<article class="card"><div class="top"><b>${esc(h.area)} ${esc(h.name||h.id)}</b><span class="price">¥${latest.price.toLocaleString()}万</span></div>
-  <span class="tag">${h.land||"—"}㎡</span><span class="tag">徒歩${h.walk||"—"}分</span><span class="tag">築${h.year||"—"}</span>
-  ${change<0?`<span class="tag warn">価格変化 ${change}%</span>`:""}<span class="tag">掲載 ${days}日</span>
-  <p class="muted">履歴：${h.history.map(r=>r.date+" ¥"+r.price.toLocaleString()+"万").join(" → ")}</p>
-  <p class="muted">${esc(h.memo||"")}</p>${h.url?`<a href="${safeUrl(h.url)}" target="_blank">出典ページを開く</a>`:""}
-  <button class="danger" onclick="removeHome('${h.id.replace(/'/g,"\\'")}')">削除</button></article>`}).join(""):'<p class="muted">登録物件はありません。</p>';
+
+
+function updateHeader(
+    updatedAt
+) {
+
+    if (!updatedAt) {
+
+        document
+            .getElementById(
+                "updatedAt"
+            )
+            .textContent =
+                "データ更新日時：未設定";
+
+        return;
+    }
+
+    const date =
+        new Date(updatedAt);
+
+    document
+        .getElementById(
+            "updatedAt"
+        )
+        .textContent =
+        "最終更新：" +
+        date.toLocaleString(
+            "ja-JP"
+        );
+
 }
-function removeHome(id){if(confirm("この物件を削除しますか？")){data=data.filter(h=>h.id!==id);localStorage.setItem("homes_tracker",JSON.stringify(data));render()}}
-function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="house-monitor-backup.json";a.click();URL.revokeObjectURL(a.href)}
-function importData(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const incoming=JSON.parse(r.result);if(!Array.isArray(incoming))throw Error();data=incoming;localStorage.setItem("homes_tracker",JSON.stringify(data));render();alert("復元しました")}catch{alert("JSON形式が不正です")}};r.readAsText(f)}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function safeUrl(u){return /^https?:\/\//i.test(u)?esc(u):"#"}
-render();
+
+
+function render() {
+
+    let filtered =
+        properties;
+
+    if (currentArea !== "all") {
+
+        filtered =
+            properties.filter(
+                p =>
+                p.area === currentArea
+            );
+
+    }
+
+    updateSummary(
+        filtered
+    );
+
+    renderProperties(
+        filtered
+    );
+
+}
+
+
+function updateSummary(
+    list
+) {
+
+    const newCount =
+        list.filter(
+            p =>
+            (p.flags || [])
+                .includes("新着")
+        ).length;
+
+    const priceDownCount =
+        list.filter(
+            p =>
+            (p.flags || [])
+                .includes("値下げ")
+        ).length;
+
+    const longCount =
+        list.filter(
+            p =>
+            (p.flags || [])
+                .includes("長期掲載")
+        ).length;
+
+
+    document
+        .getElementById(
+            "newCount"
+        )
+        .textContent =
+        newCount;
+
+
+    document
+        .getElementById(
+            "priceDownCount"
+        )
+        .textContent =
+        priceDownCount;
+
+
+    document
+        .getElementById(
+            "longCount"
+        )
+        .textContent =
+        longCount;
+
+}
+
+
+function renderProperties(
+    list
+) {
+
+    const container =
+        document.getElementById(
+            "properties"
+        );
+
+    if (!list.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                条件に一致する物件はありません。
+            </div>
+        `;
+
+        return;
+    }
+
+
+    // 新着・値下げ・掲載日数を考慮して表示
+    list.sort(
+        (a, b) => {
+
+            const aNew =
+                (a.flags || [])
+                    .includes("新着")
+                    ? 1 : 0;
+
+            const bNew =
+                (b.flags || [])
+                    .includes("新着")
+                    ? 1 : 0;
+
+            if (aNew !== bNew) {
+                return bNew - aNew;
+            }
+
+            const aDown =
+                (a.flags || [])
+                    .includes("値下げ")
+                    ? 1 : 0;
+
+            const bDown =
+                (b.flags || [])
+                    .includes("値下げ")
+                    ? 1 : 0;
+
+            return bDown - aDown;
+
+        }
+    );
+
+
+    container.innerHTML =
+        list.map(
+            createPropertyCard
+        ).join("");
+
+}
+
+
+function createPropertyCard(
+    p
+) {
+
+    const flags =
+        (p.flags || [])
+            .map(
+                flag =>
+                `<span class="flag">
+                    ${flag}
+                </span>`
+            )
+            .join("");
+
+
+    let priceChange = "";
+
+
+    if (
+        p.priceChange !== undefined &&
+        p.priceChange < 0
+    ) {
+
+        priceChange = `
+            <div class="price-down">
+                ↓ ${Math.abs(
+                    p.priceChange
+                )}万円
+                値下げ
+            </div>
+        `;
+
+    }
+
+
+    if (
+        p.priceChange !== undefined &&
+        p.priceChange > 0
+    ) {
+
+        priceChange = `
+            <div class="price-up">
+                ↑ ${p.priceChange}万円
+            </div>
+        `;
+
+    }
+
+
+    const url =
+        p.url || "";
+
+
+    return `
+
+        <div class="property">
+
+            <div class="property-header">
+
+                <div>
+
+                    <div class="property-name">
+                        ${escapeHtml(
+                            p.name || "物件"
+                        )}
+                    </div>
+
+                    <div>
+                        ${escapeHtml(
+                            p.area || ""
+                        )}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="price">
+
+                ${formatPrice(
+                    p.price
+                )}万円
+
+            </div>
+
+
+            ${priceChange}
+
+
+            <div class="meta">
+
+                <div class="meta-item">
+                    土地<br>
+                    <strong>
+                        ${p.land || "-"}㎡
+                    </strong>
+                </div>
+
+                <div class="meta-item">
+                    建物<br>
+                    <strong>
+                        ${p.building || "-"}㎡
+                    </strong>
+                </div>
+
+                <div class="meta-item">
+                    徒歩<br>
+                    <strong>
+                        ${p.walk || "-"}分
+                    </strong>
+                </div>
+
+                <div class="meta-item">
+                    築年<br>
+                    <strong>
+                        ${p.year || "-"}年
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="flags">
+
+                ${flags}
+
+            </div>
+
+
+            <div class="property-footer">
+
+                ${
+                    url
+                    ?
+                    `<a
+                        href="${escapeHtml(url)}"
+                        target="_blank"
+                        rel="noopener">
+                        物件ページを開く
+                    </a>`
+                    :
+                    ""
+                }
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+function formatPrice(
+    price
+) {
+
+    if (
+        price === undefined ||
+        price === null
+    ) {
+        return "-";
+    }
+
+    return Number(
+        price
+    ).toLocaleString(
+        "ja-JP"
+    );
+
+}
+
+
+function escapeHtml(
+    value
+) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+document
+    .querySelectorAll(".filter")
+    .forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    document
+                        .querySelectorAll(
+                            ".filter"
+                        )
+                        .forEach(
+                            b =>
+                            b.classList
+                                .remove(
+                                    "active"
+                                )
+                        );
+
+                    button.classList
+                        .add("active");
+
+                    currentArea =
+                        button.dataset.area;
+
+                    render();
+
+                }
+            );
+
+        }
+    );
+
+
+loadData();
+
 </script>
+
 </body>
 </html>
