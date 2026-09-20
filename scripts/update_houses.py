@@ -1,37 +1,120 @@
 import json
-import os
-import re
 from datetime import datetime, timezone
-import requests
-from bs4 import BeautifulSoup
+from pathlib import Path
 
-# 対象条件の設定
-TARGET_URLS = [
-    # SUUMOやHomesなどの対象検索URL（柏の葉キャンパス・流山おおたかの森エリア）
-    # ※まずは動作確認用のベース処理
-]
 
-JSON_PATH = "data/houses.json"
+DATA_FILE = Path("data/houses.json")
+
 
 def load_data():
-    if os.path.exists(JSON_PATH):
-        with open(JSON_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return {"updatedAt": None, "properties": []}
+    if not DATA_FILE.exists():
+        return {
+            "updatedAt": None,
+            "properties": []
+        }
+
+    with open(DATA_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+
 
 def save_data(data):
-    data["updatedAt"] = datetime.now(timezone.utc).isoformat()
-    os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
-    with open(JSON_PATH, "w", encoding="utf-8") as f:
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
         f.write("\n")
 
+
+def add_or_update_property(data, property_data):
+    properties = data.setdefault("properties", [])
+
+    property_id = property_data["id"]
+
+    existing = next(
+        (p for p in properties if p.get("id") == property_id),
+        None
+    )
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    if existing is None:
+        property_data["history"] = [
+            {
+                "date": today,
+                "price": property_data["price"]
+            }
+        ]
+
+        property_data["firstSeen"] = today
+        property_data["lastSeen"] = today
+
+        properties.append(property_data)
+
+        print(f"NEW: {property_data['name']}")
+
+    else:
+        old_price = existing.get("price")
+
+        existing.update(property_data)
+        existing["lastSeen"] = today
+
+        if old_price != property_data["price"]:
+            history = existing.setdefault("history", [])
+
+            history.append({
+                "date": today,
+                "price": property_data["price"]
+            })
+
+            print(
+                f"PRICE CHANGE: "
+                f"{existing['name']} "
+                f"{old_price} -> {property_data['price']}"
+            )
+
+
 def main():
+
     data = load_data()
-    print(f"Current properties count: {len(data.get('properties', []))}")
-    # 今後の検索・判別ロジックをここに組み込みます
+
+    # ---------------------------------------
+    # 現在はテストデータ
+    # 後で正式な取得元に置き換える
+    # ---------------------------------------
+
+    sample_properties = [
+
+        {
+            "id": "demo-kashiwa-001",
+            "area": "柏の葉",
+            "name": "自動取得テスト物件",
+            "price": 8490,
+            "land": 150,
+            "building": 105,
+            "walk": 10,
+            "year": 2023,
+            "layout": "4LDK",
+            "url": "",
+            "school": "柏の葉小学校区",
+            "flat": True,
+            "retainingWall": False
+        }
+
+    ]
+
+    for property_data in sample_properties:
+        add_or_update_property(data, property_data)
+
+    data["updatedAt"] = datetime.now(
+        timezone.utc
+    ).isoformat()
+
     save_data(data)
-    print("Update completed.")
+
+    print(
+        f"Updated {len(data['properties'])} properties."
+    )
+
 
 if __name__ == "__main__":
     main()
