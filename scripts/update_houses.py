@@ -4,10 +4,21 @@ from pathlib import Path
 
 
 DATA_FILE = Path("data/houses.json")
+CONFIG_FILE = Path("config/search.json")
 
 
 def now_date():
     return datetime.now(timezone.utc).date().isoformat()
+
+
+def load_config():
+    if not CONFIG_FILE.exists():
+        raise FileNotFoundError(
+            "config/search.json が見つかりません"
+        )
+
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def load_data():
@@ -19,6 +30,7 @@ def load_data():
 
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
+
 
 
 def save_data(data):
