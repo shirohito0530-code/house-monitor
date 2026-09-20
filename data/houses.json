@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2026-09-20T15:59:20.824673+00:00",
+  "updatedAt": "2026-09-20T16:06:23.153242+00:00",
   "properties": [
     {
       "id": "demo-kashiwa-001",
       "area": "柏の葉",
-      "name": "自動取得テスト物件",
+      "name": "柏の葉テスト物件",
       "price": 8490,
       "land": 150,
       "building": 105,
@@ -22,7 +22,65 @@
         }
       ],
       "firstSeen": "2026-09-20",
-      "lastSeen": "2026-09-20"
+      "lastSeen": "2026-09-20",
+      "status": "active",
+      "priceChange": 0,
+      "priceChangePercent": 0.0,
+      "daysListed": 0
+    },
+    {
+      "id": "demo-otaka-001",
+      "area": "おおたかの森",
+      "name": "おおたかの森テスト物件",
+      "price": 7980,
+      "land": 135,
+      "building": 101,
+      "walk": 12,
+      "year": 2022,
+      "layout": "4LDK",
+      "url": "",
+      "school": "おおたかの森",
+      "flat": true,
+      "retainingWall": false,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "status": "active",
+      "history": [
+        {
+          "date": "2026-09-20",
+          "price": 7980
+        }
+      ],
+      "priceChange": 0,
+      "priceChangePercent": 0.0,
+      "daysListed": 0
+    },
+    {
+      "id": "demo-kashiwa-002",
+      "area": "柏の葉",
+      "name": "柏の葉テスト物件2",
+      "price": 8980,
+      "land": 165,
+      "building": 110,
+      "walk": 8,
+      "year": 2024,
+      "layout": "4LDK",
+      "url": "",
+      "school": "柏の葉小学校区",
+      "flat": true,
+      "retainingWall": false,
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "status": "active",
+      "history": [
+        {
+          "date": "2026-09-20",
+          "price": 8980
+        }
+      ],
+      "priceChange": 0,
+      "priceChangePercent": 0.0,
+      "daysListed": 0
     }
   ]
 }
