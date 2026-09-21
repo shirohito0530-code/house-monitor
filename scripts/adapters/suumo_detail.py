@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-21-v7"
+DETAIL_PARSER_VERSION = "2026-09-21-v8"
 
 # ============================================================
 # Constants
@@ -32,6 +32,26 @@ INVALID_VALUES = {
     "資料請求",
     "確認",
 }
+
+PROMOTIONAL_WORDS = [
+    "ヒント",
+    "詳細を見る",
+    "地図を見る",
+    "周辺環境",
+    "支払シミュレーション",
+    "お問い合わせ",
+    "資料請求",
+    "お待ち合わせ",
+    "ご来社",
+    "お気軽に",
+    "クリック",
+    "ご見学",
+    "ご提案",
+    "お申し付け",
+    "リノベ",
+    "即案内",
+    "頭金",
+]
 
 PREFECTURES_PATTERN = r"(東京都|北海道|(?:京都|大阪)府|.{2,3}県)"
 
@@ -57,27 +77,7 @@ def is_promotional_text(value: Any) -> bool:
     if not text:
         return True
 
-    words = [
-        "ヒント",
-        "詳細を見る",
-        "地図を見る",
-        "周辺環境",
-        "支払シミュレーション",
-        "お問い合わせ",
-        "資料請求",
-        "お待ち合わせ",
-        "ご来社",
-        "お気軽に",
-        "クリック",
-        "ご見学",
-        "ご提案",
-        "お申し付け",
-        "リノベ",
-        "即案内",
-        "頭金",
-    ]
-
-    return any(word in text for word in words)
+    return any(word in text for word in PROMOTIONAL_WORDS)
 
 def clean_suumo_value(value: Any) -> Optional[str]:
     text = clean_text(value)
@@ -864,14 +864,15 @@ def extract_information_dates(
     return result
 
 # ============================================================
-# Quality evaluation
+# Quality evaluation (重み付け調整版)
 # ============================================================
 
 def evaluate_detail_quality(
     detail: Dict[str, Any],
 ) -> Dict[str, Any]:
 
-    required_fields = {
+    # 重大項目（主要データ）
+    critical_fields = {
         "price": detail.get("price"),
         "address": detail.get("address"),
         "landAreaM2": detail.get("landAreaM2"),
@@ -882,98 +883,44 @@ def evaluate_detail_quality(
 
     missing_fields = [
         field
-        for field, value in required_fields.items()
+        for field, value in critical_fields.items()
         if value is None or value == ""
     ]
 
     warnings: List[str] = []
 
     if detail.get("priceText") and detail.get("price") is None:
-        warnings.append(
-            "価格テキストは存在するが数値化できない"
-        )
+        warnings.append("価格テキストは存在するが数値化できない")
 
-    if (
-        detail.get("landAreaText")
-        and detail.get("landAreaM2") is None
-    ):
-        warnings.append(
-            "土地面積テキストは存在するが数値化できない"
-        )
+    if detail.get("landAreaText") and detail.get("landAreaM2") is None:
+        warnings.append("土地面積テキストは存在するが数値化できない")
 
-    if (
-        detail.get("buildingAreaText")
-        and detail.get("buildingAreaM2") is None
-    ):
-        warnings.append(
-            "建物面積テキストは存在するが数値化できない"
-        )
+    if detail.get("buildingAreaText") and detail.get("buildingAreaM2") is None:
+        warnings.append("建物面積テキストは存在するが数値化できない")
 
     address = detail.get("address")
-
     if address and is_company_address(str(address)):
-        warnings.append(
-            "会社・店舗住所の可能性がある"
-        )
+        warnings.append("会社・店舗住所の可能性がある")
 
-    construction_month = detail.get(
-        "constructionMonth"
-    )
-
+    construction_month = detail.get("constructionMonth")
     if construction_month:
         fetched_at = detail.get("fetchedAt", "")
-
         if fetched_at.startswith(construction_month):
-            warnings.append(
-                "築年月が取得年月と一致しており誤抽出の可能性がある"
-            )
+            warnings.append("築年月が取得年月と一致しており誤抽出の可能性がある")
 
     station = detail.get("station")
-
     if station in ["徒", "歩", "分", "バス", "駅"]:
-        warnings.append(
-            "駅名が不正なUI文字列である"
-        )
+        warnings.append("駅名が不正なUI文字列である")
 
     if not station:
-        warnings.append(
-            "駅情報を抽出できない"
-        )
+        warnings.append("駅情報を抽出できない")
 
-    if (
-        detail.get("stationAccessType") == "walk"
-        and detail.get("walkMinutes") is None
-    ):
-        warnings.append(
-            "徒歩分数を抽出できない"
-        )
+    if detail.get("stationAccessType") == "walk" and detail.get("walkMinutes") is None:
+        warnings.append("徒歩分数を抽出できない")
 
-    if (
-        detail.get("informationDate") is None
-        and "情報提供日" in " ".join(
-            detail.get("textBlocks", [])
-        )
-    ):
-        warnings.append(
-            "情報提供日が本文に存在するが抽出できない"
-        )
-
-    if (
-        detail.get("nextUpdateDate") is None
-        and "次回更新予定日" in " ".join(
-            detail.get("textBlocks", [])
-        )
-    ):
-        warnings.append(
-            "次回更新予定日が本文に存在するが抽出できない"
-        )
-
-    total_fields = len(required_fields)
-    valid_fields = total_fields - len(missing_fields)
-
-    score = round(
-        valid_fields / total_fields * 100
-    )
+    total_critical = len(critical_fields)
+    valid_critical = total_critical - len(missing_fields)
+    score = round(valid_critical / total_critical * 100)
 
     serious_warning_words = [
         "会社・店舗住所",
@@ -988,7 +935,7 @@ def evaluate_detail_quality(
         for warning in warnings
     )
 
-    if score >= 80 and not warnings and not has_serious_warning:
+    if score >= 80 and not has_serious_warning:
         quality = "good"
     elif score >= 50:
         quality = "partial"
@@ -1124,11 +1071,9 @@ def fetch_detail(url: str) -> Dict[str, Any]:
 
         "address": address,
 
-        "landArea": clean_text(land_area_text),
         "landAreaM2": land_area,
         "landAreaText": clean_text(land_area_text),
 
-        "buildingArea": clean_text(building_area_text),
         "buildingAreaM2": building_area,
         "buildingAreaText": clean_text(building_area_text),
 
