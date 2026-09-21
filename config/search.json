@@ -7,11 +7,11 @@
     "中古戸建",
     "新築戸建"
   ],
-  "maxPrice": 12000,
-  "maxWalk": 20,
-  "minLand": 100,
-  "minBuilding": 80,
-  "minYear": 2000,
+  "maxPriceMan": 12000,
+  "maxWalkMinutes": 20,
+  "minLandArea": 100,
+  "minBuildingArea": 80,
+  "minBuiltYear": 2000,
   "onlyFlatLand": false,
   "excludeRetainingWall": false
 }
