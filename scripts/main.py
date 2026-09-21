@@ -16,7 +16,7 @@ from adapters.suumo_detail import SuumoDetailAdapter
 ROOT = Path(__file__).resolve().parents[1]
 
 DEFAULT_DETAIL_FETCH_LIMIT = 5
-DETAIL_PARSER_VERSION = "2026-09-21-v2"
+DETAIL_PARSER_VERSION = "2026-09-21-v3"
 
 logger = logging.getLogger(__name__)
 
@@ -1287,33 +1287,38 @@ def apply_detail_to_property(
     # --------------------------------------------------------
 
     copy_fields = [
-        "address",
-        "landAreaM2",
-        "landAreaText",
-        "buildingAreaM2",
-        "buildingAreaText",
-        "layout",
-        "constructionMonth",
-        "constructionText",
-        "builtYear",
-        "builtMonth",
-        "builtYearText",
-        "station",
-        "stationText",
-        "walkMinutes",
-        "walkingMinutes",
-        "transportRaw",
-        "builder",
-        "structure",
-        "informationDate",
-        "nextUpdateDate",
-        "detailParserVersion",
-        "detailQuality",
-        "detailQualityScore",
-        "missingFields",
-        "validationWarnings",
-        "extractionQuality"
-    ]
+    "address",
+    "landAreaM2",
+    "landAreaText",
+    "buildingAreaM2",
+    "buildingAreaText",
+    "layout",
+    "constructionMonth",
+    "constructionText",
+    "builtYear",
+    "builtMonth",
+    "builtYearText",
+    "station",
+    "stationText",
+    "stationAccessType",
+    "stationWalkMinutes",
+    "busMinutes",
+    "busStop",
+    "busStopWalkMinutes",
+    "walkMinutes",
+    "walkingMinutes",
+    "transportRaw",
+    "builder",
+    "structure",
+    "informationDate",
+    "nextUpdateDate",
+    "detailParserVersion",
+    "detailQuality",
+    "detailQualityScore",
+    "missingFields",
+    "validationWarnings",
+    "extractionQuality",
+]
 
     for field in copy_fields:
 
