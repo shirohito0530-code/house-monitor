@@ -16,6 +16,8 @@ from adapters.suumo_detail import SuumoDetailAdapter
 ROOT = Path(__file__).resolve().parents[1]
 
 DEFAULT_DETAIL_FETCH_LIMIT = 5
+
+# suumo_detail.py 側のバージョンと一致させる
 DETAIL_PARSER_VERSION = "2026-09-21-v3"
 
 logger = logging.getLogger(__name__)
@@ -243,6 +245,157 @@ def parse_float(value):
     return None
 
 
+def clean_text(value):
+    """
+    テキストを安全に正規化する。
+    """
+
+    if value is None:
+        return ""
+
+    return re.sub(
+        r"\s+",
+        " ",
+        str(value)
+    ).strip()
+
+
+def is_valid_year_month(value):
+    """
+    YYYY-MM形式の年月か判定する。
+    """
+
+    if not isinstance(value, str):
+        return False
+
+    return bool(
+        re.fullmatch(
+            r"\d{4}-(0[1-9]|1[0-2])",
+            value.strip()
+        )
+    )
+
+
+def is_suspicious_station(value):
+    """
+    駅名として明らかに異常な値か判定する。
+    """
+
+    if value is None:
+        return True
+
+    text = clean_text(value)
+
+    if not text:
+        return True
+
+    suspicious_values = {
+        "徒",
+        "歩",
+        "徒歩",
+        "駅",
+        "ヒント",
+        "null",
+        "none"
+    }
+
+    if text.lower() in suspicious_values:
+        return True
+
+    if len(text) <= 1:
+        return True
+
+    return False
+
+
+def is_suspicious_address(value):
+    """
+    住所として明らかに仲介会社住所らしい値か判定する。
+    """
+
+    if value is None:
+        return True
+
+    text = clean_text(value)
+
+    if not text:
+        return True
+
+    suspicious_words = [
+        "渋谷ビル",
+        "センタービル",
+        "営業センター",
+        "店舗",
+        "取り扱い店舗",
+        "アスライク",
+        "不動産会社"
+    ]
+
+    for word in suspicious_words:
+
+        if word in text:
+            return True
+
+    # 郵便番号が先頭にある場合は会社情報の可能性が高い
+    if re.search(
+        r"〒?\s*\d{3}-\d{4}",
+        text
+    ):
+        return True
+
+    return False
+
+
+def normalize_warning_list(value):
+    """
+    警告リストを文字列配列に正規化する。
+    """
+
+    if not isinstance(value, list):
+        return []
+
+    result = []
+
+    for item in value:
+
+        text = clean_text(item)
+
+        if not text:
+            continue
+
+        if text not in result:
+            result.append(text)
+
+    return result
+
+
+def normalize_string_list(value):
+    """
+    文字列配列を正規化する。
+    """
+
+    if not isinstance(value, list):
+        return []
+
+    result = []
+
+    for item in value:
+
+        if item is None:
+            continue
+
+        text = clean_text(item)
+
+        if text and text not in result:
+            result.append(text)
+
+    return result
+
+
+# ============================================================
+# 価格履歴
+# ============================================================
+
 def normalize_price_history(
     history,
     current_price,
@@ -331,6 +484,54 @@ def normalize_price_history(
         })
 
     return normalized
+
+
+def add_price_history(
+    property_data,
+    new_price,
+    fetched_at
+):
+    """
+    価格履歴を正規化して保存する。
+    """
+
+    new_price = parse_price(
+        new_price
+    )
+
+    history = normalize_price_history(
+        property_data.get("priceHistory"),
+        None,
+        fetched_at
+    )
+
+    if new_price is None:
+
+        property_data["priceHistory"] = history
+
+        return
+
+    previous_price = parse_price(
+        property_data.get("price")
+    )
+
+    property_data["priceHistory"] = (
+        normalize_price_history(
+            history,
+            new_price,
+            fetched_at
+        )
+    )
+
+    property_data["price"] = new_price
+
+    if previous_price != new_price:
+
+        logger.info(
+            "価格変更を記録: %s -> %s",
+            previous_price,
+            new_price
+        )
 
 
 # ============================================================
@@ -565,17 +766,22 @@ def normalize_property(
 
     return {
         "id": property_id,
+
         "source": item.get(
             "source",
             "suumo"
         ),
+
         "sourceUrl": url,
+
         "searchArea": item.get(
             "searchArea"
         ),
+
         "searchPropertyType": item.get(
             "searchPropertyType"
         ),
+
         "status": "discovered",
 
         "detailFetched": False,
@@ -593,12 +799,282 @@ def normalize_property(
         "detailParserVersion": None,
         "detailQuality": "unknown",
         "detailQualityScore": None,
+
         "missingFields": [],
         "validationWarnings": [],
         "extractionQuality": {},
 
         "detail": {}
     }
+
+
+# ============================================================
+# 詳細データの異常検証
+# ============================================================
+
+def validate_detail_data(detail):
+    """
+    詳細データの明らかな異常を検出する。
+
+    注意:
+    この関数は完全な正確性を保証するものではなく、
+    再取得が必要な可能性の高いデータを検知する。
+    """
+
+    warnings = []
+
+    if not isinstance(
+        detail,
+        dict
+    ):
+        return [
+            "detailが辞書形式ではありません"
+        ]
+
+    # --------------------------------------------------------
+    # 住所
+    # --------------------------------------------------------
+
+    address = detail.get(
+        "address"
+    )
+
+    if not address:
+
+        warnings.append(
+            "住所が取得できていません"
+        )
+
+    elif is_suspicious_address(address):
+
+        warnings.append(
+            "住所が仲介会社住所または不正値の可能性があります"
+        )
+
+    # --------------------------------------------------------
+    # 築年月
+    # --------------------------------------------------------
+
+    construction_month = detail.get(
+        "constructionMonth"
+    )
+
+    build_year = detail.get(
+        "buildYear"
+    )
+
+    if construction_month:
+
+        if not is_valid_year_month(
+            str(construction_month)
+        ):
+
+            warnings.append(
+                "constructionMonthがYYYY-MM形式ではありません"
+            )
+
+    elif build_year:
+
+        build_year_text = clean_text(
+            build_year
+        )
+
+        if not re.search(
+            r"\d{4}年\d{1,2}月",
+            build_year_text
+        ):
+
+            warnings.append(
+                "築年月の形式を確認できません"
+            )
+
+    else:
+
+        warnings.append(
+            "築年月が取得できていません"
+        )
+
+    # --------------------------------------------------------
+    # 駅情報
+    # --------------------------------------------------------
+
+    station = detail.get(
+        "station"
+    )
+
+    if station is not None:
+
+        if is_suspicious_station(
+            station
+        ):
+
+            warnings.append(
+                "駅名が不正値の可能性があります"
+            )
+
+    # --------------------------------------------------------
+    # 価格
+    # --------------------------------------------------------
+
+    price = parse_price(
+        detail.get("price")
+        or detail.get("priceText")
+    )
+
+    if price is None:
+
+        warnings.append(
+            "価格が取得できていません"
+        )
+
+    # --------------------------------------------------------
+    # 土地面積
+    # --------------------------------------------------------
+
+    land_area = parse_float(
+        detail.get("landAreaM2")
+        or detail.get("landArea")
+    )
+
+    if land_area is None:
+
+        warnings.append(
+            "土地面積が取得できていません"
+        )
+
+    # --------------------------------------------------------
+    # 建物面積
+    # --------------------------------------------------------
+
+    building_area = parse_float(
+        detail.get("buildingAreaM2")
+        or detail.get("buildingArea")
+    )
+
+    if building_area is None:
+
+        warnings.append(
+            "建物面積が取得できていません"
+        )
+
+    # --------------------------------------------------------
+    # 情報提供日
+    # --------------------------------------------------------
+
+    information_date = detail.get(
+        "informationDate"
+    )
+
+    next_update_date = detail.get(
+        "nextUpdateDate"
+    )
+
+    if not information_date:
+
+        warnings.append(
+            "情報提供日が取得できていません"
+        )
+
+    if not next_update_date:
+
+        warnings.append(
+            "次回更新予定日が取得できていません"
+        )
+
+    # --------------------------------------------------------
+    # 異常値の重複除去
+    # --------------------------------------------------------
+
+    unique_warnings = []
+
+    for warning in warnings:
+
+        if warning not in unique_warnings:
+            unique_warnings.append(warning)
+
+    return unique_warnings
+
+
+def determine_detail_quality(
+    detail,
+    existing_warnings=None
+):
+    """
+    詳細情報の品質を判定する。
+
+    good:
+        重大な警告なし
+
+    partial:
+        一部項目に不足・警告あり
+
+    poor:
+        住所・築年月・価格など重要項目に
+        明らかな異常がある
+    """
+
+    warnings = validate_detail_data(
+        detail
+    )
+
+    if existing_warnings:
+
+        warnings.extend(
+            normalize_warning_list(
+                existing_warnings
+            )
+        )
+
+    unique_warnings = []
+
+    for warning in warnings:
+
+        if warning not in unique_warnings:
+            unique_warnings.append(warning)
+
+    critical_words = [
+        "住所が仲介会社住所",
+        "築年月の形式",
+        "築年月が取得",
+        "価格が取得",
+        "detailが辞書",
+        "駅名が不正"
+    ]
+
+    has_critical_warning = any(
+        any(
+            word in warning
+            for word in critical_words
+        )
+        for warning in unique_warnings
+    )
+
+    if has_critical_warning:
+
+        quality = "poor"
+
+    elif unique_warnings:
+
+        quality = "partial"
+
+    else:
+
+        quality = "good"
+
+    score = {
+        "good": 100,
+        "partial": 70,
+        "poor": 30
+    }.get(
+        quality,
+        0
+    )
+
+    return (
+        quality,
+        score,
+        unique_warnings
+    )
 
 
 # ============================================================
@@ -609,9 +1085,20 @@ def normalize_existing_detail(property_data):
     """
     既存データを新しい詳細形式に合わせる。
 
-    旧パーサーで取得済みの物件は、
-    新パーサーで再取得するためdetailFetchedをFalseにする。
+    以下の場合は新パーサーで再取得する。
+
+    - パーサーバージョンが古い
+    - 品質判定がない
+    - qualityがunknownまたはpoor
+    - validationWarningsが存在する
+    - 詳細データに明らかな異常がある
     """
+
+    if not isinstance(
+        property_data,
+        dict
+    ):
+        return property_data
 
     detail = property_data.get(
         "detail"
@@ -638,17 +1125,52 @@ def normalize_existing_detail(property_data):
         "detailQuality"
     )
 
-    # 旧形式または品質判定なしのデータは再取得
+    existing_warnings = (
+        property_data.get(
+            "validationWarnings"
+        )
+    )
+
+    if not isinstance(
+        existing_warnings,
+        list
+    ):
+        existing_warnings = []
+
+    # 現在の詳細データからも異常を検証
+    detected_warnings = validate_detail_data(
+        detail
+    )
+
+    combined_warnings = []
+
+    for warning in (
+        existing_warnings
+        + detected_warnings
+    ):
+
+        if warning not in combined_warnings:
+            combined_warnings.append(warning)
+
+    property_data[
+        "validationWarnings"
+    ] = combined_warnings
+
+    # 旧形式または異常データは再取得
     if (
         parser_version != DETAIL_PARSER_VERSION
         or quality in (
             None,
             "",
-            "unknown"
+            "unknown",
+            "poor"
         )
+        or combined_warnings
     ):
 
-        property_data["detailFetched"] = False
+        property_data[
+            "detailFetched"
+        ] = False
 
     # 旧形式の価格を数値化
     property_data["price"] = parse_price(
@@ -667,6 +1189,25 @@ def normalize_existing_detail(property_data):
             detail["price"] = (
                 normalized_detail_price
             )
+
+    # 面積を数値化
+    if "landAreaM2" in detail:
+
+        land_area = parse_float(
+            detail.get("landAreaM2")
+        )
+
+        if land_area is not None:
+            detail["landAreaM2"] = land_area
+
+    if "buildingAreaM2" in detail:
+
+        building_area = parse_float(
+            detail.get("buildingAreaM2")
+        )
+
+        if building_area is not None:
+            detail["buildingAreaM2"] = building_area
 
     # 旧価格履歴を数値化
     property_data["priceHistory"] = (
@@ -769,6 +1310,11 @@ def load_existing_properties():
         property_data.setdefault(
             "priceText",
             None
+        )
+
+        property_data.setdefault(
+            "priceHistory",
+            []
         )
 
         property_data.setdefault(
@@ -903,6 +1449,11 @@ def merge_property(
     )
 
     merged.setdefault(
+        "priceHistory",
+        []
+    )
+
+    merged.setdefault(
         "detailParserVersion",
         None
     )
@@ -1021,58 +1572,6 @@ def merge_properties(
 
 
 # ============================================================
-# 価格履歴
-# ============================================================
-
-def add_price_history(
-    property_data,
-    new_price,
-    fetched_at
-):
-    """
-    価格履歴を正規化して保存する。
-    """
-
-    new_price = parse_price(
-        new_price
-    )
-
-    history = normalize_price_history(
-        property_data.get("priceHistory"),
-        None,
-        fetched_at
-    )
-
-    if new_price is None:
-
-        property_data["priceHistory"] = history
-
-        return
-
-    previous_price = parse_price(
-        property_data.get("price")
-    )
-
-    property_data["priceHistory"] = (
-        normalize_price_history(
-            history,
-            new_price,
-            fetched_at
-        )
-    )
-
-    property_data["price"] = new_price
-
-    if previous_price != new_price:
-
-        logger.info(
-            "価格変更を記録: %s -> %s",
-            previous_price,
-            new_price
-        )
-
-
-# ============================================================
 # 詳細情報の正規化
 # ============================================================
 
@@ -1146,19 +1645,102 @@ def normalize_detail(detail):
             normalized_building_area
         )
 
+    # UI文言が建物面積に混入している場合は削除
+    if normalized.get("buildingArea"):
+
+        building_area_text = clean_text(
+            normalized.get("buildingArea")
+        )
+
+        if building_area_text in {
+            "ヒント",
+            "詳細",
+            "確認",
+            "なし"
+        }:
+
+            normalized.pop(
+                "buildingArea",
+                None
+            )
+
     # --------------------------------------------------------
     # 築年月
     # --------------------------------------------------------
+
+    construction_month = normalized.get(
+        "constructionMonth"
+    )
+
+    if construction_month:
+
+        construction_month_text = clean_text(
+            construction_month
+        )
+
+        if not is_valid_year_month(
+            construction_month_text
+        ):
+
+            year_month_match = re.search(
+                r"(\d{4})年(\d{1,2})月",
+                construction_month_text
+            )
+
+            if year_month_match:
+
+                year = year_month_match.group(
+                    1
+                )
+
+                month = int(
+                    year_month_match.group(
+                        2
+                    )
+                )
+
+                normalized[
+                    "constructionMonth"
+                ] = f"{year}-{month:02d}"
 
     if not normalized.get(
         "constructionMonth"
     ):
 
-        if normalized.get("buildYear"):
+        build_year = normalized.get(
+            "buildYear"
+        )
 
-            normalized["constructionText"] = (
-                normalized.get("buildYear")
+        if build_year:
+
+            build_year_text = clean_text(
+                build_year
             )
+
+            year_month_match = re.search(
+                r"(\d{4})年(\d{1,2})月",
+                build_year_text
+            )
+
+            if year_month_match:
+
+                year = year_month_match.group(
+                    1
+                )
+
+                month = int(
+                    year_month_match.group(
+                        2
+                    )
+                )
+
+                normalized[
+                    "constructionMonth"
+                ] = f"{year}-{month:02d}"
+
+                normalized[
+                    "constructionText"
+                ] = build_year_text
 
     # --------------------------------------------------------
     # 駅情報
@@ -1171,9 +1753,13 @@ def normalize_detail(detail):
         )
 
         if station:
-            normalized["station"] = station
+            normalized["station"] = clean_text(
+                station
+            )
 
-    if not normalized.get("walkMinutes"):
+    if not normalized.get(
+        "stationWalkMinutes"
+    ):
 
         walking_minutes = normalized.get(
             "walkingMinutes"
@@ -1181,8 +1767,28 @@ def normalize_detail(detail):
 
         if walking_minutes is not None:
 
-            normalized["walkMinutes"] = (
+            normalized[
+                "stationWalkMinutes"
+            ] = safe_int(
                 walking_minutes
+            )
+
+    # 後方互換のwalkMinutes
+    if (
+        normalized.get("walkMinutes")
+        is None
+    ):
+
+        station_walk_minutes = normalized.get(
+            "stationWalkMinutes"
+        )
+
+        if station_walk_minutes is not None:
+
+            normalized["walkMinutes"] = (
+                safe_int(
+                    station_walk_minutes
+                )
             )
 
     # --------------------------------------------------------
@@ -1202,17 +1808,32 @@ def normalize_detail(detail):
         )
 
         normalized["address"] = (
-            address.strip()
+            clean_text(address)
         )
+
+    # --------------------------------------------------------
+    # リスト項目
+    # --------------------------------------------------------
+
+    normalized[
+        "missingFields"
+    ] = normalize_string_list(
+        normalized.get("missingFields")
+    )
+
+    normalized[
+        "validationWarnings"
+    ] = normalize_warning_list(
+        normalized.get("validationWarnings")
+    )
 
     # --------------------------------------------------------
     # パーサーバージョン
     # --------------------------------------------------------
 
-    normalized.setdefault(
-        "detailParserVersion",
-        DETAIL_PARSER_VERSION
-    )
+    normalized[
+        "detailParserVersion"
+    ] = DETAIL_PARSER_VERSION
 
     return normalized
 
@@ -1283,42 +1904,68 @@ def apply_detail_to_property(
     )
 
     # --------------------------------------------------------
+    # 品質判定
+    # --------------------------------------------------------
+
+    quality, score, warnings = (
+        determine_detail_quality(
+            detail,
+            detail.get(
+                "validationWarnings"
+            )
+        )
+    )
+
+    detail[
+        "detailQuality"
+    ] = quality
+
+    detail[
+        "detailQualityScore"
+    ] = score
+
+    detail[
+        "validationWarnings"
+    ] = warnings
+
+    # --------------------------------------------------------
     # 詳細フィールド
     # --------------------------------------------------------
 
     copy_fields = [
-    "address",
-    "landAreaM2",
-    "landAreaText",
-    "buildingAreaM2",
-    "buildingAreaText",
-    "layout",
-    "constructionMonth",
-    "constructionText",
-    "builtYear",
-    "builtMonth",
-    "builtYearText",
-    "station",
-    "stationText",
-    "stationAccessType",
-    "stationWalkMinutes",
-    "busMinutes",
-    "busStop",
-    "busStopWalkMinutes",
-    "walkMinutes",
-    "walkingMinutes",
-    "transportRaw",
-    "builder",
-    "structure",
-    "informationDate",
-    "nextUpdateDate",
-    "detailParserVersion",
-    "detailQuality",
-    "detailQualityScore",
-    "missingFields",
-    "validationWarnings",
-    "extractionQuality",
-]
+        "address",
+        "landAreaM2",
+        "landAreaText",
+        "buildingAreaM2",
+        "buildingAreaText",
+        "layout",
+        "constructionMonth",
+        "constructionText",
+        "buildYear",
+        "builtYear",
+        "builtMonth",
+        "builtYearText",
+        "station",
+        "stationText",
+        "stationAccessType",
+        "stationWalkMinutes",
+        "busMinutes",
+        "busStop",
+        "busStopWalkMinutes",
+        "walkMinutes",
+        "walkingMinutes",
+        "transportRaw",
+        "builder",
+        "structure",
+        "informationDate",
+        "nextUpdateDate",
+        "detailParserVersion",
+        "detailQuality",
+        "detailQualityScore",
+        "missingFields",
+        "validationWarnings",
+        "extractionQuality"
+    ]
 
     for field in copy_fields:
 
@@ -1332,31 +1979,59 @@ def apply_detail_to_property(
         property_data[field] = value
 
     # --------------------------------------------------------
-    # 品質情報
+    # 品質情報をトップレベルに反映
     # --------------------------------------------------------
 
-    if not property_data.get(
-        "detailParserVersion"
-    ):
-
-        property_data[
-            "detailParserVersion"
-        ] = DETAIL_PARSER_VERSION
-
-    if not property_data.get(
+    property_data[
         "detailQuality"
-    ):
+    ] = quality
 
-        property_data[
-            "detailQuality"
-        ] = "unknown"
+    property_data[
+        "detailQualityScore"
+    ] = score
 
-    # 新パーサーで取得済みであることを記録
+    property_data[
+        "validationWarnings"
+    ] = warnings
+
     property_data[
         "detailParserVersion"
-    ] = detail.get(
-        "detailParserVersion",
-        DETAIL_PARSER_VERSION
+    ] = DETAIL_PARSER_VERSION
+
+    property_data[
+        "missingFields"
+    ] = normalize_string_list(
+        detail.get("missingFields")
+    )
+
+    property_data[
+        "extractionQuality"
+    ] = (
+        detail.get(
+            "extractionQuality"
+        )
+        if isinstance(
+            detail.get(
+                "extractionQuality"
+            ),
+            dict
+        )
+        else {}
+    )
+
+    # 品質がpoorの場合は、取得自体は成功していても
+    # 次回実行時に再取得できるようにする
+    if quality == "poor":
+
+        property_data[
+            "detailFetched"
+        ] = False
+
+    logger.info(
+        "詳細品質判定: quality=%s score=%s warnings=%s",
+        quality,
+        score,
+        len(warnings)
     )
 
 
@@ -1374,8 +2049,11 @@ def should_fetch_detail(property_data):
     - パーサーバージョンが古い
     - detailQualityが未設定
     - detailQualityがunknown
+    - detailQualityがpoor
     - detailが辞書でない
     - 必須の正規化項目が不足
+    - validationWarningsが存在する
+    - 価格が数値でない
     """
 
     if not isinstance(
@@ -1423,8 +2101,25 @@ def should_fetch_detail(property_data):
     if quality in (
         None,
         "",
-        "unknown"
+        "unknown",
+        "poor"
     ):
+        return True
+
+    warnings = normalize_warning_list(
+        property_data.get(
+            "validationWarnings"
+        )
+    )
+
+    if warnings:
+        return True
+
+    detail_warnings = validate_detail_data(
+        detail
+    )
+
+    if detail_warnings:
         return True
 
     # 価格が文字列の場合は再取得
@@ -1449,6 +2144,42 @@ def should_fetch_detail(property_data):
     ):
         return True
 
+    # 築年月が存在する場合の形式チェック
+    construction_month = detail.get(
+        "constructionMonth"
+    )
+
+    if construction_month:
+
+        if not is_valid_year_month(
+            str(construction_month)
+        ):
+            return True
+
+    # 駅名の異常チェック
+    station = detail.get(
+        "station"
+    )
+
+    if station is not None:
+
+        if is_suspicious_station(
+            station
+        ):
+            return True
+
+    # 住所の異常チェック
+    address = detail.get(
+        "address"
+    )
+
+    if address:
+
+        if is_suspicious_address(
+            address
+        ):
+            return True
+
     return False
 
 
@@ -1469,6 +2200,14 @@ def fetch_details(
     fetched_count = 0
     success_count = 0
     error_count = 0
+
+    if max_count <= 0:
+
+        logger.info(
+            "詳細取得上限が0のため、詳細取得をスキップします"
+        )
+
+        return properties
 
     candidates = []
 
@@ -1549,6 +2288,7 @@ def fetch_details(
             error_count += 1
 
             try:
+
                 detail_adapter.wait()
 
             except Exception:
@@ -1586,6 +2326,13 @@ def fetch_details(
                 {}
             )
 
+            if not isinstance(
+                detail,
+                dict
+            ):
+
+                detail = {}
+
             apply_detail_to_property(
                 property_data,
                 detail,
@@ -1593,12 +2340,24 @@ def fetch_details(
             )
 
             property_data[
-                "detailFetched"
-            ] = True
-
-            property_data[
                 "detailFetchError"
             ] = None
+
+            # 品質がpoorの場合はFalseを維持する
+            # 次回の実行で再取得する
+            if property_data.get(
+                "detailQuality"
+            ) == "poor":
+
+                property_data[
+                    "detailFetched"
+                ] = False
+
+            else:
+
+                property_data[
+                    "detailFetched"
+                ] = True
 
             success_count += 1
 
@@ -1625,6 +2384,10 @@ def fetch_details(
             ] = str(
                 error_message
             )
+
+            property_data[
+                "detailFetched"
+            ] = False
 
             error_count += 1
 
@@ -1760,6 +2523,17 @@ def main():
 
     search_config = load_config()
 
+    if not isinstance(
+        search_config,
+        dict
+    ):
+
+        logger.warning(
+            "search.jsonの形式が不正です。空の設定として処理します"
+        )
+
+        search_config = {}
+
     collected_at = now_iso()
 
     current_properties = []
@@ -1865,13 +2639,21 @@ def main():
     # 6. 詳細情報取得
     # --------------------------------------------------------
 
-    detail_adapter = create_detail_adapter()
+    if max_detail_count > 0:
 
-    merged_properties = fetch_details(
-        merged_properties,
-        detail_adapter,
-        max_detail_count
-    )
+        detail_adapter = create_detail_adapter()
+
+        merged_properties = fetch_details(
+            merged_properties,
+            detail_adapter,
+            max_detail_count
+        )
+
+    else:
+
+        logger.info(
+            "詳細取得上限が0のため、アダプター作成をスキップします"
+        )
 
     # --------------------------------------------------------
     # 7. 保存用JSON作成
@@ -1920,6 +2702,11 @@ def main():
     logger.info(
         "詳細取得エラー件数: %s",
         output["summary"]["detailErrorCount"]
+    )
+
+    logger.info(
+        "詳細品質内訳: %s",
+        output["summary"]["detailQualityCounts"]
     )
 
 
