@@ -1,19 +1,263 @@
-import logging
-from datetime import datetime, timezone
-
-from adapters.suumo_detail import fetch_detail
-
-from pathlib import Path
-from datetime import datetime, timezone
 import hashlib
+import logging
+import re
+from datetime import datetime, timezone
+from pathlib import Path
 
 from storage import load_json, save_json
 from adapters.suumo_search import SuumoSearchAdapter
 from adapters.suumo_detail import SuumoDetailAdapter
 
 
+# ============================================================
+# 基本設定
+# ============================================================
+
 ROOT = Path(__file__).resolve().parents[1]
 
+DEFAULT_DETAIL_FETCH_LIMIT = 5
+
+logger = logging.getLogger(__name__)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+
+
+# ============================================================
+# 共通ユーティリティ
+# ============================================================
+
+def now_iso():
+    """
+    UTCのISO 8601形式時刻を返す。
+    """
+
+    return datetime.now(
+        timezone.utc
+    ).isoformat()
+
+
+def safe_int(value):
+    """
+    値を安全に整数へ変換する。
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, int):
+        return value
+
+    if isinstance(value, float):
+        return int(value)
+
+    if isinstance(value, str):
+        text = value.strip()
+        text = text.replace(",", "")
+
+        match = re.search(
+            r"-?[0-9]+",
+            text
+        )
+
+        if match:
+            try:
+                return int(match.group(0))
+            except ValueError:
+                return None
+
+    return None
+
+
+def parse_price(value):
+    """
+    価格を円単位の整数へ変換する。
+
+    対応例:
+      1,780万円 -> 17800000
+      1780万円 -> 17800000
+      1億2,000万円 -> 120000000
+      17800000円 -> 17800000
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, (int, float)):
+        price = int(value)
+
+        if price > 0:
+            return price
+
+        return None
+
+    text = str(value).strip()
+
+    if not text:
+        return None
+
+    text = text.replace(",", "")
+    text = text.replace(" ", "")
+    text = text.replace("　", "")
+
+    # 億円 + 万円
+    oku_match = re.search(
+        r"([0-9]+(?:\.[0-9]+)?)億"
+        r"(?:([0-9]+(?:\.[0-9]+)?)万)?",
+        text
+    )
+
+    if oku_match:
+        oku = float(
+            oku_match.group(1)
+        )
+
+        man = float(
+            oku_match.group(2) or 0
+        )
+
+        price = int(
+            oku * 100_000_000
+            + man * 10_000
+        )
+
+        if price > 0:
+            return price
+
+    # 万円
+    man_match = re.search(
+        r"([0-9]+(?:\.[0-9]+)?)万(?:円)?",
+        text
+    )
+
+    if man_match:
+        price = int(
+            float(man_match.group(1))
+            * 10_000
+        )
+
+        if price > 0:
+            return price
+
+    # 円
+    yen_match = re.search(
+        r"([0-9][0-9,]*)円",
+        text
+    )
+
+    if yen_match:
+        price = int(
+            yen_match.group(1).replace(",", "")
+        )
+
+        if price > 0:
+            return price
+
+    # 単位がない数値は、円単位として扱わない
+    return None
+
+
+def normalize_price_history(
+    history,
+    current_price,
+    recorded_at
+):
+    """
+    価格履歴を正規化する。
+
+    旧形式の文字列価格にも対応する。
+    """
+
+    if not isinstance(
+        history,
+        list
+    ):
+        history = []
+
+    normalized = []
+
+    for item in history:
+
+        if not isinstance(
+            item,
+            dict
+        ):
+            continue
+
+        price = parse_price(
+            item.get("price")
+        )
+
+        if price is None:
+            continue
+
+        recorded_time = item.get(
+            "recordedAt"
+        )
+
+        if not recorded_time:
+            recorded_time = recorded_at
+
+        normalized.append({
+            "price": price,
+            "recordedAt": recorded_time
+        })
+
+    # 同一価格・同一記録時刻の重複を削除
+    deduplicated = []
+
+    seen = set()
+
+    for item in normalized:
+
+        key = (
+            item["price"],
+            item["recordedAt"]
+        )
+
+        if key in seen:
+            continue
+
+        seen.add(key)
+        deduplicated.append(item)
+
+    normalized = deduplicated
+
+    current_price = parse_price(
+        current_price
+    )
+
+    if current_price is None:
+        return normalized
+
+    # 最新履歴と同一価格なら追加しない
+    latest_price = None
+
+    if normalized:
+        latest_price = normalized[-1].get(
+            "price"
+        )
+
+    if latest_price != current_price:
+        normalized.append({
+            "price": current_price,
+            "recordedAt": recorded_at
+        })
+
+    return normalized
+
+
+# ============================================================
+# 設定・アダプター
+# ============================================================
 
 def load_config():
     """
@@ -33,13 +277,15 @@ def load_sources():
 
     return load_json(
         ROOT / "config" / "sources.json",
-        default={"sources": []}
+        default={
+            "sources": []
+        }
     )
 
 
 def create_adapters():
     """
-    有効なデータソースに対応する
+    有効な検索データソースに対応する
     アダプターを作成する。
     """
 
@@ -51,6 +297,12 @@ def create_adapters():
         "sources",
         []
     ):
+
+        if not isinstance(
+            source,
+            dict
+        ):
+            continue
 
         if not source.get("enabled"):
             continue
@@ -79,6 +331,12 @@ def create_detail_adapter():
         []
     ):
 
+        if not isinstance(
+            source,
+            dict
+        ):
+            continue
+
         if source.get("name") == "suumo_search":
 
             return SuumoDetailAdapter(
@@ -92,6 +350,10 @@ def create_detail_adapter():
     )
 
 
+# ============================================================
+# 物件ID・URL処理
+# ============================================================
+
 def normalize_url(url):
     """
     URLを物件ID作成用に正規化する。
@@ -101,7 +363,7 @@ def normalize_url(url):
         return ""
 
     return (
-        url
+        str(url)
         .split("?")[0]
         .split("#")[0]
         .rstrip("/")
@@ -121,13 +383,15 @@ def create_property_id(url):
         return None
 
     digest = hashlib.sha256(
-        normalized_url.encode(
-            "utf-8"
-        )
+        normalized_url.encode("utf-8")
     ).hexdigest()[:16]
 
     return f"suumo-{digest}"
 
+
+# ============================================================
+# 物件データ初期化
+# ============================================================
 
 def normalize_property(
     item,
@@ -169,17 +433,32 @@ def normalize_property(
             "searchPropertyType"
         ),
         "status": "discovered",
+
         "detailFetched": False,
         "detailFetchedAt": None,
         "detailFetchError": None,
+
         "firstSeenAt": collected_at,
         "lastSeenAt": collected_at,
         "collectedAt": collected_at,
+
         "price": None,
+        "priceText": None,
         "priceHistory": [],
+
+        "detailQuality": None,
+        "detailQualityScore": None,
+        "missingFields": [],
+        "validationWarnings": [],
+        "extractionQuality": {},
+
         "detail": {}
     }
 
+
+# ============================================================
+# 既存物件の読み込み
+# ============================================================
 
 def load_existing_properties():
     """
@@ -260,18 +539,49 @@ def load_existing_properties():
             None
         )
 
+        property_data.setdefault(
+            "price",
+            None
+        )
+
+        property_data.setdefault(
+            "priceText",
+            None
+        )
+
+        property_data.setdefault(
+            "detailQuality",
+            None
+        )
+
+        property_data.setdefault(
+            "detailQualityScore",
+            None
+        )
+
+        property_data.setdefault(
+            "missingFields",
+            []
+        )
+
+        property_data.setdefault(
+            "validationWarnings",
+            []
+        )
+
+        property_data.setdefault(
+            "extractionQuality",
+            {}
+        )
+
         if not isinstance(
-            property_data.get(
-                "detail"
-            ),
+            property_data.get("detail"),
             dict
         ):
             property_data["detail"] = {}
 
         if not isinstance(
-            property_data.get(
-                "priceHistory"
-            ),
+            property_data.get("priceHistory"),
             list
         ):
             property_data["priceHistory"] = []
@@ -280,6 +590,10 @@ def load_existing_properties():
 
     return result
 
+
+# ============================================================
+# 物件データ統合
+# ============================================================
 
 def merge_property(
     existing,
@@ -342,6 +656,41 @@ def merge_property(
         None
     )
 
+    merged.setdefault(
+        "price",
+        None
+    )
+
+    merged.setdefault(
+        "priceText",
+        None
+    )
+
+    merged.setdefault(
+        "detailQuality",
+        None
+    )
+
+    merged.setdefault(
+        "detailQualityScore",
+        None
+    )
+
+    merged.setdefault(
+        "missingFields",
+        []
+    )
+
+    merged.setdefault(
+        "validationWarnings",
+        []
+    )
+
+    merged.setdefault(
+        "extractionQuality",
+        {}
+    )
+
     if not isinstance(
         merged.get("priceHistory"),
         list
@@ -394,7 +743,7 @@ def merge_properties(
 
     else:
 
-        print(
+        logger.warning(
             "物件データの形式が不正です"
         )
 
@@ -407,8 +756,8 @@ def merge_properties(
             dict
         ):
 
-            print(
-                "不正な物件データをスキップ:",
+            logger.warning(
+                "不正な物件データをスキップ: %s",
                 current
             )
 
@@ -436,43 +785,142 @@ def merge_properties(
     return merged_properties
 
 
+# ============================================================
+# 価格履歴
+# ============================================================
+
 def add_price_history(
     property_data,
     new_price,
     fetched_at
 ):
     """
-    価格が変わった場合のみ履歴に追加する。
+    価格履歴を正規化して保存する。
     """
 
-    if not new_price:
-        return
-
-    previous_price = property_data.get(
-        "price"
+    new_price = parse_price(
+        new_price
     )
 
-    history = property_data.get(
-        "priceHistory"
+    history = normalize_price_history(
+        property_data.get("priceHistory"),
+        None,
+        fetched_at
     )
 
-    if not isinstance(
-        history,
-        list
-    ):
-        history = []
-
-    if previous_price == new_price:
+    if new_price is None:
         property_data["priceHistory"] = history
         return
 
-    history.append({
-        "price": new_price,
-        "recordedAt": fetched_at
-    })
+    previous_price = parse_price(
+        property_data.get("price")
+    )
 
-    property_data["priceHistory"] = history
+    property_data["priceHistory"] = (
+        normalize_price_history(
+            history,
+            new_price,
+            fetched_at
+        )
+    )
+
     property_data["price"] = new_price
+
+    if previous_price != new_price:
+        logger.info(
+            "価格変更を記録: %s -> %s",
+            previous_price,
+            new_price
+        )
+
+
+# ============================================================
+# 詳細情報取得
+# ============================================================
+
+def apply_detail_to_property(
+    property_data,
+    detail,
+    fetched_at
+):
+    """
+    詳細取得結果を物件データへ反映する。
+    """
+
+    if not isinstance(
+        detail,
+        dict
+    ):
+        detail = {}
+
+    existing_detail = property_data.get(
+        "detail"
+    )
+
+    if not isinstance(
+        existing_detail,
+        dict
+    ):
+        existing_detail = {}
+
+    existing_detail.update(
+        detail
+    )
+
+    property_data["detail"] = (
+        existing_detail
+    )
+
+    # 価格を数値化
+    new_price = parse_price(
+        detail.get("price")
+    )
+
+    price_text = detail.get(
+        "priceText"
+    )
+
+    if price_text:
+        property_data["priceText"] = (
+            price_text
+        )
+
+    add_price_history(
+        property_data,
+        new_price,
+        fetched_at
+    )
+
+    # 詳細項目を物件本体にも保存
+    copy_fields = [
+        "address",
+        "landAreaM2",
+        "landAreaText",
+        "buildingAreaM2",
+        "buildingAreaText",
+        "layout",
+        "builtYear",
+        "builtMonth",
+        "builtYearText",
+        "station",
+        "walkMinutes",
+        "transportRaw",
+        "builder",
+        "detailQuality",
+        "detailQualityScore",
+        "missingFields",
+        "validationWarnings",
+        "extractionQuality"
+    ]
+
+    for field in copy_fields:
+
+        if field not in detail:
+            continue
+
+        property_data[field] = (
+            detail.get(field)
+        )
 
 
 def fetch_details(
@@ -489,7 +937,9 @@ def fetch_details(
     success_count = 0
     error_count = 0
 
-    for property_id, property_data in properties.items():
+    for property_id, property_data in (
+        properties.items()
+    ):
 
         if fetched_count >= max_count:
             break
@@ -513,25 +963,72 @@ def fetch_details(
         if not url:
             continue
 
-        print(
-            "詳細情報取得開始:",
+        logger.info(
+            "詳細情報取得開始: %s %s",
             property_id,
-            url
-        )
-
-        result = detail_adapter.fetch_detail(
             url
         )
 
         fetched_count += 1
 
-        fetched_at = result.get(
+        fetched_at = now_iso()
+
+        try:
+
+            result = detail_adapter.fetch_detail(
+                url
+            )
+
+        except Exception as error:
+
+            logger.exception(
+                "詳細情報取得中に例外発生: %s",
+                property_id
+            )
+
+            property_data[
+                "detailFetched"
+            ] = False
+
+            property_data[
+                "detailFetchedAt"
+            ] = fetched_at
+
+            property_data[
+                "detailFetchError"
+            ] = str(error)
+
+            error_count += 1
+
+            try:
+                detail_adapter.wait()
+            except Exception:
+                pass
+
+            continue
+
+        if not isinstance(
+            result,
+            dict
+        ):
+
+            result = {
+                "success": False,
+                "error": (
+                    "詳細取得結果が辞書形式ではありません"
+                )
+            }
+
+        result_fetched_at = result.get(
             "fetchedAt"
         )
 
+        if not result_fetched_at:
+            result_fetched_at = fetched_at
+
         property_data[
             "detailFetchedAt"
-        ] = fetched_at
+        ] = result_fetched_at
 
         if result.get("success"):
 
@@ -540,38 +1037,10 @@ def fetch_details(
                 {}
             )
 
-            if not isinstance(
-                detail,
-                dict
-            ):
-                detail = {}
-
-            existing_detail = property_data.get(
-                "detail"
-            )
-
-            if not isinstance(
-                existing_detail,
-                dict
-            ):
-                existing_detail = {}
-
-            existing_detail.update(
-                detail
-            )
-
-            property_data[
-                "detail"
-            ] = existing_detail
-
-            new_price = detail.get(
-                "price"
-            )
-
-            add_price_history(
+            apply_detail_to_property(
                 property_data,
-                new_price,
-                fetched_at
+                detail,
+                result_fetched_at
             )
 
             property_data[
@@ -584,41 +1053,57 @@ def fetch_details(
 
             success_count += 1
 
-            print(
-                "詳細情報取得成功:",
-                property_id
+            logger.info(
+                "詳細情報取得成功: %s quality=%s score=%s",
+                property_id,
+                property_data.get(
+                    "detailQuality"
+                ),
+                property_data.get(
+                    "detailQualityScore"
+                )
             )
 
         else:
 
-            property_data[
-                "detailFetchError"
-            ] = result.get(
+            error_message = result.get(
                 "error",
                 "Unknown error"
             )
 
+            property_data[
+                "detailFetchError"
+            ] = str(error_message)
+
             error_count += 1
 
-            print(
-                "詳細情報取得失敗:",
+            logger.warning(
+                "詳細情報取得失敗: %s %s",
                 property_id,
-                property_data[
-                    "detailFetchError"
-                ]
+                error_message
             )
 
-        detail_adapter.wait()
+        try:
+            detail_adapter.wait()
+        except Exception as error:
+            logger.warning(
+                "待機処理に失敗しました: %s",
+                error
+            )
 
-    print(
-        "詳細情報取得結果:",
-        f"処理 {fetched_count}件 / "
-        f"成功 {success_count}件 / "
-        f"失敗 {error_count}件"
+    logger.info(
+        "詳細取得結果: 処理=%s件 / 成功=%s件 / 失敗=%s件",
+        fetched_count,
+        success_count,
+        error_count
     )
 
     return properties
 
+
+# ============================================================
+# 出力データ作成
+# ============================================================
 
 def build_output(
     properties,
@@ -646,23 +1131,64 @@ def build_output(
         reverse=True
     )
 
+    detail_fetched_count = sum(
+        1
+        for item in property_list
+        if item.get("detailFetched")
+    )
+
+    detail_error_count = sum(
+        1
+        for item in property_list
+        if item.get("detailFetchError")
+    )
+
+    quality_counts = {
+        "good": 0,
+        "partial": 0,
+        "poor": 0,
+        "unknown": 0
+    }
+
+    for item in property_list:
+
+        quality = item.get(
+            "detailQuality"
+        )
+
+        if quality in quality_counts:
+            quality_counts[quality] += 1
+        else:
+            quality_counts["unknown"] += 1
+
     return {
         "updatedAt": collected_at,
+
         "summary": {
             "discoveredCount": len(
                 property_list
             ),
-            "detailFetchedCount": sum(
-                1
-                for item in property_list
-                if item.get(
-                    "detailFetched"
-                )
+
+            "detailFetchedCount": (
+                detail_fetched_count
+            ),
+
+            "detailErrorCount": (
+                detail_error_count
+            ),
+
+            "detailQualityCounts": (
+                quality_counts
             )
         },
+
         "properties": property_list
     }
 
+
+# ============================================================
+# メイン処理
+# ============================================================
 
 def main():
     """
@@ -677,24 +1203,37 @@ def main():
 
     search_config = load_config()
 
-    collected_at = datetime.now(
-        timezone.utc
-    ).isoformat()
+    collected_at = now_iso()
 
     current_properties = []
 
+    # --------------------------------------------------------
+    # 1. SUUMO検索
+    # --------------------------------------------------------
+
     for adapter in create_adapters():
 
-        results = adapter.search(
-            search_config
-        )
+        try:
+
+            results = adapter.search(
+                search_config
+            )
+
+        except Exception as error:
+
+            logger.exception(
+                "検索処理に失敗しました: %s",
+                error
+            )
+
+            continue
 
         if not isinstance(
             results,
             list
         ):
 
-            print(
+            logger.warning(
                 "検索結果がリスト形式ではありません"
             )
 
@@ -714,7 +1253,10 @@ def main():
                 normalized
             )
 
-    # 今回の検出結果をID単位で重複排除
+    # --------------------------------------------------------
+    # 2. 今回の検出結果をID単位で重複排除
+    # --------------------------------------------------------
+
     current_unique = {}
 
     for property_data in current_properties:
@@ -736,42 +1278,75 @@ def main():
             property_data
         )
 
-    # 既存物件を読み込み
+    # --------------------------------------------------------
+    # 3. 既存物件を読み込み
+    # --------------------------------------------------------
+
     existing_properties = (
         load_existing_properties()
     )
 
-    # 既存データと今回の結果を統合
+    # --------------------------------------------------------
+    # 4. 既存データと今回の結果を統合
+    # --------------------------------------------------------
+
     merged_properties = merge_properties(
         existing_properties,
         current_unique,
         collected_at
     )
 
-    # 詳細取得件数
-    detail_adapter = create_detail_adapter()
+    # --------------------------------------------------------
+    # 5. 詳細情報取得上限
+    # --------------------------------------------------------
 
-    max_detail_count = int(
-        search_config.get(
-            "detailFetchLimit",
-            3
-        )
+    configured_limit = search_config.get(
+        "detailFetchLimit",
+        DEFAULT_DETAIL_FETCH_LIMIT
     )
+
+    try:
+
+        max_detail_count = int(
+            configured_limit
+        )
+
+    except (
+        TypeError,
+        ValueError
+    ):
+
+        max_detail_count = (
+            DEFAULT_DETAIL_FETCH_LIMIT
+        )
 
     if max_detail_count < 0:
         max_detail_count = 0
 
-    # 詳細情報を取得
+    # --------------------------------------------------------
+    # 6. 詳細情報取得
+    # --------------------------------------------------------
+
+    detail_adapter = create_detail_adapter()
+
     merged_properties = fetch_details(
         merged_properties,
         detail_adapter,
         max_detail_count
     )
 
+    # --------------------------------------------------------
+    # 7. 保存用JSON作成
+    # --------------------------------------------------------
+
     output = build_output(
         merged_properties,
         collected_at
     )
+
+    # --------------------------------------------------------
+    # 8. JSON保存
+    # --------------------------------------------------------
 
     save_json(
         ROOT
@@ -780,19 +1355,33 @@ def main():
         output
     )
 
-    print(
-        "今回の検出物件数:",
+    # --------------------------------------------------------
+    # 9. 実行結果表示
+    # --------------------------------------------------------
+
+    logger.info(
+        "今回の検出物件数: %s",
         len(current_unique)
     )
 
-    print(
-        "保存済み物件総数:",
+    logger.info(
+        "保存済み物件総数: %s",
         len(merged_properties)
     )
 
-    print(
-        "詳細取得上限:",
+    logger.info(
+        "詳細取得上限: %s",
         max_detail_count
+    )
+
+    logger.info(
+        "詳細取得済み累積件数: %s",
+        output["summary"]["detailFetchedCount"]
+    )
+
+    logger.info(
+        "詳細取得エラー件数: %s",
+        output["summary"]["detailErrorCount"]
     )
 
 
