@@ -37,8 +37,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 4. SUUMO検索を実行
-      - name: Discover SUUMO listings
+      # 4. SUUMO検索と詳細情報取得
+      - name: Discover and fetch house listings
         run: |
           python scripts/main.py
 
@@ -49,15 +49,19 @@ jobs:
           import json
           from pathlib import Path
 
-          path = Path("data/discovered_listings.json")
+          path = Path(
+              "data/discovered_listings.json"
+          )
 
           if not path.exists():
               raise SystemExit(
                   "ERROR: data/discovered_listings.json was not created"
               )
 
-          with path.open(encoding="utf-8") as f:
-              data = json.load(f)
+          with path.open(
+              encoding="utf-8"
+          ) as file:
+              data = json.load(file)
 
           if not isinstance(data, dict):
               raise SystemExit(
@@ -74,14 +78,56 @@ jobs:
                   "ERROR: properties is missing"
               )
 
-          if not isinstance(data["properties"], list):
+          if not isinstance(
+              data["properties"],
+              list
+          ):
               raise SystemExit(
                   "ERROR: properties must be a list"
               )
 
+          for index, property_data in enumerate(
+              data["properties"]
+          ):
+
+              if not isinstance(
+                  property_data,
+                  dict
+              ):
+                  raise SystemExit(
+                      f"ERROR: properties[{index}] must be an object"
+                  )
+
+              if "id" not in property_data:
+                  raise SystemExit(
+                      f"ERROR: properties[{index}].id is missing"
+                  )
+
+              if "sourceUrl" not in property_data:
+                  raise SystemExit(
+                      f"ERROR: properties[{index}].sourceUrl is missing"
+                  )
+
           print("Output validation: OK")
-          print(f"Updated at: {data['updatedAt']}")
-          print(f"Properties found: {len(data['properties'])}")
+          print(
+              f"Updated at: {data['updatedAt']}"
+          )
+          print(
+              f"Properties found: {len(data['properties'])}"
+          )
+
+          summary = data.get(
+              "summary",
+              {}
+          )
+
+          print(
+              "Detail fetched:",
+              summary.get(
+                  "detailFetchedCount",
+                  0
+              )
+          )
           PY
 
       # 6. 検索結果をログに表示
