@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-21-v5"
+DETAIL_PARSER_VERSION = "2026-09-21-v6"
 
 # ============================================================
 # Constants
@@ -145,9 +145,10 @@ def parse_area_m2(value: Any) -> Optional[float]:
     if not text:
         return None
 
+    # "95.84m", "95.84m2", "95.84㎡", "95.84m 2" 等の表記に対応
     match = re.search(
         r"([0-9]+(?:\.[0-9]+)?)\s*"
-        r"(?:m\s*[²2]|㎡)",
+        r"(?:m\s*[²2]?|㎡)",
         text,
         re.IGNORECASE,
     )
@@ -215,35 +216,25 @@ def is_valid_suumo_url(url: str) -> bool:
     )
 
 # ============================================================
-# DOM Preprocessing (Remove noise sections)
+# DOM Preprocessing (Pinpoint Removal Only)
 # ============================================================
 
 def remove_unwanted_sections(soup: BeautifulSoup) -> BeautifulSoup:
     """
-    店舗情報、会社情報、見学予約案内、問い合わせフォーム等のノイズブロックをDOMから削除する
+    明確な店舗情報・問い合わせブロックのみを安全に除去する
     """
     soup_copy = BeautifulSoup(str(soup), "html.parser")
 
     selectors_to_remove = [
         ".cassette_shop",
         "#js-shopInfo",
-        ".section_h2-shop",
-        ".section_h2-company",
         "#js-inquiryForm",
-        ".footer",
-        "#footer",
-        ".l-footer",
         ".ar-shop",
         ".ar-company",
     ]
 
     for selector in selectors_to_remove:
         for el in soup_copy.select(selector):
-            el.decompose()
-
-    for el in soup_copy.find_all(["div", "section", "table"]):
-        text = el.get_text()
-        if any(kw in text for kw in ["取り扱い店舗情報", "会社概要", "店舗の詳細を見る", "看板犬ぽんた"]):
             el.decompose()
 
     return soup_copy
@@ -259,6 +250,18 @@ def collect_label_value_pairs(
     pairs: Dict[str, str] = {}
 
     for tr in soup.find_all("tr"):
+        # 店舗情報エリア内のtrをスキップ
+        is_shop_or_company = False
+        for parent in tr.parents:
+            if parent.name in ["div", "section", "table"]:
+                p_class = " ".join(parent.get("class", []))
+                p_id = parent.get("id", "")
+                if any(k in p_class or k in p_id for k in ["shop", "company", "tenpo"]):
+                    is_shop_or_company = True
+                    break
+        if is_shop_or_company:
+            continue
+
         cells = tr.find_all(["th", "td"])
 
         if len(cells) < 2:
@@ -281,7 +284,9 @@ def collect_label_value_pairs(
         value = " ".join(texts[1:])
 
         if label and value:
-            pairs[label] = value
+            # ページ上部（物件概要）の出現を優先（上書き防止）
+            if label not in pairs:
+                pairs[label] = value
 
     return pairs
 
@@ -406,7 +411,7 @@ def extract_area_from_page(
         rf"{re.escape(label)}"
         r"\s*"
         r"([0-9]+(?:\.[0-9]+)?)"
-        r"\s*(?:m\s*[²2]|㎡)"
+        r"\s*(?:m\s*[²2]?|㎡)"
     )
 
     match = re.search(
@@ -523,6 +528,7 @@ def is_company_address(
         "アスライク",
         "〒",
         "担当者",
+        "取扱",
     ]
 
     if any(word in address for word in company_words):
@@ -539,24 +545,10 @@ def normalize_address(
     if not address:
         return None
 
-    address = re.sub(
-        r"\s*地図を見る.*$",
-        "",
-        address,
-    )
-
-    address = re.sub(
-        r"\s*[\[［].*?[\]］]",
-        "",
-        address,
-    )
-
-    address = re.sub(
-        r"\s*[\[［].*$",
-        "",
-        address,
-    )
-
+    address = re.sub(r"\s*地図を見る.*$", "", address)
+    address = re.sub(r"\s*[\[［].*?[\]］]", "", address)
+    address = re.sub(r"\s*[\[［].*$", "", address)
+    address = re.sub(r"\s*【.*?】", "", address)
     address = address.strip()
 
     if is_company_address(address):
@@ -576,9 +568,9 @@ def extract_address(
     page_text: str,
 ) -> Optional[str]:
 
-    # 1. 「所在地」の値を優先
+    # 1. 「所在地」の値を優先（店舗・会社キーワードを除外）
     for label, value in pairs.items():
-        if "所在地" in label and "店舗" not in label:
+        if "所在地" in label and not any(kw in label for kw in ["店舗", "会社", "取扱"]):
             address = normalize_address(value)
 
             if address:
@@ -603,7 +595,7 @@ def extract_address(
 
     # 3. ブロックから抽出
     for block in blocks:
-        if any(kw in block for kw in ["会社情報", "取り扱い店舗", "店舗情報"]):
+        if any(kw in block for kw in ["会社情報", "取り扱い店舗", "店舗情報", "加盟", "免許番号"]):
             continue
 
         match = re.search(
@@ -779,6 +771,7 @@ def extract_station_info(
                 "見学予約",
                 "ご案内方法",
                 "コース",
+                "加盟",
             ]
         ):
             continue
@@ -787,10 +780,10 @@ def extract_station_info(
 
     search_sources = clean_blocks + [page_text]
 
-    # パターン1: バス利用
+    # バスアクセスパターン (例: つくばエクスプレス「柏の葉キャンパス」バス8分柏ビレジ第二歩10分)
     bus_patterns = [
-        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分\s*([^。「『\n]{1,20}?)\s*(?:徒歩|歩)\s*(\d+)\s*分",
-        r"[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分",
+        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分\s*([^。「『\n\s]{1,30}?)\s*(?:徒歩|歩)\s*(\d+)\s*分",
+        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分",
     ]
 
     for source in search_sources:
@@ -814,8 +807,8 @@ def extract_station_info(
                     result["transportRaw"] = clean_text(match.group(0))
                     return result
 
-            elif len(groups) == 2:
-                station, bus_m = groups
+            elif len(groups) == 3:
+                line, station, bus_m = groups
 
                 if is_valid_station_name(station):
                     result["station"] = clean_text(station)
@@ -824,7 +817,7 @@ def extract_station_info(
                     result["transportRaw"] = clean_text(match.group(0))
                     return result
 
-    # パターン2: 徒歩アクセス
+    # 徒歩アクセスパターン (例: つくばエクスプレス「流山おおたかの森」歩10分)
     walk_patterns = [
         r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*(?:徒歩|歩)\s*(\d+)\s*分",
         r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?([^\s「『]{1,10}駅)\s*(?:徒歩|歩)\s*(\d+)\s*分",
@@ -1079,7 +1072,6 @@ def fetch_detail(url: str) -> Dict[str, Any]:
         "html.parser",
     )
 
-    # DOMから店舗情報などのノイズセクションを除去
     clean_soup = remove_unwanted_sections(raw_soup)
 
     pairs = collect_label_value_pairs(clean_soup)
