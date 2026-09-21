@@ -15,7 +15,3 @@
   "onlyFlatLand": false,
   "excludeRetainingWall": false
 }
-
-{
-  "detailFetchLimit": 5
-}
