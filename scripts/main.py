@@ -16,6 +16,7 @@ from adapters.suumo_detail import SuumoDetailAdapter
 ROOT = Path(__file__).resolve().parents[1]
 
 DEFAULT_DETAIL_FETCH_LIMIT = 5
+DETAIL_PARSER_VERSION = "2026-09-21-v2"
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +58,7 @@ def safe_int(value):
         return int(value)
 
     if isinstance(value, str):
+
         text = value.strip()
         text = text.replace(",", "")
 
@@ -66,8 +68,12 @@ def safe_int(value):
         )
 
         if match:
+
             try:
-                return int(match.group(0))
+                return int(
+                    match.group(0)
+                )
+
             except ValueError:
                 return None
 
@@ -79,10 +85,12 @@ def parse_price(value):
     価格を円単位の整数へ変換する。
 
     対応例:
-      1,780万円 -> 17800000
-      1780万円 -> 17800000
-      1億2,000万円 -> 120000000
-      17800000円 -> 17800000
+
+    1780万円
+    1,780万円
+    1億2,000万円
+    17800000円
+    1780万円 [ □ 支払シミュレーション ]
     """
 
     if value is None:
@@ -91,7 +99,15 @@ def parse_price(value):
     if isinstance(value, bool):
         return None
 
-    if isinstance(value, (int, float)):
+    if isinstance(value, int):
+
+        if value > 0:
+            return value
+
+        return None
+
+    if isinstance(value, float):
+
         price = int(value)
 
         if price > 0:
@@ -108,7 +124,10 @@ def parse_price(value):
     text = text.replace(" ", "")
     text = text.replace("　", "")
 
+    # --------------------------------------------------------
     # 億円 + 万円
+    # --------------------------------------------------------
+
     oku_match = re.search(
         r"([0-9]+(?:\.[0-9]+)?)億"
         r"(?:([0-9]+(?:\.[0-9]+)?)万)?",
@@ -116,6 +135,7 @@ def parse_price(value):
     )
 
     if oku_match:
+
         oku = float(
             oku_match.group(1)
         )
@@ -132,13 +152,17 @@ def parse_price(value):
         if price > 0:
             return price
 
+    # --------------------------------------------------------
     # 万円
+    # --------------------------------------------------------
+
     man_match = re.search(
         r"([0-9]+(?:\.[0-9]+)?)万(?:円)?",
         text
     )
 
     if man_match:
+
         price = int(
             float(man_match.group(1))
             * 10_000
@@ -147,13 +171,17 @@ def parse_price(value):
         if price > 0:
             return price
 
+    # --------------------------------------------------------
     # 円
+    # --------------------------------------------------------
+
     yen_match = re.search(
         r"([0-9][0-9,]*)円",
         text
     )
 
     if yen_match:
+
         price = int(
             yen_match.group(1).replace(",", "")
         )
@@ -161,7 +189,57 @@ def parse_price(value):
         if price > 0:
             return price
 
-    # 単位がない数値は、円単位として扱わない
+    return None
+
+
+def parse_float(value):
+    """
+    値から小数を抽出する。
+    """
+
+    if value is None:
+        return None
+
+    if isinstance(value, bool):
+        return None
+
+    if isinstance(value, (int, float)):
+
+        number = float(value)
+
+        if number > 0:
+            return number
+
+        return None
+
+    text = str(value)
+
+    text = text.replace(",", "")
+    text = text.replace("　", " ")
+    text = text.replace("m 2", "m2")
+    text = text.replace("m²", "m2")
+    text = text.replace("㎡", "m2")
+
+    match = re.search(
+        r"([0-9]+(?:\.[0-9]+)?)",
+        text
+    )
+
+    if not match:
+        return None
+
+    try:
+
+        number = float(
+            match.group(1)
+        )
+
+        if number > 0:
+            return number
+
+    except ValueError:
+        return None
+
     return None
 
 
@@ -211,7 +289,6 @@ def normalize_price_history(
             "recordedAt": recorded_time
         })
 
-    # 同一価格・同一記録時刻の重複を削除
     deduplicated = []
 
     seen = set()
@@ -238,15 +315,16 @@ def normalize_price_history(
     if current_price is None:
         return normalized
 
-    # 最新履歴と同一価格なら追加しない
     latest_price = None
 
     if normalized:
+
         latest_price = normalized[-1].get(
             "price"
         )
 
     if latest_price != current_price:
+
         normalized.append({
             "price": current_price,
             "recordedAt": recorded_at
@@ -283,6 +361,39 @@ def load_sources():
     )
 
 
+def get_suumo_source_config():
+    """
+    sources.jsonからSUUMOの設定を取得する。
+    """
+
+    sources = load_sources()
+
+    source_list = sources.get(
+        "sources",
+        []
+    )
+
+    if not isinstance(
+        source_list,
+        list
+    ):
+        return {}
+
+    for source in source_list:
+
+        if not isinstance(
+            source,
+            dict
+        ):
+            continue
+
+        if source.get("name") == "suumo_search":
+
+            return source
+
+    return {}
+
+
 def create_adapters():
     """
     有効な検索データソースに対応する
@@ -293,10 +404,18 @@ def create_adapters():
 
     adapters = []
 
-    for source in sources.get(
+    source_list = sources.get(
         "sources",
         []
+    )
+
+    if not isinstance(
+        source_list,
+        list
     ):
+        return adapters
+
+    for source in source_list:
 
         if not isinstance(
             source,
@@ -324,30 +443,55 @@ def create_detail_adapter():
     詳細情報取得アダプターを作成する。
     """
 
-    sources = load_sources()
-
-    for source in sources.get(
-        "sources",
-        []
-    ):
-
-        if not isinstance(
-            source,
-            dict
-        ):
-            continue
-
-        if source.get("name") == "suumo_search":
-
-            return SuumoDetailAdapter(
-                config=source,
-                root_path=ROOT
-            )
+    source_config = get_suumo_source_config()
 
     return SuumoDetailAdapter(
-        config={},
+        config=source_config,
         root_path=ROOT
     )
+
+
+def get_detail_fetch_limit(search_config):
+    """
+    詳細取得上限を取得する。
+
+    優先順位:
+
+    1. sources.jsonのdetailFetchLimit
+    2. search.jsonのdetailFetchLimit
+    3. デフォルト値
+    """
+
+    source_config = get_suumo_source_config()
+
+    configured_limit = source_config.get(
+        "detailFetchLimit"
+    )
+
+    if configured_limit is None:
+
+        configured_limit = search_config.get(
+            "detailFetchLimit",
+            DEFAULT_DETAIL_FETCH_LIMIT
+        )
+
+    try:
+
+        limit = int(
+            configured_limit
+        )
+
+    except (
+        TypeError,
+        ValueError
+    ):
+
+        limit = DEFAULT_DETAIL_FETCH_LIMIT
+
+    if limit < 0:
+        limit = 0
+
+    return limit
 
 
 # ============================================================
@@ -446,7 +590,8 @@ def normalize_property(
         "priceText": None,
         "priceHistory": [],
 
-        "detailQuality": None,
+        "detailParserVersion": None,
+        "detailQuality": "unknown",
         "detailQualityScore": None,
         "missingFields": [],
         "validationWarnings": [],
@@ -459,6 +604,84 @@ def normalize_property(
 # ============================================================
 # 既存物件の読み込み
 # ============================================================
+
+def normalize_existing_detail(property_data):
+    """
+    既存データを新しい詳細形式に合わせる。
+
+    旧パーサーで取得済みの物件は、
+    新パーサーで再取得するためdetailFetchedをFalseにする。
+    """
+
+    detail = property_data.get(
+        "detail"
+    )
+
+    if not isinstance(
+        detail,
+        dict
+    ):
+        detail = {}
+
+    property_data["detail"] = detail
+
+    parser_version = (
+        property_data.get(
+            "detailParserVersion"
+        )
+        or detail.get(
+            "detailParserVersion"
+        )
+    )
+
+    quality = property_data.get(
+        "detailQuality"
+    )
+
+    # 旧形式または品質判定なしのデータは再取得
+    if (
+        parser_version != DETAIL_PARSER_VERSION
+        or quality in (
+            None,
+            "",
+            "unknown"
+        )
+    ):
+
+        property_data["detailFetched"] = False
+
+    # 旧形式の価格を数値化
+    property_data["price"] = parse_price(
+        property_data.get("price")
+    )
+
+    # 詳細内の価格も数値化
+    if "price" in detail:
+
+        normalized_detail_price = parse_price(
+            detail.get("price")
+        )
+
+        if normalized_detail_price is not None:
+
+            detail["price"] = (
+                normalized_detail_price
+            )
+
+    # 旧価格履歴を数値化
+    property_data["priceHistory"] = (
+        normalize_price_history(
+            property_data.get("priceHistory"),
+            None,
+            property_data.get(
+                "detailFetchedAt"
+            )
+            or now_iso()
+        )
+    )
+
+    return property_data
+
 
 def load_existing_properties():
     """
@@ -523,7 +746,6 @@ def load_existing_properties():
 
         property_data["id"] = property_id
 
-        # 既存データとの互換性維持
         property_data.setdefault(
             "detailFetched",
             False
@@ -550,8 +772,13 @@ def load_existing_properties():
         )
 
         property_data.setdefault(
-            "detailQuality",
+            "detailParserVersion",
             None
+        )
+
+        property_data.setdefault(
+            "detailQuality",
+            "unknown"
         )
 
         property_data.setdefault(
@@ -586,6 +813,10 @@ def load_existing_properties():
         ):
             property_data["priceHistory"] = []
 
+        property_data = normalize_existing_detail(
+            property_data
+        )
+
         result[property_id] = property_data
 
     return result
@@ -610,26 +841,31 @@ def merge_property(
     merged = existing.copy()
 
     if current.get("sourceUrl"):
+
         merged["sourceUrl"] = current[
             "sourceUrl"
         ]
 
     if current.get("source"):
+
         merged["source"] = current[
             "source"
         ]
 
     if current.get("searchArea"):
+
         merged["searchArea"] = current[
             "searchArea"
         ]
 
     if current.get("searchPropertyType"):
+
         merged["searchPropertyType"] = current[
             "searchPropertyType"
         ]
 
     if not merged.get("firstSeenAt"):
+
         merged["firstSeenAt"] = current.get(
             "firstSeenAt",
             collected_at
@@ -667,8 +903,13 @@ def merge_property(
     )
 
     merged.setdefault(
-        "detailQuality",
+        "detailParserVersion",
         None
+    )
+
+    merged.setdefault(
+        "detailQuality",
+        "unknown"
     )
 
     merged.setdefault(
@@ -755,12 +996,6 @@ def merge_properties(
             current,
             dict
         ):
-
-            logger.warning(
-                "不正な物件データをスキップ: %s",
-                current
-            )
-
             continue
 
         property_id = current.get(
@@ -809,7 +1044,9 @@ def add_price_history(
     )
 
     if new_price is None:
+
         property_data["priceHistory"] = history
+
         return
 
     previous_price = parse_price(
@@ -827,6 +1064,7 @@ def add_price_history(
     property_data["price"] = new_price
 
     if previous_price != new_price:
+
         logger.info(
             "価格変更を記録: %s -> %s",
             previous_price,
@@ -835,7 +1073,152 @@ def add_price_history(
 
 
 # ============================================================
-# 詳細情報取得
+# 詳細情報の正規化
+# ============================================================
+
+def normalize_detail(detail):
+    """
+    詳細データの新旧フィールド名を統一する。
+    """
+
+    if not isinstance(
+        detail,
+        dict
+    ):
+        return {}
+
+    normalized = detail.copy()
+
+    # --------------------------------------------------------
+    # 価格
+    # --------------------------------------------------------
+
+    raw_price = (
+        normalized.get("price")
+        or normalized.get("priceText")
+    )
+
+    normalized_price = parse_price(
+        raw_price
+    )
+
+    if normalized_price is not None:
+
+        normalized["price"] = (
+            normalized_price
+        )
+
+    # --------------------------------------------------------
+    # 土地面積
+    # --------------------------------------------------------
+
+    land_area = (
+        normalized.get("landAreaM2")
+        or normalized.get("landArea")
+    )
+
+    normalized_land_area = parse_float(
+        land_area
+    )
+
+    if normalized_land_area is not None:
+
+        normalized["landAreaM2"] = (
+            normalized_land_area
+        )
+
+    # --------------------------------------------------------
+    # 建物面積
+    # --------------------------------------------------------
+
+    building_area = (
+        normalized.get("buildingAreaM2")
+        or normalized.get("buildingArea")
+    )
+
+    normalized_building_area = parse_float(
+        building_area
+    )
+
+    if normalized_building_area is not None:
+
+        normalized["buildingAreaM2"] = (
+            normalized_building_area
+        )
+
+    # --------------------------------------------------------
+    # 築年月
+    # --------------------------------------------------------
+
+    if not normalized.get(
+        "constructionMonth"
+    ):
+
+        if normalized.get("buildYear"):
+
+            normalized["constructionText"] = (
+                normalized.get("buildYear")
+            )
+
+    # --------------------------------------------------------
+    # 駅情報
+    # --------------------------------------------------------
+
+    if not normalized.get("station"):
+
+        station = normalized.get(
+            "stationText"
+        )
+
+        if station:
+            normalized["station"] = station
+
+    if not normalized.get("walkMinutes"):
+
+        walking_minutes = normalized.get(
+            "walkingMinutes"
+        )
+
+        if walking_minutes is not None:
+
+            normalized["walkMinutes"] = (
+                walking_minutes
+            )
+
+    # --------------------------------------------------------
+    # 住所
+    # --------------------------------------------------------
+
+    if normalized.get("address"):
+
+        address = str(
+            normalized["address"]
+        )
+
+        address = re.sub(
+            r"\s*\[\s*[■□].*?\]",
+            "",
+            address
+        )
+
+        normalized["address"] = (
+            address.strip()
+        )
+
+    # --------------------------------------------------------
+    # パーサーバージョン
+    # --------------------------------------------------------
+
+    normalized.setdefault(
+        "detailParserVersion",
+        DETAIL_PARSER_VERSION
+    )
+
+    return normalized
+
+
+# ============================================================
+# 詳細情報取得結果の反映
 # ============================================================
 
 def apply_detail_to_property(
@@ -847,11 +1230,9 @@ def apply_detail_to_property(
     詳細取得結果を物件データへ反映する。
     """
 
-    if not isinstance(
-        detail,
-        dict
-    ):
-        detail = {}
+    detail = normalize_detail(
+        detail
+    )
 
     existing_detail = property_data.get(
         "detail"
@@ -871,18 +1252,28 @@ def apply_detail_to_property(
         existing_detail
     )
 
-    # 価格を数値化
+    # --------------------------------------------------------
+    # 価格
+    # --------------------------------------------------------
+
     new_price = parse_price(
         detail.get("price")
     )
+
+    if new_price is None:
+
+        new_price = parse_price(
+            detail.get("priceText")
+        )
 
     price_text = detail.get(
         "priceText"
     )
 
     if price_text:
+
         property_data["priceText"] = (
-            price_text
+            str(price_text)
         )
 
     add_price_history(
@@ -891,7 +1282,10 @@ def apply_detail_to_property(
         fetched_at
     )
 
-    # 詳細項目を物件本体にも保存
+    # --------------------------------------------------------
+    # 詳細フィールド
+    # --------------------------------------------------------
+
     copy_fields = [
         "address",
         "landAreaM2",
@@ -899,13 +1293,21 @@ def apply_detail_to_property(
         "buildingAreaM2",
         "buildingAreaText",
         "layout",
+        "constructionMonth",
+        "constructionText",
         "builtYear",
         "builtMonth",
         "builtYearText",
         "station",
+        "stationText",
         "walkMinutes",
+        "walkingMinutes",
         "transportRaw",
         "builder",
+        "structure",
+        "informationDate",
+        "nextUpdateDate",
+        "detailParserVersion",
         "detailQuality",
         "detailQualityScore",
         "missingFields",
@@ -918,10 +1320,136 @@ def apply_detail_to_property(
         if field not in detail:
             continue
 
-        property_data[field] = (
-            detail.get(field)
+        value = detail.get(
+            field
         )
 
+        property_data[field] = value
+
+    # --------------------------------------------------------
+    # 品質情報
+    # --------------------------------------------------------
+
+    if not property_data.get(
+        "detailParserVersion"
+    ):
+
+        property_data[
+            "detailParserVersion"
+        ] = DETAIL_PARSER_VERSION
+
+    if not property_data.get(
+        "detailQuality"
+    ):
+
+        property_data[
+            "detailQuality"
+        ] = "unknown"
+
+    # 新パーサーで取得済みであることを記録
+    property_data[
+        "detailParserVersion"
+    ] = detail.get(
+        "detailParserVersion",
+        DETAIL_PARSER_VERSION
+    )
+
+
+# ============================================================
+# 詳細取得対象判定
+# ============================================================
+
+def should_fetch_detail(property_data):
+    """
+    詳細再取得が必要か判定する。
+
+    以下の場合は再取得する。
+
+    - detailFetchedがFalse
+    - パーサーバージョンが古い
+    - detailQualityが未設定
+    - detailQualityがunknown
+    - detailが辞書でない
+    - 必須の正規化項目が不足
+    """
+
+    if not isinstance(
+        property_data,
+        dict
+    ):
+        return False
+
+    if not property_data.get(
+        "sourceUrl"
+    ):
+        return False
+
+    if not property_data.get(
+        "detailFetched"
+    ):
+        return True
+
+    detail = property_data.get(
+        "detail"
+    )
+
+    if not isinstance(
+        detail,
+        dict
+    ):
+        return True
+
+    parser_version = (
+        property_data.get(
+            "detailParserVersion"
+        )
+        or detail.get(
+            "detailParserVersion"
+        )
+    )
+
+    if parser_version != DETAIL_PARSER_VERSION:
+        return True
+
+    quality = property_data.get(
+        "detailQuality"
+    )
+
+    if quality in (
+        None,
+        "",
+        "unknown"
+    ):
+        return True
+
+    # 価格が文字列の場合は再取得
+    if (
+        property_data.get("price")
+        is not None
+        and not isinstance(
+            property_data.get("price"),
+            (int, float)
+        )
+    ):
+        return True
+
+    # 詳細内の価格が文字列の場合は再取得
+    if (
+        detail.get("price")
+        is not None
+        and not isinstance(
+            detail.get("price"),
+            (int, float)
+        )
+    ):
+        return True
+
+    return False
+
+
+# ============================================================
+# 詳細情報取得
+# ============================================================
 
 def fetch_details(
     properties,
@@ -929,7 +1457,7 @@ def fetch_details(
     max_count
 ):
     """
-    詳細未取得の物件から、
+    詳細再取得が必要な物件から、
     最大max_count件だけ詳細情報を取得する。
     """
 
@@ -937,12 +1465,11 @@ def fetch_details(
     success_count = 0
     error_count = 0
 
+    candidates = []
+
     for property_id, property_data in (
         properties.items()
     ):
-
-        if fetched_count >= max_count:
-            break
 
         if not isinstance(
             property_data,
@@ -950,11 +1477,27 @@ def fetch_details(
         ):
             continue
 
-        # 詳細取得済みの物件はスキップ
-        if property_data.get(
-            "detailFetched"
+        if not should_fetch_detail(
+            property_data
         ):
             continue
+
+        candidates.append(
+            (
+                property_id,
+                property_data
+            )
+        )
+
+    logger.info(
+        "詳細再取得対象: %s件",
+        len(candidates)
+    )
+
+    for property_id, property_data in candidates:
+
+        if fetched_count >= max_count:
+            break
 
         url = property_data.get(
             "sourceUrl"
@@ -1002,6 +1545,7 @@ def fetch_details(
 
             try:
                 detail_adapter.wait()
+
             except Exception:
                 pass
 
@@ -1073,7 +1617,9 @@ def fetch_details(
 
             property_data[
                 "detailFetchError"
-            ] = str(error_message)
+            ] = str(
+                error_message
+            )
 
             error_count += 1
 
@@ -1084,8 +1630,11 @@ def fetch_details(
             )
 
         try:
+
             detail_adapter.wait()
+
         except Exception as error:
+
             logger.warning(
                 "待機処理に失敗しました: %s",
                 error
@@ -1157,8 +1706,11 @@ def build_output(
         )
 
         if quality in quality_counts:
+
             quality_counts[quality] += 1
+
         else:
+
             quality_counts["unknown"] += 1
 
     return {
@@ -1300,28 +1852,9 @@ def main():
     # 5. 詳細情報取得上限
     # --------------------------------------------------------
 
-    configured_limit = search_config.get(
-        "detailFetchLimit",
-        DEFAULT_DETAIL_FETCH_LIMIT
+    max_detail_count = get_detail_fetch_limit(
+        search_config
     )
-
-    try:
-
-        max_detail_count = int(
-            configured_limit
-        )
-
-    except (
-        TypeError,
-        ValueError
-    ):
-
-        max_detail_count = (
-            DEFAULT_DETAIL_FETCH_LIMIT
-        )
-
-    if max_detail_count < 0:
-        max_detail_count = 0
 
     # --------------------------------------------------------
     # 6. 詳細情報取得
