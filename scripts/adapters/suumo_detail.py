@@ -6,13 +6,11 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 from bs4 import BeautifulSoup
 
-
 # ============================================================
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-21-v3"
-
+DETAIL_PARSER_VERSION = "2026-09-21-v4"
 
 # ============================================================
 # Constants
@@ -33,14 +31,12 @@ INVALID_VALUES = {
     "資料請求",
 }
 
-
 # ============================================================
 # Basic utilities
 # ============================================================
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
-
 
 def clean_text(value: Any) -> Optional[str]:
     if value is None:
@@ -50,7 +46,6 @@ def clean_text(value: Any) -> Optional[str]:
     text = re.sub(r"\s+", " ", text).strip()
 
     return text or None
-
 
 def clean_suumo_value(value: Any) -> Optional[str]:
     text = clean_text(value)
@@ -66,7 +61,6 @@ def clean_suumo_value(value: Any) -> Optional[str]:
         return None
 
     return text
-
 
 def is_promotional_text(value: Any) -> bool:
     text = clean_text(value)
@@ -89,7 +83,6 @@ def is_promotional_text(value: Any) -> bool:
 
     return any(word in text for word in words)
 
-
 # ============================================================
 # Price
 # ============================================================
@@ -100,15 +93,14 @@ def parse_price(value: Any) -> Optional[int]:
     if not text:
         return None
 
-    text = text.replace(",", "").replace(" ", "")
+    text = text.replace(",", "").replace(" ", "").replace("　", "")
 
     match = re.search(
-        r"(?:(\d+(?:\.\d+)?)\s*億)?"
-        r"\s*(?:(\d+(?:\.\d+)?)\s*万(?:円)?)",
+        r"(?:(\d+(?:\.\d+)?)\s*億)?\s*(?:(\d+(?:\.\d+)?)\s*万(?:円)?)",
         text,
     )
 
-    if match:
+    if match and (match.group(1) or match.group(2)):
         oku = float(match.group(1) or 0)
         man = float(match.group(2) or 0)
 
@@ -133,7 +125,6 @@ def parse_price(value: Any) -> Optional[int]:
             return None
 
     return None
-
 
 # ============================================================
 # Area
@@ -161,7 +152,6 @@ def parse_area_m2(value: Any) -> Optional[float]:
     except ValueError:
         return None
 
-
 # ============================================================
 # Construction date
 # ============================================================
@@ -173,8 +163,8 @@ def parse_year_month(value: Any) -> Optional[str]:
         return None
 
     patterns = [
-        r"(20\d{2})\s*年\s*(\d{1,2})\s*月",
-        r"(20\d{2})\s*[/-]\s*(\d{1,2})",
+        r"((?:19|20)\d{2})\s*年\s*(\d{1,2})\s*月",
+        r"((?:19|20)\d{2})\s*[/-]\s*(\d{1,2})",
     ]
 
     for pattern in patterns:
@@ -189,13 +179,12 @@ def parse_year_month(value: Any) -> Optional[str]:
         if 1 <= month <= 12:
             return f"{year:04d}-{month:02d}"
 
-    match = re.search(r"(20\d{2})\s*年", text)
+    match = re.search(r"((?:19|20)\d{2})\s*年", text)
 
     if match:
         return f"{int(match.group(1)):04d}-01"
 
     return None
-
 
 # ============================================================
 # URL validation
@@ -208,14 +197,13 @@ def is_valid_suumo_url(url: str) -> bool:
     return bool(
         re.match(
             r"^https://(?:www\.)?suumo\.jp/"
-            r"chukoikkodate/"
+            r"(?:chukoikkodate|ikkodate|mansion|chukomansion)/"
             r"[^/]+/"
             r"[^/]+/"
             r"nc_\d+/?$",
             url,
         )
     )
-
 
 # ============================================================
 # Label / value extraction
@@ -253,7 +241,6 @@ def collect_label_value_pairs(
             pairs[label] = value
 
     return pairs
-
 
 def extract_text_blocks(
     soup: BeautifulSoup,
@@ -298,7 +285,6 @@ def extract_text_blocks(
 
     return result
 
-
 def find_value_by_keywords(
     pairs: Dict[str, str],
     keywords: List[str],
@@ -319,7 +305,6 @@ def find_value_by_keywords(
         return cleaned
 
     return None
-
 
 # ============================================================
 # Title
@@ -343,7 +328,6 @@ def extract_title(
 
     return None
 
-
 # ============================================================
 # Price
 # ============================================================
@@ -365,7 +349,6 @@ def extract_price_from_blocks(
             return price, block
 
     return None, None
-
 
 # ============================================================
 # Area
@@ -398,7 +381,6 @@ def extract_area_from_page(
     end = min(len(page_text), match.end() + 40)
 
     return value, clean_text(page_text[start:end])
-
 
 def extract_land_area(
     pairs: Dict[str, str],
@@ -435,7 +417,6 @@ def extract_land_area(
             return parsed, block
 
     return None, None
-
 
 def extract_building_area(
     pairs: Dict[str, str],
@@ -474,7 +455,6 @@ def extract_building_area(
 
     return None, None
 
-
 # ============================================================
 # Address
 # ============================================================
@@ -508,7 +488,6 @@ def is_company_address(
 
     return False
 
-
 def normalize_address(
     value: Any,
 ) -> Optional[str]:
@@ -535,14 +514,14 @@ def normalize_address(
     if is_company_address(address):
         return None
 
+    # 日本全国の都道府県名に対応
     if not re.search(
-        r"(東京都|千葉県|埼玉県|神奈川県|茨城県)",
+        r"(東京都|北海道|(?:京都|大阪)府|.{2,3}県)",
         address,
     ):
         return None
 
     return address
-
 
 def extract_address(
     pairs: Dict[str, str],
@@ -563,9 +542,9 @@ def extract_address(
     # 2. 物件概要の所在地表記を優先
     patterns = [
         r"(?:所在地|物件所在地)\s*"
-        r"((?:千葉県|東京都|埼玉県|神奈川県|茨城県)[^。]{2,80})",
+        r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)[^。]{2,80})",
 
-        r"((?:千葉県|東京都|埼玉県|神奈川県|茨城県)"
+        r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)"
         r"[^。]{2,80})\s*地図を見る",
     ]
 
@@ -589,7 +568,7 @@ def extract_address(
             continue
 
         match = re.search(
-            r"((?:千葉県|東京都|埼玉県|神奈川県|茨城県)[^。]{2,80})",
+            r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)[^。]{2,80})",
             block,
         )
 
@@ -602,7 +581,6 @@ def extract_address(
             return address
 
     return None
-
 
 # ============================================================
 # Layout
@@ -640,7 +618,6 @@ def extract_layout(
             return clean_text(match.group(0))
 
     return None
-
 
 # ============================================================
 # Construction
@@ -712,7 +689,6 @@ def extract_construction(
 
     return None, None
 
-
 # ============================================================
 # Station / transportation
 # ============================================================
@@ -733,27 +709,13 @@ def extract_station_info(
         "busStopWalkMinutes": None,
     }
 
-    # 物件概要に記載された交通情報を優先する。
+    # 汎用的な路線名＋駅名パターン
     transport_patterns = [
-        r"(つくばエクスプレス|ＪＲ常磐線|JR常磐線|"
-        r"東武野田線|東武アーバンパークライン|"
-        r"京成松戸線|新京成線)"
-        r"\s*[「『]?([^」』\s]+)[」』]?"
-        r"\s*(?:駅)?"
-        r"\s*(?:徒歩|歩)\s*(\d+)\s*分",
+        r"([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*[「『]?([^」』\s]+?)[」』]?\s*(?:駅)?\s*(?:徒歩|歩)\s*(\d+)\s*分",
 
-        r"(つくばエクスプレス|ＪＲ常磐線|JR常磐線|"
-        r"東武野田線|東武アーバンパークライン|"
-        r"京成松戸線|新京成線)"
-        r"\s*[「『]?([^」』\s]+)[」』]?"
-        r"\s*(?:駅)?"
-        r"\s*"
-        r"(?:バス\s*(\d+)\s*分)?"
-        r"[^。]{0,30}?"
-        r"(?:徒歩|歩)\s*(\d+)\s*分",
+        r"([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*[「『]?([^」』\s]+?)[」』]?\s*(?:駅)?\s*(?:バス\s*(\d+)\s*分)?[^。]{0,30}?(?:徒歩|歩)\s*(\d+)\s*分",
     ]
 
-    # 物件の交通欄に限定するため、長大な会社情報ブロックを除外
     sources = []
 
     for block in blocks:
@@ -803,7 +765,7 @@ def extract_station_info(
                 bus_minutes = int(bus) if bus else None
                 walk_minutes = int(walk)
 
-            if station in ["徒", "歩", "分", "バス"]:
+            if station in ["徒", "歩", "分", "バス", "駅"]:
                 continue
 
             result["station"] = clean_text(station)
@@ -821,7 +783,7 @@ def extract_station_info(
 
             return result
 
-    # 「柏の葉キャンパス」バス8分柏ビレジ第二歩10分
+    # バスアクセスの汎用パターン
     bus_pattern = re.search(
         r"[「『]([^」』]+)[」』]"
         r"\s*バス\s*(\d+)\s*分"
@@ -852,7 +814,6 @@ def extract_station_info(
         return result
 
     return result
-
 
 # ============================================================
 # Information dates
@@ -892,7 +853,6 @@ def extract_information_dates(
             continue
 
     return result
-
 
 # ============================================================
 # Quality evaluation
@@ -961,7 +921,7 @@ def evaluate_detail_quality(
 
     station = detail.get("station")
 
-    if station in ["徒", "歩", "分", "バス"]:
+    if station in ["徒", "歩", "分", "バス", "駅"]:
         warnings.append(
             "駅名が不正なUI文字列である"
         )
@@ -1006,7 +966,6 @@ def evaluate_detail_quality(
         valid_fields / total_fields * 100
     )
 
-    # 重大な警告がある場合はgoodにしない
     serious_warning_words = [
         "会社・店舗住所",
         "築年月が取得年月",
@@ -1033,7 +992,6 @@ def evaluate_detail_quality(
         "missingFields": missing_fields,
         "validationWarnings": warnings,
     }
-
 
 # ============================================================
 # Detail fetch
@@ -1205,7 +1163,6 @@ def fetch_detail(url: str) -> Dict[str, Any]:
         "detail": detail,
         "error": None,
     }
-
 
 # ============================================================
 # Adapter
