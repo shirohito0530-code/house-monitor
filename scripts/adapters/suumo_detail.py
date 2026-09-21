@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-21-v4"
+DETAIL_PARSER_VERSION = "2026-09-21-v5"
 
 # ============================================================
 # Constants
@@ -29,7 +29,10 @@ INVALID_VALUES = {
     "支払シミュレーション",
     "お問い合わせ",
     "資料請求",
+    "確認",
 }
+
+PREFECTURES_PATTERN = r"(東京都|北海道|(?:京都|大阪)府|.{2,3}県)"
 
 # ============================================================
 # Basic utilities
@@ -53,7 +56,7 @@ def clean_suumo_value(value: Any) -> Optional[str]:
     if not text:
         return None
 
-    text = re.sub(r"\s*\[[^\]]+\]", "", text)
+    text = re.sub(r"\s*[\[［].*?[\]］]", "", text)
     text = re.sub(r"\s*【[^】]+】", "", text)
     text = text.strip()
 
@@ -79,6 +82,12 @@ def is_promotional_text(value: Any) -> bool:
         "ご来社",
         "お気軽に",
         "クリック",
+        "ご見学",
+        "ご提案",
+        "お申し付け",
+        "リノベ",
+        "即案内",
+        "頭金",
     ]
 
     return any(word in text for word in words)
@@ -204,6 +213,40 @@ def is_valid_suumo_url(url: str) -> bool:
             url,
         )
     )
+
+# ============================================================
+# DOM Preprocessing (Remove noise sections)
+# ============================================================
+
+def remove_unwanted_sections(soup: BeautifulSoup) -> BeautifulSoup:
+    """
+    店舗情報、会社情報、見学予約案内、問い合わせフォーム等のノイズブロックをDOMから削除する
+    """
+    soup_copy = BeautifulSoup(str(soup), "html.parser")
+
+    selectors_to_remove = [
+        ".cassette_shop",
+        "#js-shopInfo",
+        ".section_h2-shop",
+        ".section_h2-company",
+        "#js-inquiryForm",
+        ".footer",
+        "#footer",
+        ".l-footer",
+        ".ar-shop",
+        ".ar-company",
+    ]
+
+    for selector in selectors_to_remove:
+        for el in soup_copy.select(selector):
+            el.decompose()
+
+    for el in soup_copy.find_all(["div", "section", "table"]):
+        text = el.get_text()
+        if any(kw in text for kw in ["取り扱い店舗情報", "会社概要", "店舗の詳細を見る", "看板犬ぽんた"]):
+            el.decompose()
+
+    return soup_copy
 
 # ============================================================
 # Label / value extraction
@@ -478,12 +521,11 @@ def is_company_address(
         "店舗",
         "センター",
         "アスライク",
+        "〒",
+        "担当者",
     ]
 
     if any(word in address for word in company_words):
-        return True
-
-    if "〒" in address:
         return True
 
     return False
@@ -504,7 +546,13 @@ def normalize_address(
     )
 
     address = re.sub(
-        r"\s*\[.*?$",
+        r"\s*[\[［].*?[\]］]",
+        "",
+        address,
+    )
+
+    address = re.sub(
+        r"\s*[\[［].*$",
         "",
         address,
     )
@@ -514,9 +562,8 @@ def normalize_address(
     if is_company_address(address):
         return None
 
-    # 日本全国の都道府県名に対応
     if not re.search(
-        r"(東京都|北海道|(?:京都|大阪)府|.{2,3}県)",
+        PREFECTURES_PATTERN,
         address,
     ):
         return None
@@ -531,21 +578,16 @@ def extract_address(
 
     # 1. 「所在地」の値を優先
     for label, value in pairs.items():
-        if "所在地" not in label:
-            continue
+        if "所在地" in label and "店舗" not in label:
+            address = normalize_address(value)
 
-        address = normalize_address(value)
-
-        if address:
-            return address
+            if address:
+                return address
 
     # 2. 物件概要の所在地表記を優先
     patterns = [
-        r"(?:所在地|物件所在地)\s*"
-        r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)[^。]{2,80})",
-
-        r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)"
-        r"[^。]{2,80})\s*地図を見る",
+        rf"(?:所在地|物件所在地)\s*({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})",
+        rf"({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})\s*地図を見る",
     ]
 
     for pattern in patterns:
@@ -561,14 +603,11 @@ def extract_address(
 
     # 3. ブロックから抽出
     for block in blocks:
-        if "会社情報" in block:
-            continue
-
-        if "取り扱い店舗" in block:
+        if any(kw in block for kw in ["会社情報", "取り扱い店舗", "店舗情報"]):
             continue
 
         match = re.search(
-            r"((?:東京都|北海道|(?:京都|大阪)府|.{2,3}県)[^。]{2,80})",
+            rf"({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})",
             block,
         )
 
@@ -629,7 +668,6 @@ def extract_construction(
     page_text: str,
 ) -> Tuple[Optional[str], Optional[str]]:
 
-    # 「完成時期（築年月）」などのラベルを最優先
     for label, value in pairs.items():
         if not any(
             keyword in label
@@ -647,7 +685,6 @@ def extract_construction(
         if parsed:
             return parsed, value
 
-    # ページ本文の明示的な築年月を優先
     patterns = [
         r"(?:完成時期\s*\(築年月\)|完成時期|築年月|建築年月)"
         r"\s*[:：]?\s*"
@@ -674,7 +711,6 @@ def extract_construction(
         if parsed:
             return parsed, value
 
-    # ブロック内の築年月
     for block in blocks:
         if not any(
             keyword in block
@@ -693,6 +729,26 @@ def extract_construction(
 # Station / transportation
 # ============================================================
 
+def is_valid_station_name(station: Optional[str]) -> bool:
+    if not station:
+        return False
+
+    text = clean_text(station)
+
+    if not text:
+        return False
+
+    if text in {"徒", "歩", "徒歩", "駅", "分", "バス", "ヒント", "なし", "null", "none"}:
+        return False
+
+    if len(text) > 15:
+        return False
+
+    if any(kw in text for kw in ["お迎え", "見学", "提案", "物件", "案内", "月々", "頭金", "ローン", "リノベ"]):
+        return False
+
+    return True
+
 def extract_station_info(
     blocks: List[str],
     page_text: str,
@@ -709,46 +765,36 @@ def extract_station_info(
         "busStopWalkMinutes": None,
     }
 
-    # 汎用的な路線名＋駅名パターン
-    transport_patterns = [
-        r"([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*[「『]?([^」』\s]+?)[」』]?\s*(?:駅)?\s*(?:徒歩|歩)\s*(\d+)\s*分",
-
-        r"([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*[「『]?([^」』\s]+?)[」』]?\s*(?:駅)?\s*(?:バス\s*(\d+)\s*分)?[^。]{0,30}?(?:徒歩|歩)\s*(\d+)\s*分",
-    ]
-
-    sources = []
+    clean_blocks = []
 
     for block in blocks:
         if any(
-            keyword in block
-            for keyword in [
+            kw in block
+            for kw in [
                 "会社情報",
                 "取り扱い店舗",
                 "店舗情報",
                 "免許番号",
+                "お迎え",
+                "見学予約",
+                "ご案内方法",
+                "コース",
             ]
         ):
             continue
 
-        if any(
-            keyword in block
-            for keyword in [
-                "交通",
-                "アクセス",
-                "バス",
-                "歩",
-                "徒歩",
-            ]
-        ):
-            sources.append(block)
+        clean_blocks.append(block)
 
-    sources.append(page_text)
+    search_sources = clean_blocks + [page_text]
 
-    for source in sources:
-        if not source:
-            continue
+    # パターン1: バス利用
+    bus_patterns = [
+        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分\s*([^。「『\n]{1,20}?)\s*(?:徒歩|歩)\s*(\d+)\s*分",
+        r"[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*バス\s*(\d+)\s*分",
+    ]
 
-        for pattern in transport_patterns:
+    for source in search_sources:
+        for pattern in bus_patterns:
             match = re.search(pattern, source)
 
             if not match:
@@ -756,62 +802,55 @@ def extract_station_info(
 
             groups = match.groups()
 
-            if len(groups) == 3:
-                line_name, station, walk = groups
-                bus_minutes = None
-                walk_minutes = int(walk)
-            else:
-                line_name, station, bus, walk = groups
-                bus_minutes = int(bus) if bus else None
-                walk_minutes = int(walk)
+            if len(groups) == 5:
+                line, station, bus_m, stop, walk_m = groups
 
-            if station in ["徒", "歩", "分", "バス", "駅"]:
+                if is_valid_station_name(station):
+                    result["station"] = clean_text(station)
+                    result["stationAccessType"] = "bus"
+                    result["busMinutes"] = int(bus_m)
+                    result["busStop"] = clean_text(stop)
+                    result["busStopWalkMinutes"] = int(walk_m)
+                    result["transportRaw"] = clean_text(match.group(0))
+                    return result
+
+            elif len(groups) == 2:
+                station, bus_m = groups
+
+                if is_valid_station_name(station):
+                    result["station"] = clean_text(station)
+                    result["stationAccessType"] = "bus"
+                    result["busMinutes"] = int(bus_m)
+                    result["transportRaw"] = clean_text(match.group(0))
+                    return result
+
+    # パターン2: 徒歩アクセス
+    walk_patterns = [
+        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?[「『]([^」』]{1,15})[」』]\s*(?:駅)?\s*(?:徒歩|歩)\s*(\d+)\s*分",
+        r"(?:([^\s「『]+?(?:線|ライン|エクスプレス|モノレール))\s*)?([^\s「『]{1,10}駅)\s*(?:徒歩|歩)\s*(\d+)\s*分",
+    ]
+
+    for source in search_sources:
+        for pattern in walk_patterns:
+            match = re.search(pattern, source)
+
+            if not match:
                 continue
 
-            result["station"] = clean_text(station)
-            result["stationWalkMinutes"] = (
-                walk_minutes if bus_minutes is None else None
-            )
-            result["walkMinutes"] = (
-                walk_minutes if bus_minutes is None else None
-            )
-            result["transportRaw"] = clean_text(match.group(0))
-            result["stationAccessType"] = (
-                "bus" if bus_minutes is not None else "walk"
-            )
-            result["busMinutes"] = bus_minutes
+            groups = match.groups()
+            line, station, walk_m = groups[0], groups[1], groups[2]
 
-            return result
+            station_clean = station.replace("駅", "").strip()
 
-    # バスアクセスの汎用パターン
-    bus_pattern = re.search(
-        r"[「『]([^」』]+)[」』]"
-        r"\s*バス\s*(\d+)\s*分"
-        r"\s*([^。]{1,30}?)"
-        r"\s*(?:徒歩|歩)\s*(\d+)\s*分",
-        page_text,
-    )
+            if is_valid_station_name(station_clean):
+                walk_int = int(walk_m)
 
-    if bus_pattern:
-        station = clean_text(bus_pattern.group(1))
-        bus_minutes = int(bus_pattern.group(2))
-        stop = clean_text(bus_pattern.group(3))
-        stop_walk = int(bus_pattern.group(4))
-
-        result.update({
-            "station": station,
-            "stationAccessType": "bus",
-            "busMinutes": bus_minutes,
-            "busStop": stop,
-            "busStopWalkMinutes": stop_walk,
-            "walkMinutes": None,
-            "stationWalkMinutes": None,
-            "transportRaw": clean_text(
-                bus_pattern.group(0)
-            ),
-        })
-
-        return result
+                result["station"] = clean_text(station_clean)
+                result["stationAccessType"] = "walk"
+                result["stationWalkMinutes"] = walk_int
+                result["walkMinutes"] = walk_int
+                result["transportRaw"] = clean_text(match.group(0))
+                return result
 
     return result
 
@@ -1035,24 +1074,27 @@ def fetch_detail(url: str) -> Dict[str, Any]:
             "error": str(exc),
         }
 
-    soup = BeautifulSoup(
+    raw_soup = BeautifulSoup(
         response.text,
         "html.parser",
     )
 
-    pairs = collect_label_value_pairs(soup)
-    blocks = extract_text_blocks(soup)
+    # DOMから店舗情報などのノイズセクションを除去
+    clean_soup = remove_unwanted_sections(raw_soup)
+
+    pairs = collect_label_value_pairs(clean_soup)
+    blocks = extract_text_blocks(clean_soup)
 
     page_text = (
         clean_text(
-            soup.get_text(" ", strip=True)
+            clean_soup.get_text(" ", strip=True)
         )
         or ""
     )
 
     fetched_at = now_iso()
 
-    title = extract_title(soup)
+    title = extract_title(clean_soup)
 
     price, price_text = extract_price_from_blocks(blocks)
 
