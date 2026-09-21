@@ -1,19 +1,18 @@
 {
   "sources": [
     {
-      "name": "manual",
-      "enabled": true
+      "name": "suumo_search",
+      "enabled": true,
+      "maxPagesPerRun": 3,
+      "timeout": 20,
+      "intervalSeconds": 5
     },
     {
-      "name": "suumo",
+      "name": "homes_search",
       "enabled": false
     },
     {
-      "name": "homes",
-      "enabled": false
-    },
-    {
-      "name": "athome",
+      "name": "athome_search",
       "enabled": false
     }
   ]
