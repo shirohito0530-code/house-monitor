@@ -114,7 +114,6 @@ def parse_price(value):
     if not text:
         return None
 
-    # Match: 1.78億円 / 1億7800万円 / 1億7800万
     match = re.search(
         r"(?:(\d+(?:\.\d+)?)\s*億)"
         r"(?:\s*(\d+(?:\.\d+)?)\s*万)?"
@@ -127,7 +126,6 @@ def parse_price(value):
         price = int(round(oku * 100_000_000 + man * 10_000))
         return price if price > 0 else None
 
-    # Match: 1780万円 / 1780万
     match = re.search(
         r"(\d+(?:\.\d+)?)\s*万(?:円)?",
         text,
@@ -136,7 +134,6 @@ def parse_price(value):
         price = int(round(float(match.group(1)) * 10_000))
         return price if price > 0 else None
 
-    # Match: 17800000円
     match = re.search(r"(\d[\d\s]*)\s*円", text)
     if match:
         try:
@@ -321,8 +318,8 @@ def add_price_history(property_data, new_price, fetched_at):
     property_data["priceHistory"] = normalize_price_history(history, new_price, fetched_at)
     property_data["price"] = new_price
 
-    if previous_price != new_price:
-        logger.info("価格変更を記録: %s -> %s", previous_price, new_price)
+    if previous_price is not None and previous_price != new_price:
+        logger.info("価格変更を記録 (ID: %s): %s -> %s", property_data.get("id"), previous_price, new_price)
 
 # ============================================================
 # 設定・アダプター
@@ -397,7 +394,7 @@ def create_property_id(url):
     return f"suumo-{digest}"
 
 # ============================================================
-# 物件データ初期化
+# 物件データ初期化 (検索結果価格のパース・保持を強化)
 # ============================================================
 
 def normalize_property(item, collected_at):
@@ -409,6 +406,9 @@ def normalize_property(item, collected_at):
 
     if not property_id:
         return None
+
+    raw_price = item.get("price") or item.get("priceText") or item.get("priceValue")
+    parsed_search_price = parse_price(raw_price)
 
     return {
         "id": property_id,
@@ -423,12 +423,13 @@ def normalize_property(item, collected_at):
         "fetchAttemptCount": 0,
         "lastFetchAttemptAt": None,
         "lastFetchParserVersion": None,
+        "priceChanged": False,
         "firstSeenAt": collected_at,
         "lastSeenAt": collected_at,
         "collectedAt": collected_at,
-        "price": None,
-        "priceText": None,
-        "priceHistory": [],
+        "price": parsed_search_price,
+        "priceText": clean_text(raw_price) if raw_price else None,
+        "priceHistory": [{"price": parsed_search_price, "recordedAt": collected_at}] if parsed_search_price else [],
         "detailParserVersion": None,
         "detailQuality": "unknown",
         "detailQualityScore": None,
@@ -730,6 +731,7 @@ def load_existing_properties():
         property_data.setdefault("fetchAttemptCount", 0)
         property_data.setdefault("lastFetchAttemptAt", None)
         property_data.setdefault("lastFetchParserVersion", None)
+        property_data.setdefault("priceChanged", False)
         property_data.setdefault("price", None)
         property_data.setdefault("priceText", None)
         property_data.setdefault("priceHistory", [])
@@ -752,7 +754,7 @@ def load_existing_properties():
     return result
 
 # ============================================================
-# 物件データ統合
+# 物件データ統合 (検索価格差分チェックと priceChanged 設定)
 # ============================================================
 
 def merge_property(existing, current, collected_at):
@@ -773,6 +775,21 @@ def merge_property(existing, current, collected_at):
     if current.get("searchPropertyType"):
         merged["searchPropertyType"] = current["searchPropertyType"]
 
+    # 検索一覧の価格変化検知
+    existing_price = parse_price(merged.get("price"))
+    current_search_price = parse_price(current.get("price"))
+
+    if current_search_price is not None and existing_price is not None:
+        if current_search_price != existing_price:
+            logger.info(
+                "検索一覧での価格差分を検知 (ID: %s): %s -> %s",
+                merged.get("id"),
+                existing_price,
+                current_search_price,
+            )
+            merged["priceChanged"] = True
+            add_price_history(merged, current_search_price, collected_at)
+
     if not merged.get("firstSeenAt"):
         merged["firstSeenAt"] = current.get("firstSeenAt", collected_at)
 
@@ -788,6 +805,7 @@ def merge_property(existing, current, collected_at):
     merged.setdefault("fetchAttemptCount", 0)
     merged.setdefault("lastFetchAttemptAt", None)
     merged.setdefault("lastFetchParserVersion", None)
+    merged.setdefault("priceChanged", False)
     merged.setdefault("price", None)
     merged.setdefault("priceText", None)
     merged.setdefault("priceHistory", [])
@@ -834,7 +852,7 @@ def merge_properties(existing_properties, current_properties, collected_at):
     return merged_properties
 
 # ============================================================
-# 詳細情報取得結果の反映
+# 詳細情報取得結果の反映 (priceChanged クリア追加)
 # ============================================================
 
 def apply_detail_to_property(property_data, detail, fetched_at):
@@ -844,7 +862,6 @@ def apply_detail_to_property(property_data, detail, fetched_at):
     if not isinstance(existing_detail, dict):
         existing_detail = {}
 
-    # 拡張された最新取得結果での上書き保証リスト
     replace_fields = [
         "title",
         "address",
@@ -875,14 +892,12 @@ def apply_detail_to_property(property_data, detail, fetched_at):
 
     existing_detail.update(detail)
 
-    # 価格同期 & 履歴更新
     new_price = parse_price(detail.get("price")) or parse_price(detail.get("priceText"))
     if detail.get("priceText"):
         property_data["priceText"] = str(detail.get("priceText"))
 
     add_price_history(property_data, new_price, fetched_at)
 
-    # 品質情報の完全再計算
     quality, score, warnings, missing_fields = determine_detail_quality(existing_detail)
 
     existing_detail["detailQuality"] = quality
@@ -892,7 +907,6 @@ def apply_detail_to_property(property_data, detail, fetched_at):
 
     property_data["detail"] = existing_detail
 
-    # 主要フィールドをルートに同期
     copy_fields = [
         "title",
         "address",
@@ -938,13 +952,14 @@ def apply_detail_to_property(property_data, detail, fetched_at):
     property_data["missingFields"] = missing_fields
     property_data["detailParserVersion"] = DETAIL_PARSER_VERSION
 
-    # HTTP取得・パース成功時は常に True
     property_data["detailFetched"] = True
+    # 詳細再取得が成功したためフラグをクリア
+    property_data["priceChanged"] = False
 
     logger.info("詳細品質判定: quality=%s score=%s warnings=%s", quality, score, len(warnings))
 
 # ============================================================
-# 詳細取得対象判定 (lastFetchParserVersion 判定対応版)
+# 詳細取得対象判定 (価格変更フラグの優先)
 # ============================================================
 
 def should_fetch_detail(property_data):
@@ -961,16 +976,21 @@ def should_fetch_detail(property_data):
     attempt_count = safe_int(property_data.get("fetchAttemptCount")) or 0
     last_fetch_parser_version = property_data.get("lastFetchParserVersion")
 
-    # 現行パーサーで上限回数 (3回) 試行済みの場合はスキップ
+    # 1. 価格変動が検知されている場合は最優先で再取得
+    if property_data.get("priceChanged"):
+        return True
+
+    # 2. 現行パーサーで上限回数 (3回) 試行済みの場合はスキップ
     if last_fetch_parser_version == DETAIL_PARSER_VERSION and attempt_count >= MAX_DETAIL_FETCH_ATTEMPTS:
         return False
 
-    # パーサーバージョンが古い場合は優先して再取得
+    # 3. パーサーバージョンが古い場合は優先して再取得
     root_version = property_data.get("detailParserVersion")
     detail_version = detail.get("detailParserVersion")
     if root_version != DETAIL_PARSER_VERSION or detail_version != DETAIL_PARSER_VERSION:
         return True
 
+    # 4. 未取得または品質不良の場合
     if not property_data.get("detailFetched"):
         return True
 
@@ -985,7 +1005,7 @@ def should_fetch_detail(property_data):
     return False
 
 # ============================================================
-# 詳細情報取得 (lastFetchParserVersion 記録対応版)
+# 詳細情報取得
 # ============================================================
 
 def fetch_details(properties, detail_adapter, max_count):
@@ -1005,8 +1025,10 @@ def fetch_details(properties, detail_adapter, max_count):
         if should_fetch_detail(property_data):
             candidates.append((property_id, property_data))
 
+    # ソート: 1. priceChanged 優先, 2. 試行回数少優先, 3. 直近確認日優先
     candidates.sort(
         key=lambda item: (
+            0 if item[1].get("priceChanged") else 1,
             item[1].get("fetchAttemptCount", 0),
             -safe_timestamp(item[1].get("lastSeenAt")),
         )
@@ -1026,7 +1048,6 @@ def fetch_details(properties, detail_adapter, max_count):
         fetched_count += 1
         fetched_at = now_iso()
 
-        # パーサーバージョン変更時は試行回数をリセット
         last_fetch_parser_version = property_data.get("lastFetchParserVersion")
         if last_fetch_parser_version != DETAIL_PARSER_VERSION:
             property_data["fetchAttemptCount"] = 0
@@ -1092,11 +1113,16 @@ def fetch_details(properties, detail_adapter, max_count):
     return properties
 
 # ============================================================
-# 出力データ作成
+# 出力データ作成 (保存先のデータ構造抽出)
 # ============================================================
 
-def build_output(properties, collected_at):
+def build_output(properties, collected_at, filter_fetched_only=False):
     property_list = list(properties.values())
+    
+    if filter_fetched_only:
+        # houses.json 用: 詳細取得済みの物件を中心に抽出
+        property_list = [item for item in property_list if item.get("detailFetched")]
+
     property_list.sort(
         key=lambda item: (item.get("lastSeenAt", ""), item.get("id", "")),
         reverse=True,
@@ -1191,19 +1217,21 @@ def main():
     else:
         logger.info("詳細取得上限が0のため、アダプター作成をスキップします")
 
-    # 7. 保存用JSON作成
-    output = build_output(merged_properties, collected_at)
+    # 7. discovered_listings.json (全検索発見データ) の保存
+    discovered_output = build_output(merged_properties, collected_at, filter_fetched_only=False)
+    save_json(ROOT / "data" / "discovered_listings.json", discovered_output)
 
-    # 8. JSON保存
-    save_json(ROOT / "data" / "discovered_listings.json", output)
+    # 8. houses.json (詳細取得済み評価対象データ) の分離保存
+    houses_output = build_output(merged_properties, collected_at, filter_fetched_only=True)
+    save_json(ROOT / "data" / "houses.json", houses_output)
 
     # 9. 実行結果表示
     logger.info("今回の検出物件数: %s", len(current_unique))
-    logger.info("保存済み物件総数: %s", len(merged_properties))
+    logger.info("全発見物件総数 (discovered_listings.json): %s", len(merged_properties))
+    logger.info("詳細取得済み総数 (houses.json): %s", houses_output["summary"]["discoveredCount"])
     logger.info("詳細取得上限: %s", max_detail_count)
-    logger.info("詳細取得済み累積件数: %s", output["summary"]["detailFetchedCount"])
-    logger.info("詳細取得エラー件数: %s", output["summary"]["detailErrorCount"])
-    logger.info("詳細品質内訳: %s", output["summary"]["detailQualityCounts"])
+    logger.info("詳細取得済み累積件数: %s", discovered_output["summary"]["detailFetchedCount"])
+    logger.info("詳細取得エラー件数: %s", discovered_output["summary"]["detailErrorCount"])
 
 if __name__ == "__main__":
     main()
