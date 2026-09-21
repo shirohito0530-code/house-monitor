@@ -1,0 +1,24 @@
+{
+  "suumo_search_urls": [
+    {
+      "area": "柏の葉キャンパス",
+      "propertyType": "中古戸建",
+      "url": "ここに許可されたSUUMO検索URLを設定"
+    },
+    {
+      "area": "柏の葉キャンパス",
+      "propertyType": "新築戸建",
+      "url": "ここに許可されたSUUMO検索URLを設定"
+    },
+    {
+      "area": "流山おおたかの森",
+      "propertyType": "中古戸建",
+      "url": "ここに許可されたSUUMO検索URLを設定"
+    },
+    {
+      "area": "流山おおたかの森",
+      "propertyType": "新築戸建",
+      "url": "ここに許可されたSUUMO検索URLを設定"
+    }
+  ]
+}
