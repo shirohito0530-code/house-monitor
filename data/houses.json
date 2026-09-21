@@ -1,4 +1,122 @@
 {
-  "updatedAt": null,
-  "properties": []
+  "updatedAt": "2026-09-21T01:28:14.690108",
+  "properties": [
+    {
+      "source": "manual",
+      "sourceId": "demo-kashiwa-001",
+      "sourceUrl": "",
+      "area": "柏の葉キャンパス",
+      "name": "柏の葉テスト物件",
+      "propertyType": "中古戸建",
+      "price": 8290,
+      "land": 150,
+      "building": 105,
+      "walk": 10,
+      "year": 2023,
+      "layout": "4LDK",
+      "school": "柏の葉小学校区",
+      "flat": true,
+      "retainingWall": false,
+      "collectedAt": "2026-09-21T01:28:14.682994+00:00",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "status": "active",
+      "priceChange": 0,
+      "priceChangePercent": 0,
+      "history": [
+        {
+          "date": "2026-09-21",
+          "price": 8290
+        }
+      ],
+      "daysListed": 0,
+      "pricePerLand": 552667,
+      "isWithinCriteria": true,
+      "flags": [
+        "新着",
+        "土地150㎡以上",
+        "駅徒歩10分以内",
+        "柏の葉小学校区",
+        "平坦地",
+        "擁壁なし"
+      ]
+    },
+    {
+      "source": "manual",
+      "sourceId": "demo-otaka-001",
+      "sourceUrl": "",
+      "area": "流山おおたかの森",
+      "name": "おおたかの森テスト物件",
+      "propertyType": "中古戸建",
+      "price": 7980,
+      "land": 135,
+      "building": 101,
+      "walk": 12,
+      "year": 2022,
+      "layout": "4LDK",
+      "school": "おおたかの森",
+      "flat": true,
+      "retainingWall": false,
+      "collectedAt": "2026-09-21T01:28:14.683009+00:00",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "status": "active",
+      "priceChange": 0,
+      "priceChangePercent": 0,
+      "history": [
+        {
+          "date": "2026-09-21",
+          "price": 7980
+        }
+      ],
+      "daysListed": 0,
+      "pricePerLand": 591111,
+      "isWithinCriteria": true,
+      "flags": [
+        "新着",
+        "平坦地",
+        "擁壁なし"
+      ]
+    },
+    {
+      "source": "manual",
+      "sourceId": "demo-kashiwa-002",
+      "sourceUrl": "",
+      "area": "柏の葉キャンパス",
+      "name": "柏の葉テスト物件2",
+      "propertyType": "中古戸建",
+      "price": 8980,
+      "land": 165,
+      "building": 110,
+      "walk": 8,
+      "year": 2024,
+      "layout": "4LDK",
+      "school": "柏の葉小学校区",
+      "flat": true,
+      "retainingWall": false,
+      "collectedAt": "2026-09-21T01:28:14.683016+00:00",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "status": "active",
+      "priceChange": 0,
+      "priceChangePercent": 0,
+      "history": [
+        {
+          "date": "2026-09-21",
+          "price": 8980
+        }
+      ],
+      "daysListed": 0,
+      "pricePerLand": 544242,
+      "isWithinCriteria": true,
+      "flags": [
+        "新着",
+        "土地150㎡以上",
+        "駅徒歩10分以内",
+        "柏の葉小学校区",
+        "平坦地",
+        "擁壁なし"
+      ]
+    }
+  ]
 }
