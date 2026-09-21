@@ -1,1286 +1,3398 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>House Monitor</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>House Monitor | 柏の葉・流山戸建て監視</title>
+
 <style>
     * {
         box-sizing: border-box;
     }
+
+    :root {
+        --bg: #f5f7fa;
+        --card: #ffffff;
+        --text: #1f2937;
+        --muted: #64748b;
+        --border: #e2e8f0;
+        --primary: #2563eb;
+        --primary-light: #eff6ff;
+        --green: #047857;
+        --green-bg: #ecfdf5;
+        --yellow: #b45309;
+        --yellow-bg: #fffbeb;
+        --orange: #c2410c;
+        --orange-bg: #fff7ed;
+        --red: #b91c1c;
+        --red-bg: #fef2f2;
+        --gray-bg: #f1f5f9;
+        --shadow: 0 2px 8px rgba(15, 23, 42, 0.07);
+        --radius: 14px;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
     body {
         margin: 0;
         font-family:
             -apple-system,
             BlinkMacSystemFont,
             "Segoe UI",
+            "Hiragino Kaku Gothic ProN",
+            "Hiragino Sans",
+            Meiryo,
             sans-serif;
-        background: #f5f6f8;
-        color: #222;
-        line-height: 1.6;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.55;
     }
+
     a {
         color: inherit;
     }
+
+    button,
+    input,
+    select {
+        font: inherit;
+    }
+
+    /* =========================
+       Header
+       ========================= */
+
     header {
         background: #111827;
         color: white;
-        padding: 24px 20px;
+        padding: 22px 20px;
     }
+
     .header-inner {
-        max-width: 1200px;
+        max-width: 1280px;
         margin: 0 auto;
     }
+
+    .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
     .title {
         margin: 0;
-        font-size: 28px;
-        font-weight: 700;
+        font-size: 27px;
+        font-weight: 750;
+        letter-spacing: -0.02em;
     }
+
     .subtitle {
         margin-top: 4px;
         color: #cbd5e1;
-        font-size: 14px;
+        font-size: 13px;
     }
+
     .updated {
-        margin-top: 10px;
+        margin-top: 9px;
         color: #94a3b8;
         font-size: 12px;
     }
+
+    .header-badge {
+        flex-shrink: 0;
+        padding: 6px 10px;
+        border: 1px solid #475569;
+        border-radius: 999px;
+        color: #cbd5e1;
+        font-size: 11px;
+    }
+
+    /* =========================
+       Main
+       ========================= */
+
     main {
-        max-width: 1200px;
+        max-width: 1280px;
         margin: 0 auto;
-        padding: 24px 16px 60px;
+        padding: 22px 16px 60px;
     }
-    /* Dashboard */
-    .dashboard {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 12px;
-        margin-bottom: 28px;
-    }
-    .stat-card {
-        background: white;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    }
-    .stat-label {
-        color: #64748b;
-        font-size: 13px;
-    }
-    .stat-value {
-        margin-top: 4px;
-        font-size: 28px;
-        font-weight: 700;
-    }
-    /* Sections */
+
     section {
-        margin-bottom: 32px;
+        margin-bottom: 30px;
     }
+
     .section-header {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 14px;
+        gap: 14px;
+        margin-bottom: 13px;
     }
+
     h2 {
         margin: 0;
-        font-size: 21px;
+        font-size: 20px;
+        letter-spacing: -0.01em;
     }
+
     .section-description {
-        color: #64748b;
-        font-size: 13px;
+        color: var(--muted);
+        font-size: 12px;
         margin-top: 3px;
     }
-    /* Filters */
-    .filters {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+
+    /* =========================
+       Status
+       ========================= */
+
+    .status {
         margin-bottom: 16px;
+        padding: 11px 14px;
+        border-radius: 9px;
+        font-size: 13px;
+        display: none;
     }
+
+    .status.error {
+        display: block;
+        background: var(--red-bg);
+        color: var(--red);
+        border: 1px solid #fecaca;
+    }
+
+    /* =========================
+       Dashboard
+       ========================= */
+
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 15px;
+        box-shadow: var(--shadow);
+        min-width: 0;
+    }
+
+    .stat-label {
+        color: var(--muted);
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .stat-value {
+        margin-top: 2px;
+        font-size: 25px;
+        font-weight: 750;
+        letter-spacing: -0.02em;
+    }
+
+    .stat-note {
+        margin-top: 2px;
+        color: #94a3b8;
+        font-size: 10px;
+    }
+
+    .stat-good .stat-value {
+        color: var(--green);
+    }
+
+    .stat-warning .stat-value {
+        color: var(--orange);
+    }
+
+    .stat-danger .stat-value {
+        color: var(--red);
+    }
+
+    /* =========================
+       Highlight area
+       ========================= */
+
+    .highlight-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 13px;
+    }
+
+    .highlight-card {
+        background: white;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        padding: 16px;
+        box-shadow: var(--shadow);
+        min-width: 0;
+    }
+
+    .highlight-label {
+        color: var(--muted);
+        font-size: 11px;
+        margin-bottom: 5px;
+    }
+
+    .highlight-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        overflow-wrap: anywhere;
+    }
+
+    .highlight-price {
+        font-size: 22px;
+        font-weight: 750;
+    }
+
+    .highlight-price-down {
+        color: var(--red);
+    }
+
+    .highlight-meta {
+        margin-top: 7px;
+        color: #475569;
+        font-size: 12px;
+    }
+
+    .highlight-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 650;
+    }
+
+    .highlight-link:hover {
+        text-decoration: underline;
+    }
+
+    /* =========================
+       Filters
+       ========================= */
+
+    .filter-panel {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 14px;
+        box-shadow: var(--shadow);
+        margin-bottom: 14px;
+    }
+
+    .filters {
+        display: grid;
+        grid-template-columns:
+            minmax(200px, 2fr)
+            minmax(140px, 1fr)
+            minmax(140px, 1fr)
+            minmax(140px, 1fr)
+            auto;
+        gap: 8px;
+    }
+
     .filters input,
     .filters select {
-        min-height: 42px;
-        padding: 8px 12px;
-        border: 1px solid #d1d5db;
+        min-height: 40px;
+        padding: 7px 10px;
+        border: 1px solid #cbd5e1;
         border-radius: 8px;
         background: white;
-        font-size: 14px;
+        color: var(--text);
+        font-size: 13px;
+        outline: none;
     }
-    .filters input {
-        min-width: 220px;
+
+    .filters input:focus,
+    .filters select:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
     }
+
+    .filter-check {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 40px;
+        padding: 0 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        color: #475569;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .filter-check input {
+        min-height: auto;
+        width: auto;
+    }
+
     .button {
-        min-height: 42px;
-        padding: 8px 14px;
+        min-height: 40px;
+        padding: 7px 13px;
         border: 0;
         border-radius: 8px;
         background: #374151;
         color: white;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 12px;
+        font-weight: 600;
     }
+
     .button:hover {
         opacity: 0.9;
     }
-    /* Property grid */
+
+    .filter-summary {
+        margin-top: 9px;
+        color: var(--muted);
+        font-size: 11px;
+    }
+
+    /* =========================
+       Property grid
+       ========================= */
+
     .property-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
+        gap: 13px;
     }
+
     .property {
         background: white;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        box-shadow: var(--shadow);
+        min-width: 0;
     }
+
+    .property:hover {
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
+    }
+
+    .property-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .property-main {
+        min-width: 0;
+        flex: 1;
+    }
+
     .property-name {
-        font-size: 17px;
-        font-weight: 700;
-        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 720;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
     }
+
+    .property-location {
+        margin-top: 3px;
+        color: #64748b;
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
     .property-id {
+        margin-top: 4px;
         color: #94a3b8;
-        font-size: 11px;
+        font-size: 9px;
         word-break: break-all;
-        margin-bottom: 10px;
     }
-    .property-details {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 7px 14px;
-        margin: 12px 0;
+
+    .price-box {
+        flex-shrink: 0;
+        text-align: right;
     }
-    .meta-item {
-        font-size: 13px;
-        color: #475569;
+
+    .current-price {
+        font-size: 20px;
+        font-weight: 750;
+        white-space: nowrap;
     }
-    .meta-label {
+
+    .price-change {
+        margin-top: 1px;
+        color: var(--red);
+        font-size: 11px;
+        font-weight: 650;
+        white-space: nowrap;
+    }
+
+    .price-no-change {
         color: #94a3b8;
-        margin-right: 4px;
     }
+
+    /* =========================
+       Badges
+       ========================= */
+
     .flags {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
-        margin: 12px 0;
+        gap: 5px;
+        margin: 11px 0;
     }
+
     .flag {
-        display: inline-block;
-        padding: 3px 8px;
+        display: inline-flex;
+        align-items: center;
+        min-height: 22px;
+        padding: 2px 7px;
         border-radius: 999px;
-        background: #eef2ff;
-        color: #3730a3;
-        font-size: 11px;
+        background: var(--gray-bg);
+        color: #475569;
+        font-size: 10px;
+        font-weight: 600;
     }
+
+    .flag-good {
+        background: var(--green-bg);
+        color: var(--green);
+    }
+
+    .flag-partial {
+        background: var(--yellow-bg);
+        color: var(--yellow);
+    }
+
+    .flag-poor {
+        background: var(--red-bg);
+        color: var(--red);
+    }
+
+    .flag-unknown {
+        background: #f1f5f9;
+        color: #64748b;
+    }
+
+    .flag-down {
+        background: var(--red-bg);
+        color: var(--red);
+    }
+
+    .flag-new {
+        background: var(--primary-light);
+        color: var(--primary);
+    }
+
     .flag-auto {
-        background: #ecfdf5;
-        color: #047857;
+        background: #eef2ff;
+        color: #4338ca;
     }
-    .flag-warning {
-        background: #fff7ed;
-        color: #c2410c;
+
+    /* =========================
+       Property details
+       ========================= */
+
+    .property-details {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px 14px;
+        margin: 11px 0;
     }
+
+    .meta-item {
+        min-width: 0;
+        font-size: 12px;
+        color: #334155;
+        overflow-wrap: anywhere;
+    }
+
+    .meta-label {
+        display: inline-block;
+        min-width: 42px;
+        color: #94a3b8;
+        margin-right: 4px;
+        font-size: 10px;
+    }
+
+    /* =========================
+       Price history
+       ========================= */
+
+    .price-history {
+        margin-top: 12px;
+        padding: 10px;
+        background: #f8fafc;
+        border-radius: 9px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .price-history-title {
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 650;
+        margin-bottom: 6px;
+    }
+
+    .price-history-list {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .history-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 6px;
+        border-radius: 5px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        font-size: 10px;
+    }
+
+    .history-arrow {
+        color: #94a3b8;
+        font-size: 10px;
+    }
+
+    .history-price {
+        font-weight: 650;
+    }
+
+    .history-date {
+        color: #94a3b8;
+        font-size: 9px;
+    }
+
+    /* =========================
+       Quality
+       ========================= */
+
+    .quality-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 11px;
+        padding-top: 10px;
+        border-top: 1px solid #eef2f7;
+    }
+
+    .quality-text {
+        font-size: 10px;
+        color: #64748b;
+    }
+
+    .quality-score {
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* =========================
+       Footer
+       ========================= */
+
     .property-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
         border-top: 1px solid #e5e7eb;
-        margin-top: 14px;
-        padding-top: 12px;
+        margin-top: 11px;
+        padding-top: 11px;
     }
+
     .property-footer a {
         display: inline-block;
         text-decoration: none;
-        color: #2563eb;
-        font-size: 13px;
-        font-weight: 600;
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 650;
     }
+
     .property-footer a:hover {
         text-decoration: underline;
     }
-    /* Empty */
-    .empty {
-        background: white;
-        border-radius: 12px;
-        padding: 28px;
-        text-align: center;
-        color: #64748b;
+
+    .last-seen {
+        color: #94a3b8;
+        font-size: 9px;
+        text-align: right;
     }
-    /* Loading */
+
+    /* =========================
+       Empty / Loading
+       ========================= */
+
+    .empty,
     .loading {
+        grid-column: 1 / -1;
         background: white;
-        border-radius: 12px;
-        padding: 28px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 30px;
         text-align: center;
-        color: #64748b;
-    }
-    /* Error */
-    .status {
-        margin-bottom: 18px;
-        padding: 10px 14px;
-        border-radius: 8px;
+        color: var(--muted);
         font-size: 13px;
-        display: none;
     }
-    .status.error {
-        display: block;
-        background: #fef2f2;
-        color: #991b1b;
+
+    /* =========================
+       Mobile
+       ========================= */
+
+    @media (max-width: 1100px) {
+        .dashboard {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .filters {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .filter-check {
+            width: auto;
+        }
     }
-    /* Mobile */
+
     @media (max-width: 800px) {
         .dashboard {
             grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .highlight-grid {
+            grid-template-columns: 1fr;
+        }
+
         .property-grid {
             grid-template-columns: 1fr;
         }
-    }
-    @media (max-width: 500px) {
-        header {
-            padding: 20px 16px;
-        }
-        main {
-            padding: 18px 12px 40px;
-        }
-        .title {
-            font-size: 24px;
-        }
-        .dashboard {
-            gap: 8px;
-        }
-        .stat-card {
-            padding: 14px;
-        }
-        .stat-value {
-            font-size: 23px;
-        }
+
         .filters {
+            grid-template-columns: 1fr;
+        }
+
+        .header-top {
             flex-direction: column;
         }
-        .filters input,
-        .filters select,
-        .button {
-            width: 100%;
+
+        .header-badge {
+            display: none;
         }
+    }
+
+    @media (max-width: 500px) {
+        header {
+            padding: 18px 14px;
+        }
+
+        main {
+            padding: 16px 10px 40px;
+        }
+
+        .title {
+            font-size: 23px;
+        }
+
+        .dashboard {
+            gap: 7px;
+        }
+
+        .stat-card {
+            padding: 12px;
+        }
+
+        .stat-value {
+            font-size: 21px;
+        }
+
+        .property {
+            padding: 14px;
+        }
+
         .property-details {
             grid-template-columns: 1fr;
+        }
+
+        .current-price {
+            font-size: 18px;
+        }
+
+        .property-top {
+            flex-direction: column;
+        }
+
+        .price-box {
+            text-align: left;
         }
     }
 </style>
 </head>
+
 <body>
+
 <header>
     <div class="header-inner">
-    <h1 class="title">
-        House Monitor
-    </h1>
-    <div class="subtitle">
-        柏の葉キャンパス・流山おおたかの森
-        住宅監視システム
+        <div class="header-top">
+            <div>
+                <h1 class="title">
+                    House Monitor
+                </h1>
+
+                <div class="subtitle">
+                    柏の葉キャンパス・流山おおたかの森
+                    戸建て住宅監視ダッシュボード
+                </div>
+
+                <div id="updated" class="updated">
+                    データを読み込んでいます...
+                </div>
+            </div>
+
+            <div class="header-badge">
+                SUUMO Monitor
+            </div>
+        </div>
     </div>
-    <div id="updated" class="updated">
-        データを読み込んでいます...
-    </div>
-</div>
 </header>
+
 <main>
-<!-- エラー表示 -->
-<div id="status" class="status"></div>
-<!-- ダッシュボード -->
-<div class="dashboard">
-    <div class="stat-card">
-        <div class="stat-label">
-            登録物件
+
+    <div id="status" class="status"></div>
+
+    <!-- =========================
+         Dashboard
+         ========================= -->
+
+    <section>
+        <div class="dashboard">
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    登録物件
+                </div>
+                <div id="registeredCount" class="stat-value">
+                    -
+                </div>
+                <div class="stat-note">
+                    houses.json
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    詳細取得済み
+                </div>
+                <div id="detailFetchedCount" class="stat-value">
+                    -
+                </div>
+                <div id="detailFetchedRate" class="stat-note">
+                    -
+                </div>
+            </div>
+
+            <div class="stat-card stat-good">
+                <div class="stat-label">
+                    GOOD
+                </div>
+                <div id="goodCount" class="stat-value">
+                    -
+                </div>
+                <div class="stat-note">
+                    詳細品質
+                </div>
+            </div>
+
+            <div class="stat-card stat-warning">
+                <div class="stat-label">
+                    PARTIAL
+                </div>
+                <div id="partialCount" class="stat-value">
+                    -
+                </div>
+                <div class="stat-note">
+                    一部情報不足
+                </div>
+            </div>
+
+            <div class="stat-card stat-danger">
+                <div class="stat-label">
+                    値下げ
+                </div>
+                <div id="priceDownCount" class="stat-value">
+                    -
+                </div>
+                <div class="stat-note">
+                    価格履歴あり
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">
+                    自動検出
+                </div>
+                <div id="discoveredCount" class="stat-value">
+                    -
+                </div>
+                <div class="stat-note">
+                    SUUMO検索候補
+                </div>
+            </div>
+
         </div>
-        <div id="registeredCount" class="stat-value">
-            -
+    </section>
+
+    <!-- =========================
+         Highlights
+         ========================= -->
+
+    <section>
+        <div class="section-header">
+            <div>
+                <h2>
+                    注目物件
+                </h2>
+                <div class="section-description">
+                    現在のデータから、値下げ・詳細取得済み物件を優先表示します。
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">
-            自動検出候補
+
+        <div id="highlightGrid" class="highlight-grid">
+            <div class="loading">
+                注目物件を読み込んでいます...
+            </div>
         </div>
-        <div id="discoveredCount" class="stat-value">
-            -
+    </section>
+
+    <!-- =========================
+         Registered Properties
+         ========================= -->
+
+    <section>
+
+        <div class="section-header">
+            <div>
+                <h2>
+                    物件一覧
+                </h2>
+
+                <div class="section-description">
+                    SUUMOから取得した物件を、価格・品質・価格履歴とともに確認できます。
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">
-            新規検出
+
+        <div class="filter-panel">
+
+            <div class="filters">
+
+                <input
+                    id="propertySearch"
+                    type="search"
+                    placeholder="住所・物件名・駅・IDを検索"
+                >
+
+                <select id="propertyArea">
+                    <option value="">
+                        全エリア
+                    </option>
+                </select>
+
+                <select id="propertyQuality">
+                    <option value="">
+                        全品質
+                    </option>
+                    <option value="good">
+                        GOOD
+                    </option>
+                    <option value="partial">
+                        PARTIAL
+                    </option>
+                    <option value="poor">
+                        POOR
+                    </option>
+                    <option value="unknown">
+                        UNKNOWN
+                    </option>
+                </select>
+
+                <select id="propertyPrice">
+                    <option value="">
+                        全価格帯
+                    </option>
+                    <option value="0-7000">
+                        ～7,000万円
+                    </option>
+                    <option value="7000-8500">
+                        7,000～8,500万円
+                    </option>
+                    <option value="8500-10000">
+                        8,500万～1億円
+                    </option>
+                    <option value="10000-12000">
+                        1億～1.2億円
+                    </option>
+                    <option value="12000-99999">
+                        1.2億円～
+                    </option>
+                </select>
+
+                <button
+                    id="clearPropertyFilter"
+                    class="button"
+                    type="button"
+                >
+                    リセット
+                </button>
+
+            </div>
+
+            <div class="filters" style="margin-top:8px;">
+
+                <label class="filter-check">
+                    <input
+                        id="priceDownOnly"
+                        type="checkbox"
+                    >
+                    値下げ物件のみ
+                </label>
+
+                <label class="filter-check">
+                    <input
+                        id="detailFetchedOnly"
+                        type="checkbox"
+                    >
+                    詳細取得済みのみ
+                </label>
+
+                <label class="filter-check">
+                    <input
+                        id="recentOnly"
+                        type="checkbox"
+                    >
+                    新着・最近取得
+                </label>
+
+            </div>
+
+            <div
+                id="propertyFilterSummary"
+                class="filter-summary"
+            >
+                読み込み中...
+            </div>
+
         </div>
-        <div id="newCount" class="stat-value">
-            -
-        </div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-label">
-            データ更新
-        </div>
+
         <div
-            id="lastUpdate"
-            class="stat-value"
-            style="font-size:16px;"
+            id="properties"
+            class="property-grid"
         >
-            -
-        </div>
-    </div>
-</div>
-<!-- 自動検出候補 -->
-<section>
-    <div class="section-header">
-        <div>
-            <h2>
-                自動検出候補
-            </h2>
-            <div class="section-description">
-                SUUMO検索結果から自動取得された物件候補です。
-                詳細情報取得前の段階です。
+            <div class="loading">
+                物件を読み込んでいます...
             </div>
         </div>
-    </div>
-    <!-- 自動検出フィルター -->
-    <div class="filters">
-        <input
-            id="discoveredSearch"
-            type="search"
-            placeholder="エリア・物件IDを検索"
-        >
-        <select id="discoveredArea">
-            <option value="">
-                全エリア
-            </option>
-        </select>
-        <button
-            id="clearDiscoveredFilter"
-            class="button"
-            type="button"
-        >
-            フィルター解除
-        </button>
-    </div>
-    <div
-        id="discoveredSummary"
-        class="section-description"
-        style="margin-bottom:10px;"
-    >
-        読み込み中...
-    </div>
-    <div
-        id="discoveredProperties"
-        class="property-grid"
-    >
-        <div class="loading">
-            自動検出候補を読み込んでいます...
-        </div>
-    </div>
-</section>
-<!-- 評価対象物件 -->
-<section>
-    <div class="section-header">
-        <div>
-            <h2>
-                評価対象物件
-            </h2>
-            <div class="section-description">
-                手動登録済みの物件です。
+
+    </section>
+
+    <!-- =========================
+         Discovered Listings
+         ========================= -->
+
+    <section>
+
+        <div class="section-header">
+            <div>
+                <h2>
+                    自動検出候補
+                </h2>
+
+                <div class="section-description">
+                    SUUMO検索結果から検出された候補。
+                    まだ詳細取得されていない物件も含みます。
+                </div>
             </div>
         </div>
-    </div>
-    <!-- 登録物件フィルター -->
-    <div class="filters">
-        <input
-            id="propertySearch"
-            type="search"
-            placeholder="物件名・住所を検索"
-        >
-        <select id="propertyArea">
-            <option value="">
-                全エリア
-            </option>
-        </select>
-        <button
-            id="clearPropertyFilter"
-            class="button"
-            type="button"
-        >
-            フィルター解除
-        </button>
-    </div>
-    <div
-        id="properties"
-        class="property-grid"
-    >
-        <div class="loading">
-            登録物件を読み込んでいます...
+
+        <div class="filter-panel">
+
+            <div class="filters">
+
+                <input
+                    id="discoveredSearch"
+                    type="search"
+                    placeholder="エリア・物件ID・URLを検索"
+                >
+
+                <select id="discoveredArea">
+                    <option value="">
+                        全エリア
+                    </option>
+                </select>
+
+                <button
+                    id="clearDiscoveredFilter"
+                    class="button"
+                    type="button"
+                >
+                    リセット
+                </button>
+
+            </div>
+
+            <div
+                id="discoveredSummary"
+                class="filter-summary"
+            >
+                読み込み中...
+            </div>
+
         </div>
-    </div>
-</section>
+
+        <div
+            id="discoveredProperties"
+            class="property-grid"
+        >
+            <div class="loading">
+                自動検出候補を読み込んでいます...
+            </div>
+        </div>
+
+    </section>
+
 </main>
+
 <script>
-    /*
-     * ========================================
-     * State
-     * ========================================
-     */
-    let properties = [];
-    let discoveredProperties = [];
-    /*
-     * ========================================
-     * Utility
-     * ========================================
-     */
-    function escapeHtml(value) {
-        if (
-            value === null ||
-            value === undefined
-        ) {
-            return "";
-        }
-        return String(value)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+
+/* =========================================================
+   State
+   ========================================================= */
+
+let properties = [];
+let discoveredProperties = [];
+
+
+/* =========================================================
+   Utility
+   ========================================================= */
+
+function escapeHtml(value) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
     }
-    function formatDate(value) {
-        if (!value) {
-            return "-";
-        }
-        const date = new Date(value);
-        if (
-            Number.isNaN(
-                date.getTime()
-            )
-        ) {
-            return escapeHtml(value);
-        }
-        return date.toLocaleString(
-            "ja-JP",
-            {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                hour: "2-digit",
-                minute: "2-digit"
-            }
-        );
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function toNumber(value) {
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+        return null;
     }
-    function formatValue(value) {
-        if (
-            value === null ||
-            value === undefined ||
-            value === ""
-        ) {
-            return "-";
+
+    if (typeof value === "number") {
+        return Number.isFinite(value)
+            ? value
+            : null;
+    }
+
+    const text = String(value)
+        .replace(/,/g, "")
+        .trim();
+
+    if (!text) {
+        return null;
+    }
+
+    const match =
+        text.match(/-?\d+(?:\.\d+)?/);
+
+    if (!match) {
+        return null;
+    }
+
+    const number =
+        Number(match[0]);
+
+    return Number.isFinite(number)
+        ? number
+        : null;
+}
+
+
+function formatNumber(value) {
+    const number = toNumber(value);
+
+    if (number === null) {
+        return "-";
+    }
+
+    return number.toLocaleString("ja-JP");
+}
+
+
+function formatArea(value) {
+    const number = toNumber(value);
+
+    if (number === null) {
+        return "-";
+    }
+
+    return `${number.toLocaleString(
+        "ja-JP",
+        {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
         }
+    )}㎡`;
+}
+
+
+function formatPrice(value) {
+    const number = toNumber(value);
+
+    if (number === null) {
+        return "-";
+    }
+
+    if (number >= 100000000) {
+        return `${(
+            number / 100000000
+        ).toFixed(2)}億円`;
+    }
+
+    if (number >= 10000000) {
+        return `${(
+            number / 10000
+        ).toLocaleString(
+            "ja-JP"
+        )}万円`;
+    }
+
+    return `${number.toLocaleString(
+        "ja-JP"
+    )}円`;
+}
+
+
+function formatDate(value) {
+    if (!value) {
+        return "-";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
         return escapeHtml(value);
     }
-    /*
-     * ========================================
-     * Data loading
-     * ========================================
-     */
-    async function loadData() {
-        const timestamp = Date.now();
-        try {
-            /*
-             * houses.json と
-             * discovered_listings.json を同時取得
-             */
-            const [
-                housesResponse,
-                discoveredResponse
-            ] = await Promise.all([
-                fetch(
-                    "data/houses.json?"
-                    + timestamp
-                ),
-                fetch(
-                    "data/discovered_listings.json?"
-                    + timestamp
-                )
-            ]);
-            /*
-             * houses.json
-             *
-             * 既存の登録物件データ
-             */
-            if (
-                !housesResponse.ok
-            ) {
-                throw new Error(
-                    "houses.jsonの取得に失敗しました"
-                );
-            }
-            /*
-             * JSON読み込み
-             */
-            const housesData =
-                await housesResponse.json();
-            let discoveredData = {
-                properties: [],
-                updatedAt: null
-            };
-            /*
-             * discovered_listings.json
-             *
-             * ファイルがまだ存在しない場合でも
-             * 画面全体は表示できるようにする
-             */
-            if (
-                discoveredResponse.ok
-            ) {
-                discoveredData =
-                    await discoveredResponse.json();
-            } else {
-                console.warn(
-                    "discovered_listings.jsonが取得できませんでした。"
-                    + "自動検出候補を0件として扱います。"
-                );
-            }
-            /*
-             * データをStateへ格納
-             */
-            properties =
-                Array.isArray(
-                    housesData.properties
-                )
-                    ? housesData.properties
-                    : [];
-            discoveredProperties =
-                Array.isArray(
-                    discoveredData.properties
-                )
-                    ? discoveredData.properties
-                    : [];
-            /*
-             * Header更新
-             */
-            updateHeader(
-                housesData.updatedAt,
-                discoveredData.updatedAt
-            );
-            /*
-             * Dashboard更新
-             */
-            updateDashboard();
-            /*
-             * フィルター候補を作成
-             */
-            initializeFilters();
-            /*
-             * 画面表示
-             */
-            renderProperties(
-                properties
-            );
-            renderDiscoveredListings(
-                discoveredProperties
-            );
-        } catch (error) {
-            console.error(error);
-            showError(
-                error.message ||
-                "データの読み込みに失敗しました。"
-            );
-            document
-                .getElementById("properties")
-                .innerHTML = `
-                    <div class="empty">
-                        登録物件を読み込めませんでした。
-                    </div>
-                `;
-            document
-                .getElementById(
-                    "discoveredProperties"
-                )
-                .innerHTML = `
-                    <div class="empty">
-                        自動検出候補を読み込めませんでした。
-                    </div>
-                `;
+
+    return date.toLocaleString(
+        "ja-JP",
+        {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit"
         }
+    );
+}
+
+
+function formatShortDate(value) {
+    if (!value) {
+        return "-";
     }
-    /*
-     * ========================================
-     * Header
-     * ========================================
-     */
-    function updateHeader(
-        housesUpdatedAt,
-        discoveredUpdatedAt
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
     ) {
-        const dates = [
-            housesUpdatedAt,
-            discoveredUpdatedAt
-        ].filter(Boolean);
-        if (!dates.length) {
-            document
-                .getElementById("updated")
-                .textContent =
-                    "更新日時：不明";
-            return;
-        }
-        const latest =
-            dates
-                .map(
-                    value => new Date(value)
-                )
-                .filter(
-                    date =>
-                        !Number.isNaN(
-                            date.getTime()
-                        )
-                )
-                .sort(
-                    (a, b) =>
-                        b.getTime() -
-                        a.getTime()
-                )[0];
-        if (!latest) {
-            document
-                .getElementById("updated")
-                .textContent =
-                    "更新日時：不明";
-            return;
-        }
-        document
-            .getElementById("updated")
-            .textContent =
-                "最終更新："
-                + latest.toLocaleString(
-                    "ja-JP"
-                );
+        return "-";
     }
-    /*
-     * ========================================
-     * Dashboard
-     * ========================================
-     */
-    function updateDashboard() {
-        /*
-         * 登録物件数
-         */
-        document
-            .getElementById(
-                "registeredCount"
-            )
-            .textContent =
-                properties.length;
-        /*
-         * 自動検出候補数
-         */
-        document
-            .getElementById(
-                "discoveredCount"
-            )
-            .textContent =
-                discoveredProperties.length;
-        /*
-         * 現段階では自動検出候補数を
-         * 新規検出数として表示
-         *
-         * 履歴管理実装後に
-         * 「本当の新規物件数」へ変更する
-         */
-        document
-            .getElementById(
-                "newCount"
-            )
-            .textContent =
-                discoveredProperties.length;
-        /*
-         * 最新取得日時
-         */
-        const updateDates =
-            discoveredProperties
-                .map(
-                    item =>
-                        item.collectedAt
-                )
-                .filter(Boolean);
-        if (!updateDates.length) {
-            document
-                .getElementById(
-                    "lastUpdate"
-                )
-                .textContent =
-                    "-";
-            return;
+
+    return date.toLocaleDateString(
+        "ja-JP",
+        {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
         }
-        const latest =
-            updateDates
-                .map(
-                    value =>
-                        new Date(value)
-                )
-                .filter(
-                    date =>
-                        !Number.isNaN(
-                            date.getTime()
-                        )
-                )
-                .sort(
-                    (a, b) =>
-                        b.getTime() -
-                        a.getTime()
-                )[0];
-        document
-            .getElementById(
-                "lastUpdate"
-            )
-            .textContent =
-                latest
-                    ? latest.toLocaleDateString(
-                        "ja-JP"
-                    )
-                    : "-";
-    }
-    /*
-     * ========================================
-     * Filters
-     * ========================================
-     */
-    function initializeFilters() {
-        /*
-         * 自動検出エリア
-         */
-        const discoveredAreas =
-            [
-                ...new Set(
-                    discoveredProperties
-                        .map(
-                            item =>
-                                item.searchArea
-                        )
-                        .filter(Boolean)
-                )
-            ]
-            .sort();
-        const discoveredAreaSelect =
-            document.getElementById(
-                "discoveredArea"
-            );
-        discoveredAreas.forEach(
-            area => {
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-                option.value = area;
-                option.textContent = area;
-                discoveredAreaSelect
-                    .appendChild(option);
-            }
-        );
-        /*
-         * 登録物件エリア
-         */
-        const propertyAreas =
-            [
-                ...new Set(
-                    properties
-                        .map(
-                            item =>
-                                item.area ||
-                                item.searchArea ||
-                                item.location
-                        )
-                        .filter(Boolean)
-                )
-            ]
-            .sort();
-        const propertyAreaSelect =
-            document.getElementById(
-                "propertyArea"
-            );
-        propertyAreas.forEach(
-            area => {
-                const option =
-                    document.createElement(
-                        "option"
-                    );
-                option.value = area;
-                option.textContent = area;
-                propertyAreaSelect
-                    .appendChild(option);
-            }
-        );
-    }
-    /*
-     * ========================================
-     * Discovered Listings
-     * ========================================
-     */
-    function renderDiscoveredListings(
-        list
+    );
+}
+
+
+function formatValue(value) {
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
     ) {
-        const container =
-            document.getElementById(
-                "discoveredProperties"
+        return "-";
+    }
+
+    return escapeHtml(value);
+}
+
+
+function getDetail(property) {
+    return (
+        property &&
+        property.detail &&
+        typeof property.detail === "object"
+    )
+        ? property.detail
+        : {};
+}
+
+
+function getPrice(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        toNumber(property.price) ??
+        toNumber(detail.price) ??
+        toNumber(
+            property.priceValue
+        )
+    );
+}
+
+
+function getAddress(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        detail.address ||
+        property.address ||
+        property.location ||
+        property.area ||
+        "-"
+    );
+}
+
+
+function getArea(property) {
+    return (
+        property.area ||
+        property.searchArea ||
+        getAddress(property)
+    );
+}
+
+
+function getLandArea(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        toNumber(
+            detail.landAreaM2
+        ) ??
+        toNumber(
+            property.landAreaM2
+        ) ??
+        toNumber(
+            property.landArea
+        ) ??
+        toNumber(
+            property.land_area
+        )
+    );
+}
+
+
+function getBuildingArea(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        toNumber(
+            detail.buildingAreaM2
+        ) ??
+        toNumber(
+            property.buildingAreaM2
+        ) ??
+        toNumber(
+            property.buildingArea
+        ) ??
+        toNumber(
+            property.building_area
+        )
+    );
+}
+
+
+function getLayout(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        detail.layoutRaw ||
+        detail.layout ||
+        property.layout ||
+        property.floorPlan ||
+        "-"
+    );
+}
+
+
+function getConstruction(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        detail.constructionMonth ||
+        detail.buildYear ||
+        detail.constructionText ||
+        property.constructionMonth ||
+        property.buildYear ||
+        property.builtYear ||
+        "-"
+    );
+}
+
+
+function getStation(property) {
+    const detail =
+        getDetail(property);
+
+    const station =
+        detail.station ||
+        property.station ||
+        "";
+
+    const walk =
+        detail.walkMinutes ??
+        property.walkMinutes;
+
+    if (
+        station &&
+        walk !== null &&
+        walk !== undefined &&
+        walk !== ""
+    ) {
+        return `${station} 徒歩${walk}分`;
+    }
+
+    if (station) {
+        return station;
+    }
+
+    return (
+        detail.transportRaw ||
+        property.walking ||
+        property.stationWalk ||
+        property.transportRaw ||
+        "-"
+    );
+}
+
+
+function getQuality(property) {
+    return (
+        property.detailQuality ||
+        getDetail(property).detailQuality ||
+        "unknown"
+    ).toString().toLowerCase();
+}
+
+
+function getQualityScore(property) {
+    return (
+        toNumber(
+            property.detailQualityScore
+        ) ??
+        toNumber(
+            getDetail(property)
+                .detailQualityScore
+        )
+    );
+}
+
+
+function isDetailFetched(property) {
+    return (
+        property.detailFetched === true
+    );
+}
+
+
+function getPriceHistory(property) {
+    if (
+        Array.isArray(
+            property.priceHistory
+        )
+    ) {
+        return property.priceHistory;
+    }
+
+    if (
+        Array.isArray(
+            getDetail(property)
+                .priceHistory
+        )
+    ) {
+        return getDetail(property)
+            .priceHistory;
+    }
+
+    return [];
+}
+
+
+function getInitialPrice(property) {
+    const history =
+        getPriceHistory(property);
+
+    if (!history.length) {
+        return null;
+    }
+
+    const prices =
+        history
+            .map(item =>
+                toNumber(
+                    item.price
+                )
+            )
+            .filter(
+                value =>
+                    value !== null
             );
-        const summary =
-            document.getElementById(
-                "discoveredSummary"
+
+    if (!prices.length) {
+        return null;
+    }
+
+    return prices[0];
+}
+
+
+function getCurrentPrice(property) {
+    return getPrice(property);
+}
+
+
+function getPriceChange(property) {
+    const initial =
+        getInitialPrice(property);
+
+    const current =
+        getCurrentPrice(property);
+
+    if (
+        initial === null ||
+        current === null
+    ) {
+        return null;
+    }
+
+    return current - initial;
+}
+
+
+function getPriceChangeRate(property) {
+    const initial =
+        getInitialPrice(property);
+
+    const current =
+        getCurrentPrice(property);
+
+    if (
+        initial === null ||
+        current === null ||
+        initial === 0
+    ) {
+        return null;
+    }
+
+    return (
+        (current - initial)
+        / initial
+        * 100
+    );
+}
+
+
+function hasPriceDown(property) {
+    const change =
+        getPriceChange(property);
+
+    return (
+        change !== null &&
+        change < 0
+    );
+}
+
+
+function getLatestDate(property) {
+    const candidates = [
+        property.lastSeenAt,
+        property.collectedAt,
+        property.detailFetchedAt,
+        property.updatedAt
+    ].filter(Boolean);
+
+    if (!candidates.length) {
+        return null;
+    }
+
+    const dates =
+        candidates
+            .map(value =>
+                new Date(value)
+            )
+            .filter(date =>
+                !Number.isNaN(
+                    date.getTime()
+                )
             );
-        if (!Array.isArray(list)) {
-            list = [];
-        }
-        summary.textContent =
-            `${list.length}件の候補を検出`;
-        if (!list.length) {
-            container.innerHTML = `
-                <div class="empty">
-                    自動検出候補はありません。
-                </div>
-            `;
-            return;
-        }
-        container.innerHTML =
-            list
-                .map(
-                    property => {
-                        const url =
-                            property.sourceUrl ||
-                            "";
-                        const area =
-                            property.searchArea ||
-                            "-";
-                        const source =
-                            property.source ||
-                            "SUUMO";
-                        const collectedAt =
-                            property.collectedAt;
-                        return `
-                            <article class="property">
-                                <div class="property-name">
-                                    ${escapeHtml(area)}
-                                </div>
-                                <div class="property-id">
-                                    ID:
-                                    ${escapeHtml(
-                                        property.id || "-"
-                                    )}
-                                </div>
-                                <div class="property-details">
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            状態
-                                        </span>
-                                        自動検出
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            詳細情報
-                                        </span>
-                                        未取得
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            取得日時
-                                        </span>
-                                        ${formatDate(
-                                            collectedAt
-                                        )}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            出典
-                                        </span>
+
+    if (!dates.length) {
+        return null;
+    }
+
+    dates.sort(
+        (a, b) =>
+            b.getTime() -
+            a.getTime()
+    );
+
+    return dates[0];
+}
+
+
+function isRecent(property) {
+    const latest =
+        getLatestDate(property);
+
+    if (!latest) {
+        return false;
+    }
+
+    const now =
+        Date.now();
+
+    const diff =
+        now -
+        latest.getTime();
+
+    return (
+        diff <=
+        7 * 24 * 60 * 60 * 1000
+    );
+}
+
+
+function getPropertyName(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        detail.title ||
+        property.name ||
+        property.title ||
+        detail.address ||
+        property.address ||
+        property.location ||
+        "物件"
+    );
+}
+
+
+function getPropertyUrl(property) {
+    const detail =
+        getDetail(property);
+
+    return (
+        property.url ||
+        property.sourceUrl ||
+        detail.url ||
+        property.detailUrl ||
+        ""
+    );
+}
+
+
+/* =========================================================
+   Price History
+   ========================================================= */
+
+function renderPriceHistory(property) {
+    const history =
+        getPriceHistory(property);
+
+    if (!history.length) {
+        return "";
+    }
+
+    const items =
+        history
+            .slice(-8)
+            .map((item, index) => {
+
+                const price =
+                    toNumber(
+                        item.price
+                    );
+
+                const date =
+                    item.date ||
+                    item.changedAt ||
+                    item.recordedAt ||
+                    item.createdAt;
+
+                const priceText =
+                    price !== null
+                        ? formatPrice(price)
+                        : "-";
+
+                return `
+                    ${
+                        index > 0
+                            ? `
+                                <span class="history-arrow">
+                                    →
+                                </span>
+                            `
+                            : ""
+                    }
+
+                    <div class="history-item">
+                        <span class="history-price">
+                            ${escapeHtml(
+                                priceText
+                            )}
+                        </span>
+
+                        ${
+                            date
+                                ? `
+                                    <span class="history-date">
                                         ${escapeHtml(
-                                            source
+                                            formatShortDate(
+                                                date
+                                            )
                                         )}
-                                    </div>
-                                </div>
-                                <div class="flags">
-                                    <span class="
-                                        flag
-                                        flag-auto
-                                    ">
-                                        自動検出
                                     </span>
-                                    <span class="
-                                        flag
-                                        flag-warning
-                                    ">
-                                        詳細未取得
-                                    </span>
-                                </div>
-                                <div class="property-footer">
-                                    ${
-                                        url
-                                            ? `
-                                                <a
-                                                    href="${escapeHtml(url)}"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    SUUMOページを開く
-                                                </a>
-                                            `
-                                            : `
-                                                <span>
-                                                    詳細URLなし
-                                                </span>
-                                            `
-                                    }
-                                </div>
-                            </article>
-                        `;
-                    }
-                )
-                .join("");
+                                `
+                                : ""
+                        }
+                    </div>
+                `;
+            })
+            .join("");
+
+    return `
+        <div class="price-history">
+            <div class="price-history-title">
+                価格履歴
+            </div>
+
+            <div class="price-history-list">
+                ${items}
+            </div>
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   Quality
+   ========================================================= */
+
+function qualityLabel(quality) {
+    switch (quality) {
+        case "good":
+            return "GOOD";
+
+        case "partial":
+            return "PARTIAL";
+
+        case "poor":
+            return "POOR";
+
+        default:
+            return "UNKNOWN";
     }
-    /*
-     * ========================================
-     * Registered Properties
-     * ========================================
-     */
-    function renderProperties(
-        list
+}
+
+
+function renderQualityFlag(property) {
+    const quality =
+        getQuality(property);
+
+    return `
+        <span class="
+            flag
+            flag-${escapeHtml(
+                quality
+            )}
+        ">
+            ${qualityLabel(
+                quality
+            )}
+        </span>
+    `;
+}
+
+
+/* =========================================================
+   Price Display
+   ========================================================= */
+
+function renderPrice(property) {
+    const current =
+        getCurrentPrice(property);
+
+    const change =
+        getPriceChange(property);
+
+    const rate =
+        getPriceChangeRate(property);
+
+    if (current === null) {
+        return `
+            <div class="current-price">
+                -
+            </div>
+        `;
+    }
+
+    let changeHtml = "";
+
+    if (
+        change !== null &&
+        change < 0
     ) {
-        const container =
-            document.getElementById(
-                "properties"
-            );
-        if (
-            !Array.isArray(list) ||
-            !list.length
-        ) {
-            container.innerHTML = `
-                <div class="empty">
-                    登録物件はありません。
-                </div>
-            `;
-            return;
-        }
-        container.innerHTML =
-            list
-                .map(
-                    property => {
-                        const name =
-                            property.name ||
-                            property.title ||
-                            property.address ||
-                            property.location ||
-                            "物件";
-                        const area =
-                            property.area ||
-                            property.searchArea ||
-                            property.location ||
-                            "-";
-                        const price =
-                            property.price ||
-                            property.priceText ||
-                            "-";
-                        const landArea =
-                            property.landArea ||
-                            property.land_area ||
-                            "-";
-                        const buildingArea =
-                            property.buildingArea ||
-                            property.building_area ||
-                            "-";
-                        const age =
-                            property.buildingAge ||
-                            property.age ||
-                            property.builtYear ||
-                            "-";
-                        const layout =
-                            property.layout ||
-                            property.floorPlan ||
-                            "-";
-                        const station =
-                            property.station ||
-                            property.walking ||
-                            property.stationWalk ||
-                            "-";
-                        const url =
-                            property.url ||
-                            property.sourceUrl ||
-                            "";
-                        return `
-                            <article class="property">
-                                <div class="property-name">
-                                    ${escapeHtml(name)}
-                                </div>
-                                <div class="property-details">
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            エリア
-                                        </span>
-                                        ${formatValue(area)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            価格
-                                        </span>
-                                        ${formatValue(price)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            土地
-                                        </span>
-                                        ${formatValue(landArea)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            建物
-                                        </span>
-                                        ${formatValue(buildingArea)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            築年
-                                        </span>
-                                        ${formatValue(age)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            間取り
-                                        </span>
-                                        ${formatValue(layout)}
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">
-                                            駅徒歩
-                                        </span>
-                                        ${formatValue(station)}
-                                    </div>
-                                </div>
-                                <div class="property-footer">
-                                    ${
-                                        url
-                                            ? `
-                                                <a
-                                                    href="${escapeHtml(url)}"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >
-                                                    詳細ページを開く
-                                                </a>
-                                            `
-                                            : ""
-                                    }
-                                </div>
-                            </article>
-                        `;
-                    }
-                )
-                .join("");
+        changeHtml = `
+            <div class="price-change">
+                ▼ ${escapeHtml(
+                    formatPrice(
+                        Math.abs(change)
+                    )
+                )}
+                ${
+                    rate !== null
+                        ? `
+                            (${rate.toFixed(1)}%)
+                        `
+                        : ""
+                }
+            </div>
+        `;
+    } else if (
+        change !== null &&
+        change > 0
+    ) {
+        changeHtml = `
+            <div class="price-change price-no-change">
+                ▲ ${escapeHtml(
+                    formatPrice(
+                        change
+                    )
+                )}
+            </div>
+        `;
+    } else {
+        changeHtml = `
+            <div class="price-change price-no-change">
+                価格履歴なし
+            </div>
+        `;
     }
-    /*
-     * ========================================
-     * Discovered Filter
-     * ========================================
-     */
-    function filterDiscoveredListings() {
-        const search =
-            document
-                .getElementById(
-                    "discoveredSearch"
+
+    return `
+        <div class="current-price">
+            ${escapeHtml(
+                formatPrice(current)
+            )}
+        </div>
+
+        ${changeHtml}
+    `;
+}
+
+
+/* =========================================================
+   Property Card
+   ========================================================= */
+
+function renderPropertyCard(property) {
+
+    const detail =
+        getDetail(property);
+
+    const name =
+        getPropertyName(property);
+
+    const address =
+        getAddress(property);
+
+    const land =
+        getLandArea(property);
+
+    const building =
+        getBuildingArea(property);
+
+    const layout =
+        getLayout(property);
+
+    const construction =
+        getConstruction(property);
+
+    const station =
+        getStation(property);
+
+    const quality =
+        getQuality(property);
+
+    const score =
+        getQualityScore(property);
+
+    const url =
+        getPropertyUrl(property);
+
+    const down =
+        hasPriceDown(property);
+
+    const fetched =
+        isDetailFetched(property);
+
+    const recent =
+        isRecent(property);
+
+    const priceHistory =
+        getPriceHistory(property);
+
+    const latest =
+        getLatestDate(property);
+
+    const propertyId =
+        property.id || "-";
+
+    return `
+        <article class="property">
+
+            <div class="property-top">
+
+                <div class="property-main">
+
+                    <div class="property-name">
+                        ${escapeHtml(
+                            name
+                        )}
+                    </div>
+
+                    <div class="property-location">
+                        ${escapeHtml(
+                            address
+                        )}
+                    </div>
+
+                    <div class="property-id">
+                        ID:
+                        ${escapeHtml(
+                            propertyId
+                        )}
+                    </div>
+
+                </div>
+
+                <div class="price-box">
+                    ${renderPrice(
+                        property
+                    )}
+                </div>
+
+            </div>
+
+            <div class="flags">
+
+                ${renderQualityFlag(
+                    property
+                )}
+
+                ${
+                    fetched
+                        ? `
+                            <span class="
+                                flag
+                                flag-good
+                            ">
+                                詳細取得済み
+                            </span>
+                        `
+                        : `
+                            <span class="
+                                flag
+                                flag-unknown
+                            ">
+                                詳細未取得
+                            </span>
+                        `
+                }
+
+                ${
+                    down
+                        ? `
+                            <span class="
+                                flag
+                                flag-down
+                            ">
+                                値下げ
+                            </span>
+                        `
+                        : ""
+                }
+
+                ${
+                    recent
+                        ? `
+                            <span class="
+                                flag
+                                flag-new
+                            ">
+                                最近取得
+                            </span>
+                        `
+                        : ""
+                }
+
+            </div>
+
+            <div class="property-details">
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        エリア
+                    </span>
+                    ${formatValue(
+                        getArea(property)
+                    )}
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        間取り
+                    </span>
+                    ${formatValue(
+                        layout
+                    )}
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        土地
+                    </span>
+                    ${formatArea(
+                        land
+                    )}
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        建物
+                    </span>
+                    ${formatArea(
+                        building
+                    )}
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        築年
+                    </span>
+                    ${formatValue(
+                        construction
+                    )}
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">
+                        駅
+                    </span>
+                    ${formatValue(
+                        station
+                    )}
+                </div>
+
+            </div>
+
+            ${
+                priceHistory.length
+                    ? renderPriceHistory(
+                        property
+                    )
+                    : ""
+            }
+
+            <div class="quality-row">
+
+                <div class="quality-text">
+                    データ品質：
+                    ${qualityLabel(
+                        quality
+                    )}
+
+                    ${
+                        property.missingFields &&
+                        property.missingFields.length
+                            ? `
+                                ・不足項目
+                                ${property.missingFields.length}件
+                            `
+                            : ""
+                    }
+                </div>
+
+                <div class="quality-score">
+                    ${
+                        score !== null
+                            ? `${score}/100`
+                            : "-"
+                    }
+                </div>
+
+            </div>
+
+            <div class="property-footer">
+
+                ${
+                    url
+                        ? `
+                            <a
+                                href="${escapeHtml(
+                                    url
+                                )}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                SUUMOページを開く →
+                            </a>
+                        `
+                        : `
+                            <span>
+                                詳細URLなし
+                            </span>
+                        `
+                }
+
+                <div class="last-seen">
+                    ${
+                        latest
+                            ? `
+                                最終確認
+                                ${escapeHtml(
+                                    formatShortDate(
+                                        latest
+                                    )
+                                )}
+                            `
+                            : ""
+                    }
+                </div>
+
+            </div>
+
+        </article>
+    `;
+}
+
+
+/* =========================================================
+   Registered Properties
+   ========================================================= */
+
+function renderProperties(list) {
+
+    const container =
+        document.getElementById(
+            "properties"
+        );
+
+    const summary =
+        document.getElementById(
+            "propertyFilterSummary"
+        );
+
+    if (
+        !Array.isArray(list) ||
+        !list.length
+    ) {
+        container.innerHTML = `
+            <div class="empty">
+                条件に一致する物件はありません。
+            </div>
+        `;
+
+        summary.textContent =
+            "0件";
+
+        return;
+    }
+
+    summary.textContent =
+        `${list.length}件を表示`;
+
+    container.innerHTML =
+        list
+            .map(
+                property =>
+                    renderPropertyCard(
+                        property
+                    )
+            )
+            .join("");
+}
+
+
+/* =========================================================
+   Highlights
+   ========================================================= */
+
+function renderHighlights() {
+
+    const container =
+        document.getElementById(
+            "highlightGrid"
+        );
+
+    const candidates =
+        properties
+            .filter(property =>
+                isDetailFetched(
+                    property
                 )
-                .value
-                .trim()
-                .toLowerCase();
-        const area =
-            document
-                .getElementById(
-                    "discoveredArea"
-                )
-                .value;
-        const filtered =
-            discoveredProperties.filter(
-                property => {
-                    const text = [
-                        property.id,
-                        property.searchArea,
-                        property.sourceUrl,
-                        property.source
-                    ]
-                        .filter(Boolean)
-                        .join(" ")
-                        .toLowerCase();
-                    const matchesSearch =
-                        !search ||
-                        text.includes(search);
-                    const matchesArea =
-                        !area ||
-                        property.searchArea === area;
+            )
+            .sort(
+                (a, b) => {
+
+                    const aChange =
+                        getPriceChange(a);
+
+                    const bChange =
+                        getPriceChange(b);
+
+                    const aValue =
+                        aChange !== null
+                            ? aChange
+                            : 0;
+
+                    const bValue =
+                        bChange !== null
+                            ? bChange
+                            : 0;
+
                     return (
-                        matchesSearch &&
-                        matchesArea
+                        aValue -
+                        bValue
                     );
                 }
-            );
-        renderDiscoveredListings(
-            filtered
-        );
+            )
+            .slice(0, 3);
+
+    if (!candidates.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                詳細取得済みの物件がまだありません。
+            </div>
+        `;
+
+        return;
     }
-    /*
-     * ========================================
-     * Registered Property Filter
-     * ========================================
-     */
-    function filterProperties() {
-        const search =
+
+    container.innerHTML =
+        candidates
+            .map(property => {
+
+                const name =
+                    getPropertyName(
+                        property
+                    );
+
+                const price =
+                    getCurrentPrice(
+                        property
+                    );
+
+                const change =
+                    getPriceChange(
+                        property
+                    );
+
+                const rate =
+                    getPriceChangeRate(
+                        property
+                    );
+
+                const url =
+                    getPropertyUrl(
+                        property
+                    );
+
+                const address =
+                    getAddress(
+                        property
+                    );
+
+                const layout =
+                    getLayout(
+                        property
+                    );
+
+                const land =
+                    getLandArea(
+                        property
+                    );
+
+                let priceHtml =
+                    price !== null
+                        ? formatPrice(price)
+                        : "-";
+
+                if (
+                    change !== null &&
+                    change < 0
+                ) {
+                    priceHtml += `
+                        <div class="price-change">
+                            ▼ ${escapeHtml(
+                                formatPrice(
+                                    Math.abs(
+                                        change
+                                    )
+                                )
+                            )}
+                            ${
+                                rate !== null
+                                    ? `(${rate.toFixed(1)}%)`
+                                    : ""
+                            }
+                        </div>
+                    `;
+                }
+
+                return `
+                    <div class="highlight-card">
+
+                        <div class="highlight-label">
+                            ${
+                                change !== null &&
+                                change < 0
+                                    ? "価格下落が大きい物件"
+                                    : "詳細取得済み物件"
+                            }
+                        </div>
+
+                        <div class="highlight-title">
+                            ${escapeHtml(
+                                name
+                            )}
+                        </div>
+
+                        <div class="highlight-price">
+                            ${priceHtml}
+                        </div>
+
+                        <div class="highlight-meta">
+                            ${escapeHtml(
+                                address
+                            )}
+                        </div>
+
+                        <div class="highlight-meta">
+                            ${escapeHtml(
+                                layout
+                            )}
+                            ・土地
+                            ${escapeHtml(
+                                formatArea(
+                                    land
+                                )
+                            )}
+                        </div>
+
+                        ${
+                            url
+                                ? `
+                                    <a
+                                        class="highlight-link"
+                                        href="${escapeHtml(
+                                            url
+                                        )}"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        SUUMOページを確認 →
+                                    </a>
+                                `
+                                : ""
+                        }
+
+                    </div>
+                `;
+            })
+            .join("");
+}
+
+
+/* =========================================================
+   Dashboard
+   ========================================================= */
+
+function updateDashboard() {
+
+    const total =
+        properties.length;
+
+    const fetched =
+        properties.filter(
+            property =>
+                isDetailFetched(
+                    property
+                )
+        ).length;
+
+    const good =
+        properties.filter(
+            property =>
+                getQuality(
+                    property
+                ) === "good"
+        ).length;
+
+    const partial =
+        properties.filter(
+            property =>
+                getQuality(
+                    property
+                ) === "partial"
+        ).length;
+
+    const priceDown =
+        properties.filter(
+            property =>
+                hasPriceDown(
+                    property
+                )
+        ).length;
+
+    document
+        .getElementById(
+            "registeredCount"
+        )
+        .textContent =
+            total;
+
+    document
+        .getElementById(
+            "detailFetchedCount"
+        )
+        .textContent =
+            fetched;
+
+    document
+        .getElementById(
+            "goodCount"
+        )
+        .textContent =
+            good;
+
+    document
+        .getElementById(
+            "partialCount"
+        )
+        .textContent =
+            partial;
+
+    document
+        .getElementById(
+            "priceDownCount"
+        )
+        .textContent =
+            priceDown;
+
+    document
+        .getElementById(
+            "discoveredCount"
+        )
+        .textContent =
+            discoveredProperties.length;
+
+    const rate =
+        total > 0
+            ? (
+                fetched /
+                total *
+                100
+            ).toFixed(0)
+            : 0;
+
+    document
+        .getElementById(
+            "detailFetchedRate"
+        )
+        .textContent =
+            `取得率 ${rate}%`;
+}
+
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+function updateHeader(
+    housesUpdatedAt,
+    discoveredUpdatedAt
+) {
+
+    const dates = [
+        housesUpdatedAt,
+        discoveredUpdatedAt
+    ].filter(Boolean);
+
+    if (!dates.length) {
+        document
+            .getElementById(
+                "updated"
+            )
+            .textContent =
+                "最終更新：不明";
+
+        return;
+    }
+
+    const latest =
+        dates
+            .map(
+                value =>
+                    new Date(value)
+            )
+            .filter(
+                date =>
+                    !Number.isNaN(
+                        date.getTime()
+                    )
+            )
+            .sort(
+                (a, b) =>
+                    b.getTime() -
+                    a.getTime()
+            )[0];
+
+    document
+        .getElementById(
+            "updated"
+        )
+        .textContent =
+            latest
+                ? "最終更新："
+                    + latest.toLocaleString(
+                        "ja-JP"
+                    )
+                : "最終更新：不明";
+}
+
+
+/* =========================================================
+   Filters
+   ========================================================= */
+
+function initializeFilters() {
+
+    const discoveredAreas =
+        [
+            ...new Set(
+                discoveredProperties
+                    .map(
+                        item =>
+                            item.searchArea
+                    )
+                    .filter(Boolean)
+            )
+        ]
+        .sort();
+
+    const discoveredAreaSelect =
+        document.getElementById(
+            "discoveredArea"
+        );
+
+    discoveredAreas.forEach(
+        area => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                area;
+
+            option.textContent =
+                area;
+
+            discoveredAreaSelect
+                .appendChild(
+                    option
+                );
+        }
+    );
+
+
+    const propertyAreas =
+        [
+            ...new Set(
+                properties
+                    .map(
+                        property =>
+                            property.searchArea ||
+                            property.area ||
+                            getAddress(
+                                property
+                            )
+                    )
+                    .filter(Boolean)
+            )
+        ]
+        .sort();
+
+    const propertyAreaSelect =
+        document.getElementById(
+            "propertyArea"
+        );
+
+    propertyAreas.forEach(
+        area => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                area;
+
+            option.textContent =
+                area;
+
+            propertyAreaSelect
+                .appendChild(
+                    option
+                );
+        }
+    );
+}
+
+
+/* =========================================================
+   Property Filter
+   ========================================================= */
+
+function filterProperties() {
+
+    const search =
+        document
+            .getElementById(
+                "propertySearch"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+    const area =
+        document
+            .getElementById(
+                "propertyArea"
+            )
+            .value;
+
+    const quality =
+        document
+            .getElementById(
+                "propertyQuality"
+            )
+            .value;
+
+    const priceRange =
+        document
+            .getElementById(
+                "propertyPrice"
+            )
+            .value;
+
+    const priceDownOnly =
+        document
+            .getElementById(
+                "priceDownOnly"
+            )
+            .checked;
+
+    const detailFetchedOnly =
+        document
+            .getElementById(
+                "detailFetchedOnly"
+            )
+            .checked;
+
+    const recentOnly =
+        document
+            .getElementById(
+                "recentOnly"
+            )
+            .checked;
+
+
+    const filtered =
+        properties.filter(
+            property => {
+
+                const detail =
+                    getDetail(
+                        property
+                    );
+
+                const searchText = [
+                    property.id,
+                    property.name,
+                    property.title,
+                    property.address,
+                    property.location,
+                    property.searchArea,
+                    detail.title,
+                    detail.address,
+                    detail.station,
+                    detail.transportRaw,
+                    detail.layout,
+                    detail.layoutRaw
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    searchText.includes(
+                        search
+                    );
+
+
+                const propertyArea =
+                    property.searchArea ||
+                    property.area ||
+                    getAddress(
+                        property
+                    );
+
+
+                const matchesArea =
+                    !area ||
+                    propertyArea ===
+                        area;
+
+
+                const matchesQuality =
+                    !quality ||
+                    getQuality(
+                        property
+                    ) === quality;
+
+
+                const price =
+                    getCurrentPrice(
+                        property
+                    );
+
+
+                let matchesPrice =
+                    true;
+
+                if (
+                    priceRange &&
+                    price !== null
+                ) {
+
+                    const parts =
+                        priceRange.split(
+                            "-"
+                        );
+
+                    const min =
+                        Number(
+                            parts[0]
+                        ) * 10000;
+
+                    const max =
+                        Number(
+                            parts[1]
+                        ) * 10000;
+
+                    matchesPrice =
+                        price >= min &&
+                        price <= max;
+                }
+
+
+                if (
+                    priceRange &&
+                    price === null
+                ) {
+                    matchesPrice =
+                        false;
+                }
+
+
+                const matchesPriceDown =
+                    !priceDownOnly ||
+                    hasPriceDown(
+                        property
+                    );
+
+
+                const matchesFetched =
+                    !detailFetchedOnly ||
+                    isDetailFetched(
+                        property
+                    );
+
+
+                const matchesRecent =
+                    !recentOnly ||
+                    isRecent(
+                        property
+                    );
+
+
+                return (
+                    matchesSearch &&
+                    matchesArea &&
+                    matchesQuality &&
+                    matchesPrice &&
+                    matchesPriceDown &&
+                    matchesFetched &&
+                    matchesRecent
+                );
+            }
+        );
+
+
+    renderProperties(
+        filtered
+    );
+}
+
+
+/* =========================================================
+   Discovered Listings
+   ========================================================= */
+
+function renderDiscoveredListings(
+    list
+) {
+
+    const container =
+        document.getElementById(
+            "discoveredProperties"
+        );
+
+    const summary =
+        document.getElementById(
+            "discoveredSummary"
+        );
+
+    if (
+        !Array.isArray(list) ||
+        !list.length
+    ) {
+
+        container.innerHTML = `
+            <div class="empty">
+                自動検出候補はありません。
+            </div>
+        `;
+
+        summary.textContent =
+            "0件";
+
+        return;
+    }
+
+    summary.textContent =
+        `${list.length}件を表示`;
+
+    container.innerHTML =
+        list
+            .map(
+                property => {
+
+                    const url =
+                        property.sourceUrl ||
+                        property.url ||
+                        "";
+
+                    const area =
+                        property.searchArea ||
+                        property.area ||
+                        "-";
+
+                    const source =
+                        property.source ||
+                        "SUUMO";
+
+                    const collectedAt =
+                        property.collectedAt;
+
+                    return `
+                        <article class="property">
+
+                            <div class="property-top">
+
+                                <div class="property-main">
+
+                                    <div class="property-name">
+                                        ${escapeHtml(
+                                            area
+                                        )}
+                                    </div>
+
+                                    <div class="property-location">
+                                        自動検出候補
+                                    </div>
+
+                                    <div class="property-id">
+                                        ID:
+                                        ${escapeHtml(
+                                            property.id ||
+                                            "-"
+                                        )}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="flags">
+
+                                <span class="
+                                    flag
+                                    flag-auto
+                                ">
+                                    自動検出
+                                </span>
+
+                                <span class="
+                                    flag
+                                    flag-unknown
+                                ">
+                                    詳細未取得
+                                </span>
+
+                            </div>
+
+                            <div class="property-details">
+
+                                <div class="meta-item">
+                                    <span class="meta-label">
+                                        エリア
+                                    </span>
+                                    ${formatValue(
+                                        area
+                                    )}
+                                </div>
+
+                                <div class="meta-item">
+                                    <span class="meta-label">
+                                        出典
+                                    </span>
+                                    ${formatValue(
+                                        source
+                                    )}
+                                </div>
+
+                                <div class="meta-item">
+                                    <span class="meta-label">
+                                        検出日時
+                                    </span>
+                                    ${formatDate(
+                                        collectedAt
+                                    )}
+                                </div>
+
+                            </div>
+
+                            <div class="property-footer">
+
+                                ${
+                                    url
+                                        ? `
+                                            <a
+                                                href="${escapeHtml(
+                                                    url
+                                                )}"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                SUUMOページを開く →
+                                            </a>
+                                        `
+                                        : `
+                                            <span>
+                                                詳細URLなし
+                                            </span>
+                                        `
+                                }
+
+                            </div>
+
+                        </article>
+                    `;
+                }
+            )
+            .join("");
+}
+
+
+function filterDiscoveredListings() {
+
+    const search =
+        document
+            .getElementById(
+                "discoveredSearch"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+    const area =
+        document
+            .getElementById(
+                "discoveredArea"
+            )
+            .value;
+
+
+    const filtered =
+        discoveredProperties.filter(
+            property => {
+
+                const text = [
+                    property.id,
+                    property.searchArea,
+                    property.sourceUrl,
+                    property.source
+                ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                const matchesSearch =
+                    !search ||
+                    text.includes(
+                        search
+                    );
+
+                const matchesArea =
+                    !area ||
+                    property.searchArea ===
+                        area;
+
+                return (
+                    matchesSearch &&
+                    matchesArea
+                );
+            }
+        );
+
+
+    renderDiscoveredListings(
+        filtered
+    );
+}
+
+
+/* =========================================================
+   Data Loading
+   ========================================================= */
+
+async function loadData() {
+
+    const timestamp =
+        Date.now();
+
+    try {
+
+        const [
+            housesResponse,
+            discoveredResponse
+        ] = await Promise.all([
+
+            fetch(
+                "data/houses.json?"
+                + timestamp
+            ),
+
+            fetch(
+                "data/discovered_listings.json?"
+                + timestamp
+            )
+
+        ]);
+
+
+        if (
+            !housesResponse.ok
+        ) {
+            throw new Error(
+                "houses.jsonの取得に失敗しました"
+            );
+        }
+
+
+        const housesData =
+            await housesResponse.json();
+
+
+        let discoveredData = {
+            properties: [],
+            updatedAt: null
+        };
+
+
+        if (
+            discoveredResponse.ok
+        ) {
+
+            discoveredData =
+                await discoveredResponse.json();
+
+        } else {
+
+            console.warn(
+                "discovered_listings.jsonが取得できませんでした。"
+            );
+
+        }
+
+
+        properties =
+            Array.isArray(
+                housesData.properties
+            )
+                ? housesData.properties
+                : [];
+
+
+        discoveredProperties =
+            Array.isArray(
+                discoveredData.properties
+            )
+                ? discoveredData.properties
+                : [];
+
+
+        updateHeader(
+            housesData.updatedAt,
+            discoveredData.updatedAt
+        );
+
+
+        updateDashboard();
+
+
+        initializeFilters();
+
+
+        renderHighlights();
+
+
+        renderProperties(
+            properties
+        );
+
+
+        renderDiscoveredListings(
+            discoveredProperties
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        showError(
+            error.message ||
+            "データの読み込みに失敗しました。"
+        );
+
+
+        document
+            .getElementById(
+                "properties"
+            )
+            .innerHTML = `
+                <div class="empty">
+                    物件データを読み込めませんでした。
+                </div>
+            `;
+
+
+        document
+            .getElementById(
+                "discoveredProperties"
+            )
+            .innerHTML = `
+                <div class="empty">
+                    自動検出候補を読み込めませんでした。
+                </div>
+            `;
+    }
+}
+
+
+/* =========================================================
+   Error
+   ========================================================= */
+
+function showError(message) {
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+    status.textContent =
+        message;
+
+    status.className =
+        "status error";
+}
+
+
+/* =========================================================
+   Event Listeners
+   ========================================================= */
+
+document
+    .getElementById(
+        "propertySearch"
+    )
+    .addEventListener(
+        "input",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "propertyArea"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "propertyQuality"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "propertyPrice"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "priceDownOnly"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "detailFetchedOnly"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "recentOnly"
+    )
+    .addEventListener(
+        "change",
+        filterProperties
+    );
+
+
+document
+    .getElementById(
+        "clearPropertyFilter"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
             document
                 .getElementById(
                     "propertySearch"
                 )
-                .value
-                .trim()
-                .toLowerCase();
-        const area =
+                .value = "";
+
             document
                 .getElementById(
                     "propertyArea"
                 )
-                .value;
-        const filtered =
-            properties.filter(
-                property => {
-                    const text = [
-                        property.name,
-                        property.title,
-                        property.address,
-                        property.location,
-                        property.area
-                    ]
-                        .filter(Boolean)
-                        .join(" ")
-                        .toLowerCase();
-                    const propertyArea =
-                        property.area ||
-                        property.searchArea ||
-                        property.location ||
-                        "";
-                    const matchesSearch =
-                        !search ||
-                        text.includes(search);
-                    const matchesArea =
-                        !area ||
-                        propertyArea === area;
-                    return (
-                        matchesSearch &&
-                        matchesArea
-                    );
-                }
+                .value = "";
+
+            document
+                .getElementById(
+                    "propertyQuality"
+                )
+                .value = "";
+
+            document
+                .getElementById(
+                    "propertyPrice"
+                )
+                .value = "";
+
+            document
+                .getElementById(
+                    "priceDownOnly"
+                )
+                .checked = false;
+
+            document
+                .getElementById(
+                    "detailFetchedOnly"
+                )
+                .checked = false;
+
+            document
+                .getElementById(
+                    "recentOnly"
+                )
+                .checked = false;
+
+            renderProperties(
+                properties
             );
-        renderProperties(
-            filtered
-        );
-    }
-    /*
-     * ========================================
-     * Error
-     * ========================================
-     */
-    function showError(
-        message
-    ) {
-        const status =
-            document.getElementById(
-                "status"
-            );
-        status.textContent =
-            message;
-        status.className =
-            "status error";
-    }
-    /*
-     * ========================================
-     * Event Listeners
-     * ========================================
-     */
-    document
-        .getElementById(
-            "discoveredSearch"
-        )
-        .addEventListener(
-            "input",
-            filterDiscoveredListings
-        );
-    document
-        .getElementById(
-            "discoveredArea"
-        )
-        .addEventListener(
-            "change",
-            filterDiscoveredListings
-        );
-    document
-        .getElementById(
-            "clearDiscoveredFilter"
-        )
-        .addEventListener(
-            "click",
-            () => {
-                document
-                    .getElementById(
-                        "discoveredSearch"
-                    )
-                    .value = "";
-                document
-                    .getElementById(
-                        "discoveredArea"
-                    )
-                    .value = "";
-                renderDiscoveredListings(
-                    discoveredProperties
-                );
-            }
-        );
-    document
-        .getElementById(
-            "propertySearch"
-        )
-        .addEventListener(
-            "input",
-            filterProperties
-        );
-    document
-        .getElementById(
-            "propertyArea"
-        )
-        .addEventListener(
-            "change",
-            filterProperties
-        );
-    document
-        .getElementById(
-            "clearPropertyFilter"
-        )
-        .addEventListener(
-            "click",
-            () => {
-                document
-                    .getElementById(
-                        "propertySearch"
-                    )
-                    .value = "";
-                document
-                    .getElementById(
-                        "propertyArea"
-                    )
-                    .value = "";
-                renderProperties(
-                    properties
-                );
-            }
-        );
-    /*
-     * ========================================
-     * Start
-     * ========================================
-     */
-    document.addEventListener(
-        "DOMContentLoaded",
-        loadData
+        }
     );
+
+
+document
+    .getElementById(
+        "discoveredSearch"
+    )
+    .addEventListener(
+        "input",
+        filterDiscoveredListings
+    );
+
+
+document
+    .getElementById(
+        "discoveredArea"
+    )
+    .addEventListener(
+        "change",
+        filterDiscoveredListings
+    );
+
+
+document
+    .getElementById(
+        "clearDiscoveredFilter"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            document
+                .getElementById(
+                    "discoveredSearch"
+                )
+                .value = "";
+
+            document
+                .getElementById(
+                    "discoveredArea"
+                )
+                .value = "";
+
+            renderDiscoveredListings(
+                discoveredProperties
+            );
+        }
+    );
+
+
+/* =========================================================
+   Start
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadData
+);
+
 </script>
+
 </body>
 </html>
