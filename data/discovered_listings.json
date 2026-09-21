@@ -1,4 +1,1313 @@
 {
-  "updatedAt": "2026-09-21T04:05:08.002179",
-  "properties": []
+  "updatedAt": "2026-09-21T04:11:54.095813",
+  "properties": [
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76120/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?page=2&rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?page=3&rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?page=4&rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?page=5&rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_142/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_143/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_152/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_164/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_165/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_166/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_168/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_169/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_178/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_217/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_218/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_219/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_220/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_221/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_310/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_311/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_312/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_313/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_314/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_315/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_316/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76135/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_jobansen/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tobunodasen/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tsukubaexpress/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20508086/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20578263/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20578263/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21009364/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21036169/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21053093/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21059775/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21108615/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21164019/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21250156/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21250383/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21250383/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21250668/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21250668/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21290284/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21328764/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21353416/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21387786/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21415222/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21661043/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21712588/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21737100/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21737100/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21737731/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21737731/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21750415/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_78922306/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20915559/?fmlg=bo001",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/ibaraki/ek_39550/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/ibaraki/en_jobansen/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/kanto/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/tokyo/en_jobansen/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?rn=0760",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_04930/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_07970/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_26530/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_30720/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_37670/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76120/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/?page=2&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/?page=3&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/?page=4&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_142/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_143/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_152/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_164/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_165/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_166/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_168/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_169/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_173/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_177/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_180/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_217/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_218/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_219/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_220/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_221/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_311/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_312/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_313/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_314/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_315/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_316/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76135/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_keiseimatsudosen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tobunodasen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tsukubaexpress/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20694216/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21143896/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_21453172/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21266976/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21348078/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21490232/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21650041/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21712588/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21722202/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20295913/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20715024/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20915559/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21032033/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21057868/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21148468/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21198449/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21242061/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21274244/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21369631/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21458749/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21604645/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21621776/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21721265/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78398755/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78939562/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_79053933/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_noda/nc_20328599/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/ibaraki/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/kanto/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_78774230/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/tokyo/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_04930/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_07970/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_26530/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_30720/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_37670/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76120/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_142/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_143/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_164/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_165/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_166/nj_167/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=2&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=4&rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_152/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_168/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_169/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_173/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_177/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_180/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_217/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_218/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_219/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_220/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_221/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_311/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_312/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_313/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_314/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_315/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/nj_316/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76135/?rn=0760",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_keiseimatsudosen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tobunodasen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/en_tsukubaexpress/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20609330/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_20824081/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_21658046/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21266976/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21328764/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21348078/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21517352/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21650041/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21722202/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20295913/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20715024/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20915559/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21032033/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21057868/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21148468/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21198449/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21242061/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21274244/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21369631/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21458749/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21621776/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21721265/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78398755/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78939562/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_79053933/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_noda/nc_21707585/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_noda/nc_79106948/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_shiroi/nc_21389313/?fmlg=bo001",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/ibaraki/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/kanto/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/nj_167/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/tokyo/en_jobansen/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    },
+    {
+      "source": "suumo",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/nj_159/?rn=0495",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建て"
+    }
+  ]
 }
