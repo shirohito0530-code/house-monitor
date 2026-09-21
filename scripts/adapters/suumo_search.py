@@ -31,7 +31,7 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     def load_search_urls(self):
         """
-        config/search_urls.json から
+        config/search_urls.jsonから
         SUUMO検索URLを読み込む
         """
 
@@ -67,7 +67,7 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         if not isinstance(search_urls, list):
             print(
-                "suumo_search_urls は配列で指定してください"
+                "suumo_search_urlsは配列で指定してください"
             )
             return []
 
@@ -98,16 +98,35 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     def normalize_url(self, url, base_url):
         """
-        URLを絶対URLに変換し、
-        クエリパラメータとフラグメントを除去する
+        URLを絶対URLに変換する。
+
+        - SUUMOの正規ドメインのみ許可
+        - クエリパラメータを削除
+        - フラグメントを削除
+        - 個別物件URLの末尾にスラッシュを付与
         """
 
         if not url:
             return None
 
+        url = url.strip()
+
+        # JavaScriptリンクやページ内リンクを除外
+        if url.startswith("#"):
+            return None
+
+        if url.lower().startswith(
+            (
+                "javascript:",
+                "mailto:",
+                "tel:"
+            )
+        ):
+            return None
+
         absolute_url = urljoin(
             base_url,
-            url.strip()
+            url
         )
 
         if not self.is_valid_url(
@@ -119,10 +138,19 @@ class SuumoSearchAdapter(PropertyAdapter):
             absolute_url
         )
 
+        path = parsed.path
+
+        # 個別物件URLの末尾スラッシュを統一
+        if re.search(
+            r"/nc_[0-9]+$",
+            path.lower()
+        ):
+            path = path + "/"
+
         normalized = urlunparse((
             parsed.scheme.lower(),
             parsed.netloc.lower(),
-            parsed.path.rstrip("/"),
+            path,
             "",
             "",
             ""
@@ -132,29 +160,52 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     def is_individual_listing_url(self, url):
         """
-        SUUMOの個別物件ページか判定する。
+        SUUMOの中古戸建て個別物件ページか判定する。
 
-        中古戸建ての個別物件URLは、
-        パス内に nc_数字 を含む形式を想定する。
+        対象例:
+        https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21634932/
 
-        例:
-        https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_12345678/
+        除外例:
+        https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/
         """
 
         if not url:
             return False
 
-        parsed = urlparse(url)
+        try:
+            parsed = urlparse(url)
+
+        except ValueError:
+            return False
+
+        # HTTPSのみ許可
+        if parsed.scheme != "https":
+            return False
+
+        # SUUMO本体ドメインに限定
+        hostname = (
+            parsed.hostname or ""
+        ).lower()
+
+        if hostname != "suumo.jp":
+            return False
 
         path = parsed.path.lower()
 
         # 中古戸建てページに限定
-        if "/chukoikkodate/" not in path:
+        if not path.startswith(
+            "/chukoikkodate/"
+        ):
             return False
 
-        # nc_物件番号を含む個別物件ページに限定
-        if not re.search(
-            r"/nc_[0-9]+(?:/|$)",
+        # nc_数字の個別物件URLに限定
+        pattern = (
+            r"^/chukoikkodate/"
+            r".*/nc_[0-9]+/?$"
+        )
+
+        if not re.match(
+            pattern,
             path
         ):
             return False
@@ -186,12 +237,13 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     def extract_listing_urls(self, html, base_url):
         """
-        検索結果HTMLから個別物件URLだけを抽出する。
+        検索結果HTMLから
+        中古戸建ての個別物件URLだけを抽出する。
 
         抽出対象:
         - SUUMOドメイン
-        - 中古戸建てページ
-        - nc_数字を含む個別物件URL
+        - /chukoikkodate/ 配下
+        - /nc_数字/形式
 
         除外対象:
         - 検索結果ページ
@@ -236,7 +288,10 @@ class SuumoSearchAdapter(PropertyAdapter):
     def search(self, search_config):
         """
         設定されたSUUMO検索URLを巡回し、
-        個別物件URLを返す
+        個別物件URLを返す。
+
+        同一物件が複数検索条件に該当する場合、
+        URL単位で重複排除する。
         """
 
         search_targets = (
@@ -245,11 +300,14 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         properties = []
 
-        # 同一物件が複数検索条件に該当した場合の重複排除
         seen_urls = set()
 
         for target in search_targets:
-            if not isinstance(target, dict):
+
+            if not isinstance(
+                target,
+                dict
+            ):
                 continue
 
             url = target.get("url")
