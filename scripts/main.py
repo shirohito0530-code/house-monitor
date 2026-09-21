@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DETAIL_FETCH_LIMIT = 5
 
 # suumo_detail.py 側のバージョンと一致させる
-DETAIL_PARSER_VERSION = "2026-09-21-v5"
+DETAIL_PARSER_VERSION = "2026-09-21-v6"
 
 logger = logging.getLogger(__name__)
 
@@ -281,8 +281,6 @@ def is_suspicious_station(value):
     promotional_words = ["見学", "お迎え", "提案", "案内", "ローン", "頭金", "月々", "物件"]
     if any(word in text for word in promotional_words):
         return True
-
-    # 1文字駅名（柏、蕨、関など）を許可するため len(text) <= 1 判定を排除
 
     return False
 
