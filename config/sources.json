@@ -6,7 +6,7 @@
       "maxPagesPerRun": 3,
       "timeout": 20,
       "intervalSeconds": 5,
-      "detailFetchLimit": 5,
+      "detailFetchLimit": 20,
       "detailRequestIntervalSeconds": 1.5
     },
     {
