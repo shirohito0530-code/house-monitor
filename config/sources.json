@@ -5,7 +5,9 @@
       "enabled": true,
       "maxPagesPerRun": 3,
       "timeout": 20,
-      "intervalSeconds": 5
+      "intervalSeconds": 5,
+      "detailFetchLimit": 5,
+      "detailRequestIntervalSeconds": 1.5
     },
     {
       "name": "homes_search",
