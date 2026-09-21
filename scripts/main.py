@@ -1,3 +1,8 @@
+import logging
+from datetime import datetime, timezone
+
+from adapters.suumo_detail import fetch_detail
+
 from pathlib import Path
 from datetime import datetime, timezone
 import hashlib
