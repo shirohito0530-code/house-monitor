@@ -1,22 +1,20 @@
 {
   "sources": [
     {
+      "name": "manual",
+      "enabled": true
+    },
+    {
       "name": "suumo",
-      "enabled": true,
-      "method": "approved_or_permitted",
-      "baseUrl": "https://suumo.jp"
+      "enabled": false
     },
     {
       "name": "homes",
-      "enabled": false,
-      "method": "approved_or_permitted",
-      "baseUrl": "https://www.homes.co.jp"
+      "enabled": false
     },
     {
       "name": "athome",
-      "enabled": false,
-      "method": "approved_or_permitted",
-      "baseUrl": "https://www.athome.co.jp"
+      "enabled": false
     }
   ]
 }
