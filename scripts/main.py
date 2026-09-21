@@ -82,8 +82,8 @@ def create_property_id(url):
     """
     URLを基に安定した物件IDを作成する。
 
-    同一URLであれば、実行ごとに
-    同じIDが生成される。
+    同一URLであれば、
+    実行ごとに同じIDが生成される。
     """
 
     normalized_url = normalize_url(
@@ -109,6 +109,12 @@ def normalize_property(
     """
     新しく検出した物件の初期データを作成する。
     """
+
+    if not isinstance(
+        item,
+        dict
+    ):
+        return None
 
     url = item.get(
         "sourceUrl",
@@ -151,7 +157,7 @@ def load_existing_properties():
     既存の検出済み物件を読み込む。
 
     ファイルが存在しない場合は
-    空の配列を返す。
+    空の辞書を返す。
     """
 
     path = (
@@ -197,6 +203,7 @@ def load_existing_properties():
         )
 
         if not property_id:
+
             source_url = property_data.get(
                 "sourceUrl",
                 ""
@@ -291,14 +298,18 @@ def merge_property(
 
     # 価格履歴を初期化
     if not isinstance(
-        merged.get("priceHistory"),
+        merged.get(
+            "priceHistory"
+        ),
         list
     ):
         merged["priceHistory"] = []
 
     # 詳細情報を初期化
     if not isinstance(
-        merged.get("detail"),
+        merged.get(
+            "detail"
+        ),
         dict
     ):
         merged["detail"] = {}
@@ -313,13 +324,63 @@ def merge_properties(
 ):
     """
     既存物件と今回検出物件を統合する。
+
+    current_propertiesは以下の両方に対応:
+    - 物件データの辞書
+    - 物件データのリスト
     """
+
+    if not isinstance(
+        existing_properties,
+        dict
+    ):
+        existing_properties = {}
 
     merged_properties = (
         existing_properties.copy()
     )
 
-    for current in current_properties:
+    # 辞書の場合はvalues()を使用
+    if isinstance(
+        current_properties,
+        dict
+    ):
+
+        property_items = (
+            current_properties.values()
+        )
+
+    elif isinstance(
+        current_properties,
+        list
+    ):
+
+        property_items = (
+            current_properties
+        )
+
+    else:
+
+        print(
+            "物件データの形式が不正です"
+        )
+
+        return merged_properties
+
+    for current in property_items:
+
+        # 物件データが辞書でない場合はスキップ
+        if not isinstance(
+            current,
+            dict
+        ):
+
+            print(
+                "不正な物件データをスキップ:",
+                current
+            )
+
+            continue
 
         property_id = current.get(
             "id"
@@ -404,6 +465,15 @@ def main():
             search_config
         )
 
+        if not isinstance(
+            results,
+            list
+        ):
+            print(
+                "検索結果がリスト形式ではありません"
+            )
+            continue
+
         for item in results:
 
             normalized = normalize_property(
@@ -418,15 +488,16 @@ def main():
                 normalized
             )
 
-    # 既存物件を読み込み
-    existing_properties = (
-        load_existing_properties()
-    )
-
     # 今回の検出結果をID単位で重複排除
     current_unique = {}
 
     for property_data in current_properties:
+
+        if not isinstance(
+            property_data,
+            dict
+        ):
+            continue
 
         property_id = property_data.get(
             "id"
@@ -438,6 +509,11 @@ def main():
         current_unique[property_id] = (
             property_data
         )
+
+    # 既存物件を読み込み
+    existing_properties = (
+        load_existing_properties()
+    )
 
     # 既存データと今回の結果を統合
     merged_properties = merge_properties(
@@ -459,7 +535,7 @@ def main():
     )
 
     print(
-        "今回の新規・検出物件数:",
+        "今回の検出物件数:",
         len(current_unique)
     )
 
