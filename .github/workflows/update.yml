@@ -1,11 +1,11 @@
-
 name: Update house listings
 
 on:
   workflow_dispatch:
 
   schedule:
-    # 毎日06:00 JST（21:00 UTC）
+    # 毎日、日本時間06:00に実行
+    # UTC 21:00 = JST 06:00
     - cron: "0 21 * * *"
 
 permissions:
@@ -24,8 +24,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Python環境を準備
-      - name: Setup Python
+      # 2. Python環境を設定
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -42,7 +42,7 @@ jobs:
         run: |
           python scripts/main.py
 
-      # 5. 取得結果を確認
+      # 5. 出力ファイルを検証
       - name: Validate output
         run: |
           python - <<'PY'
@@ -53,31 +53,44 @@ jobs:
 
           if not path.exists():
               raise SystemExit(
-                  "ERROR: discovered_listings.json was not created"
+                  "ERROR: data/discovered_listings.json was not created"
               )
 
-          data = json.loads(
-              path.read_text(encoding="utf-8")
-          )
+          with path.open(encoding="utf-8") as f:
+              data = json.load(f)
 
-          if not isinstance(data.get("properties"), list):
+          if not isinstance(data, dict):
+              raise SystemExit(
+                  "ERROR: Output must be a JSON object"
+              )
+
+          if "updatedAt" not in data:
+              raise SystemExit(
+                  "ERROR: updatedAt is missing"
+              )
+
+          if "properties" not in data:
+              raise SystemExit(
+                  "ERROR: properties is missing"
+              )
+
+          if not isinstance(data["properties"], list):
               raise SystemExit(
                   "ERROR: properties must be a list"
               )
 
-          print(
-              "Discovered listings:",
-              len(data["properties"])
-          )
+          print("Output validation: OK")
+          print(f"Updated at: {data['updatedAt']}")
+          print(f"Properties found: {len(data['properties'])}")
           PY
 
-      # 6. 取得結果をログに表示
-      - name: Show output
+      # 6. 検索結果をログに表示
+      - name: Display discovered listings
         run: |
           cat data/discovered_listings.json
 
-      # 7. データをコミット
-      - name: Commit updated data
+      # 7. 変更をコミット・プッシュ
+      - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -85,7 +98,7 @@ jobs:
           git add data/discovered_listings.json
 
           if git diff --cached --quiet; then
-            echo "No data changes"
+            echo "No changes to commit"
           else
             git commit -m "Update discovered house listings"
             git push
