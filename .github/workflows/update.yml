@@ -1,151 +1,345 @@
 name: Update house listings
 
 on:
-  workflow_dispatch:
+workflow_dispatch:
 
-  schedule:
-    # 毎日、日本時間06:00に実行
-    # UTC 21:00 = JST 06:00
-    - cron: "0 21 * * *"
+schedule:
+# 毎日、日本時間06:00に実行
+# UTC 21:00 = JST 06:00
+- cron: “0 21 * * *”
 
 permissions:
-  contents: write
+contents: write
 
 concurrency:
-  group: update-house-listings
-  cancel-in-progress: false
+group: update-house-listings
+cancel-in-progress: false
 
 jobs:
-  update:
-    runs-on: ubuntu-latest
+update:
+runs-on: ubuntu-latest
 
-    steps:
-      # 1. リポジトリを取得
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2. Python環境を設定
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-          cache: "pip"
-
-      # 3. 依存ライブラリをインストール
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      # 4. SUUMO検索と詳細情報取得
-      - name: Discover and fetch house listings
-        run: |
-          python scripts/main.py
-
-      # 5. 出力ファイルを検証
-      - name: Validate output
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path(
-              "data/discovered_listings.json"
-          )
-
+steps:
+  # =====================================================
+  # 1. リポジトリを取得
+  # =====================================================
+  - name: Checkout repository
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 1
+  # =====================================================
+  # 2. Python環境を設定
+  # =====================================================
+  - name: Set up Python
+    uses: actions/setup-python@v5
+    with:
+      python-version: "3.12"
+      cache: "pip"
+  # =====================================================
+  # 3. 依存ライブラリをインストール
+  # =====================================================
+  - name: Install dependencies
+    run: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+  # =====================================================
+  # 4. SUUMO検索・物件統合・詳細情報取得
+  # =====================================================
+  - name: Discover and fetch house listings
+    run: |
+      python scripts/main.py
+  # =====================================================
+  # 5. 出力ファイルを検証
+  # =====================================================
+  - name: Validate output
+    run: |
+      python - <<'PY'
+      import json
+      from pathlib import Path
+      REQUIRED_FILES = [
+          Path("data/discovered_listings.json"),
+          Path("data/houses.json"),
+      ]
+      for path in REQUIRED_FILES:
           if not path.exists():
               raise SystemExit(
-                  "ERROR: data/discovered_listings.json was not created"
+                  f"ERROR: {path} was not created"
               )
-
-          with path.open(
-              encoding="utf-8"
-          ) as file:
-              data = json.load(file)
-
-          if not isinstance(data, dict):
-              raise SystemExit(
-                  "ERROR: Output must be a JSON object"
-              )
-
-          if "updatedAt" not in data:
-              raise SystemExit(
-                  "ERROR: updatedAt is missing"
-              )
-
-          if "properties" not in data:
-              raise SystemExit(
-                  "ERROR: properties is missing"
-              )
-
+          print(f"Found: {path}")
+      # -------------------------------------------------
+      # discovered_listings.json
+      # -------------------------------------------------
+      discovered_path = Path(
+          "data/discovered_listings.json"
+      )
+      with discovered_path.open(
+          encoding="utf-8"
+      ) as file:
+          discovered = json.load(file)
+      if not isinstance(discovered, dict):
+          raise SystemExit(
+              "ERROR: discovered_listings.json "
+              "must be a JSON object"
+          )
+      if "updatedAt" not in discovered:
+          raise SystemExit(
+              "ERROR: discovered_listings.json "
+              "updatedAt is missing"
+          )
+      if "properties" not in discovered:
+          raise SystemExit(
+              "ERROR: discovered_listings.json "
+              "properties is missing"
+          )
+      if not isinstance(
+          discovered["properties"],
+          list
+      ):
+          raise SystemExit(
+              "ERROR: discovered_listings.json "
+              "properties must be a list"
+          )
+      for index, property_data in enumerate(
+          discovered["properties"]
+      ):
           if not isinstance(
-              data["properties"],
-              list
+              property_data,
+              dict
           ):
               raise SystemExit(
-                  "ERROR: properties must be a list"
+                  "ERROR: discovered_listings.json "
+                  f"properties[{index}] must be an object"
               )
-
-          for index, property_data in enumerate(
-              data["properties"]
+          if not property_data.get("id"):
+              raise SystemExit(
+                  "ERROR: discovered_listings.json "
+                  f"properties[{index}].id is missing"
+              )
+          if not property_data.get("sourceUrl"):
+              raise SystemExit(
+                  "ERROR: discovered_listings.json "
+                  f"properties[{index}].sourceUrl is missing"
+              )
+      # -------------------------------------------------
+      # houses.json
+      # -------------------------------------------------
+      houses_path = Path(
+          "data/houses.json"
+      )
+      with houses_path.open(
+          encoding="utf-8"
+      ) as file:
+          houses = json.load(file)
+      if not isinstance(houses, dict):
+          raise SystemExit(
+              "ERROR: houses.json "
+              "must be a JSON object"
+          )
+      if "updatedAt" not in houses:
+          raise SystemExit(
+              "ERROR: houses.json "
+              "updatedAt is missing"
+          )
+      if "properties" not in houses:
+          raise SystemExit(
+              "ERROR: houses.json "
+              "properties is missing"
+          )
+      if not isinstance(
+          houses["properties"],
+          list
+      ):
+          raise SystemExit(
+              "ERROR: houses.json "
+              "properties must be a list"
+          )
+      for index, property_data in enumerate(
+          houses["properties"]
+      ):
+          if not isinstance(
+              property_data,
+              dict
           ):
-
-              if not isinstance(
-                  property_data,
-                  dict
-              ):
-                  raise SystemExit(
-                      f"ERROR: properties[{index}] must be an object"
-                  )
-
-              if "id" not in property_data:
-                  raise SystemExit(
-                      f"ERROR: properties[{index}].id is missing"
-                  )
-
-              if "sourceUrl" not in property_data:
-                  raise SystemExit(
-                      f"ERROR: properties[{index}].sourceUrl is missing"
-                  )
-
-          print("Output validation: OK")
-          print(
-              f"Updated at: {data['updatedAt']}"
-          )
-          print(
-              f"Properties found: {len(data['properties'])}"
-          )
-
-          summary = data.get(
-              "summary",
-              {}
-          )
-
-          print(
-              "Detail fetched:",
-              summary.get(
-                  "detailFetchedCount",
-                  0
+              raise SystemExit(
+                  "ERROR: houses.json "
+                  f"properties[{index}] must be an object"
               )
+          if not property_data.get("id"):
+              raise SystemExit(
+                  "ERROR: houses.json "
+                  f"properties[{index}].id is missing"
+              )
+          if not property_data.get("sourceUrl"):
+              raise SystemExit(
+                  "ERROR: houses.json "
+                  f"properties[{index}].sourceUrl is missing"
+              )
+      # -------------------------------------------------
+      # 重複IDチェック
+      # -------------------------------------------------
+      def check_duplicate_ids(properties, label):
+          ids = [
+              item.get("id")
+              for item in properties
+          ]
+          duplicates = sorted({
+              property_id
+              for property_id in ids
+              if ids.count(property_id) > 1
+          })
+          if duplicates:
+              raise SystemExit(
+                  f"ERROR: Duplicate IDs found in "
+                  f"{label}: {duplicates}"
+              )
+      check_duplicate_ids(
+          discovered["properties"],
+          "discovered_listings.json"
+      )
+      check_duplicate_ids(
+          houses["properties"],
+          "houses.json"
+      )
+      # -------------------------------------------------
+      # サマリー表示
+      # -------------------------------------------------
+      discovered_summary = discovered.get(
+          "summary",
+          {}
+      )
+      houses_summary = houses.get(
+          "summary",
+          {}
+      )
+      print("")
+      print("========================================")
+      print("Output validation: OK")
+      print("========================================")
+      print("")
+      print("discovered_listings.json")
+      print(
+          f"  Updated at: {discovered['updatedAt']}"
+      )
+      print(
+          "  Properties found:",
+          len(discovered["properties"])
+      )
+      print("")
+      print("houses.json")
+      print(
+          f"  Updated at: {houses['updatedAt']}"
+      )
+      print(
+          "  Properties found:",
+          len(houses["properties"])
+      )
+      print("")
+      print("Summary")
+      print(
+          "  Discovered:",
+          discovered_summary.get(
+              "discoveredCount",
+              len(discovered["properties"])
           )
-          PY
-
-      # 6. 検索結果をログに表示
-      - name: Display discovered listings
-        run: |
-          cat data/discovered_listings.json
-
-      # 7. 変更をコミット・プッシュ
-      - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add data/discovered_listings.json
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update discovered house listings"
-            git push
-          fi
+      )
+      print(
+          "  Detail fetched:",
+          houses_summary.get(
+              "detailFetchedCount",
+              0
+          )
+      )
+      print(
+          "  Detail errors:",
+          houses_summary.get(
+              "detailErrorCount",
+              0
+          )
+      )
+      print(
+          "  GOOD:",
+          houses_summary.get(
+              "goodCount",
+              0
+          )
+      )
+      print(
+          "  PARTIAL:",
+          houses_summary.get(
+              "partialCount",
+              0
+          )
+      )
+      print("")
+      print("Validation completed successfully.")
+      PY
+  # =====================================================
+  # 6. 生成結果の概要をログに表示
+  # =====================================================
+  - name: Display output summary
+    run: |
+      echo "===== discovered_listings.json ====="
+      python - <<'PY'
+      import json
+      with open(
+          "data/discovered_listings.json",
+          encoding="utf-8"
+      ) as f:
+          data = json.load(f)
+      print(
+          "updatedAt:",
+          data.get("updatedAt")
+      )
+      print(
+          "properties:",
+          len(data.get("properties", []))
+      )
+      print(
+          "summary:",
+          data.get("summary", {})
+      )
+      PY
+      echo ""
+      echo "===== houses.json ====="
+      python - <<'PY'
+      import json
+      with open(
+          "data/houses.json",
+          encoding="utf-8"
+      ) as f:
+          data = json.load(f)
+      print(
+          "updatedAt:",
+          data.get("updatedAt")
+      )
+      print(
+          "properties:",
+          len(data.get("properties", []))
+      )
+      print(
+          "summary:",
+          data.get("summary", {})
+      )
+      PY
+  # =====================================================
+  # 7. 変更されたJSONを確認
+  # =====================================================
+  - name: Show changed files
+    run: |
+      git status --short
+      git diff --stat
+  # =====================================================
+  # 8. 生成データをコミット・プッシュ
+  # =====================================================
+  - name: Commit and push changes
+    run: |
+      git config user.name "github-actions[bot]"
+      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      git add data/discovered_listings.json
+      git add data/houses.json
+      if git diff --cached --quiet; then
+        echo "No changes to commit"
+      else
+        git commit -m "Update house listings"
+        git push
+      fi
