@@ -1,24 +1,19 @@
 {
-  "suumo_search_urls": [
+  "urls": [
     {
-      "area": "柏の葉キャンパス",
-      "propertyType": "中古戸建",
-      "url": "ここに許可されたSUUMO検索URLを設定"
+      "name": "柏の葉キャンパス中古戸建て",
+      "url": "https://suumo.jp/chukoikkodate/chiba/ek_76130/",
+      "enabled": true
     },
     {
-      "area": "柏の葉キャンパス",
-      "propertyType": "新築戸建",
-      "url": "ここに許可されたSUUMO検索URLを設定"
+      "name": "流山おおたかの森中古戸建て",
+      "url": "https://suumo.jp/chukoikkodate/chiba/ek_76125/",
+      "enabled": true
     },
     {
-      "area": "流山おおたかの森",
-      "propertyType": "中古戸建",
-      "url": "ここに許可されたSUUMO検索URLを設定"
-    },
-    {
-      "area": "流山おおたかの森",
-      "propertyType": "新築戸建",
-      "url": "ここに許可されたSUUMO検索URLを設定"
+      "name": "流山おおたかの森新着中古戸建て",
+      "url": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
+      "enabled": true
     }
   ]
 }
