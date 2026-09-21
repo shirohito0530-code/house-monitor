@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DETAIL_FETCH_LIMIT = 5
 
 # suumo_detail.py 側のバージョンと一致させる
-DETAIL_PARSER_VERSION = "2026-09-21-v4"
+DETAIL_PARSER_VERSION = "2026-09-21-v5"
 
 logger = logging.getLogger(__name__)
 
@@ -267,6 +267,7 @@ def is_suspicious_station(value):
         "徒歩",
         "駅",
         "ヒント",
+        "なし",
         "null",
         "none"
     }
@@ -274,8 +275,14 @@ def is_suspicious_station(value):
     if text.lower() in suspicious_values:
         return True
 
-    if len(text) <= 1:
+    if len(text) > 15:
         return True
+
+    promotional_words = ["見学", "お迎え", "提案", "案内", "ローン", "頭金", "月々", "物件"]
+    if any(word in text for word in promotional_words):
+        return True
+
+    # 1文字駅名（柏、蕨、関など）を許可するため len(text) <= 1 判定を排除
 
     return False
 
@@ -368,9 +375,6 @@ def normalize_price_history(
     current_price,
     recorded_at
 ):
-    """
-    価格履歴を正規化する。
-    """
 
     if not isinstance(
         history,
@@ -455,9 +459,6 @@ def add_price_history(
     new_price,
     fetched_at
 ):
-    """
-    価格履歴を正規化して保存する。
-    """
 
     new_price = parse_price(
         new_price
@@ -1461,23 +1462,12 @@ def normalize_detail(detail):
             normalized_building_area
         )
 
-    if normalized.get("buildingArea"):
-
-        building_area_text = clean_text(
-            normalized.get("buildingArea")
-        )
-
-        if building_area_text in {
-            "ヒント",
-            "詳細",
-            "確認",
-            "なし"
-        }:
-
-            normalized.pop(
-                "buildingArea",
-                None
-            )
+    # 不適切な文字列が入っている面積フィールドを除去
+    for area_key in ["buildingArea", "landArea"]:
+        if normalized.get(area_key):
+            val_text = clean_text(normalized.get(area_key))
+            if val_text in {"ヒント", "詳細", "確認", "なし"} or not parse_float(val_text):
+                normalized.pop(area_key, None)
 
     # 築年月
     construction_month = normalized.get(
@@ -1554,7 +1544,7 @@ def normalize_detail(detail):
                     "constructionText"
                 ] = build_year_text
 
-    # 駅情報
+    # 駅情報・安全処理
     if not normalized.get("station"):
 
         station = normalized.get(
@@ -1565,6 +1555,9 @@ def normalize_detail(detail):
             normalized["station"] = clean_text(
                 station
             )
+
+    if normalized.get("station") and is_suspicious_station(normalized.get("station")):
+        normalized["station"] = None
 
     if not normalized.get(
         "stationWalkMinutes"
@@ -1599,6 +1592,9 @@ def normalize_detail(detail):
                 )
             )
 
+    if normalized.get("walkMinutes") is not None:
+        normalized["walkMinutes"] = safe_int(normalized.get("walkMinutes"))
+
     # 住所
     if normalized.get("address"):
 
@@ -1607,7 +1603,19 @@ def normalize_detail(detail):
         )
 
         address = re.sub(
-            r"\s*\[\s*[■□].*?\]",
+            r"\s*[\[［].*?[\]］]",
+            "",
+            address
+        )
+
+        address = re.sub(
+            r"\s*[\[［].*$",
+            "",
+            address
+        )
+
+        address = re.sub(
+            r"\s*地図を見る.*$",
             "",
             address
         )
