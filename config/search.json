@@ -1,29 +1,17 @@
 {
   "areas": [
-    {
-      "name": "柏の葉キャンパス",
-      "keywords": [
-        "柏の葉キャンパス",
-        "柏の葉"
-      ]
-    },
-    {
-      "name": "流山おおたかの森",
-      "keywords": [
-        "流山おおたかの森",
-        "おおたかの森"
-      ]
-    }
+    "柏の葉キャンパス",
+    "流山おおたかの森"
   ],
   "propertyTypes": [
     "中古戸建",
     "新築戸建"
   ],
   "maxPrice": 12000,
-  "maxWalkMinutes": 20,
-  "minLandArea": 100,
-  "minBuildingArea": 80,
-  "targetSchool": [
-    "柏の葉小学校"
-  ]
+  "maxWalk": 20,
+  "minLand": 100,
+  "minBuilding": 80,
+  "minYear": 2000,
+  "onlyFlatLand": false,
+  "excludeRetainingWall": false
 }
