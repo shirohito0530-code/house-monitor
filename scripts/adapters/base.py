@@ -8,7 +8,4 @@ class PropertyAdapter(ABC):
 
     @abstractmethod
     def search(self, search_config):
-        """
-        共通フォーマットの物件リストを返す。
-        """
         raise NotImplementedError
