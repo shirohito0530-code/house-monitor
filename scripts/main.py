@@ -72,18 +72,12 @@ def safe_timestamp(value):
         return 0
 
 def safe_int(value):
-    if value is None:
+    if value is None or isinstance(value, bool):
         return None
-
-    if isinstance(value, bool):
-        return None
-
     if isinstance(value, int):
         return value
-
     if isinstance(value, float):
         return int(value)
-
     if isinstance(value, str):
         text = value.strip().replace(",", "")
         match = re.search(r"-?[0-9]+", text)
@@ -92,25 +86,18 @@ def safe_int(value):
                 return int(match.group(0))
             except ValueError:
                 return None
-
     return None
 
 def parse_price(value):
-    if value is None:
+    if value is None or isinstance(value, bool):
         return None
-
-    if isinstance(value, bool):
-        return None
-
     if isinstance(value, int):
         return value if value > 0 else None
-
     if isinstance(value, float):
         price = int(value)
         return price if price > 0 else None
 
     text = str(value).strip().replace(",", "").replace(" ", "").replace("　", "")
-
     if not text:
         return None
 
@@ -126,10 +113,7 @@ def parse_price(value):
         price = int(round(oku * 100_000_000 + man * 10_000))
         return price if price > 0 else None
 
-    match = re.search(
-        r"(\d+(?:\.\d+)?)\s*万(?:円)?",
-        text,
-    )
+    match = re.search(r"(\d+(?:\.\d+)?)\s*万(?:円)?", text)
     if match:
         price = int(round(float(match.group(1)) * 10_000))
         return price if price > 0 else None
@@ -145,19 +129,14 @@ def parse_price(value):
     return None
 
 def parse_float(value):
-    if value is None:
+    if value is None or isinstance(value, bool):
         return None
-
-    if isinstance(value, bool):
-        return None
-
     if isinstance(value, (int, float)):
         number = float(value)
         return number if number > 0 else None
 
     text = str(value).replace(",", "").replace("　", " ").replace("m 2", "m2").replace("m²", "m2").replace("㎡", "m2")
     match = re.search(r"([0-9]+(?:\.[0-9]+)?)", text)
-
     if not match:
         return None
 
@@ -170,7 +149,6 @@ def parse_float(value):
 def clean_text(value):
     if value is None:
         return ""
-
     return re.sub(r"\s+", " ", str(value)).strip()
 
 def is_promotional_text(value):
@@ -182,77 +160,47 @@ def is_promotional_text(value):
 def is_valid_year_month(value):
     if not isinstance(value, str):
         return False
-
     return bool(re.fullmatch(r"\d{4}-(0[1-9]|1[0-2])", value.strip()))
 
 def is_suspicious_station(value):
     if value is None:
         return True
-
     text = clean_text(value)
-
     if not text:
         return True
 
     suspicious_values = {"徒", "歩", "徒歩", "駅", "ヒント", "なし", "null", "none"}
-    if text.lower() in suspicious_values:
-        return True
-
-    if len(text) > 15:
+    if text.lower() in suspicious_values or len(text) > 15:
         return True
 
     promotional_words = ["見学", "お迎え", "提案", "案内", "ローン", "頭金", "月々", "物件"]
-    if any(word in text for word in promotional_words):
-        return True
-
-    return False
+    return any(word in text for word in promotional_words)
 
 def is_suspicious_address(value):
     if value is None:
         return True
-
     text = clean_text(value)
-
     if not text:
         return True
 
     suspicious_words = [
-        "不動産",
-        "株式会社",
-        "有限会社",
-        "支店",
-        "営業所",
-        "店舗",
-        "センター",
-        "アスライク",
-        "免許番号",
+        "不動産", "株式会社", "有限会社", "支店", "営業所", "店舗", "センター", "アスライク", "免許番号"
     ]
-
-    for word in suspicious_words:
-        if word in text:
-            return True
-
-    if re.search(r"〒?\s*\d{3}-\d{4}", text):
-        return True
-
-    return False
+    return any(word in text for word in suspicious_words)
 
 def normalize_warning_list(value):
     if not isinstance(value, list):
         return []
-
     result = []
     for item in value:
         text = clean_text(item)
         if text and text not in result:
             result.append(text)
-
     return result
 
 def normalize_string_list(value):
     if not isinstance(value, list):
         return []
-
     result = []
     for item in value:
         if item is None:
@@ -260,14 +208,13 @@ def normalize_string_list(value):
         text = clean_text(item)
         if text and text not in result:
             result.append(text)
-
     return result
 
 # ============================================================
 # 価格履歴
 # ============================================================
 
-def normalize_price_history(history, current_price, recorded_at):
+def normalize_price_history(history, current_price, recorded_at, source="detail"):
     if not isinstance(history, list):
         history = []
 
@@ -275,51 +222,35 @@ def normalize_price_history(history, current_price, recorded_at):
     for item in history:
         if not isinstance(item, dict):
             continue
-
         price = parse_price(item.get("price"))
         if price is None:
             continue
-
         recorded_time = item.get("recordedAt") or recorded_at
-        normalized.append({"price": price, "recordedAt": recorded_time})
+        item_source = item.get("source") or source
+        normalized.append({"price": price, "recordedAt": recorded_time, "source": item_source})
 
     deduplicated = []
     seen = set()
-
     for item in normalized:
-        key = (item["price"], item["recordedAt"])
+        key = (item["price"], item["recordedAt"], item["source"])
         if key in seen:
             continue
         seen.add(key)
         deduplicated.append(item)
 
-    normalized = deduplicated
+    # タイムスタンプ順にソートして最新価格を特定
+    deduplicated.sort(key=lambda item: safe_timestamp(item.get("recordedAt")))
+
     current_price = parse_price(current_price)
-
     if current_price is None:
-        return normalized
+        return deduplicated
 
-    latest_price = normalized[-1].get("price") if normalized else None
-
+    latest_price = deduplicated[-1].get("price") if deduplicated else None
     if latest_price != current_price:
-        normalized.append({"price": current_price, "recordedAt": recorded_at})
+        deduplicated.append({"price": current_price, "recordedAt": recorded_at, "source": source})
+        deduplicated.sort(key=lambda item: safe_timestamp(item.get("recordedAt")))
 
-    return normalized
-
-def add_price_history(property_data, new_price, fetched_at):
-    new_price = parse_price(new_price)
-    history = normalize_price_history(property_data.get("priceHistory"), None, fetched_at)
-
-    if new_price is None:
-        property_data["priceHistory"] = history
-        return
-
-    previous_price = parse_price(property_data.get("price"))
-    property_data["priceHistory"] = normalize_price_history(history, new_price, fetched_at)
-    property_data["price"] = new_price
-
-    if previous_price is not None and previous_price != new_price:
-        logger.info("価格変更を記録 (ID: %s): %s -> %s", property_data.get("id"), previous_price, new_price)
+    return deduplicated
 
 # ============================================================
 # 設定・アダプター
@@ -334,28 +265,23 @@ def load_sources():
 def get_suumo_source_config():
     sources = load_sources()
     source_list = sources.get("sources", [])
-
     if not isinstance(source_list, list):
         return {}
-
     for source in source_list:
         if isinstance(source, dict) and source.get("name") == "suumo_search":
             return source
-
     return {}
 
 def create_adapters():
     sources = load_sources()
     adapters = []
     source_list = sources.get("sources", [])
-
     if not isinstance(source_list, list):
         return adapters
 
     for source in source_list:
         if isinstance(source, dict) and source.get("enabled") and source.get("name") == "suumo_search":
             adapters.append(SuumoSearchAdapter(config=source, root_path=ROOT))
-
     return adapters
 
 def create_detail_adapter():
@@ -365,15 +291,12 @@ def create_detail_adapter():
 def get_detail_fetch_limit(search_config):
     source_config = get_suumo_source_config()
     configured_limit = source_config.get("detailFetchLimit")
-
     if configured_limit is None:
         configured_limit = search_config.get("detailFetchLimit", DEFAULT_DETAIL_FETCH_LIMIT)
-
     try:
         limit = int(configured_limit)
     except (TypeError, ValueError):
         limit = DEFAULT_DETAIL_FETCH_LIMIT
-
     return max(0, limit)
 
 # ============================================================
@@ -389,12 +312,11 @@ def create_property_id(url):
     normalized_url = normalize_url(url)
     if not normalized_url:
         return None
-
     digest = hashlib.sha256(normalized_url.encode("utf-8")).hexdigest()[:16]
     return f"suumo-{digest}"
 
 # ============================================================
-# 物件データ初期化 (検索結果価格のパース・保持を強化)
+# 物件データ初期化
 # ============================================================
 
 def normalize_property(item, collected_at):
@@ -419,7 +341,13 @@ def normalize_property(item, collected_at):
         "status": "discovered",
         "detailFetched": False,
         "detailFetchedAt": None,
+        "lastSuccessfulDetailFetchedAt": None,
+        "detailDataStale": False,
+        "detailNeedsRefresh": True,
+        "searchDetailPriceMismatch": False,
         "detailFetchError": None,
+        "detailFetchBlocked": False,
+        "detailFetchBlockReason": None,
         "fetchAttemptCount": 0,
         "lastFetchAttemptAt": None,
         "lastFetchParserVersion": None,
@@ -427,9 +355,14 @@ def normalize_property(item, collected_at):
         "firstSeenAt": collected_at,
         "lastSeenAt": collected_at,
         "collectedAt": collected_at,
+        "lastSearchPrice": parsed_search_price,
+        "lastSearchPriceText": clean_text(raw_price) if raw_price else None,
+        "detailPrice": None,
+        "detailPriceText": None,
+        "lastSuccessfulDetailPrice": None,
         "price": parsed_search_price,
         "priceText": clean_text(raw_price) if raw_price else None,
-        "priceHistory": [{"price": parsed_search_price, "recordedAt": collected_at}] if parsed_search_price else [],
+        "priceHistory": [{"price": parsed_search_price, "recordedAt": collected_at, "source": "search"}] if parsed_search_price else [],
         "detailParserVersion": None,
         "detailQuality": "unknown",
         "detailQualityScore": None,
@@ -437,15 +370,15 @@ def normalize_property(item, collected_at):
         "validationWarnings": [],
         "extractionQuality": {},
         "detail": {},
+        "lastSuccessfulDetail": {},
     }
 
 # ============================================================
-# 詳細データの異常判定 & 品質計算
+# 詳細データの品質判定 & 正規化
 # ============================================================
 
 def validate_detail_data(detail):
     warnings = []
-
     if not isinstance(detail, dict):
         return ["detailが辞書形式ではありません"]
 
@@ -491,7 +424,10 @@ def validate_detail_data(detail):
 
     return unique_warnings
 
-def determine_detail_quality(detail):
+def determine_detail_quality(detail, detail_fetched=True):
+    if not detail_fetched or not isinstance(detail, dict):
+        return "unknown", None, [], []
+
     critical_fields = {
         "price": detail.get("price") or detail.get("priceText"),
         "address": detail.get("address"),
@@ -537,17 +473,13 @@ def determine_detail_quality(detail):
 
     return quality, score, warnings, missing_fields
 
-# ============================================================
-# 詳細情報の正規化
-# ============================================================
-
 def normalize_detail(detail):
     if not isinstance(detail, dict):
         return {}
 
     normalized = detail.copy()
 
-    # 1. 土地面積
+    # 土地面積
     land_area_raw = normalized.get("landAreaM2") or normalized.get("landArea")
     normalized_land_area = parse_float(land_area_raw)
     if normalized_land_area is not None:
@@ -559,7 +491,7 @@ def normalize_detail(detail):
     elif normalized_land_area is not None:
         normalized["landAreaText"] = f"{normalized_land_area}m²"
 
-    # 2. 建物面積
+    # 建物面積
     building_area_raw = normalized.get("buildingAreaM2") or normalized.get("buildingArea")
     normalized_building_area = parse_float(building_area_raw)
     if normalized_building_area is not None:
@@ -571,17 +503,16 @@ def normalize_detail(detail):
     elif normalized_building_area is not None:
         normalized["buildingAreaText"] = f"{normalized_building_area}m²"
 
-    # 3. 旧キー削除
     normalized.pop("landArea", None)
     normalized.pop("buildingArea", None)
 
-    # 4. 価格
+    # 価格
     raw_price = normalized.get("price") or normalized.get("priceText")
     normalized_price = parse_price(raw_price)
     if normalized_price is not None:
         normalized["price"] = normalized_price
 
-    # 5. 築年月
+    # 築年月
     construction_month = normalized.get("constructionMonth")
     if construction_month:
         construction_month_text = clean_text(construction_month)
@@ -603,7 +534,7 @@ def normalize_detail(detail):
                 normalized["constructionMonth"] = f"{year}-{month:02d}"
                 normalized["constructionText"] = build_year_text
 
-    # 6. 駅情報
+    # 駅情報
     if not normalized.get("station"):
         station = normalized.get("stationText")
         if station:
@@ -625,7 +556,7 @@ def normalize_detail(detail):
     if normalized.get("walkMinutes") is not None:
         normalized["walkMinutes"] = safe_int(normalized.get("walkMinutes"))
 
-    # 7. 住所
+    # 住所
     if normalized.get("address"):
         address = str(normalized["address"])
         address = re.sub(r"\s*[\[［].*?[\]］]", "", address)
@@ -633,7 +564,7 @@ def normalize_detail(detail):
         address = re.sub(r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$", "", address)
         normalized["address"] = clean_text(address)
 
-    # 8. labelValuePairs 内の「所在地」クレンジング
+    # 所在地ペアのクレンジング
     label_value_pairs = normalized.get("labelValuePairs")
     if isinstance(label_value_pairs, dict):
         pairs = label_value_pairs.copy()
@@ -643,7 +574,6 @@ def normalize_detail(detail):
             pairs["所在地"] = location
         normalized["labelValuePairs"] = pairs
 
-    # 9. リスト項目
     normalized["missingFields"] = normalize_string_list(normalized.get("missingFields"))
     normalized["validationWarnings"] = normalize_warning_list(normalized.get("validationWarnings"))
     normalized["detailParserVersion"] = DETAIL_PARSER_VERSION
@@ -651,57 +581,77 @@ def normalize_detail(detail):
     return normalized
 
 # ============================================================
-# 既存物件の読み込みと正規化
+# 状態判定 & フラグ更新（副作用の分離）
 # ============================================================
 
-def normalize_existing_detail(property_data):
+def has_usable_detail(property_data: dict) -> bool:
+    """
+    houses.json 出力判定用ヘルパー関数。
+    今回取得成功、または過去に一度でも成功していれば True を返す。
+    """
     if not isinstance(property_data, dict):
-        return property_data
-
-    detail = property_data.get("detail")
-    if not isinstance(detail, dict):
-        detail = {}
-
-    original_root_version = property_data.get("detailParserVersion")
-    original_detail_version = detail.get("detailParserVersion")
-
-    detail = normalize_detail(detail)
-
-    quality, score, warnings, missing_fields = determine_detail_quality(detail)
-
-    detail["detailQuality"] = quality
-    detail["detailQualityScore"] = score
-    detail["validationWarnings"] = warnings
-    detail["missingFields"] = missing_fields
-
-    property_data["detail"] = detail
-    property_data["detailQuality"] = quality
-    property_data["detailQualityScore"] = score
-    property_data["validationWarnings"] = warnings
-    property_data["missingFields"] = missing_fields
-
-    detail_price = parse_price(detail.get("price") or detail.get("priceText"))
-    root_price = parse_price(property_data.get("price"))
-    if detail_price is not None:
-        property_data["price"] = detail_price
-    elif root_price is not None:
-        property_data["price"] = root_price
-    else:
-        property_data["price"] = None
-
-    if (
-        original_root_version == DETAIL_PARSER_VERSION
-        and original_detail_version == DETAIL_PARSER_VERSION
-    ):
-        property_data["detailParserVersion"] = DETAIL_PARSER_VERSION
-
-    property_data["priceHistory"] = normalize_price_history(
-        property_data.get("priceHistory"),
-        property_data.get("price"),
-        property_data.get("detailFetchedAt") or now_iso(),
+        return False
+    return bool(
+        property_data.get("detailFetched")
+        or property_data.get("lastSuccessfulDetailFetchedAt")
     )
 
-    return property_data
+def reset_detail_fetch_state_if_parser_updated(property_data: dict) -> None:
+    """
+    パーサーバージョンが更新された場合、試行回数およびブロック状態をリセットする。
+    """
+    if not isinstance(property_data, dict):
+        return
+
+    last_version = property_data.get("lastFetchParserVersion")
+    if last_version != DETAIL_PARSER_VERSION:
+        property_data["fetchAttemptCount"] = 0
+        property_data["detailFetchBlocked"] = False
+        property_data["detailFetchBlockReason"] = None
+        property_data["lastFetchParserVersion"] = DETAIL_PARSER_VERSION
+
+def should_fetch_detail(property_data: dict) -> bool:
+    """
+    詳細取得を実行すべきか判定する。
+    状態変更（副作用）は行わない。
+    """
+    if not isinstance(property_data, dict):
+        return False
+
+    if property_data.get("detailFetchBlocked"):
+        return False
+
+    return bool(property_data.get("detailNeedsRefresh"))
+
+def update_price_mismatch_and_refresh_flags(property_data: dict) -> None:
+    """
+    価格乖離および詳細再取得フラグの統合管理関数（無限再取得防止）。
+    """
+    if not isinstance(property_data, dict):
+        return
+
+    search_price = property_data.get("lastSearchPrice")
+    detail_price = property_data.get("detailPrice")
+
+    # 1. 検索価格と最新詳細価格の乖離判定
+    if search_price is not None and detail_price is not None:
+        property_data["searchDetailPriceMismatch"] = (search_price != detail_price)
+    else:
+        property_data["searchDetailPriceMismatch"] = False
+
+    # 2. 詳細情報の再取得が必要かの判定
+    parser_version = property_data.get("detailParserVersion")
+    is_parser_outdated = (parser_version != DETAIL_PARSER_VERSION)
+    never_fetched = not bool(property_data.get("lastSuccessfulDetailFetchedAt"))
+    price_changed = bool(property_data.get("priceChanged"))
+
+    property_data["detailNeedsRefresh"] = bool(
+        price_changed or is_parser_outdated or never_fetched
+    )
+
+# ============================================================
+# 既存物件の読み込みとデータ統合
+# ============================================================
 
 def load_existing_properties():
     path = ROOT / "data" / "discovered_listings.json"
@@ -715,7 +665,6 @@ def load_existing_properties():
         return {}
 
     result = {}
-
     for property_data in properties:
         if not isinstance(property_data, dict):
             continue
@@ -727,13 +676,23 @@ def load_existing_properties():
         property_data["id"] = property_id
         property_data.setdefault("detailFetched", False)
         property_data.setdefault("detailFetchedAt", None)
+        property_data.setdefault("lastSuccessfulDetailFetchedAt", None)
+        property_data.setdefault("detailDataStale", False)
+        property_data.setdefault("searchDetailPriceMismatch", False)
         property_data.setdefault("detailFetchError", None)
+        property_data.setdefault("detailFetchBlocked", False)
+        property_data.setdefault("detailFetchBlockReason", None)
         property_data.setdefault("fetchAttemptCount", 0)
         property_data.setdefault("lastFetchAttemptAt", None)
         property_data.setdefault("lastFetchParserVersion", None)
         property_data.setdefault("priceChanged", False)
-        property_data.setdefault("price", None)
-        property_data.setdefault("priceText", None)
+        property_data.setdefault("lastSearchPrice", parse_price(property_data.get("price")))
+        property_data.setdefault("lastSearchPriceText", clean_text(property_data.get("priceText")))
+        property_data.setdefault("detailPrice", None)
+        property_data.setdefault("detailPriceText", None)
+        property_data.setdefault("lastSuccessfulDetailPrice", None)
+        property_data.setdefault("price", parse_price(property_data.get("price")))
+        property_data.setdefault("priceText", clean_text(property_data.get("priceText")))
         property_data.setdefault("priceHistory", [])
         property_data.setdefault("detailParserVersion", None)
         property_data.setdefault("detailQuality", "unknown")
@@ -744,18 +703,15 @@ def load_existing_properties():
 
         if not isinstance(property_data.get("detail"), dict):
             property_data["detail"] = {}
-
+        if not isinstance(property_data.get("lastSuccessfulDetail"), dict):
+            property_data["lastSuccessfulDetail"] = property_data["detail"]
         if not isinstance(property_data.get("priceHistory"), list):
             property_data["priceHistory"] = []
 
-        property_data = normalize_existing_detail(property_data)
+        update_price_mismatch_and_refresh_flags(property_data)
         result[property_id] = property_data
 
     return result
-
-# ============================================================
-# 物件データ統合 (検索価格差分チェックと priceChanged 設定)
-# ============================================================
 
 def merge_property(existing, current, collected_at):
     if existing is None:
@@ -765,30 +721,35 @@ def merge_property(existing, current, collected_at):
 
     if current.get("sourceUrl"):
         merged["sourceUrl"] = current["sourceUrl"]
-
     if current.get("source"):
         merged["source"] = current["source"]
-
     if current.get("searchArea"):
         merged["searchArea"] = current["searchArea"]
-
     if current.get("searchPropertyType"):
         merged["searchPropertyType"] = current["searchPropertyType"]
 
-    # 検索一覧の価格変化検知
-    existing_price = parse_price(merged.get("price"))
-    current_search_price = parse_price(current.get("price"))
+    # 検索価格の比較・更新と変更フラグの設定
+    existing_search_price = merged.get("lastSearchPrice")
+    current_search_price = current.get("lastSearchPrice")
 
-    if current_search_price is not None and existing_price is not None:
-        if current_search_price != existing_price:
+    if current_search_price is not None:
+        merged["lastSearchPrice"] = current_search_price
+        merged["lastSearchPriceText"] = current.get("lastSearchPriceText")
+
+        if existing_search_price is not None and current_search_price != existing_search_price:
             logger.info(
                 "検索一覧での価格差分を検知 (ID: %s): %s -> %s",
                 merged.get("id"),
-                existing_price,
+                existing_search_price,
                 current_search_price,
             )
             merged["priceChanged"] = True
-            add_price_history(merged, current_search_price, collected_at)
+            merged["priceHistory"] = normalize_price_history(
+                merged.get("priceHistory"),
+                current_search_price,
+                collected_at,
+                source="search"
+            )
 
     if not merged.get("firstSeenAt"):
         merged["firstSeenAt"] = current.get("firstSeenAt", collected_at)
@@ -796,32 +757,7 @@ def merge_property(existing, current, collected_at):
     merged["lastSeenAt"] = collected_at
     merged["collectedAt"] = collected_at
 
-    if not merged.get("status"):
-        merged["status"] = "discovered"
-
-    merged.setdefault("detailFetched", False)
-    merged.setdefault("detailFetchedAt", None)
-    merged.setdefault("detailFetchError", None)
-    merged.setdefault("fetchAttemptCount", 0)
-    merged.setdefault("lastFetchAttemptAt", None)
-    merged.setdefault("lastFetchParserVersion", None)
-    merged.setdefault("priceChanged", False)
-    merged.setdefault("price", None)
-    merged.setdefault("priceText", None)
-    merged.setdefault("priceHistory", [])
-    merged.setdefault("detailParserVersion", None)
-    merged.setdefault("detailQuality", "unknown")
-    merged.setdefault("detailQualityScore", None)
-    merged.setdefault("missingFields", [])
-    merged.setdefault("validationWarnings", [])
-    merged.setdefault("extractionQuality", {})
-
-    if not isinstance(merged.get("priceHistory"), list):
-        merged["priceHistory"] = []
-
-    if not isinstance(merged.get("detail"), dict):
-        merged["detail"] = {}
-
+    update_price_mismatch_and_refresh_flags(merged)
     return merged
 
 def merge_properties(existing_properties, current_properties, collected_at):
@@ -841,7 +777,6 @@ def merge_properties(existing_properties, current_properties, collected_at):
     for current in property_items:
         if not isinstance(current, dict):
             continue
-
         property_id = current.get("id")
         if not property_id:
             continue
@@ -852,160 +787,99 @@ def merge_properties(existing_properties, current_properties, collected_at):
     return merged_properties
 
 # ============================================================
-# 詳細情報取得結果の反映 (priceChanged クリア追加)
+# 詳細取得結果の反映処理
 # ============================================================
 
-def apply_detail_to_property(property_data, detail, fetched_at):
-    detail = normalize_detail(detail)
-
-    existing_detail = property_data.get("detail")
-    if not isinstance(existing_detail, dict):
-        existing_detail = {}
-
-    replace_fields = [
-        "title",
-        "address",
-        "landAreaM2",
-        "landAreaText",
-        "buildingAreaM2",
-        "buildingAreaText",
-        "buildingAreaType",
-        "layout",
-        "layoutRaw",
-        "constructionMonth",
-        "constructionMonthPrecision",
-        "constructionText",
-        "station",
-        "stationAccessType",
-        "stationWalkMinutes",
-        "busMinutes",
-        "busStop",
-        "busStopWalkMinutes",
-        "walkMinutes",
-        "transportRaw",
-        "informationDate",
-        "nextUpdateDate",
-    ]
-
-    for field in replace_fields:
-        existing_detail.pop(field, None)
-
-    existing_detail.update(detail)
-
-    new_price = parse_price(detail.get("price")) or parse_price(detail.get("priceText"))
-    if detail.get("priceText"):
-        property_data["priceText"] = str(detail.get("priceText"))
-
-    add_price_history(property_data, new_price, fetched_at)
-
-    quality, score, warnings, missing_fields = determine_detail_quality(existing_detail)
-
-    existing_detail["detailQuality"] = quality
-    existing_detail["detailQualityScore"] = score
-    existing_detail["validationWarnings"] = warnings
-    existing_detail["missingFields"] = missing_fields
-
-    property_data["detail"] = existing_detail
-
-    copy_fields = [
-        "title",
-        "address",
-        "landAreaM2",
-        "landAreaText",
-        "buildingAreaM2",
-        "buildingAreaText",
-        "buildingAreaType",
-        "layout",
-        "layoutRaw",
-        "constructionMonth",
-        "constructionMonthPrecision",
-        "constructionText",
-        "buildYear",
-        "builtYear",
-        "builtMonth",
-        "builtYearText",
-        "station",
-        "stationText",
-        "stationAccessType",
-        "stationWalkMinutes",
-        "busMinutes",
-        "busStop",
-        "busStopWalkMinutes",
-        "walkMinutes",
-        "walkingMinutes",
-        "transportRaw",
-        "builder",
-        "structure",
-        "informationDate",
-        "nextUpdateDate",
-        "detailParserVersion",
-        "extractionQuality",
-    ]
-
-    for field in copy_fields:
-        if field in existing_detail:
-            property_data[field] = existing_detail.get(field)
-
-    property_data["detailQuality"] = quality
-    property_data["detailQualityScore"] = score
-    property_data["validationWarnings"] = warnings
-    property_data["missingFields"] = missing_fields
-    property_data["detailParserVersion"] = DETAIL_PARSER_VERSION
-
-    property_data["detailFetched"] = True
-    # 詳細再取得が成功したためフラグをクリア
-    property_data["priceChanged"] = False
-
-    logger.info("詳細品質判定: quality=%s score=%s warnings=%s", quality, score, len(warnings))
-
-# ============================================================
-# 詳細取得対象判定 (価格変更フラグの優先)
-# ============================================================
-
-def should_fetch_detail(property_data):
+def apply_detail_to_property(property_data: dict, detail_result: dict, fetched_at: str) -> None:
+    """
+    詳細取得結果（成功・失敗）を物件データに統合・反映する。
+    """
     if not isinstance(property_data, dict):
-        return False
+        return
 
-    if not property_data.get("sourceUrl"):
-        return False
+    if not isinstance(detail_result, dict):
+        detail_result = {
+            "success": False,
+            "error": "詳細取得結果が辞書形式ではありません"
+        }
 
-    detail = property_data.get("detail")
-    if not isinstance(detail, dict):
-        detail = {}
+    detail_fetched = bool(detail_result.get("success", False))
+    property_data["detailFetched"] = detail_fetched
+    property_data["detailFetchedAt"] = fetched_at
 
-    attempt_count = safe_int(property_data.get("fetchAttemptCount")) or 0
-    last_fetch_parser_version = property_data.get("lastFetchParserVersion")
+    if detail_fetched:
+        raw_detail = detail_result.get("detail", {})
+        if not isinstance(raw_detail, dict):
+            raw_detail = {}
 
-    # 1. 価格変動が検知されている場合は最優先で再取得
-    if property_data.get("priceChanged"):
-        return True
+        normalized_detail = normalize_detail(raw_detail)
 
-    # 2. 現行パーサーで上限回数 (3回) 試行済みの場合はスキップ
-    if last_fetch_parser_version == DETAIL_PARSER_VERSION and attempt_count >= MAX_DETAIL_FETCH_ATTEMPTS:
-        return False
+        quality, score, warnings, missing_fields = determine_detail_quality(
+            normalized_detail,
+            detail_fetched=True
+        )
 
-    # 3. パーサーバージョンが古い場合は優先して再取得
-    root_version = property_data.get("detailParserVersion")
-    detail_version = detail.get("detailParserVersion")
-    if root_version != DETAIL_PARSER_VERSION or detail_version != DETAIL_PARSER_VERSION:
-        return True
+        property_data["detail"] = normalized_detail
+        property_data["lastSuccessfulDetail"] = normalized_detail
+        property_data["lastSuccessfulDetailFetchedAt"] = fetched_at
+        property_data["detailQuality"] = quality
+        property_data["detailQualityScore"] = score
+        property_data["validationWarnings"] = warnings
+        property_data["missingFields"] = missing_fields
 
-    # 4. 未取得または品質不良の場合
-    if not property_data.get("detailFetched"):
-        return True
+        detail_price = parse_price(
+            normalized_detail.get("price") or normalized_detail.get("priceText")
+        )
+        property_data["detailPrice"] = detail_price
 
-    quality = property_data.get("detailQuality")
-    if quality in (None, "", "unknown", "poor"):
-        return True
+        if detail_price is not None:
+            property_data["detailPriceText"] = clean_text(normalized_detail.get("priceText"))
+            property_data["lastSuccessfulDetailPrice"] = detail_price
+            property_data["price"] = detail_price
+            property_data["priceHistory"] = normalize_price_history(
+                property_data.get("priceHistory"),
+                detail_price,
+                fetched_at,
+                source="detail"
+            )
+        else:
+            property_data["detailPriceText"] = None
+            property_data["price"] = property_data.get("lastSearchPrice")
 
-    warnings = normalize_warning_list(property_data.get("validationWarnings"))
-    if warnings:
-        return True
+        property_data["detailParserVersion"] = DETAIL_PARSER_VERSION
+        property_data["priceChanged"] = False
+        property_data["detailDataStale"] = False
+        property_data["detailFetchError"] = None
+        property_data["detailFetchBlocked"] = False
+        property_data["detailFetchBlockReason"] = None
 
-    return False
+    else:
+        if property_data.get("lastSuccessfulDetail"):
+            property_data["detail"] = property_data["lastSuccessfulDetail"]
+        else:
+            property_data["detail"] = {}
+
+        property_data["detailDataStale"] = bool(
+            property_data.get("lastSuccessfulDetailFetchedAt")
+        )
+        property_data["detailQuality"] = "unknown"
+        property_data["detailQualityScore"] = None
+        property_data["missingFields"] = []
+        property_data["validationWarnings"] = [
+            "最新の詳細情報の再取得に失敗しました"
+        ]
+
+        property_data["detailPrice"] = None
+        property_data["detailPriceText"] = None
+        property_data["price"] = property_data.get("lastSearchPrice")
+
+        error_msg = detail_result.get("error") or "Unknown error"
+        property_data["detailFetchError"] = str(error_msg)
+
+    update_price_mismatch_and_refresh_flags(property_data)
 
 # ============================================================
-# 詳細情報取得
+# 詳細情報取得ループ
 # ============================================================
 
 def fetch_details(properties, detail_adapter, max_count):
@@ -1021,11 +895,13 @@ def fetch_details(properties, detail_adapter, max_count):
     for property_id, property_data in properties.items():
         if not isinstance(property_data, dict):
             continue
-
+        # パーサー更新に伴うブロック解除・カウンタリセットを事前に実施（副作用）
+        reset_detail_fetch_state_if_parser_updated(property_data)
+        # 純粋な判定関数を呼び出し
         if should_fetch_detail(property_data):
             candidates.append((property_id, property_data))
 
-    # ソート: 1. priceChanged 優先, 2. 試行回数少優先, 3. 直近確認日優先
+    # ソート順: 1. priceChanged 優先, 2. 試行回数少優先, 3. 直近確認日優先
     candidates.sort(
         key=lambda item: (
             0 if item[1].get("priceChanged") else 1,
@@ -1048,11 +924,6 @@ def fetch_details(properties, detail_adapter, max_count):
         fetched_count += 1
         fetched_at = now_iso()
 
-        last_fetch_parser_version = property_data.get("lastFetchParserVersion")
-        if last_fetch_parser_version != DETAIL_PARSER_VERSION:
-            property_data["fetchAttemptCount"] = 0
-            property_data["lastFetchParserVersion"] = DETAIL_PARSER_VERSION
-
         property_data["fetchAttemptCount"] = property_data.get("fetchAttemptCount", 0) + 1
         property_data["lastFetchAttemptAt"] = fetched_at
 
@@ -1060,31 +931,18 @@ def fetch_details(properties, detail_adapter, max_count):
             result = detail_adapter.fetch_detail(url)
         except Exception as error:
             logger.exception("詳細情報取得中に例外発生: %s", property_id)
-            property_data["detailFetched"] = False
-            property_data["detailFetchedAt"] = fetched_at
-            property_data["detailFetchError"] = str(error)
-            error_count += 1
-            try:
-                detail_adapter.wait()
-            except Exception:
-                pass
-            continue
+            result = {"success": False, "error": str(error)}
 
         if not isinstance(result, dict):
-            result = {"success": False, "error": "詳細取得結果が辞書形式ではありません"}
+            result = {
+                "success": False,
+                "error": "詳細取得結果が辞書形式ではありません"
+            }
 
-        result_fetched_at = result.get("fetchedAt") or fetched_at
-        property_data["detailFetchedAt"] = result_fetched_at
+        apply_detail_to_property(property_data, result, fetched_at)
 
         if result.get("success"):
-            fetched_detail = result.get("detail", {})
-            if not isinstance(fetched_detail, dict):
-                fetched_detail = {}
-
-            apply_detail_to_property(property_data, fetched_detail, result_fetched_at)
-            property_data["detailFetchError"] = None
             success_count += 1
-
             logger.info(
                 "詳細情報取得成功: %s quality=%s score=%s",
                 property_id,
@@ -1092,11 +950,12 @@ def fetch_details(properties, detail_adapter, max_count):
                 property_data.get("detailQualityScore"),
             )
         else:
-            error_message = result.get("error", "Unknown error")
-            property_data["detailFetchError"] = str(error_message)
-            property_data["detailFetched"] = False
             error_count += 1
-            logger.warning("詳細情報取得失敗: %s %s", property_id, error_message)
+            logger.warning("詳細情報取得失敗: %s %s", property_id, result.get("error"))
+
+            if property_data.get("fetchAttemptCount", 0) >= MAX_DETAIL_FETCH_ATTEMPTS:
+                property_data["detailFetchBlocked"] = True
+                property_data["detailFetchBlockReason"] = "max_attempts_reached"
 
         try:
             detail_adapter.wait()
@@ -1113,15 +972,15 @@ def fetch_details(properties, detail_adapter, max_count):
     return properties
 
 # ============================================================
-# 出力データ作成 (保存先のデータ構造抽出)
+# 出力データ作成
 # ============================================================
 
 def build_output(properties, collected_at, filter_fetched_only=False):
     property_list = list(properties.values())
     
     if filter_fetched_only:
-        # houses.json 用: 詳細取得済みの物件を中心に抽出
-        property_list = [item for item in property_list if item.get("detailFetched")]
+        # houses.json 用: 過去または今回の取得成功データを対象
+        property_list = [item for item in property_list if has_usable_detail(item)]
 
     property_list.sort(
         key=lambda item: (item.get("lastSeenAt", ""), item.get("id", "")),
@@ -1136,7 +995,6 @@ def build_output(properties, collected_at, filter_fetched_only=False):
 
     for item in property_list:
         quality = item.get("detailQuality", "unknown")
-
         if quality in quality_counts_all:
             quality_counts_all[quality] += 1
         else:
@@ -1166,7 +1024,6 @@ def build_output(properties, collected_at, filter_fetched_only=False):
 
 def main():
     search_config = load_config()
-
     if not isinstance(search_config, dict):
         logger.warning("search.jsonの形式が不正です。空の設定として処理します")
         search_config = {}
@@ -1196,18 +1053,17 @@ def main():
     for property_data in current_properties:
         if not isinstance(property_data, dict):
             continue
-
         property_id = property_data.get("id")
         if property_id:
             current_unique[property_id] = property_data
 
-    # 3. 既存物件を読み込み
+    # 3. 既存物件の読み込み
     existing_properties = load_existing_properties()
 
     # 4. 既存データと今回の結果を統合
     merged_properties = merge_properties(existing_properties, current_unique, collected_at)
 
-    # 5. 詳細情報取得上限
+    # 5. 詳細情報取得上限の計算
     max_detail_count = get_detail_fetch_limit(search_config)
 
     # 6. 詳細情報取得
@@ -1217,15 +1073,15 @@ def main():
     else:
         logger.info("詳細取得上限が0のため、アダプター作成をスキップします")
 
-    # 7. discovered_listings.json (全検索発見データ) の保存
+    # 7. discovered_listings.json (全発見データ) の保存
     discovered_output = build_output(merged_properties, collected_at, filter_fetched_only=False)
     save_json(ROOT / "data" / "discovered_listings.json", discovered_output)
 
-    # 8. houses.json (詳細取得済み評価対象データ) の分離保存
+    # 8. houses.json (詳細取得済み評価対象データ) の保存
     houses_output = build_output(merged_properties, collected_at, filter_fetched_only=True)
     save_json(ROOT / "data" / "houses.json", houses_output)
 
-    # 9. 実行結果表示
+    # 9. 実行ログ出力
     logger.info("今回の検出物件数: %s", len(current_unique))
     logger.info("全発見物件総数 (discovered_listings.json): %s", len(merged_properties))
     logger.info("詳細取得済み総数 (houses.json): %s", houses_output["summary"]["discoveredCount"])
