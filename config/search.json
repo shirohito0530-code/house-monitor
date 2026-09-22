@@ -15,7 +15,7 @@
   "onlyFlatLand": false,
   "excludeRetainingWall": false,
 
-  "detailFetchLimit": 20,
+  "detailFetchLimit": 50,
   "detailRequestIntervalSeconds": 1.5,
 
   "areaRules": {
