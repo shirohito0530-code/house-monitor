@@ -21,6 +21,7 @@ except ImportError:
     from suumo_search import SuumoSearchAdapter
     from suumo_detail import SuumoDetailAdapter
 
+
 # ============================================================
 # Constants
 # ============================================================
@@ -45,10 +46,6 @@ MAX_DETAIL_FETCH_ATTEMPTS = 3
 
 # SUUMO側への接続障害が連続した場合、
 # その実行での詳細取得を中断する。
-#
-# 例えばGitHub ActionsからSUUMOへ接続できない状態で
-# 20件 × 3回のリトライを行うと非常に時間がかかるため、
-# timeout / network_error が3件連続した時点で停止する。
 MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS = 3
 
 # 再試行対象
@@ -60,18 +57,26 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
     "server_error",
 }
 
-# v19:
-# - search_urls.json の suumo_search_urls を認識
-# - search adapterへsearch_configを明示的に渡す
-# - search target=0を異常扱い
-# - detail URL canonicalization
-# - successful detail判定をlastSuccessfulDetail基準へ変更
-# - 404を無駄に3回リトライしない
-# - detailFetchAttempts / detailFetchRunAttemptsを分離
-# - 過去成功データを失敗時に保持
-# - 新規・失敗物件を優先
-# - timeout / network error連続時にdetail batchを停止
-MAIN_PARSER_VERSION = "2026-09-22-v19"
+# ============================================================
+# v21
+#
+# URLの過剰な正規化を停止。
+#
+# 重要:
+# - suumo.jp / www.suumo.jp を勝手に変更しない
+# - http -> https を勝手に変更しない
+# - pathの // を勝手に変更しない
+# - query string を勝手に削除しない
+# - trailing slashを勝手に付けない
+# - sourceUrlをurlで上書きしない
+#
+# 目的:
+# 「検索結果から取得した実際のSUUMO詳細URL」を可能な限り
+# そのまま詳細取得へ渡す。
+# ============================================================
+
+MAIN_PARSER_VERSION = "2026-09-22-v21"
+
 
 # ============================================================
 # Fallback target area rules
@@ -102,6 +107,7 @@ FALLBACK_AREA_RULES = {
         ],
     },
 }
+
 
 # ============================================================
 # Utility
@@ -289,7 +295,7 @@ def to_bool(
 
 
 # ============================================================
-# SUUMO URL normalization
+# SUUMO URL handling
 # ============================================================
 
 SUUMO_HOSTS = {
@@ -297,9 +303,22 @@ SUUMO_HOSTS = {
     "www.suumo.jp",
 }
 
+
+# ------------------------------------------------------------
+# SUUMO詳細URL判定
+#
+# 例:
+# /chukoikkodate/chiba/sc_kashiwa/nc_12345678/
+# /ikkodate/chiba/sc_kashiwa/nc_12345678/
+#
+# queryが付いていてもpathには影響しない。
+# ------------------------------------------------------------
+
 SUUMO_LISTING_PATH_PATTERN = re.compile(
-    r"^/(?:chukoikkodate|ikkodate|mansion|chukomansion)"
-    r"/.+/nc_\d+/?$",
+    r"^/"
+    r"(?:chukoikkodate|ikkodate|mansion|chukomansion)"
+    r"/.+/nc_\d+"
+    r"(?:/)?$",
     re.IGNORECASE,
 )
 
@@ -308,11 +327,11 @@ def repair_malformed_suumo_scheme(
     text: str,
 ) -> str:
     """
-    壊れたSUUMO URLを修復する。
+    壊れたSUUMO URLだけを修復する。
 
-    https:/www.suumo.jp/...
-        ↓
-    https://www.suumo.jp/...
+    例:
+    https:/suumo.jp/...     -> https://suumo.jp/...
+    https:/www.suumo.jp/... -> https://www.suumo.jp/...
     """
 
     text = re.sub(
@@ -336,14 +355,32 @@ def normalize_suumo_listing_url(
     url: Any,
 ) -> Optional[str]:
     """
-    SUUMO個別物件URLを正規化する。
-
-    正規形:
-
-    https://www.suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_12345678/
+    SUUMO個別物件URLを「最小限」だけ正規化する。
 
     重要:
-    URL全体に対して /{2,} を適用しない。
+    --------------------------------------------------------
+    この関数ではURLの意味を変更しない。
+    --------------------------------------------------------
+
+    保持するもの:
+    - suumo.jp / www.suumo.jp
+    - http / https
+    - path
+    - query
+
+    削除するもの:
+    - fragment (#...)
+
+    修復するもの:
+    - protocol-relative URL
+    - 明らかに壊れたscheme
+    - 相対URL
+
+    つまり、
+
+    https://www.suumo.jp/xxx/nc_12345678/?foo=bar
+
+    は基本的にそのまま保持する。
     """
 
     if url is None:
@@ -376,7 +413,7 @@ def normalize_suumo_listing_url(
         text = "https:" + text
 
     # --------------------------------------------------------
-    # 壊れたscheme修復
+    # 壊れたschemeだけ修復
     # --------------------------------------------------------
 
     text = repair_malformed_suumo_scheme(
@@ -389,7 +426,7 @@ def normalize_suumo_listing_url(
 
     if text.startswith("/"):
         text = urljoin(
-            "https://www.suumo.jp/",
+            "https://suumo.jp/",
             text,
         )
 
@@ -414,11 +451,16 @@ def normalize_suumo_listing_url(
     ).lower()
 
     # --------------------------------------------------------
-    # HTTP → HTTPS
+    # HTTP/HTTPS以外を拒否
+    #
+    # ただし http -> https の変換はしない。
     # --------------------------------------------------------
 
-    if scheme == "http":
-        scheme = "https"
+    if scheme not in {
+        "http",
+        "https",
+    }:
+        return None
 
     # --------------------------------------------------------
     # SUUMO以外を拒否
@@ -429,53 +471,44 @@ def normalize_suumo_listing_url(
 
     # --------------------------------------------------------
     # path
+    #
+    # ここでは連続slashを修正しない。
     # --------------------------------------------------------
 
     path = parsed.path or "/"
 
-    # path部分だけ連続slashを整理
-    path = re.sub(
-        r"/{2,}",
-        "/",
-        path,
-    )
-
     # --------------------------------------------------------
     # nc_ ID確認
+    #
+    # /nc_12345678/
+    # /nc_12345678
+    #
+    # を許可。
     # --------------------------------------------------------
 
     if not re.search(
-        r"/nc_\d+/?$",
+        r"/nc_\d+(?:/|$)",
         path,
         re.IGNORECASE,
     ):
         return None
 
     # --------------------------------------------------------
-    # wwwへ統一
-    # --------------------------------------------------------
-
-    hostname = "www.suumo.jp"
-
-    # --------------------------------------------------------
-    # 末尾slashを必ず付ける
-    # --------------------------------------------------------
-
-    path = (
-        path.rstrip("/")
-        + "/"
-    )
-
-    # --------------------------------------------------------
-    # query / fragmentを削除
+    # URLを再構築
+    #
+    # queryは保持。
+    # fragmentだけ削除。
+    #
+    # parsed.netlocを使うことで
+    # www.suumo.jp / suumo.jp を維持。
     # --------------------------------------------------------
 
     return urlunsplit(
         (
-            "https",
-            hostname,
+            scheme,
+            parsed.netloc,
             path,
-            "",
+            parsed.query,
             "",
         )
     )
@@ -511,12 +544,16 @@ def is_valid_suumo_listing_url(
     except ValueError:
         return False
 
-    if parsed.hostname != "www.suumo.jp":
+    if (
+        parsed.hostname or ""
+    ).lower() not in SUUMO_HOSTS:
         return False
+
+    path = parsed.path or ""
 
     return bool(
         SUUMO_LISTING_PATH_PATTERN.match(
-            parsed.path
+            path
         )
     )
 
@@ -547,25 +584,6 @@ def load_search_config() -> Dict[str, Any]:
 
 
 def load_search_urls() -> List[Dict[str, Any]]:
-    """
-    search_urls.jsonから有効な検索対象を読み込む。
-
-    現在のsearch_urls.jsonは以下の形式を使用している。
-
-    {
-      "suumo_search_urls": [
-        {
-          "name": "...",
-          "url": "...",
-          "area": "...",
-          "propertyType": "...",
-          "enabled": true
-        }
-      ]
-    }
-
-    過去のtargets形式および配列形式も後方互換で許容する。
-    """
 
     data = load_json(
         SEARCH_URLS_PATH,
@@ -1028,19 +1046,23 @@ def detect_property_type(
 
     url = normalize_suumo_listing_url(
         property_data.get(
-            "url"
+            "sourceUrl"
         )
         or property_data.get(
-            "sourceUrl"
+            "url"
         )
     )
 
     if url:
 
-        if "/chukoikkodate/" in url:
+        path = urlsplit(
+            url
+        ).path.lower()
+
+        if "/chukoikkodate/" in path:
             return "中古戸建"
 
-        if "/ikkodate/" in url:
+        if "/ikkodate/" in path:
             return "新築戸建"
 
     return None
@@ -1331,10 +1353,6 @@ def get_detail(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
 
-    # --------------------------------------------------------
-    # 最優先：最後に成功した詳細
-    # --------------------------------------------------------
-
     last_detail = (
         property_data.get(
             "lastSuccessfulDetail"
@@ -1347,10 +1365,6 @@ def get_detail(
     ) and last_detail:
 
         return last_detail
-
-    # --------------------------------------------------------
-    # 後方互換：detail
-    # --------------------------------------------------------
 
     detail = property_data.get(
         "detail"
@@ -2015,9 +2029,15 @@ def extract_nc_id(
     if not normalized:
         return None
 
+    parsed = urlsplit(
+        normalized
+    )
+
+    path = parsed.path or ""
+
     match = re.search(
-        r"/nc_(\d+)/?$",
-        normalized,
+        r"/nc_(\d+)(?:/|$)",
+        path,
         re.IGNORECASE,
     )
 
@@ -2034,12 +2054,14 @@ def get_property_id(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
 
+    # sourceUrlを優先。
+    # 検索結果から取得したURLを識別元として維持する。
     url = (
         property_data.get(
-            "url"
+            "sourceUrl"
         )
         or property_data.get(
-            "sourceUrl"
+            "url"
         )
     )
 
@@ -2084,25 +2106,29 @@ def normalize_search_result(
 
     original_url = (
         item.get(
-            "url"
+            "sourceUrl"
         )
         or item.get(
-            "sourceUrl"
+            "url"
         )
         or item.get(
             "href"
         )
     )
 
-    url = normalize_suumo_listing_url(
+    # --------------------------------------------------------
+    # URLは「検証＋最小限の修復」のみ
+    # --------------------------------------------------------
+
+    source_url = normalize_suumo_listing_url(
         original_url
     )
 
-    if not url:
+    if not source_url:
         return None
 
     property_id = extract_nc_id(
-        url
+        source_url
     )
 
     if not property_id:
@@ -2124,20 +2150,24 @@ def normalize_search_result(
     )
 
     # --------------------------------------------------------
-    # URL
+    # 重要
+    #
+    # sourceUrl:
+    #   実際のSUUMO詳細ページへのURL
+    #
+    # url:
+    #   現在はsourceUrlと同じ値を保持する。
+    #
+    # ただしsourceUrlをurlで後から上書きしない。
     # --------------------------------------------------------
-
-    result[
-        "url"
-    ] = url
 
     result[
         "sourceUrl"
-    ] = url
+    ] = source_url
 
-    # --------------------------------------------------------
-    # ID
-    # --------------------------------------------------------
+    result[
+        "url"
+    ] = source_url
 
     if property_id:
 
@@ -2147,29 +2177,25 @@ def normalize_search_result(
             property_id
         )
 
-    # --------------------------------------------------------
-    # Property type
-    # --------------------------------------------------------
-
     if not result.get(
         "propertyType"
     ):
 
-        if "/chukoikkodate/" in url:
+        path = urlsplit(
+            source_url
+        ).path.lower()
+
+        if "/chukoikkodate/" in path:
 
             result[
                 "propertyType"
             ] = "中古戸建"
 
-        elif "/ikkodate/" in url:
+        elif "/ikkodate/" in path:
 
             result[
                 "propertyType"
             ] = "新築戸建"
-
-    # --------------------------------------------------------
-    # Timestamps
-    # --------------------------------------------------------
 
     current_time = now_iso()
 
@@ -2272,10 +2298,6 @@ def merge_property(
         old
     )
 
-    # --------------------------------------------------------
-    # firstDiscoveredAt
-    # --------------------------------------------------------
-
     first_discovered = (
         old.get(
             "firstDiscoveredAt"
@@ -2287,10 +2309,6 @@ def merge_property(
             "discoveredAt"
         )
     )
-
-    # --------------------------------------------------------
-    # 一般フィールド
-    # --------------------------------------------------------
 
     for key, value in new.items():
 
@@ -2305,13 +2323,6 @@ def merge_property(
             merged[
                 key
             ] = value
-
-    # --------------------------------------------------------
-    # Detail
-    #
-    # 新しいdetailがある場合のみ更新。
-    # 空のdetailで過去データを消さない。
-    # --------------------------------------------------------
 
     new_detail = new.get(
         "detail"
@@ -2330,10 +2341,6 @@ def merge_property(
         ] = deepcopy(
             new_detail
         )
-
-    # --------------------------------------------------------
-    # Last successful detail
-    # --------------------------------------------------------
 
     new_last_detail = (
         new.get(
@@ -2355,21 +2362,11 @@ def merge_property(
             new_last_detail
         )
 
-    # --------------------------------------------------------
-    # firstDiscoveredAt
-    # --------------------------------------------------------
-
     if first_discovered:
 
         merged[
             "firstDiscoveredAt"
         ] = first_discovered
-
-    # --------------------------------------------------------
-    # discoveryCount
-    #
-    # new側に lastSeenAt がある = 今回の検索で発見された
-    # --------------------------------------------------------
 
     old_count = to_number(
         old.get(
@@ -2391,29 +2388,67 @@ def merge_property(
         )
 
     # --------------------------------------------------------
-    # Canonical URL
+    # URLの重要ポイント
+    #
+    # sourceUrlは再正規化して上書きしない。
+    # 検索時に取得したURLをそのまま維持する。
+    #
+    # ただし古いデータにsourceUrlがなくurlしかない場合は
+    # 最小限の正規化を行って補完する。
     # --------------------------------------------------------
 
-    canonical_url = (
-        normalize_suumo_listing_url(
-            merged.get(
-                "url"
-            )
-            or merged.get(
-                "sourceUrl"
-            )
+    source_url = (
+        merged.get(
+            "sourceUrl"
         )
     )
 
-    if canonical_url:
+    if source_url:
 
-        merged[
-            "url"
-        ] = canonical_url
+        validated_source_url = (
+            normalize_suumo_listing_url(
+                source_url
+            )
+        )
 
-        merged[
-            "sourceUrl"
-        ] = canonical_url
+        if validated_source_url:
+
+            merged[
+                "sourceUrl"
+            ] = validated_source_url
+
+            # urlが空の場合だけ補完
+            if not merged.get(
+                "url"
+            ):
+
+                merged[
+                    "url"
+                ] = validated_source_url
+
+    else:
+
+        fallback_url = (
+            merged.get(
+                "url"
+            )
+        )
+
+        validated_fallback_url = (
+            normalize_suumo_listing_url(
+                fallback_url
+            )
+        )
+
+        if validated_fallback_url:
+
+            merged[
+                "sourceUrl"
+            ] = validated_fallback_url
+
+            merged[
+                "url"
+            ] = validated_fallback_url
 
     return merged
 
@@ -2429,7 +2464,7 @@ def merge_discovered_listings(
     ] = {}
 
     # --------------------------------------------------------
-    # Existing
+    # 既存履歴
     # --------------------------------------------------------
 
     for item in existing:
@@ -2448,9 +2483,7 @@ def merge_discovered_listings(
         if not key:
             continue
 
-        # 既存データはlastSeenAtを今回更新しない。
-        # normalize_search_resultで更新されてしまうため、
-        # 元データから復元する。
+        # 既存のlastSeenAtを維持
         if item.get(
             "lastSeenAt"
         ):
@@ -2460,6 +2493,29 @@ def merge_discovered_listings(
             ] = item[
                 "lastSeenAt"
             ]
+
+        # 既存のsourceUrlがあれば維持
+        existing_source_url = item.get(
+            "sourceUrl"
+        )
+
+        if existing_source_url:
+
+            validated_existing_source_url = (
+                normalize_suumo_listing_url(
+                    existing_source_url
+                )
+            )
+
+            if validated_existing_source_url:
+
+                normalized[
+                    "sourceUrl"
+                ] = validated_existing_source_url
+
+                normalized[
+                    "url"
+                ] = validated_existing_source_url
 
         if key in by_id:
 
@@ -2489,7 +2545,7 @@ def merge_discovered_listings(
             ] = normalized
 
     # --------------------------------------------------------
-    # New discovery
+    # 今回の検索結果
     # --------------------------------------------------------
 
     for item in discovered:
@@ -2545,12 +2601,6 @@ def merge_discovered_listings(
 def has_successful_detail(
     property_data: Dict[str, Any],
 ) -> bool:
-    """
-    本当に詳細取得成功済みかを判定。
-
-    古いデータのdetailだけが残っていても、
-    detailFetchSuccessがfalseなら成功扱いしない。
-    """
 
     last_detail = (
         property_data.get(
@@ -2600,12 +2650,10 @@ def detail_fetch_priority(
     property_data: Dict[str, Any],
 ) -> int:
 
-    # 一度も成功していない物件
     if not has_successful_detail(
         property_data
     ):
 
-        # 新規未取得
         if (
             property_data.get(
                 "detailFetchSuccess"
@@ -2617,7 +2665,6 @@ def detail_fetch_priority(
         ):
             return 0
 
-        # 過去失敗
         return 1
 
     return 2
@@ -2712,16 +2759,21 @@ def fetch_detail_for_property(
     detail_adapter: SuumoDetailAdapter,
 ) -> Dict[str, Any]:
 
-    # --------------------------------------------------------
-    # URL
-    # --------------------------------------------------------
+    # ========================================================
+    # 最重要:
+    #
+    # sourceUrlを最優先する。
+    #
+    # これにより、検索結果から取得したURLを
+    # detail adapterへ渡す。
+    # ========================================================
 
     original_url = (
         property_data.get(
-            "url"
+            "sourceUrl"
         )
         or property_data.get(
-            "sourceUrl"
+            "url"
         )
     )
 
@@ -2754,15 +2806,15 @@ def fetch_detail_for_property(
         return property_data
 
     # --------------------------------------------------------
-    # Canonical URLを必ず保存
+    # sourceUrlは実際に取得対象としたURLとして保持
     # --------------------------------------------------------
 
     property_data[
-        "url"
+        "sourceUrl"
     ] = url
 
     property_data[
-        "sourceUrl"
+        "url"
     ] = url
 
     property_data[
@@ -2770,7 +2822,7 @@ def fetch_detail_for_property(
     ] = url
 
     # --------------------------------------------------------
-    # Validate
+    # 最終バリデーション
     # --------------------------------------------------------
 
     if not is_valid_suumo_listing_url(
@@ -2797,11 +2849,12 @@ def fetch_detail_for_property(
             "lastDetailFetchAt"
         ] = now_iso()
 
-        return property_data
+        print(
+            "[DETAIL] invalid URL:",
+            url,
+        )
 
-    # --------------------------------------------------------
-    # Run attempts
-    # --------------------------------------------------------
+        return property_data
 
     run_attempts = 0
     successful = False
@@ -2825,6 +2878,13 @@ def fetch_detail_for_property(
         )
 
         try:
+
+            # ------------------------------------------------
+            # ここでURLを再加工しない。
+            #
+            # detail_adapter.fetch_detail()へ
+            # 上記urlをそのまま渡す。
+            # ------------------------------------------------
 
             adapter_result = (
                 detail_adapter.fetch_detail(
@@ -2856,10 +2916,6 @@ def fetch_detail_for_property(
                 "error": str(exc),
             }
 
-        # ----------------------------------------------------
-        # Success
-        # ----------------------------------------------------
-
         if (
             result.get(
                 "success"
@@ -2878,10 +2934,6 @@ def fetch_detail_for_property(
             successful = True
             break
 
-        # ----------------------------------------------------
-        # Failure
-        # ----------------------------------------------------
-
         last_error = str(
             result.get(
                 "error"
@@ -2899,8 +2951,6 @@ def fetch_detail_for_property(
             f"error={last_error[:300]}"
         )
 
-        # 404 / invalid URL / parse error等は
-        # 再試行しても改善しないので即終了
         if not should_retry_detail(
             last_error_type
         ):
@@ -2920,10 +2970,6 @@ def fetch_detail_for_property(
             time.sleep(
                 wait_seconds
             )
-
-    # --------------------------------------------------------
-    # Attempt counters
-    # --------------------------------------------------------
 
     previous_attempts = to_number(
         property_data.get(
@@ -2956,7 +3002,7 @@ def fetch_detail_for_property(
     ] = fetched_at
 
     # ========================================================
-    # Success
+    # SUCCESS
     # ========================================================
 
     if successful:
@@ -2966,10 +3012,6 @@ def fetch_detail_for_property(
                 "detail"
             ]
         )
-
-        # ----------------------------------------------------
-        # Detail URL normalization
-        # ----------------------------------------------------
 
         detail_url = (
             detail.get(
@@ -2991,13 +3033,14 @@ def fetch_detail_for_property(
                     "url"
                 ] = normalized_detail_url
 
+        # ----------------------------------------------------
+        # detail内sourceUrlも
+        # 実際の検索元URLを保持
+        # ----------------------------------------------------
+
         detail[
             "sourceUrl"
         ] = url
-
-        # ----------------------------------------------------
-        # Parent
-        # ----------------------------------------------------
 
         property_data[
             "detail"
@@ -3044,7 +3087,7 @@ def fetch_detail_for_property(
         return property_data
 
     # ========================================================
-    # Failure
+    # FAILURE
     # ========================================================
 
     error = (
@@ -3094,10 +3137,6 @@ def fetch_detail_for_property(
         "detailFetchParserVersion"
     ] = MAIN_PARSER_VERSION
 
-    # --------------------------------------------------------
-    # 過去に成功した詳細は絶対に消さない
-    # --------------------------------------------------------
-
     last_successful_detail = (
         property_data.get(
             "lastSuccessfulDetail"
@@ -3140,19 +3179,11 @@ def fetch_details(
 
         return properties
 
-    # --------------------------------------------------------
-    # Fetch candidates
-    # --------------------------------------------------------
-
     candidates = [
         item
         for item in properties
         if should_fetch_detail(item)
     ]
-
-    # --------------------------------------------------------
-    # Priority
-    # --------------------------------------------------------
 
     candidates.sort(
         key=lambda item: (
@@ -3191,10 +3222,6 @@ def fetch_details(
     success_count = 0
     failure_count = 0
 
-    # --------------------------------------------------------
-    # 連続した接続障害のカウンタ
-    # --------------------------------------------------------
-
     consecutive_connectivity_errors = 0
 
     for property_data in candidates:
@@ -3206,14 +3233,19 @@ def fetch_details(
             property_data
         )
 
+        # sourceUrlを優先
+        detail_url = (
+            property_data.get(
+                "sourceUrl"
+            )
+            or property_data.get(
+                "url"
+            )
+        )
+
         canonical_url = (
             normalize_suumo_listing_url(
-                property_data.get(
-                    "url"
-                )
-                or property_data.get(
-                    "sourceUrl"
-                )
+                detail_url
             )
         )
 
@@ -3235,8 +3267,6 @@ def fetch_details(
         ) is True:
 
             success_count += 1
-
-            # 接続障害の連続状態をリセット
             consecutive_connectivity_errors = 0
 
         else:
@@ -3263,11 +3293,6 @@ def fetch_details(
                     f"{MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS}"
                 )
 
-                # ------------------------------------------------
-                # SUUMOへの接続自体が死んでいる可能性が高い場合、
-                # 残りの物件を無駄に3回ずつ叩かない。
-                # ------------------------------------------------
-
                 if (
                     consecutive_connectivity_errors
                     >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
@@ -3284,13 +3309,7 @@ def fetch_details(
 
             else:
 
-                # timeout/network以外の失敗では
-                # 連続接続エラーをリセット
                 consecutive_connectivity_errors = 0
-
-        # ----------------------------------------------------
-        # Request interval
-        # ----------------------------------------------------
 
         try:
 
@@ -3337,13 +3356,11 @@ def is_displayable_property(
     property_data: Dict[str, Any],
 ) -> bool:
 
-    # 詳細取得成功が前提
     if not has_successful_detail(
         property_data
     ):
         return False
 
-    # 対象エリア
     if (
         property_data.get(
             "areaMatched"
@@ -3351,7 +3368,6 @@ def is_displayable_property(
     ):
         return False
 
-    # 条件一致
     if (
         property_data.get(
             "searchCriteriaMatched"
@@ -3448,10 +3464,6 @@ def build_summary(
 
             poor_count += 1
 
-        # ----------------------------------------------------
-        # Detail fetch
-        # ----------------------------------------------------
-
         fetch_success = item.get(
             "detailFetchSuccess"
         )
@@ -3508,10 +3520,6 @@ def build_summary(
 
             detail_pending_count += 1
 
-        # ----------------------------------------------------
-        # Area
-        # ----------------------------------------------------
-
         if (
             item.get(
                 "areaMatched"
@@ -3527,10 +3535,6 @@ def build_summary(
         ):
 
             area_unknown_count += 1
-
-        # ----------------------------------------------------
-        # Criteria
-        # ----------------------------------------------------
 
         if (
             item.get(
@@ -3548,10 +3552,6 @@ def build_summary(
 
             criteria_unknown_count += 1
 
-        # ----------------------------------------------------
-        # Property type
-        # ----------------------------------------------------
-
         if (
             item.get(
                 "propertyTypeMatched"
@@ -3559,10 +3559,6 @@ def build_summary(
         ):
 
             property_type_excluded_count += 1
-
-        # ----------------------------------------------------
-        # Price reduction
-        # ----------------------------------------------------
 
         price_history = (
             item.get(
@@ -3717,10 +3713,6 @@ def load_discovered_history(
         [],
     )
 
-    # --------------------------------------------------------
-    # New object format
-    # --------------------------------------------------------
-
     if isinstance(
         data,
         dict,
@@ -3743,10 +3735,6 @@ def load_discovered_history(
         )
 
         return []
-
-    # --------------------------------------------------------
-    # Legacy array
-    # --------------------------------------------------------
 
     if isinstance(
         data,
@@ -3870,18 +3858,10 @@ def main() -> int:
         "============================================"
     )
 
-    # --------------------------------------------------------
-    # Directories
-    # --------------------------------------------------------
-
     DATA_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
-
-    # --------------------------------------------------------
-    # Config
-    # --------------------------------------------------------
 
     search_config = (
         load_search_config()
@@ -3904,13 +3884,6 @@ def main() -> int:
         f"{len(search_urls)}"
     )
 
-    # --------------------------------------------------------
-    # 検索対象が0件の場合
-    #
-    # search_urls.jsonの形式不一致などで0件になった場合に、
-    # 「検索結果0件」と誤認して既存データを上書きしない。
-    # --------------------------------------------------------
-
     if not search_urls:
 
         print(
@@ -3930,10 +3903,6 @@ def main() -> int:
 
         return 1
 
-    # --------------------------------------------------------
-    # Existing history
-    # --------------------------------------------------------
-
     existing_discovered = (
         load_discovered_history(
             DISCOVERED_PATH
@@ -3945,10 +3914,6 @@ def main() -> int:
         f"{len(existing_discovered)}"
     )
 
-    # --------------------------------------------------------
-    # Search adapter
-    # --------------------------------------------------------
-
     search_adapter = (
         SuumoSearchAdapter(
             config=search_config,
@@ -3956,15 +3921,12 @@ def main() -> int:
         )
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Search
-    # --------------------------------------------------------
+    # ========================================================
 
     try:
 
-        # v19:
-        # SuumoSearchAdapter.search() は
-        # search_configを必須引数として受け取る。
         discovered_now = (
             search_adapter.search(
                 search_config
@@ -3977,14 +3939,6 @@ def main() -> int:
             "[ERROR] SUUMO search failed:",
             repr(exc),
         )
-
-        # ----------------------------------------------------
-        # 検索そのものに失敗した場合、
-        # 既存データを「検索結果0件」として上書きしない。
-        #
-        # GitHub Actionsを失敗扱いにして、
-        # 次回実行で再試行する。
-        # ----------------------------------------------------
 
         print(
             "[FATAL] "
@@ -4030,9 +3984,9 @@ def main() -> int:
         f"normalized={len(normalized_now)}"
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Merge
-    # --------------------------------------------------------
+    # ========================================================
 
     properties = (
         merge_discovered_listings(
@@ -4046,9 +4000,9 @@ def main() -> int:
         f"{len(properties)}"
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Detail adapter
-    # --------------------------------------------------------
+    # ========================================================
 
     detail_adapter = (
         SuumoDetailAdapter(
@@ -4056,10 +4010,6 @@ def main() -> int:
             root_path=str(ROOT),
         )
     )
-
-    # --------------------------------------------------------
-    # Detail fetch limit
-    # --------------------------------------------------------
 
     detail_limit = to_number(
         search_config.get(
@@ -4085,9 +4035,9 @@ def main() -> int:
         f"detailFetchLimit={detail_limit}"
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Detail fetch
-    # --------------------------------------------------------
+    # ========================================================
 
     properties = fetch_details(
         properties,
@@ -4095,9 +4045,9 @@ def main() -> int:
         detail_limit,
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Price history
-    # --------------------------------------------------------
+    # ========================================================
 
     for property_data in properties:
 
@@ -4109,62 +4059,46 @@ def main() -> int:
                 property_data
             )
 
-    # --------------------------------------------------------
-    # Criteria
-    # --------------------------------------------------------
+    # ========================================================
+    # Search criteria
+    # ========================================================
 
     properties = apply_search_criteria(
         properties,
         search_config,
     )
 
-    # --------------------------------------------------------
-    # Houses
-    # --------------------------------------------------------
+    # ========================================================
+    # Output
+    # ========================================================
 
     houses = build_output(
         properties
     )
-
-    # --------------------------------------------------------
-    # Summary
-    # --------------------------------------------------------
 
     summary = build_summary(
         properties,
         houses,
     )
 
-    # --------------------------------------------------------
-    # Save discovered
-    # --------------------------------------------------------
-
     save_discovered(
         properties,
         summary,
     )
-
-    # --------------------------------------------------------
-    # Save houses
-    # --------------------------------------------------------
 
     save_houses(
         properties,
         summary,
     )
 
-    # --------------------------------------------------------
-    # Standalone summary
-    # --------------------------------------------------------
-
     save_json(
         SUMMARY_PATH,
         summary,
     )
 
-    # --------------------------------------------------------
-    # Console summary
-    # --------------------------------------------------------
+    # ========================================================
+    # Summary
+    # ========================================================
 
     print(
         "============================================"
