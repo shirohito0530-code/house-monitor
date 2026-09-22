@@ -11,7 +11,7 @@
   "maxWalkMinutes": 20,
   "minLandArea": 100,
   "minBuildingArea": 80,
-  "minBuiltYear": 2000,
+  "minBuiltYear": 2006,
   "onlyFlatLand": false,
   "excludeRetainingWall": false
 }
