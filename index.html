@@ -4,33 +4,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
+
 <style>
 * {
   box-sizing: border-box;
 }
+
 :root {
   --bg: #f5f7fa;
   --card: #ffffff;
   --text: #1f2937;
   --muted: #64748b;
   --border: #e2e8f0;
+
   --primary: #2563eb;
   --primary-light: #eff6ff;
+
   --green: #047857;
   --green-bg: #ecfdf5;
+
   --yellow: #b45309;
   --yellow-bg: #fffbeb;
+
   --orange: #c2410c;
   --orange-bg: #fff7ed;
+
   --red: #b91c1c;
   --red-bg: #fef2f2;
+
   --gray-bg: #f1f5f9;
+
   --shadow: 0 2px 8px rgba(15, 23, 42, 0.07);
   --radius: 14px;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
   margin: 0;
   font-family:
@@ -45,46 +56,58 @@ body {
   color: var(--text);
   line-height: 1.55;
 }
+
 a {
   color: inherit;
 }
+
 button,
 input,
 select {
   font: inherit;
 }
-/* ========================= Header ========================= */
+
+/* =========================================================
+   Header
+========================================================= */
+
 header {
   background: #111827;
   color: white;
   padding: 22px 20px;
 }
+
 .header-inner {
   max-width: 1280px;
   margin: 0 auto;
 }
+
 .header-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
 }
+
 .title {
   margin: 0;
   font-size: 27px;
   font-weight: 750;
   letter-spacing: -0.02em;
 }
+
 .subtitle {
   margin-top: 4px;
   color: #cbd5e1;
   font-size: 13px;
 }
+
 .updated {
   margin-top: 9px;
   color: #94a3b8;
   font-size: 12px;
 }
+
 .header-badge {
   flex-shrink: 0;
   padding: 6px 10px;
@@ -93,15 +116,21 @@ header {
   color: #cbd5e1;
   font-size: 11px;
 }
-/* ========================= Main ========================= */
+
+/* =========================================================
+   Main
+========================================================= */
+
 main {
   max-width: 1280px;
   margin: 0 auto;
   padding: 22px 16px 60px;
 }
+
 section {
   margin-bottom: 30px;
 }
+
 .section-header {
   display: flex;
   align-items: flex-end;
@@ -109,17 +138,23 @@ section {
   gap: 14px;
   margin-bottom: 13px;
 }
+
 h2 {
   margin: 0;
   font-size: 20px;
   letter-spacing: -0.01em;
 }
+
 .section-description {
   color: var(--muted);
   font-size: 12px;
   margin-top: 3px;
 }
-/* ========================= Status ========================= */
+
+/* =========================================================
+   Status
+========================================================= */
+
 .status {
   margin-bottom: 16px;
   padding: 11px 14px;
@@ -127,19 +162,25 @@ h2 {
   font-size: 13px;
   display: none;
 }
+
 .status.error {
   display: block;
   background: var(--red-bg);
   color: var(--red);
   border: 1px solid #fecaca;
 }
-/* ========================= Dashboard ========================= */
+
+/* =========================================================
+   Dashboard
+========================================================= */
+
 .dashboard {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 25px;
 }
+
 .stat-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -148,37 +189,48 @@ h2 {
   box-shadow: var(--shadow);
   min-width: 0;
 }
+
 .stat-label {
   color: var(--muted);
   font-size: 11px;
   white-space: nowrap;
 }
+
 .stat-value {
   margin-top: 2px;
   font-size: 25px;
   font-weight: 750;
   letter-spacing: -0.02em;
 }
+
 .stat-note {
   margin-top: 2px;
   color: #94a3b8;
   font-size: 10px;
 }
+
 .stat-good .stat-value {
   color: var(--green);
 }
+
 .stat-warning .stat-value {
   color: var(--orange);
 }
+
 .stat-danger .stat-value {
   color: var(--red);
 }
-/* ========================= Highlight Area ========================= */
+
+/* =========================================================
+   Highlight
+========================================================= */
+
 .highlight-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 13px;
 }
+
 .highlight-card {
   background: white;
   border-radius: var(--radius);
@@ -187,26 +239,31 @@ h2 {
   box-shadow: var(--shadow);
   min-width: 0;
 }
+
 .highlight-label {
   color: var(--muted);
   font-size: 11px;
   margin-bottom: 5px;
 }
+
 .highlight-title {
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 6px;
   overflow-wrap: anywhere;
 }
+
 .highlight-price {
   font-size: 22px;
   font-weight: 750;
 }
+
 .highlight-meta {
   margin-top: 7px;
   color: #475569;
   font-size: 12px;
 }
+
 .highlight-link {
   display: inline-block;
   margin-top: 10px;
@@ -215,10 +272,15 @@ h2 {
   font-size: 12px;
   font-weight: 650;
 }
+
 .highlight-link:hover {
   text-decoration: underline;
 }
-/* ========================= Filters ========================= */
+
+/* =========================================================
+   Filters
+========================================================= */
+
 .filter-panel {
   background: white;
   border: 1px solid var(--border);
@@ -227,6 +289,7 @@ h2 {
   box-shadow: var(--shadow);
   margin-bottom: 14px;
 }
+
 .filters {
   display: grid;
   grid-template-columns:
@@ -237,6 +300,7 @@ h2 {
     auto;
   gap: 8px;
 }
+
 .filters input,
 .filters select {
   min-height: 40px;
@@ -248,11 +312,13 @@ h2 {
   font-size: 13px;
   outline: none;
 }
+
 .filters input:focus,
 .filters select:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
+
 .filter-check {
   display: flex;
   align-items: center;
@@ -266,11 +332,13 @@ h2 {
   white-space: nowrap;
   cursor: pointer;
 }
+
 .filter-check input {
   min-height: auto;
   width: auto;
   cursor: pointer;
 }
+
 .button {
   min-height: 40px;
   padding: 7px 13px;
@@ -282,20 +350,27 @@ h2 {
   font-size: 12px;
   font-weight: 600;
 }
+
 .button:hover {
   opacity: 0.9;
 }
+
 .filter-summary {
   margin-top: 9px;
   color: var(--muted);
   font-size: 11px;
 }
-/* ========================= Property Grid ========================= */
+
+/* =========================================================
+   Property Grid
+========================================================= */
+
 .property-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 13px;
 }
+
 .property {
   background: white;
   border: 1px solid var(--border);
@@ -304,46 +379,55 @@ h2 {
   box-shadow: var(--shadow);
   min-width: 0;
 }
+
 .property:hover {
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
 }
+
 .property-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   gap: 10px;
 }
+
 .property-main {
   min-width: 0;
   flex: 1;
 }
+
 .property-name {
   font-size: 16px;
   font-weight: 720;
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
+
 .property-location {
   margin-top: 3px;
   color: #64748b;
   font-size: 12px;
   overflow-wrap: anywhere;
 }
+
 .property-id {
   margin-top: 4px;
   color: #94a3b8;
   font-size: 9px;
   word-break: break-all;
 }
+
 .price-box {
   flex-shrink: 0;
   text-align: right;
 }
+
 .current-price {
   font-size: 20px;
   font-weight: 750;
   white-space: nowrap;
 }
+
 .price-change {
   margin-top: 1px;
   color: var(--red);
@@ -351,16 +435,22 @@ h2 {
   font-weight: 650;
   white-space: nowrap;
 }
+
 .price-no-change {
   color: #94a3b8;
 }
-/* ========================= Badges ========================= */
+
+/* =========================================================
+   Badges
+========================================================= */
+
 .flags {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
   margin: 11px 0;
 }
+
 .flag {
   display: inline-flex;
   align-items: center;
@@ -372,55 +462,129 @@ h2 {
   font-size: 10px;
   font-weight: 600;
 }
+
 .flag-good {
   background: var(--green-bg);
   color: var(--green);
 }
+
 .flag-partial {
   background: var(--yellow-bg);
   color: var(--yellow);
 }
+
 .flag-poor {
   background: var(--red-bg);
   color: var(--red);
 }
+
 .flag-unknown {
   background: #f1f5f9;
   color: #64748b;
 }
+
 .flag-down {
   background: var(--red-bg);
   color: var(--red);
 }
+
 .flag-new {
   background: var(--primary-light);
   color: var(--primary);
 }
+
 .flag-auto {
   background: #eef2ff;
   color: #4338ca;
 }
-/* ========================= Property Details ========================= */
+
+/* =========================================================
+   Property Details
+========================================================= */
+
 .property-details {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px 14px;
   margin: 11px 0;
 }
+
 .meta-item {
   min-width: 0;
   font-size: 12px;
   color: #334155;
   overflow-wrap: anywhere;
 }
+
 .meta-label {
   display: inline-block;
-  min-width: 42px;
+  min-width: 60px;
   color: #94a3b8;
   margin-right: 4px;
   font-size: 10px;
 }
-/* ========================= Price History ========================= */
+
+/* =========================================================
+   Validation
+========================================================= */
+
+.validation-box {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 9px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.validation-title {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.validation-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.validation-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 21px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 650;
+}
+
+.validation-pass {
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.validation-fail {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.validation-unknown {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.validation-info {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   Price History
+========================================================= */
+
 .price-history {
   margin-top: 12px;
   padding: 10px;
@@ -428,18 +592,21 @@ h2 {
   border-radius: 9px;
   border: 1px solid #e2e8f0;
 }
+
 .price-history-title {
   color: #64748b;
   font-size: 10px;
   font-weight: 650;
   margin-bottom: 6px;
 }
+
 .price-history-list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
 }
+
 .history-item {
   display: inline-flex;
   align-items: center;
@@ -450,18 +617,25 @@ h2 {
   border: 1px solid #e2e8f0;
   font-size: 10px;
 }
+
 .history-arrow {
   color: #94a3b8;
   font-size: 10px;
 }
+
 .history-price {
   font-weight: 650;
 }
+
 .history-date {
   color: #94a3b8;
   font-size: 9px;
 }
-/* ========================= Quality ========================= */
+
+/* =========================================================
+   Quality
+========================================================= */
+
 .quality-row {
   display: flex;
   align-items: center;
@@ -471,15 +645,21 @@ h2 {
   padding-top: 10px;
   border-top: 1px solid #eef2f7;
 }
+
 .quality-text {
   font-size: 10px;
   color: #64748b;
 }
+
 .quality-score {
   font-size: 11px;
   font-weight: 700;
 }
-/* ========================= Footer ========================= */
+
+/* =========================================================
+   Footer
+========================================================= */
+
 .property-footer {
   display: flex;
   align-items: center;
@@ -489,6 +669,7 @@ h2 {
   margin-top: 11px;
   padding-top: 11px;
 }
+
 .property-footer a {
   display: inline-block;
   text-decoration: none;
@@ -496,15 +677,21 @@ h2 {
   font-size: 12px;
   font-weight: 650;
 }
+
 .property-footer a:hover {
   text-decoration: underline;
 }
+
 .last-seen {
   color: #94a3b8;
   font-size: 9px;
   text-align: right;
 }
-/* ========================= Empty / Loading ========================= */
+
+/* =========================================================
+   Empty / Loading
+========================================================= */
+
 .empty,
 .loading {
   grid-column: 1 / -1;
@@ -516,245 +703,366 @@ h2 {
   color: var(--muted);
   font-size: 13px;
 }
-/* ========================= Mobile Responsive ========================= */
+
+/* =========================================================
+   Mobile
+========================================================= */
+
 @media (max-width: 1100px) {
   .dashboard {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
   .filters {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 @media (max-width: 800px) {
   .dashboard {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   .highlight-grid,
   .property-grid,
   .filters {
     grid-template-columns: 1fr;
   }
+
   .header-top {
     flex-direction: column;
   }
+
   .header-badge {
     display: none;
   }
 }
+
 @media (max-width: 500px) {
   header {
     padding: 18px 14px;
   }
+
   main {
     padding: 16px 10px 40px;
   }
+
   .title {
     font-size: 23px;
   }
+
   .dashboard {
     gap: 7px;
   }
+
   .stat-card {
     padding: 12px;
   }
+
   .stat-value {
     font-size: 21px;
   }
+
   .property {
     padding: 14px;
   }
+
   .property-details {
     grid-template-columns: 1fr;
   }
+
   .current-price {
     font-size: 18px;
   }
+
   .property-top {
     flex-direction: column;
   }
+
   .price-box {
     text-align: left;
   }
 }
 </style>
 </head>
+
 <body>
+
 <header>
   <div class="header-inner">
     <div class="header-top">
       <div>
         <h1 class="title">House Monitor</h1>
+
         <div class="subtitle">
           柏の葉キャンパス・流山おおたかの森 戸建て住宅監視ダッシュボード
         </div>
+
         <div id="updated" class="updated">
           データを読み込んでいます...
         </div>
       </div>
-      <div class="header-badge">SUUMO Monitor</div>
+
+      <div class="header-badge">
+        SUUMO Monitor
+      </div>
     </div>
   </div>
 </header>
+
 <main>
+
   <div id="status" class="status"></div>
-  <!-- Dashboard -->
+
+  <!-- =====================================================
+       Dashboard
+  ====================================================== -->
+
   <section>
+
     <div class="dashboard">
-  <div class="stat-card">
-    <div class="stat-label">登録物件</div>
-    <div id="registeredCount" class="stat-value">-</div>
-    <div class="stat-note">houses.json</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">詳細取得済み</div>
-    <div id="detailFetchedCount" class="stat-value">-</div>
-    <div id="detailFetchedRate" class="stat-note">-</div>
-  </div>
-  <div class="stat-card stat-good">
-    <div class="stat-label">GOOD</div>
-    <div id="goodCount" class="stat-value">-</div>
-    <div class="stat-note">詳細品質</div>
-  </div>
-  <div class="stat-card stat-warning">
-    <div class="stat-label">PARTIAL</div>
-    <div id="partialCount" class="stat-value">-</div>
-    <div class="stat-note">一部情報不足</div>
-  </div>
-  <div class="stat-card stat-danger">
-    <div class="stat-label">値下げ</div>
-    <div id="priceDownCount" class="stat-value">-</div>
-    <div class="stat-note">価格履歴あり</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-label">自動検出</div>
-    <div id="discoveredCount" class="stat-value">-</div>
-    <div class="stat-note">SUUMO検索候補</div>
-  </div>
-</div>
+
+      <div class="stat-card">
+        <div class="stat-label">採用物件</div>
+        <div id="registeredCount" class="stat-value">-</div>
+        <div class="stat-note">houses.json</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">詳細取得済み</div>
+        <div id="detailFetchedCount" class="stat-value">-</div>
+        <div id="detailFetchedRate" class="stat-note">-</div>
+      </div>
+
+      <div class="stat-card stat-good">
+        <div class="stat-label">GOOD</div>
+        <div id="goodCount" class="stat-value">-</div>
+        <div class="stat-note">詳細品質</div>
+      </div>
+
+      <div class="stat-card stat-warning">
+        <div class="stat-label">PARTIAL</div>
+        <div id="partialCount" class="stat-value">-</div>
+        <div class="stat-note">一部情報不足</div>
+      </div>
+
+      <div class="stat-card stat-danger">
+        <div class="stat-label">値下げ</div>
+        <div id="priceDownCount" class="stat-value">-</div>
+        <div class="stat-note">価格履歴あり</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">検出履歴</div>
+        <div id="discoveredCount" class="stat-value">-</div>
+        <div class="stat-note">discovered_listings.json</div>
+      </div>
+
+    </div>
+
   </section>
-  <!-- Highlights -->
+
+  <!-- =====================================================
+       Highlights
+  ====================================================== -->
+
   <section>
+
     <div class="section-header">
       <div>
         <h2>注目物件</h2>
+
         <div class="section-description">
-          現在のデータから、値下げ・詳細取得済み物件を優先表示します。
+          値下げ・詳細取得済み・品質の高い物件を優先表示します。
         </div>
       </div>
     </div>
-<div id="highlightGrid" class="highlight-grid">
-  <div class="loading">注目物件を読み込んでいます...</div>
-</div>
-  </section>
-  <!-- Registered Properties -->
-  <section>
-<div class="section-header">
-  <div>
-    <h2>物件一覧</h2>
-    <div class="section-description">
-      SUUMOから取得した物件を、価格・品質・価格履歴とともに確認できます。
+
+    <div id="highlightGrid" class="highlight-grid">
+      <div class="loading">
+        注目物件を読み込んでいます...
+      </div>
     </div>
-  </div>
-</div>
-<div class="filter-panel">
-  <div class="filters">
-    <input
-      id="propertySearch"
-      type="search"
-      placeholder="住所・物件名・駅・IDを検索"
-    >
-    <select id="propertyArea">
-      <option value="">全エリア</option>
-    </select>
-    <select id="propertyQuality">
-      <option value="">全品質</option>
-      <option value="good">GOOD</option>
-      <option value="partial">PARTIAL</option>
-      <option value="poor">POOR</option>
-      <option value="unknown">UNKNOWN</option>
-    </select>
-    <select id="propertyPrice">
-      <option value="">全価格帯</option>
-      <option value="0-7000">～7,000万円</option>
-      <option value="7000-8500">7,000～8,500万円</option>
-      <option value="8500-10000">8,500万～1億円</option>
-      <option value="10000-12000">1億～1.2億円</option>
-      <option value="12000-99999">1.2億円～</option>
-    </select>
-    <button id="clearPropertyFilter" class="button" type="button">
-      リセット
-    </button>
-  </div>
-  <div class="filters" style="margin-top:8px;">
-    <label class="filter-check">
-      <input id="priceDownOnly" type="checkbox">
-      値下げ物件のみ
-    </label>
-    <label class="filter-check">
-      <input id="detailFetchedOnly" type="checkbox">
-      詳細取得済みのみ
-    </label>
-    <label class="filter-check">
-      <input id="recentOnly" type="checkbox">
-      新着・最近取得
-    </label>
-  </div>
-  <div id="propertyFilterSummary" class="filter-summary">
-    読み込み中...
-  </div>
-</div>
-<div id="properties" class="property-grid">
-  <div class="loading">物件を読み込んでいます...</div>
-</div>
+
   </section>
-  <!-- Discovered Listings -->
+
+  <!-- =====================================================
+       Registered Properties
+  ====================================================== -->
+
   <section>
-<div class="section-header">
-  <div>
-    <h2>自動検出候補</h2>
-    <div class="section-description">
-      SUUMO検索結果から検出された候補。まだ詳細取得されていない物件も含みます。
+
+    <div class="section-header">
+      <div>
+        <h2>採用物件一覧</h2>
+
+        <div class="section-description">
+          実住所・検索条件を確認し、最終的に採用された物件です。
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="filter-panel">
-  <div class="filters">
-    <input
-      id="discoveredSearch"
-      type="search"
-      placeholder="エリア・物件ID・URLを検索"
-    >
-    <select id="discoveredArea">
-      <option value="">全エリア</option>
-    </select>
-    <button id="clearDiscoveredFilter" class="button" type="button">
-      リセット
-    </button>
-  </div>
-  <div id="discoveredSummary" class="filter-summary">
-    読み込み中...
-  </div>
-</div>
-<div id="discoveredProperties" class="property-grid">
-  <div class="loading">
-    自動検出候補を読み込んでいます...
-  </div>
-</div>
+
+    <div class="filter-panel">
+
+      <div class="filters">
+
+        <input
+          id="propertySearch"
+          type="search"
+          placeholder="住所・物件名・駅・IDを検索"
+        >
+
+        <select id="propertyArea">
+          <option value="">全エリア</option>
+        </select>
+
+        <select id="propertyQuality">
+          <option value="">全品質</option>
+          <option value="good">GOOD</option>
+          <option value="partial">PARTIAL</option>
+          <option value="poor">POOR</option>
+          <option value="unknown">UNKNOWN</option>
+        </select>
+
+        <select id="propertyPrice">
+          <option value="">全価格帯</option>
+          <option value="0-7000">～7,000万円</option>
+          <option value="7000-8500">7,000～8,500万円</option>
+          <option value="8500-10000">8,500万～1億円</option>
+          <option value="10000-12000">1億～1.2億円</option>
+          <option value="12000-99999">1.2億円～</option>
+        </select>
+
+        <button
+          id="clearPropertyFilter"
+          class="button"
+          type="button"
+        >
+          リセット
+        </button>
+
+      </div>
+
+      <div class="filters" style="margin-top:8px;">
+
+        <label class="filter-check">
+          <input id="priceDownOnly" type="checkbox">
+          値下げ物件のみ
+        </label>
+
+        <label class="filter-check">
+          <input id="detailFetchedOnly" type="checkbox">
+          詳細取得済みのみ
+        </label>
+
+        <label class="filter-check">
+          <input id="recentOnly" type="checkbox">
+          新着・最近取得
+        </label>
+
+      </div>
+
+      <div id="propertyFilterSummary" class="filter-summary">
+        読み込み中...
+      </div>
+
+    </div>
+
+    <div id="properties" class="property-grid">
+      <div class="loading">
+        物件を読み込んでいます...
+      </div>
+    </div>
+
   </section>
+
+  <!-- =====================================================
+       Discovered Listings
+  ====================================================== -->
+
+  <section>
+
+    <div class="section-header">
+
+      <div>
+        <h2>自動検出履歴</h2>
+
+        <div class="section-description">
+          SUUMO検索で発見された全候補。採用・除外・詳細未取得を含みます。
+        </div>
+      </div>
+
+    </div>
+
+    <div class="filter-panel">
+
+      <div class="filters">
+
+        <input
+          id="discoveredSearch"
+          type="search"
+          placeholder="住所・物件名・ID・URLを検索"
+        >
+
+        <select id="discoveredArea">
+          <option value="">全検索エリア</option>
+        </select>
+
+        <select id="discoveredValidation">
+          <option value="">全判定</option>
+          <option value="matched">採用</option>
+          <option value="excluded">除外</option>
+          <option value="unknown">判定不能</option>
+        </select>
+
+        <button
+          id="clearDiscoveredFilter"
+          class="button"
+          type="button"
+        >
+          リセット
+        </button>
+
+      </div>
+
+      <div id="discoveredSummary" class="filter-summary">
+        読み込み中...
+      </div>
+
+    </div>
+
+    <div id="discoveredProperties" class="property-grid">
+      <div class="loading">
+        自動検出履歴を読み込んでいます...
+      </div>
+    </div>
+
+  </section>
+
 </main>
+
 <script>
+
 /* =========================================================
    State
 ========================================================= */
+
 let properties = [];
 let discoveredProperties = [];
+
+let housesUpdatedAt = null;
+let discoveredUpdatedAt = null;
+
+
 /* =========================================================
-   Utility & Parsing Functions
+   Utility
 ========================================================= */
+
 function escapeHtml(value) {
   if (value === null || value === undefined) {
     return "";
   }
+
   return String(value)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -762,162 +1070,278 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
 }
-/*
- * 外部URLを安全にする。
- * https:// のみ許可し、それ以外はリンクとして使用しない。
- */
+
+
 function safeExternalUrl(value) {
   if (!value) {
     return "";
   }
+
   try {
-    const url = new URL(String(value), window.location.href);
+    const url = new URL(
+      String(value),
+      window.location.href
+    );
+
     if (url.protocol !== "https:") {
       return "";
     }
+
     return url.href;
+
   } catch (error) {
     return "";
   }
 }
-/*
- * 価格を円単位へ正規化する。
- *
- * 例:
- * 7980万円       -> 79800000
- * 0.798億円      -> 79800000
- * 79800000       -> 79800000
- * 7980           -> 79800000
- */
+
+
+/* =========================================================
+   Numeric Parsing
+========================================================= */
+
 function parsePriceToYen(value) {
-  if (value === null || value === undefined || value === "") {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
     return null;
   }
+
   if (typeof value === "number") {
+
     if (!Number.isFinite(value)) {
       return null;
     }
+
     return value < 100000
       ? Math.round(value * 10000)
       : Math.round(value);
   }
+
   const text = String(value)
     .replace(/,/g, "")
     .trim();
+
   if (!text) {
     return null;
   }
+
   let totalYen = 0;
   let matched = false;
-  const okuMatch = text.match(/([\d.]+)\s*億/);
+
+  const okuMatch =
+    text.match(/([\d.]+)\s*億/);
+
   if (okuMatch) {
-    const oku = parseFloat(okuMatch[1]);
+
+    const oku =
+      parseFloat(okuMatch[1]);
+
     if (Number.isFinite(oku)) {
-      totalYen += oku * 100000000;
+      totalYen +=
+        oku * 100000000;
+
       matched = true;
     }
   }
-  const manMatch = text.match(/([\d.]+)\s*万/);
+
+  const manMatch =
+    text.match(/([\d.]+)\s*万/);
+
   if (manMatch) {
-    const man = parseFloat(manMatch[1]);
+
+    const man =
+      parseFloat(manMatch[1]);
+
     if (Number.isFinite(man)) {
-      totalYen += man * 10000;
+      totalYen +=
+        man * 10000;
+
       matched = true;
     }
   }
+
   if (matched) {
     return Math.round(totalYen);
   }
-  const numMatch = text.match(/-?\d+(?:\.\d+)?/);
-  if (numMatch) {
-    const num = parseFloat(numMatch[0]);
-    if (!Number.isFinite(num)) {
-      return null;
-    }
-    return num < 100000
-      ? Math.round(num * 10000)
-      : Math.round(num);
-  }
-  return null;
-}
-function parseAreaM2(value) {
-  if (value === null || value === undefined || value === "") {
+
+  const numMatch =
+    text.match(/-?\d+(?:\.\d+)?/);
+
+  if (!numMatch) {
     return null;
   }
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : null;
+
+  const number =
+    parseFloat(numMatch[0]);
+
+  if (!Number.isFinite(number)) {
+    return null;
   }
+
+  return number < 100000
+    ? Math.round(number * 10000)
+    : Math.round(number);
+}
+
+
+function parseAreaM2(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return null;
+  }
+
+  if (typeof value === "number") {
+    return Number.isFinite(value)
+      ? value
+      : null;
+  }
+
   const text = String(value)
     .replace(/,/g, "")
     .trim();
-  const match = text.match(/(\d+(?:\.\d+)?)/);
+
+  const match =
+    text.match(/(\d+(?:\.\d+)?)/);
+
   if (!match) {
     return null;
   }
-  const number = parseFloat(match[1]);
-  return Number.isFinite(number) ? number : null;
+
+  const number =
+    parseFloat(match[1]);
+
+  return Number.isFinite(number)
+    ? number
+    : null;
 }
+
+
+/* =========================================================
+   Formatting
+========================================================= */
+
 function formatArea(value) {
-  const number = parseAreaM2(value);
+
+  const number =
+    parseAreaM2(value);
+
   if (number === null) {
     return "-";
   }
+
   return `${number.toLocaleString("ja-JP", {
     minimumFractionDigits: 0,
     maximumFractionDigits: 2
   })}㎡`;
 }
+
+
 function formatPrice(value) {
-  const yen = parsePriceToYen(value);
+
+  const yen =
+    parsePriceToYen(value);
+
   if (yen === null) {
     return "-";
   }
+
   if (yen >= 100000000) {
-    const oku = Math.floor(yen / 100000000);
-    const remainderMan = Math.round(
-      (yen % 100000000) / 10000
-    );
+
+    const oku =
+      Math.floor(
+        yen / 100000000
+      );
+
+    const remainderMan =
+      Math.round(
+        (yen % 100000000) / 10000
+      );
+
     if (remainderMan > 0) {
       return `${oku}億${remainderMan.toLocaleString("ja-JP")}万円`;
     }
+
     return `${oku}億円`;
   }
+
   if (yen >= 10000) {
-    return `${(yen / 10000).toLocaleString("ja-JP")}万円`;
+
+    return `${(
+      yen / 10000
+    ).toLocaleString("ja-JP")}万円`;
   }
+
   return `${yen.toLocaleString("ja-JP")}円`;
 }
+
+
 function formatDate(value) {
+
   if (!value) {
     return "-";
   }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
     return escapeHtml(value);
   }
-  return date.toLocaleString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+
+  return date.toLocaleString(
+    "ja-JP",
+    {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }
+  );
 }
+
+
 function formatShortDate(value) {
+
   if (!value) {
     return "-";
   }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
+
+  const date =
+    new Date(value);
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
     return "-";
   }
-  return date.toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-  });
+
+  return date.toLocaleDateString(
+    "ja-JP",
+    {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }
+  );
 }
+
+
 function formatValue(value) {
+
   if (
     value === null ||
     value === undefined ||
@@ -925,47 +1349,100 @@ function formatValue(value) {
   ) {
     return "-";
   }
+
   return escapeHtml(value);
 }
+
+
 /* =========================================================
-   Property Item Getters
+   Property Getters
 ========================================================= */
+
 function getDetail(property) {
-  return (
+
+  if (
     property &&
     property.detail &&
     typeof property.detail === "object"
-  )
-    ? property.detail
-    : {};
+  ) {
+    return property.detail;
+  }
+
+  if (
+    property &&
+    property.lastSuccessfulDetail &&
+    typeof property.lastSuccessfulDetail === "object"
+  ) {
+    return property.lastSuccessfulDetail;
+  }
+
+  return {};
 }
+
+
 function getPrice(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     parsePriceToYen(property.price) ??
     parsePriceToYen(detail.price) ??
     parsePriceToYen(property.priceValue)
   );
 }
+
+
 function getAddress(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     detail.address ||
     property.address ||
     property.location ||
-    property.area ||
     "-"
   );
 }
-function getArea(property) {
+
+
+function getSearchArea(property) {
+
   return (
+    property.searchArea ||
+    "-"
+  );
+}
+
+
+function getDetectedArea(property) {
+
+  return (
+    property.areaDetected ||
+    property.detectedArea ||
+    "-"
+  );
+}
+
+
+function getDisplayArea(property) {
+
+  return (
+    property.areaDetected ||
+    property.detectedArea ||
     property.searchArea ||
     property.area ||
     getAddress(property)
   );
 }
+
+
 function getLandArea(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     parseAreaM2(detail.landAreaM2) ??
     parseAreaM2(property.landAreaM2) ??
@@ -973,8 +1450,13 @@ function getLandArea(property) {
     parseAreaM2(property.land_area)
   );
 }
+
+
 function getBuildingArea(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     parseAreaM2(detail.buildingAreaM2) ??
     parseAreaM2(property.buildingAreaM2) ??
@@ -982,8 +1464,13 @@ function getBuildingArea(property) {
     parseAreaM2(property.building_area)
   );
 }
+
+
 function getLayout(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     detail.layoutRaw ||
     detail.layout ||
@@ -992,8 +1479,13 @@ function getLayout(property) {
     "-"
   );
 }
+
+
 function getConstruction(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     detail.constructionMonth ||
     detail.buildYear ||
@@ -1004,15 +1496,22 @@ function getConstruction(property) {
     "-"
   );
 }
+
+
 function getStation(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   const station =
     detail.station ||
     property.station ||
     "";
+
   const walk =
     detail.walkMinutes ??
     property.walkMinutes;
+
   if (
     station &&
     walk !== null &&
@@ -1021,9 +1520,11 @@ function getStation(property) {
   ) {
     return `${station} 徒歩${walk}分`;
   }
+
   if (station) {
     return station;
   }
+
   return (
     detail.transportRaw ||
     property.walking ||
@@ -1032,7 +1533,10 @@ function getStation(property) {
     "-"
   );
 }
+
+
 function getQuality(property) {
+
   return (
     property.detailQuality ||
     getDetail(property).detailQuality ||
@@ -1041,10 +1545,14 @@ function getQuality(property) {
     .toString()
     .toLowerCase();
 }
+
+
 function getQualityScore(property) {
+
   const score =
     property.detailQualityScore ??
     getDetail(property).detailQualityScore;
+
   return (
     score !== null &&
     score !== undefined
@@ -1052,48 +1560,99 @@ function getQualityScore(property) {
     ? Number(score)
     : null;
 }
+
+
 function isDetailFetched(property) {
+
   return (
     property.detailFetched === true ||
-    getDetail(property).detailFetched === true
+    property.lastSuccessfulDetail !== undefined ||
+    (
+      property.detail &&
+      typeof property.detail === "object"
+    )
   );
 }
+
+
 function getPriceHistory(property) {
-  if (Array.isArray(property.priceHistory)) {
+
+  if (
+    Array.isArray(
+      property.priceHistory
+    )
+  ) {
     return property.priceHistory;
   }
-  if (Array.isArray(getDetail(property).priceHistory)) {
+
+  if (
+    Array.isArray(
+      getDetail(property).priceHistory
+    )
+  ) {
     return getDetail(property).priceHistory;
   }
+
   return [];
 }
+
+
 function getInitialPrice(property) {
-  const history = getPriceHistory(property);
+
+  const history =
+    getPriceHistory(property);
+
   if (!history.length) {
     return null;
   }
-  const prices = history
-    .map(item => parsePriceToYen(item.price))
-    .filter(value => value !== null);
-  return prices.length ? prices[0] : null;
+
+  const prices =
+    history
+      .map(item =>
+        parsePriceToYen(item.price)
+      )
+      .filter(
+        value => value !== null
+      );
+
+  return prices.length
+    ? prices[0]
+    : null;
 }
+
+
 function getCurrentPrice(property) {
   return getPrice(property);
 }
+
+
 function getPriceChange(property) {
-  const initial = getInitialPrice(property);
-  const current = getCurrentPrice(property);
+
+  const initial =
+    getInitialPrice(property);
+
+  const current =
+    getCurrentPrice(property);
+
   if (
     initial === null ||
     current === null
   ) {
     return null;
   }
+
   return current - initial;
 }
+
+
 function getPriceChangeRate(property) {
-  const initial = getInitialPrice(property);
-  const current = getCurrentPrice(property);
+
+  const initial =
+    getInitialPrice(property);
+
+  const current =
+    getCurrentPrice(property);
+
   if (
     initial === null ||
     current === null ||
@@ -1101,45 +1660,88 @@ function getPriceChangeRate(property) {
   ) {
     return null;
   }
-  return ((current - initial) / initial) * 100;
+
+  return (
+    (current - initial) /
+    initial
+  ) * 100;
 }
+
+
 function hasPriceDown(property) {
-  const change = getPriceChange(property);
-  return change !== null && change < 0;
+
+  const change =
+    getPriceChange(property);
+
+  return (
+    change !== null &&
+    change < 0
+  );
 }
+
+
 function getLatestDate(property) {
+
   const candidates = [
     property.lastSeenAt,
     property.collectedAt,
     property.detailFetchedAt,
     property.lastSuccessfulDetailFetchedAt,
     property.updatedAt
-  ].filter(Boolean);
+  ]
+    .filter(Boolean);
+
   if (!candidates.length) {
     return null;
   }
-  const dates = candidates
-    .map(value => new Date(value))
-    .filter(date => !Number.isNaN(date.getTime()));
+
+  const dates =
+    candidates
+      .map(value =>
+        new Date(value)
+      )
+      .filter(date =>
+        !Number.isNaN(
+          date.getTime()
+        )
+      );
+
   if (!dates.length) {
     return null;
   }
+
   dates.sort(
-    (a, b) => b.getTime() - a.getTime()
+    (a, b) =>
+      b.getTime() -
+      a.getTime()
   );
+
   return dates[0];
 }
+
+
 function isRecent(property) {
-  const latest = getLatestDate(property);
+
+  const latest =
+    getLatestDate(property);
+
   if (!latest) {
     return false;
   }
+
   return (
-    Date.now() - latest.getTime()
-  ) <= 7 * 24 * 60 * 60 * 1000;
+    Date.now() -
+    latest.getTime()
+  ) <=
+  7 * 24 * 60 * 60 * 1000;
 }
+
+
 function getPropertyName(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     detail.title ||
     property.name ||
@@ -1147,11 +1749,16 @@ function getPropertyName(property) {
     detail.address ||
     property.address ||
     property.location ||
-    "物件"
+    `物件 ${property.id || ""}`
   );
 }
+
+
 function getPropertyUrl(property) {
-  const detail = getDetail(property);
+
+  const detail =
+    getDetail(property);
+
   return (
     property.sourceUrl ||
     property.url ||
@@ -1160,102 +1767,194 @@ function getPropertyUrl(property) {
     ""
   );
 }
+
+
 /* =========================================================
-   Render Helper Components
+   Validation Helpers
 ========================================================= */
-function renderPriceHistory(property) {
-  const history = getPriceHistory(property);
-  if (!history.length) {
-    return "";
+
+function validationClass(value) {
+
+  if (value === true) {
+    return "validation-pass";
   }
-  const items = history
-    .slice(-8)
-    .map((item, index) => {
-      const price = parsePriceToYen(item.price);
-      const date =
-        item.date ||
-        item.changedAt ||
-        item.recordedAt ||
-        item.createdAt;
-      const priceText =
-        price !== null
-          ? formatPrice(price)
-          : "-";
-      return `
-        ${index > 0
-          ? '<span class="history-arrow">→</span>'
-          : ""
-        }
-        <div class="history-item">
-          <span class="history-price">
-            ${escapeHtml(priceText)}
-          </span>
-          ${
-            date
-              ? `<span class="history-date">
-                   ${escapeHtml(formatShortDate(date))}
-                 </span>`
-              : ""
-          }
-        </div>
-      `;
-    })
-    .join("");
+
+  if (value === false) {
+    return "validation-fail";
+  }
+
+  return "validation-unknown";
+}
+
+
+function validationMark(value) {
+
+  if (value === true) {
+    return "✓";
+  }
+
+  if (value === false) {
+    return "✕";
+  }
+
+  return "?";
+}
+
+
+function validationText(value) {
+
+  if (value === true) {
+    return "OK";
+  }
+
+  if (value === false) {
+    return "NG";
+  }
+
+  return "不明";
+}
+
+
+function renderValidation(property) {
+
+  const areaMatched =
+    property.areaMatched;
+
+  const criteriaMatched =
+    property.searchCriteriaMatched;
+
+  const areaDetected =
+    getDetectedArea(property);
+
+  const searchArea =
+    getSearchArea(property);
+
+  const address =
+    getAddress(property);
+
   return `
-    <div class="price-history">
-      <div class="price-history-title">
-        価格履歴
+    <div class="validation-box">
+
+      <div class="validation-title">
+        エリア・検索条件判定
       </div>
-      <div class="price-history-list">
-        ${items}
+
+      <div class="validation-row">
+
+        <span class="validation-badge ${validationClass(areaMatched)}">
+          エリア ${validationMark(areaMatched)}
+          ${validationText(areaMatched)}
+        </span>
+
+        <span class="validation-badge ${validationClass(criteriaMatched)}">
+          条件 ${validationMark(criteriaMatched)}
+          ${validationText(criteriaMatched)}
+        </span>
+
       </div>
+
+      <div class="validation-info">
+        検索エリア：
+        ${escapeHtml(searchArea)}
+        <br>
+        実住所判定：
+        ${escapeHtml(areaDetected)}
+        <br>
+        住所：
+        ${escapeHtml(address)}
+      </div>
+
     </div>
   `;
 }
+
+
+/* =========================================================
+   Quality
+========================================================= */
+
 function qualityLabel(quality) {
+
   switch (quality) {
+
     case "good":
       return "GOOD";
+
     case "partial":
       return "PARTIAL";
+
     case "poor":
       return "POOR";
+
     default:
       return "UNKNOWN";
   }
 }
+
+
 function renderQualityFlag(property) {
-  const quality = getQuality(property);
-  const allowedQualities = [
+
+  const quality =
+    getQuality(property);
+
+  const allowed = [
     "good",
     "partial",
     "poor",
     "unknown"
   ];
+
   const safeQuality =
-    allowedQualities.includes(quality)
+    allowed.includes(quality)
       ? quality
       : "unknown";
+
   return `
     <span class="flag flag-${safeQuality}">
       ${qualityLabel(safeQuality)}
     </span>
   `;
 }
+
+
+/* =========================================================
+   Price Rendering
+========================================================= */
+
 function renderPrice(property) {
-  const current = getCurrentPrice(property);
-  const change = getPriceChange(property);
-  const rate = getPriceChangeRate(property);
+
+  const current =
+    getCurrentPrice(property);
+
+  const change =
+    getPriceChange(property);
+
+  const rate =
+    getPriceChangeRate(property);
+
   if (current === null) {
+
     return `
-      <div class="current-price">-</div>
+      <div class="current-price">
+        -
+      </div>
     `;
   }
+
   let changeHtml = "";
-  if (change !== null && change < 0) {
+
+  if (
+    change !== null &&
+    change < 0
+  ) {
+
     changeHtml = `
       <div class="price-change">
-        ▼ ${escapeHtml(formatPrice(Math.abs(change)))}
+        ▼ ${escapeHtml(
+          formatPrice(
+            Math.abs(change)
+          )
+        )}
         ${
           rate !== null
             ? `(${rate.toFixed(1)}%)`
@@ -1263,67 +1962,222 @@ function renderPrice(property) {
         }
       </div>
     `;
-  } else if (change !== null && change > 0) {
+
+  } else if (
+    change !== null &&
+    change > 0
+  ) {
+
     changeHtml = `
       <div class="price-change price-no-change">
-        ▲ ${escapeHtml(formatPrice(change))}
+        ▲ ${escapeHtml(
+          formatPrice(change)
+        )}
       </div>
     `;
+
   } else {
+
     changeHtml = `
       <div class="price-change price-no-change">
         価格変更なし
       </div>
     `;
   }
+
   return `
     <div class="current-price">
-      ${escapeHtml(formatPrice(current))}
+      ${escapeHtml(
+        formatPrice(current)
+      )}
     </div>
+
     ${changeHtml}
   `;
 }
+
+
+/* =========================================================
+   Price History
+========================================================= */
+
+function renderPriceHistory(property) {
+
+  const history =
+    getPriceHistory(property);
+
+  if (!history.length) {
+    return "";
+  }
+
+  const items =
+    history
+      .slice(-8)
+      .map(
+        (item, index) => {
+
+          const price =
+            parsePriceToYen(
+              item.price
+            );
+
+          const date =
+            item.date ||
+            item.changedAt ||
+            item.recordedAt ||
+            item.createdAt;
+
+          const priceText =
+            price !== null
+              ? formatPrice(price)
+              : "-";
+
+          return `
+            ${
+              index > 0
+                ? '<span class="history-arrow">→</span>'
+                : ""
+            }
+
+            <div class="history-item">
+
+              <span class="history-price">
+                ${escapeHtml(
+                  priceText
+                )}
+              </span>
+
+              ${
+                date
+                  ? `
+                    <span class="history-date">
+                      ${escapeHtml(
+                        formatShortDate(
+                          date
+                        )
+                      )}
+                    </span>
+                  `
+                  : ""
+              }
+
+            </div>
+          `;
+        }
+      )
+      .join("");
+
+  return `
+    <div class="price-history">
+
+      <div class="price-history-title">
+        価格履歴
+      </div>
+
+      <div class="price-history-list">
+        ${items}
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =========================================================
+   Property Card
+========================================================= */
+
 function renderPropertyCard(property) {
-  const name = getPropertyName(property);
-  const address = getAddress(property);
-  const land = getLandArea(property);
-  const building = getBuildingArea(property);
-  const layout = getLayout(property);
-  const construction = getConstruction(property);
-  const station = getStation(property);
-  const quality = getQuality(property);
-  const score = getQualityScore(property);
-  const url = safeExternalUrl(getPropertyUrl(property));
-  const down = hasPriceDown(property);
-  const fetched = isDetailFetched(property);
-  const recent = isRecent(property);
-  const priceHistory = getPriceHistory(property);
-  const latest = getLatestDate(property);
-  const propertyId = property.id || "-";
+
+  const name =
+    getPropertyName(property);
+
+  const address =
+    getAddress(property);
+
+  const land =
+    getLandArea(property);
+
+  const building =
+    getBuildingArea(property);
+
+  const layout =
+    getLayout(property);
+
+  const construction =
+    getConstruction(property);
+
+  const station =
+    getStation(property);
+
+  const quality =
+    getQuality(property);
+
+  const score =
+    getQualityScore(property);
+
+  const url =
+    safeExternalUrl(
+      getPropertyUrl(property)
+    );
+
+  const down =
+    hasPriceDown(property);
+
+  const fetched =
+    isDetailFetched(property);
+
+  const recent =
+    isRecent(property);
+
+  const priceHistory =
+    getPriceHistory(property);
+
+  const latest =
+    getLatestDate(property);
+
+  const propertyId =
+    property.id || "-";
+
   const missingFields =
-    Array.isArray(property.missingFields)
+    Array.isArray(
+      property.missingFields
+    )
       ? property.missingFields.length
       : 0;
+
   return `
     <article class="property">
+
       <div class="property-top">
+
         <div class="property-main">
+
           <div class="property-name">
             ${escapeHtml(name)}
           </div>
+
           <div class="property-location">
             ${escapeHtml(address)}
           </div>
+
           <div class="property-id">
             ID: ${escapeHtml(propertyId)}
           </div>
+
         </div>
+
         <div class="price-box">
           ${renderPrice(property)}
         </div>
+
       </div>
+
+
       <div class="flags">
+
         ${renderQualityFlag(property)}
+
         ${
           fetched
             ? `
@@ -1337,6 +2191,7 @@ function renderPropertyCard(property) {
               </span>
             `
         }
+
         ${
           down
             ? `
@@ -1346,6 +2201,7 @@ function renderPropertyCard(property) {
             `
             : ""
         }
+
         ${
           recent
             ? `
@@ -1355,15 +2211,17 @@ function renderPropertyCard(property) {
             `
             : ""
         }
+
         ${
           property.detailDataStale
             ? `
               <span class="flag flag-partial">
-                詳細情報は過去取得値
+                過去取得データ
               </span>
             `
             : ""
         }
+
         ${
           property.searchDetailPriceMismatch
             ? `
@@ -1373,56 +2231,99 @@ function renderPropertyCard(property) {
             `
             : ""
         }
+
       </div>
+
+
       <div class="property-details">
+
         <div class="meta-item">
-          <span class="meta-label">エリア</span>
-          ${formatValue(getArea(property))}
+          <span class="meta-label">
+            エリア
+          </span>
+          ${formatValue(
+            getDisplayArea(property)
+          )}
         </div>
+
         <div class="meta-item">
-          <span class="meta-label">間取り</span>
+          <span class="meta-label">
+            間取り
+          </span>
           ${formatValue(layout)}
         </div>
+
         <div class="meta-item">
-          <span class="meta-label">土地</span>
+          <span class="meta-label">
+            土地
+          </span>
           ${formatArea(land)}
         </div>
+
         <div class="meta-item">
-          <span class="meta-label">建物</span>
+          <span class="meta-label">
+            建物
+          </span>
           ${formatArea(building)}
         </div>
+
         <div class="meta-item">
-          <span class="meta-label">築年</span>
+          <span class="meta-label">
+            築年
+          </span>
           ${formatValue(construction)}
         </div>
+
         <div class="meta-item">
-          <span class="meta-label">駅</span>
+          <span class="meta-label">
+            駅
+          </span>
           ${formatValue(station)}
         </div>
+
       </div>
+
+
+      ${renderValidation(property)}
+
+
       ${
         priceHistory.length
           ? renderPriceHistory(property)
           : ""
       }
+
+
       <div class="quality-row">
+
         <div class="quality-text">
-          データ品質：${qualityLabel(quality)}
+
+          データ品質：
+          ${qualityLabel(quality)}
+
           ${
             missingFields
               ? `・不足項目 ${missingFields}件`
               : ""
           }
+
         </div>
+
         <div class="quality-score">
+
           ${
             score !== null
               ? `${score}/100`
               : "-"
           }
+
         </div>
+
       </div>
+
+
       <div class="property-footer">
+
         ${
           url
             ? `
@@ -1435,129 +2336,249 @@ function renderPropertyCard(property) {
               </a>
             `
             : `
-              <span>詳細URLなし</span>
+              <span>
+                詳細URLなし
+              </span>
             `
         }
+
         <div class="last-seen">
+
           ${
             latest
-              ? `最終確認 ${escapeHtml(formatShortDate(latest))}`
+              ? `最終確認 ${escapeHtml(
+                  formatShortDate(latest)
+                )}`
               : ""
           }
+
         </div>
+
       </div>
+
     </article>
   `;
 }
+
+
 /* =========================================================
-   Render Sections
+   Registered Properties
 ========================================================= */
+
 function renderProperties(list) {
+
   const container =
-    document.getElementById("properties");
+    document.getElementById(
+      "properties"
+    );
+
   const summary =
-    document.getElementById("propertyFilterSummary");
-  if (!Array.isArray(list) || !list.length) {
+    document.getElementById(
+      "propertyFilterSummary"
+    );
+
+  if (
+    !Array.isArray(list) ||
+    !list.length
+  ) {
+
     container.innerHTML = `
       <div class="empty">
-        条件に一致する物件はありません。
+        条件に一致する採用物件はありません。
       </div>
     `;
-    summary.textContent = "0件";
+
+    summary.textContent =
+      "0件";
+
     return;
   }
+
   summary.textContent =
     `${list.length}件を表示`;
+
   container.innerHTML =
     list
-      .map(property => renderPropertyCard(property))
+      .map(
+        property =>
+          renderPropertyCard(
+            property
+          )
+      )
       .join("");
 }
+
+
+/* =========================================================
+   Highlights
+========================================================= */
+
 function renderHighlights() {
+
   const container =
-    document.getElementById("highlightGrid");
-  const candidates = properties
-    .filter(property => isDetailFetched(property))
-    .sort((a, b) => {
-      const aChange =
-        getPriceChange(a) ?? 0;
-      const bChange =
-        getPriceChange(b) ?? 0;
-      return aChange - bChange;
-    })
-    .slice(0, 3);
+    document.getElementById(
+      "highlightGrid"
+    );
+
+  const candidates =
+    properties
+      .filter(
+        property =>
+          isDetailFetched(property)
+      )
+      .sort(
+        (a, b) => {
+
+          const aChange =
+            getPriceChange(a);
+
+          const bChange =
+            getPriceChange(b);
+
+          if (
+            aChange === null &&
+            bChange === null
+          ) {
+            return 0;
+          }
+
+          if (aChange === null) {
+            return 1;
+          }
+
+          if (bChange === null) {
+            return -1;
+          }
+
+          return (
+            aChange -
+            bChange
+          );
+        }
+      )
+      .slice(0, 3);
+
   if (!candidates.length) {
+
     container.innerHTML = `
       <div class="empty">
-        詳細取得済みの物件がまだありません。
+        詳細取得済みの採用物件がまだありません。
       </div>
     `;
+
     return;
   }
+
   container.innerHTML =
     candidates
       .map(property => {
+
         const name =
-          getPropertyName(property);
+          getPropertyName(
+            property
+          );
+
         const price =
-          getCurrentPrice(property);
+          getCurrentPrice(
+            property
+          );
+
         const change =
-          getPriceChange(property);
+          getPriceChange(
+            property
+          );
+
         const rate =
-          getPriceChangeRate(property);
+          getPriceChangeRate(
+            property
+          );
+
         const url =
           safeExternalUrl(
-            getPropertyUrl(property)
+            getPropertyUrl(
+              property
+            )
           );
+
         const address =
-          getAddress(property);
+          getAddress(
+            property
+          );
+
         const layout =
-          getLayout(property);
+          getLayout(
+            property
+          );
+
         const land =
-          getLandArea(property);
+          getLandArea(
+            property
+          );
+
         let priceHtml =
           price !== null
-            ? escapeHtml(formatPrice(price))
+            ? escapeHtml(
+                formatPrice(price)
+              )
             : "-";
+
         if (
           change !== null &&
           change < 0
         ) {
+
           priceHtml += `
             <div class="price-change">
+
               ▼ ${escapeHtml(
-                formatPrice(Math.abs(change))
+                formatPrice(
+                  Math.abs(change)
+                )
               )}
+
               ${
                 rate !== null
                   ? `(${rate.toFixed(1)}%)`
                   : ""
               }
+
             </div>
           `;
         }
+
         return `
           <div class="highlight-card">
+
             <div class="highlight-label">
+
               ${
-                change !== null && change < 0
-                  ? "価格下落が大きい物件"
-                  : "詳細取得済み物件"
+                change !== null &&
+                change < 0
+                  ? "価格下落が確認された物件"
+                  : "詳細取得済み採用物件"
               }
+
             </div>
+
             <div class="highlight-title">
               ${escapeHtml(name)}
             </div>
+
             <div class="highlight-price">
               ${priceHtml}
             </div>
+
             <div class="highlight-meta">
               ${escapeHtml(address)}
             </div>
+
             <div class="highlight-meta">
               ${escapeHtml(layout)}
-              ・土地 ${escapeHtml(formatArea(land))}
+              ・土地 ${escapeHtml(
+                formatArea(land)
+              )}
             </div>
+
             ${
               url
                 ? `
@@ -1572,327 +2593,747 @@ function renderHighlights() {
                 `
                 : ""
             }
+
           </div>
         `;
       })
       .join("");
 }
+
+
+/* =========================================================
+   Dashboard
+========================================================= */
+
 function updateDashboard() {
+
   const total =
     properties.length;
+
   const fetched =
     properties.filter(
-      property => isDetailFetched(property)
+      property =>
+        isDetailFetched(property)
     ).length;
+
   const good =
     properties.filter(
-      property => getQuality(property) === "good"
+      property =>
+        getQuality(property) ===
+        "good"
     ).length;
+
   const partial =
     properties.filter(
-      property => getQuality(property) === "partial"
+      property =>
+        getQuality(property) ===
+        "partial"
     ).length;
+
   const priceDown =
     properties.filter(
-      property => hasPriceDown(property)
+      property =>
+        hasPriceDown(property)
     ).length;
+
   document.getElementById(
     "registeredCount"
-  ).textContent = total;
+  ).textContent =
+    total;
+
   document.getElementById(
     "detailFetchedCount"
-  ).textContent = fetched;
+  ).textContent =
+    fetched;
+
   document.getElementById(
     "goodCount"
-  ).textContent = good;
+  ).textContent =
+    good;
+
   document.getElementById(
     "partialCount"
-  ).textContent = partial;
+  ).textContent =
+    partial;
+
   document.getElementById(
     "priceDownCount"
-  ).textContent = priceDown;
+  ).textContent =
+    priceDown;
+
   document.getElementById(
     "discoveredCount"
   ).textContent =
     discoveredProperties.length;
+
   const rate =
     total > 0
-      ? ((fetched / total) * 100).toFixed(0)
+      ? (
+          fetched /
+          total *
+          100
+        ).toFixed(0)
       : 0;
+
   document.getElementById(
     "detailFetchedRate"
   ).textContent =
     `取得率 ${rate}%`;
 }
-function updateHeader(
-  housesUpdatedAt,
-  discoveredUpdatedAt
-) {
+
+
+/* =========================================================
+   Header
+========================================================= */
+
+function updateHeader() {
+
   const dates = [
     housesUpdatedAt,
     discoveredUpdatedAt
-  ].filter(Boolean);
+  ]
+    .filter(Boolean);
+
   if (!dates.length) {
+
     document.getElementById(
       "updated"
     ).textContent =
       "最終更新：不明";
+
     return;
   }
+
   const latest =
     dates
-      .map(value => new Date(value))
+      .map(
+        value =>
+          new Date(value)
+      )
       .filter(
-        date => !Number.isNaN(date.getTime())
+        date =>
+          !Number.isNaN(
+            date.getTime()
+          )
       )
       .sort(
         (a, b) =>
-          b.getTime() - a.getTime()
+          b.getTime() -
+          a.getTime()
       )[0];
+
   document.getElementById(
     "updated"
   ).textContent =
     latest
       ? "最終更新：" +
-        latest.toLocaleString("ja-JP")
+        latest.toLocaleString(
+          "ja-JP"
+        )
       : "最終更新：不明";
 }
+
+
 /* =========================================================
-   Filter Handlers
+   Filters
 ========================================================= */
+
 function initializeFilters() {
-  const discoveredAreas = [
-    ...new Set(
-      discoveredProperties
-        .map(item => item.searchArea)
-        .filter(Boolean)
-    )
-  ].sort();
+
+  const discoveredAreas =
+    [
+      ...new Set(
+        discoveredProperties
+          .map(
+            item =>
+              item.searchArea
+          )
+          .filter(Boolean)
+      )
+    ]
+    .sort();
+
   const discoveredAreaSelect =
     document.getElementById(
       "discoveredArea"
     );
-  discoveredAreas.forEach(area => {
-    const option =
-      document.createElement("option");
-    option.value = area;
-    option.textContent = area;
-    discoveredAreaSelect.appendChild(option);
-  });
-  const propertyAreas = [
-    ...new Set(
-      properties
-        .map(
-          property =>
-            property.searchArea ||
-            property.area ||
-            getAddress(property)
-        )
-        .filter(Boolean)
-    )
-  ].sort();
+
+  discoveredAreas.forEach(
+    area => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        area;
+
+      option.textContent =
+        area;
+
+      discoveredAreaSelect.appendChild(
+        option
+      );
+    }
+  );
+
+
+  const propertyAreas =
+    [
+      ...new Set(
+        properties
+          .map(
+            property =>
+              property.areaDetected ||
+              property.searchArea ||
+              property.area ||
+              getAddress(property)
+          )
+          .filter(Boolean)
+      )
+    ]
+    .sort();
+
   const propertyAreaSelect =
     document.getElementById(
       "propertyArea"
     );
-  propertyAreas.forEach(area => {
-    const option =
-      document.createElement("option");
-    option.value = area;
-    option.textContent = area;
-    propertyAreaSelect.appendChild(option);
-  });
+
+  propertyAreas.forEach(
+    area => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        area;
+
+      option.textContent =
+        area;
+
+      propertyAreaSelect.appendChild(
+        option
+      );
+    }
+  );
 }
+
+
+/* =========================================================
+   Property Filtering
+========================================================= */
+
 function filterProperties() {
+
   const search =
     document.getElementById(
       "propertySearch"
     ).value
       .trim()
       .toLowerCase();
+
   const area =
     document.getElementById(
       "propertyArea"
     ).value;
+
   const quality =
     document.getElementById(
       "propertyQuality"
     ).value;
+
   const priceRange =
     document.getElementById(
       "propertyPrice"
     ).value;
+
   const priceDownOnly =
     document.getElementById(
       "priceDownOnly"
     ).checked;
+
   const detailFetchedOnly =
     document.getElementById(
       "detailFetchedOnly"
     ).checked;
+
   const recentOnly =
     document.getElementById(
       "recentOnly"
     ).checked;
+
+
   const filtered =
-    properties.filter(property => {
-      const detail =
-        getDetail(property);
-      const searchText = [
-        property.id,
-        property.name,
-        property.title,
-        property.address,
-        property.location,
-        property.searchArea,
-        detail.title,
-        detail.address,
-        detail.station,
-        detail.transportRaw,
-        detail.layout,
-        detail.layoutRaw
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-      const matchesSearch =
-        !search ||
-        searchText.includes(search);
-      const propertyArea =
-        property.searchArea ||
-        property.area ||
-        getAddress(property);
-      const matchesArea =
-        !area ||
-        propertyArea === area;
-      const matchesQuality =
-        !quality ||
-        getQuality(property) === quality;
-      const priceYen =
-        getCurrentPrice(property);
-      let matchesPrice = true;
-      if (priceRange) {
-        if (priceYen === null) {
-          matchesPrice = false;
-        } else {
-          const parts =
-            priceRange.split("-");
-          const minYen =
-            Number(parts[0]) * 10000;
-          const maxYen =
-            Number(parts[1]) * 10000;
-          matchesPrice =
-            priceYen >= minYen &&
-            priceYen <= maxYen;
+    properties.filter(
+      property => {
+
+        const detail =
+          getDetail(property);
+
+        const searchText = [
+          property.id,
+          property.name,
+          property.title,
+          property.address,
+          property.location,
+          property.searchArea,
+          property.areaDetected,
+          detail.title,
+          detail.address,
+          detail.station,
+          detail.transportRaw,
+          detail.layout,
+          detail.layoutRaw
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+        const matchesSearch =
+          !search ||
+          searchText.includes(
+            search
+          );
+
+        const propertyArea =
+          property.areaDetected ||
+          property.searchArea ||
+          property.area ||
+          getAddress(property);
+
+        const matchesArea =
+          !area ||
+          propertyArea === area;
+
+        const matchesQuality =
+          !quality ||
+          getQuality(property) ===
+          quality;
+
+        const priceYen =
+          getCurrentPrice(
+            property
+          );
+
+        let matchesPrice = true;
+
+        if (priceRange) {
+
+          if (
+            priceYen === null
+          ) {
+
+            matchesPrice =
+              false;
+
+          } else {
+
+            const parts =
+              priceRange.split("-");
+
+            const minYen =
+              Number(parts[0]) *
+              10000;
+
+            const maxYen =
+              Number(parts[1]) *
+              10000;
+
+            matchesPrice =
+              priceYen >= minYen &&
+              priceYen <= maxYen;
+          }
         }
+
+        const matchesPriceDown =
+          !priceDownOnly ||
+          hasPriceDown(property);
+
+        const matchesFetched =
+          !detailFetchedOnly ||
+          isDetailFetched(property);
+
+        const matchesRecent =
+          !recentOnly ||
+          isRecent(property);
+
+        return (
+          matchesSearch &&
+          matchesArea &&
+          matchesQuality &&
+          matchesPrice &&
+          matchesPriceDown &&
+          matchesFetched &&
+          matchesRecent
+        );
       }
-      const matchesPriceDown =
-        !priceDownOnly ||
-        hasPriceDown(property);
-      const matchesFetched =
-        !detailFetchedOnly ||
-        isDetailFetched(property);
-      const matchesRecent =
-        !recentOnly ||
-        isRecent(property);
-      return (
-        matchesSearch &&
-        matchesArea &&
-        matchesQuality &&
-        matchesPrice &&
-        matchesPriceDown &&
-        matchesFetched &&
-        matchesRecent
-      );
-    });
-  renderProperties(filtered);
+    );
+
+  renderProperties(
+    filtered
+  );
 }
-function renderDiscoveredListings(list) {
+
+
+/* =========================================================
+   Discovered Validation
+========================================================= */
+
+function getDiscoveredValidationState(
+  property
+) {
+
+  const areaMatched =
+    property.areaMatched;
+
+  const criteriaMatched =
+    property.searchCriteriaMatched;
+
+  if (
+    areaMatched === true &&
+    criteriaMatched === true
+  ) {
+    return "matched";
+  }
+
+  if (
+    areaMatched === false ||
+    criteriaMatched === false
+  ) {
+    return "excluded";
+  }
+
+  return "unknown";
+}
+
+
+/* =========================================================
+   Discovered Rendering
+========================================================= */
+
+function renderDiscoveredListings(
+  list
+) {
+
   const container =
     document.getElementById(
       "discoveredProperties"
     );
+
   const summary =
     document.getElementById(
       "discoveredSummary"
     );
+
   if (
     !Array.isArray(list) ||
     !list.length
   ) {
+
     container.innerHTML = `
       <div class="empty">
-        自動検出候補はありません。
+        条件に一致する自動検出履歴はありません。
       </div>
     `;
-    summary.textContent = "0件";
+
+    summary.textContent =
+      "0件";
+
     return;
   }
+
+
+  const matchedCount =
+    list.filter(
+      property =>
+        getDiscoveredValidationState(
+          property
+        ) === "matched"
+    ).length;
+
+  const excludedCount =
+    list.filter(
+      property =>
+        getDiscoveredValidationState(
+          property
+        ) === "excluded"
+    ).length;
+
+  const unknownCount =
+    list.filter(
+      property =>
+        getDiscoveredValidationState(
+          property
+        ) === "unknown"
+    ).length;
+
+
   summary.textContent =
-    `${list.length}件を表示`;
+    `${list.length}件を表示 / 採用 ${matchedCount}件 / 除外 ${excludedCount}件 / 判定不能 ${unknownCount}件`;
+
+
   container.innerHTML =
     list
       .map(property => {
+
         const url =
           safeExternalUrl(
-            property.sourceUrl ||
-            property.url ||
-            ""
+            getPropertyUrl(
+              property
+            )
           );
-        const area =
-          property.searchArea ||
-          property.area ||
-          "-";
+
+        const name =
+          getPropertyName(
+            property
+          );
+
+        const address =
+          getAddress(
+            property
+          );
+
+        const searchArea =
+          getSearchArea(
+            property
+          );
+
+        const detectedArea =
+          getDetectedArea(
+            property
+          );
+
         const source =
           property.source ||
           "SUUMO";
+
         const collectedAt =
           property.collectedAt;
+
+        const fetched =
+          isDetailFetched(
+            property
+          );
+
+        const state =
+          getDiscoveredValidationState(
+            property
+          );
+
+
+        let stateLabel =
+          "判定不能";
+
+        let stateClass =
+          "validation-unknown";
+
+        if (state === "matched") {
+
+          stateLabel =
+            "採用";
+
+          stateClass =
+            "validation-pass";
+
+        } else if (
+          state === "excluded"
+        ) {
+
+          stateLabel =
+            "除外";
+
+          stateClass =
+            "validation-fail";
+        }
+
+
         return `
           <article class="property">
+
             <div class="property-top">
+
               <div class="property-main">
+
                 <div class="property-name">
-                  ${escapeHtml(area)}
+                  ${escapeHtml(name)}
                 </div>
+
                 <div class="property-location">
-                  自動検出候補
+                  ${escapeHtml(address)}
                 </div>
+
                 <div class="property-id">
                   ID:
-                  ${escapeHtml(property.id || "-")}
+                  ${escapeHtml(
+                    property.id || "-"
+                  )}
                 </div>
+
               </div>
+
+              <div class="price-box">
+                ${renderPrice(property)}
+              </div>
+
             </div>
+
+
             <div class="flags">
+
               <span class="flag flag-auto">
                 自動検出
               </span>
-              <span class="flag flag-unknown">
-                詳細未取得
+
+              <span class="validation-badge ${stateClass}">
+                ${stateLabel}
               </span>
+
+              ${
+                fetched
+                  ? `
+                    <span class="flag flag-good">
+                      詳細取得済み
+                    </span>
+                  `
+                  : `
+                    <span class="flag flag-unknown">
+                      詳細未取得
+                    </span>
+                  `
+              }
+
+              ${
+                hasPriceDown(property)
+                  ? `
+                    <span class="flag flag-down">
+                      値下げ
+                    </span>
+                  `
+                  : ""
+              }
+
             </div>
+
+
             <div class="property-details">
+
               <div class="meta-item">
                 <span class="meta-label">
-                  エリア
+                  検索エリア
                 </span>
-                ${formatValue(area)}
+                ${formatValue(
+                  searchArea
+                )}
               </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  実判定エリア
+                </span>
+                ${formatValue(
+                  detectedArea
+                )}
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  間取り
+                </span>
+                ${formatValue(
+                  getLayout(property)
+                )}
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  土地
+                </span>
+                ${formatArea(
+                  getLandArea(property)
+                )}
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  建物
+                </span>
+                ${formatArea(
+                  getBuildingArea(property)
+                )}
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  築年
+                </span>
+                ${formatValue(
+                  getConstruction(property)
+                )}
+              </div>
+
+            </div>
+
+
+            ${renderValidation(
+              property
+            )}
+
+
+            <div class="property-details">
+
               <div class="meta-item">
                 <span class="meta-label">
                   出典
                 </span>
                 ${formatValue(source)}
               </div>
+
               <div class="meta-item">
                 <span class="meta-label">
                   検出日時
                 </span>
-                ${formatDate(collectedAt)}
+                ${formatDate(
+                  collectedAt
+                )}
               </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  駅
+                </span>
+                ${formatValue(
+                  getStation(property)
+                )}
+              </div>
+
+              <div class="meta-item">
+                <span class="meta-label">
+                  品質
+                </span>
+                ${qualityLabel(
+                  getQuality(property)
+                )}
+              </div>
+
             </div>
+
+
+            ${
+              getPriceHistory(
+                property
+              ).length
+                ? renderPriceHistory(
+                    property
+                  )
+                : ""
+            }
+
+
             <div class="property-footer">
+
               ${
                 url
                   ? `
@@ -1905,126 +3346,252 @@ function renderDiscoveredListings(list) {
                     </a>
                   `
                   : `
-                    <span>詳細URLなし</span>
+                    <span>
+                      詳細URLなし
+                    </span>
                   `
               }
+
+              <div class="last-seen">
+
+                ${
+                  getLatestDate(property)
+                    ? `最終確認 ${escapeHtml(
+                        formatShortDate(
+                          getLatestDate(
+                            property
+                          )
+                        )
+                      )}`
+                    : ""
+                }
+
+              </div>
+
             </div>
+
           </article>
         `;
       })
       .join("");
 }
+
+
+/* =========================================================
+   Discovered Filtering
+========================================================= */
+
 function filterDiscoveredListings() {
+
   const search =
     document.getElementById(
       "discoveredSearch"
     ).value
       .trim()
       .toLowerCase();
+
   const area =
     document.getElementById(
       "discoveredArea"
     ).value;
+
+  const validation =
+    document.getElementById(
+      "discoveredValidation"
+    ).value;
+
+
   const filtered =
     discoveredProperties.filter(
       property => {
+
+        const detail =
+          getDetail(property);
+
         const text = [
           property.id,
           property.searchArea,
+          property.areaDetected,
+          property.detectedArea,
           property.sourceUrl,
-          property.source
+          property.source,
+          property.name,
+          property.title,
+          property.address,
+          detail.title,
+          detail.address,
+          detail.station
         ]
           .filter(Boolean)
           .join(" ")
           .toLowerCase();
+
+
         const matchesSearch =
           !search ||
           text.includes(search);
+
+
         const matchesArea =
           !area ||
-          property.searchArea === area;
+          property.searchArea ===
+          area;
+
+
+        const matchesValidation =
+          !validation ||
+          getDiscoveredValidationState(
+            property
+          ) === validation;
+
+
         return (
           matchesSearch &&
-          matchesArea
+          matchesArea &&
+          matchesValidation
         );
       }
     );
-  renderDiscoveredListings(filtered);
+
+
+  renderDiscoveredListings(
+    filtered
+  );
 }
+
+
 /* =========================================================
    Data Loading
 ========================================================= */
+
 async function loadData() {
+
   const timestamp =
     Date.now();
+
   try {
+
     const [
       housesResponse,
       discoveredResponse
-    ] = await Promise.all([
-      fetch(
-        "data/houses.json?" +
-        timestamp,
-        {
-          cache: "no-store"
-        }
-      ),
-      fetch(
-        "data/discovered_listings.json?" +
-        timestamp,
-        {
-          cache: "no-store"
-        }
-      )
-    ]);
+    ] =
+      await Promise.all([
+
+        fetch(
+          "data/houses.json?" +
+          timestamp,
+          {
+            cache: "no-store"
+          }
+        ),
+
+        fetch(
+          "data/discovered_listings.json?" +
+          timestamp,
+          {
+            cache: "no-store"
+          }
+        )
+
+      ]);
+
+
     if (!housesResponse.ok) {
+
       throw new Error(
         "houses.jsonの取得に失敗しました"
       );
     }
+
+
     const housesData =
       await housesResponse.json();
+
+
     let discoveredData = {
       properties: [],
       updatedAt: null
     };
-    if (discoveredResponse.ok) {
+
+
+    if (
+      discoveredResponse.ok
+    ) {
+
       discoveredData =
         await discoveredResponse.json();
+
     } else {
+
       console.warn(
         "discovered_listings.jsonが取得できませんでした。"
       );
     }
+
+
+    /*
+     * 新データ構造：
+     *
+     * {
+     *   updatedAt: "...",
+     *   properties: [...],
+     *   summary: {...}
+     * }
+     */
+
     properties =
       Array.isArray(
         housesData.properties
       )
         ? housesData.properties
         : [];
+
+
     discoveredProperties =
       Array.isArray(
         discoveredData.properties
       )
         ? discoveredData.properties
         : [];
-    updateHeader(
-      housesData.updatedAt,
-      discoveredData.updatedAt
-    );
+
+
+    housesUpdatedAt =
+      housesData.updatedAt ||
+      null;
+
+
+    discoveredUpdatedAt =
+      discoveredData.updatedAt ||
+      null;
+
+
+    updateHeader();
+
     updateDashboard();
+
     initializeFilters();
+
     renderHighlights();
-    renderProperties(properties);
+
+    renderProperties(
+      properties
+    );
+
     renderDiscoveredListings(
       discoveredProperties
     );
+
+
   } catch (error) {
+
     console.error(error);
+
     showError(
       error.message ||
       "データの読み込みに失敗しました。"
     );
+
+
     document.getElementById(
       "properties"
     ).innerHTML = `
@@ -2032,123 +3599,218 @@ async function loadData() {
         物件データを読み込めませんでした。
       </div>
     `;
+
+
     document.getElementById(
       "discoveredProperties"
     ).innerHTML = `
       <div class="empty">
-        自動検出候補を読み込めませんでした。
+        自動検出履歴を読み込めませんでした。
       </div>
     `;
   }
 }
+
+
+/* =========================================================
+   Error
+========================================================= */
+
 function showError(message) {
+
   const status =
-    document.getElementById("status");
-  status.textContent = message;
+    document.getElementById(
+      "status"
+    );
+
+  status.textContent =
+    message;
+
   status.className =
     "status error";
 }
+
+
 /* =========================================================
    Event Listeners
 ========================================================= */
+
 document
-  .getElementById("propertySearch")
+  .getElementById(
+    "propertySearch"
+  )
   .addEventListener(
     "input",
     filterProperties
   );
+
+
 document
-  .getElementById("propertyArea")
+  .getElementById(
+    "propertyArea"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("propertyQuality")
+  .getElementById(
+    "propertyQuality"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("propertyPrice")
+  .getElementById(
+    "propertyPrice"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("priceDownOnly")
+  .getElementById(
+    "priceDownOnly"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("detailFetchedOnly")
+  .getElementById(
+    "detailFetchedOnly"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("recentOnly")
+  .getElementById(
+    "recentOnly"
+  )
   .addEventListener(
     "change",
     filterProperties
   );
+
+
 document
-  .getElementById("clearPropertyFilter")
-  .addEventListener("click", () => {
-    document.getElementById(
-      "propertySearch"
-    ).value = "";
-    document.getElementById(
-      "propertyArea"
-    ).value = "";
-    document.getElementById(
-      "propertyQuality"
-    ).value = "";
-    document.getElementById(
-      "propertyPrice"
-    ).value = "";
-    document.getElementById(
-      "priceDownOnly"
-    ).checked = false;
-    document.getElementById(
-      "detailFetchedOnly"
-    ).checked = false;
-    document.getElementById(
-      "recentOnly"
-    ).checked = false;
-    filterProperties();
-  });
+  .getElementById(
+    "clearPropertyFilter"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "propertySearch"
+      ).value = "";
+
+      document.getElementById(
+        "propertyArea"
+      ).value = "";
+
+      document.getElementById(
+        "propertyQuality"
+      ).value = "";
+
+      document.getElementById(
+        "propertyPrice"
+      ).value = "";
+
+      document.getElementById(
+        "priceDownOnly"
+      ).checked = false;
+
+      document.getElementById(
+        "detailFetchedOnly"
+      ).checked = false;
+
+      document.getElementById(
+        "recentOnly"
+      ).checked = false;
+
+      filterProperties();
+    }
+  );
+
+
 document
-  .getElementById("discoveredSearch")
+  .getElementById(
+    "discoveredSearch"
+  )
   .addEventListener(
     "input",
     filterDiscoveredListings
   );
+
+
 document
-  .getElementById("discoveredArea")
+  .getElementById(
+    "discoveredArea"
+  )
   .addEventListener(
     "change",
     filterDiscoveredListings
   );
+
+
 document
-  .getElementById("clearDiscoveredFilter")
-  .addEventListener("click", () => {
-    document.getElementById(
-      "discoveredSearch"
-    ).value = "";
-    document.getElementById(
-      "discoveredArea"
-    ).value = "";
-    filterDiscoveredListings();
-  });
+  .getElementById(
+    "discoveredValidation"
+  )
+  .addEventListener(
+    "change",
+    filterDiscoveredListings
+  );
+
+
+document
+  .getElementById(
+    "clearDiscoveredFilter"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "discoveredSearch"
+      ).value = "";
+
+      document.getElementById(
+        "discoveredArea"
+      ).value = "";
+
+      document.getElementById(
+        "discoveredValidation"
+      ).value = "";
+
+      filterDiscoveredListings();
+    }
+  );
+
+
 /* =========================================================
    Start
 ========================================================= */
+
 document.addEventListener(
   "DOMContentLoaded",
   loadData
 );
+
 </script>
+
 </body>
 </html>
