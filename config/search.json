@@ -13,6 +13,5 @@
   "minBuildingArea": 80,
   "maxBuiltAgeYears": 20,
   "onlyFlatLand": false,
-  "excludeRetainingWall": false,
-  "detailFetchLimit": 20
+  "excludeRetainingWall": false
 }
