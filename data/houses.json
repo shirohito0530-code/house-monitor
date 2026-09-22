@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-22T13:22:03.721173+00:00",
+  "updatedAt": "2026-09-22T14:08:04.241624+00:00",
   "properties": [
     {
       "source": "suumo",
@@ -16,12 +16,12 @@
       "sourceUrlOriginal": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20960507/",
       "id": "nc_20960507",
       "propertyType": "新築戸建",
-      "discoveredAt": "2026-09-22T13:19:32.488028+00:00",
-      "lastSeenAt": "2026-09-22T13:19:32.497851+00:00",
-      "urlNormalizedAt": "2026-09-22T13:19:32.497851+00:00",
-      "urlParserVersion": "2026-09-22-v21",
+      "discoveredAt": "2026-09-22T14:05:28.415150+00:00",
+      "lastSeenAt": "2026-09-22T14:05:28.478584+00:00",
+      "urlNormalizedAt": "2026-09-22T14:05:28.478584+00:00",
+      "urlParserVersion": "2026-09-22-v22",
       "firstDiscoveredAt": "2026-09-22T13:19:32.488028+00:00",
-      "discoveryCount": 1,
+      "discoveryCount": 2,
       "detailFetchedUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20960507/",
       "detailFetchAttempts": 1,
       "detailFetchRunAttempts": 1,
@@ -1138,27 +1138,31 @@
       "retainingWallMatched": true,
       "searchCriteriaMatched": true,
       "searchCriteriaReasons": [],
-      "criteriaEvaluatedAt": "2026-09-22T13:22:03.658239+00:00",
-      "criteriaParserVersion": "2026-09-22-v21"
+      "criteriaEvaluatedAt": "2026-09-22T14:08:04.101148+00:00",
+      "criteriaParserVersion": "2026-09-22-v22",
+      "searchResultFilterExcluded": false,
+      "searchResultFilterReason": "accepted_for_detail_verification",
+      "lastSearchStatus": "healthy"
     }
   ],
   "summary": {
-    "generatedAt": "2026-09-22T13:22:03.678434+00:00",
-    "parserVersion": "2026-09-22-v21",
-    "discoveredCount": 318,
+    "generatedAt": "2026-09-22T14:08:04.144342+00:00",
+    "parserVersion": "2026-09-22-v22",
+    "searchHealthy": true,
+    "discoveredCount": 384,
     "houseCount": 1,
-    "goodCount": 22,
+    "goodCount": 47,
     "partialCount": 0,
-    "poorCount": 28,
+    "poorCount": 53,
     "priceReductionCount": 0,
-    "areaExcludedCount": 49,
-    "areaUnknownCount": 268,
-    "criteriaExcludedCount": 49,
-    "criteriaUnknownCount": 268,
+    "areaExcludedCount": 98,
+    "areaUnknownCount": 284,
+    "criteriaExcludedCount": 98,
+    "criteriaUnknownCount": 285,
     "propertyTypeExcludedCount": 0,
-    "detailSuccessCount": 50,
+    "detailSuccessCount": 100,
     "detailFailureCount": 0,
-    "detailPendingCount": 268,
+    "detailPendingCount": 284,
     "detailInvalidUrlCount": 0,
     "detailNotFoundCount": 0,
     "detailForbiddenCount": 0,
@@ -1167,6 +1171,14 @@
     "detailNetworkErrorCount": 0,
     "detailServerErrorCount": 0,
     "detailParseErrorCount": 0,
-    "detailOtherErrorCount": 0
+    "detailOtherErrorCount": 0,
+    "searchFilterSummary": {
+      "input": 333,
+      "accepted": 333,
+      "propertyTypeExcluded": 0,
+      "builtAgeExcluded": 0,
+      "unknownPropertyType": 0,
+      "unknownBuiltAge": 333
+    }
   }
 }
