@@ -6,12 +6,13 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 from bs4 import BeautifulSoup
 
+
 # ============================================================
 # Parser version
 # ============================================================
 
-# 築年数判定・抽出ロジックを更新したためバージョンアップ
-DETAIL_PARSER_VERSION = "2026-09-22-v12"
+DETAIL_PARSER_VERSION = "2026-09-22-v13"
+
 
 # ============================================================
 # Constants
@@ -76,6 +77,7 @@ LOAN_EXCLUSION_WORDS = [
     "金利",
 ]
 
+
 # ============================================================
 # Basic utilities
 # ============================================================
@@ -89,27 +91,41 @@ def clean_text(value: Any) -> Optional[str]:
         return None
 
     text = str(value)
-    text = re.sub(r"\s+", " ", text).strip()
+
+    text = re.sub(
+        r"\s+",
+        " ",
+        text,
+    ).strip()
 
     return text or None
 
 
-def is_promotional_text(value: Any) -> bool:
+def is_promotional_text(
+    value: Any,
+) -> bool:
+
     text = clean_text(value)
 
     if not text:
         return True
 
-    return any(word in text for word in PROMOTIONAL_WORDS)
+    return any(
+        word in text
+        for word in PROMOTIONAL_WORDS
+    )
 
 
-def clean_suumo_value(value: Any) -> Optional[str]:
+def clean_suumo_value(
+    value: Any,
+) -> Optional[str]:
+
     text = clean_text(value)
 
     if not text:
         return None
 
-    # UIノイズ除去
+    # UIノイズ
     text = re.sub(
         r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$",
         "",
@@ -143,9 +159,13 @@ def clean_suumo_value(value: Any) -> Optional[str]:
 # Price
 # ============================================================
 
-def parse_price(value: Any) -> Optional[int]:
+def parse_price(
+    value: Any,
+) -> Optional[int]:
+
     """
-    以下を想定:
+    対応例:
+
       1.78億円
       1億7800万円
       1億7800万
@@ -167,8 +187,7 @@ def parse_price(value: Any) -> Optional[int]:
     )
 
     # --------------------------------------------------------
-    # 1.78億円
-    # 1億7800万円
+    # 億
     # --------------------------------------------------------
 
     match = re.search(
@@ -179,8 +198,14 @@ def parse_price(value: Any) -> Optional[int]:
     )
 
     if match:
-        oku = float(match.group(1))
-        man = float(match.group(2) or 0)
+
+        oku = float(
+            match.group(1)
+        )
+
+        man = float(
+            match.group(2) or 0
+        )
 
         price = int(
             round(
@@ -189,10 +214,14 @@ def parse_price(value: Any) -> Optional[int]:
             )
         )
 
-        return price if price > 0 else None
+        return (
+            price
+            if price > 0
+            else None
+        )
 
     # --------------------------------------------------------
-    # 1780万円 / 1780万
+    # 万
     # --------------------------------------------------------
 
     match = re.search(
@@ -201,16 +230,22 @@ def parse_price(value: Any) -> Optional[int]:
     )
 
     if match:
+
         price = int(
             round(
-                float(match.group(1)) * 10_000
+                float(match.group(1))
+                * 10_000
             )
         )
 
-        return price if price > 0 else None
+        return (
+            price
+            if price > 0
+            else None
+        )
 
     # --------------------------------------------------------
-    # 17800000円
+    # 円
     # --------------------------------------------------------
 
     match = re.search(
@@ -219,12 +254,19 @@ def parse_price(value: Any) -> Optional[int]:
     )
 
     if match:
+
         try:
+
             price = int(
-                match.group(1).replace(" ", "")
+                match.group(1)
+                .replace(" ", "")
             )
 
-            return price if price > 0 else None
+            return (
+                price
+                if price > 0
+                else None
+            )
 
         except ValueError:
             return None
@@ -236,7 +278,10 @@ def parse_price(value: Any) -> Optional[int]:
 # Area
 # ============================================================
 
-def parse_area_m2(value: Any) -> Optional[float]:
+def parse_area_m2(
+    value: Any,
+) -> Optional[float]:
+
     text = clean_text(value)
 
     if not text:
@@ -253,9 +298,16 @@ def parse_area_m2(value: Any) -> Optional[float]:
         return None
 
     try:
-        number = float(match.group(1))
 
-        return number if number > 0 else None
+        number = float(
+            match.group(1)
+        )
+
+        return (
+            number
+            if number > 0
+            else None
+        )
 
     except ValueError:
         return None
@@ -267,17 +319,21 @@ def parse_area_m2(value: Any) -> Optional[float]:
 
 def parse_year_month(
     value: Any,
-) -> Tuple[Optional[str], Optional[str]]:
-    """
-    築年月の正規化。
+) -> Tuple[
+    Optional[str],
+    Optional[str],
+]:
 
+    """
     対応例:
+
       2020年3月
       2020 年 3 月
       2020/03
       2020-03
       2020年
       令和2年3月
+      平成30年4月
     """
 
     text = clean_text(value)
@@ -295,6 +351,7 @@ def parse_year_month(
     ]
 
     for pattern in patterns:
+
         match = re.search(
             pattern,
             text,
@@ -303,10 +360,16 @@ def parse_year_month(
         if not match:
             continue
 
-        year = int(match.group(1))
-        month = int(match.group(2))
+        year = int(
+            match.group(1)
+        )
+
+        month = int(
+            match.group(2)
+        )
 
         if 1 <= month <= 12:
+
             return (
                 f"{year:04d}-{month:02d}",
                 "month",
@@ -322,15 +385,14 @@ def parse_year_month(
     )
 
     if match:
+
         return (
             f"{int(match.group(1)):04d}-01",
             "year",
         )
 
     # --------------------------------------------------------
-    # 和暦
-    # 令和2年3月 → 2020-03
-    # 平成30年4月 → 2018-04
+    # 和暦 YYYY年MM月
     # --------------------------------------------------------
 
     era_patterns = [
@@ -349,6 +411,7 @@ def parse_year_month(
     ]
 
     for pattern, base_year in era_patterns:
+
         match = re.search(
             pattern,
             text,
@@ -357,53 +420,74 @@ def parse_year_month(
         if not match:
             continue
 
-        era_year = int(match.group(1))
-        month = int(match.group(2))
+        era_year = int(
+            match.group(1)
+        )
 
-        year = base_year + era_year
+        month = int(
+            match.group(2)
+        )
+
+        year = (
+            base_year
+            + era_year
+        )
 
         if 1 <= month <= 12:
+
             return (
                 f"{year:04d}-{month:02d}",
                 "month",
             )
 
     # --------------------------------------------------------
-    # 和暦 YYYY年相当
+    # 和暦 年のみ
     # --------------------------------------------------------
 
     era_year_patterns = [
-        (r"令和\s*(\d{1,2})\s*年", 2018),
-        (r"平成\s*(\d{1,2})\s*年", 1988),
-        (r"昭和\s*(\d{1,2})\s*年", 1925),
+        (
+            r"令和\s*(\d{1,2})\s*年",
+            2018,
+        ),
+        (
+            r"平成\s*(\d{1,2})\s*年",
+            1988,
+        ),
+        (
+            r"昭和\s*(\d{1,2})\s*年",
+            1925,
+        ),
     ]
 
     for pattern, base_year in era_year_patterns:
+
         match = re.search(
             pattern,
             text,
         )
 
-        if match:
-            year = base_year + int(match.group(1))
+        if not match:
+            continue
 
-            return (
-                f"{year:04d}-01",
-                "year",
-            )
+        year = (
+            base_year
+            + int(match.group(1))
+        )
+
+        return (
+            f"{year:04d}-01",
+            "year",
+        )
 
     return None, None
 
 
 def parse_construction_date(
     construction_month: Optional[str],
-) -> Tuple[Optional[int], Optional[int]]:
-    """
-    constructionMonth:
-      YYYY-MM
-
-    → constructionYear / constructionMonthNumber
-    """
+) -> Tuple[
+    Optional[int],
+    Optional[int],
+]:
 
     if not construction_month:
         return None, None
@@ -416,28 +500,38 @@ def parse_construction_date(
     if not match:
         return None, None
 
-    year = int(match.group(1))
-    month = int(match.group(2))
+    year = int(
+        match.group(1)
+    )
 
-    if not 1900 <= year <= datetime.now().year + 2:
+    month = int(
+        match.group(2)
+    )
+
+    if not (
+        1900
+        <= year
+        <= datetime.now().year + 2
+    ):
         return None, None
 
-    if not 1 <= month <= 12:
+    if not (
+        1
+        <= month
+        <= 12
+    ):
         return None, None
 
-    return year, month
+    return (
+        year,
+        month,
+    )
 
 
 def calculate_construction_age_years(
     construction_month: Optional[str],
     reference_date: Optional[datetime] = None,
 ) -> Optional[float]:
-    """
-    現在時点での築年数。
-
-    月単位で計算するため、
-    「2006-09」と「2026-09」なら約20.0年。
-    """
 
     if not construction_month:
         return None
@@ -450,14 +544,26 @@ def calculate_construction_age_years(
     if not match:
         return None
 
-    year = int(match.group(1))
-    month = int(match.group(2))
+    year = int(
+        match.group(1)
+    )
+
+    month = int(
+        match.group(2)
+    )
 
     if reference_date is None:
-        reference_date = datetime.now(timezone.utc)
+        reference_date = datetime.now(
+            timezone.utc
+        )
 
-    ref_year = reference_date.year
-    ref_month = reference_date.month
+    ref_year = (
+        reference_date.year
+    )
+
+    ref_month = (
+        reference_date.month
+    )
 
     months = (
         (ref_year - year) * 12
@@ -467,31 +573,67 @@ def calculate_construction_age_years(
     if months < 0:
         return None
 
-    return round(months / 12, 2)
+    return round(
+        months / 12,
+        2,
+    )
 
 
 # ============================================================
 # URL validation
 # ============================================================
 
-def is_valid_suumo_url(url: str) -> bool:
+def is_valid_suumo_url(
+    url: str,
+) -> bool:
+
     if not url:
         return False
 
+    try:
+
+        parsed = __import__(
+            "urllib.parse",
+            fromlist=["urlparse"],
+        ).urlparse(url)
+
+    except Exception:
+        return False
+
+    if parsed.scheme.lower() != "https":
+        return False
+
+    hostname = (
+        parsed.hostname or ""
+    ).lower()
+
+    if hostname != "suumo.jp":
+        return False
+
+    path = (
+        parsed.path or ""
+    ).lower()
+
+    valid_prefixes = (
+        "/chukoikkodate/",
+        "/ikkodate/",
+    )
+
+    if not path.startswith(
+        valid_prefixes
+    ):
+        return False
+
     return bool(
-        re.match(
-            r"^https://(?:www\.)?suumo\.jp/"
-            r"(?:chukoikkodate|ikkodate|mansion|chukomansion)/"
-            r"[^/]+/"
-            r"[^/]+/"
-            r"nc_\d+/?$",
-            url,
+        re.search(
+            r"/nc_\d+/?$",
+            path,
         )
     )
 
 
 # ============================================================
-# DOM Preprocessing
+# DOM preprocessing
 # ============================================================
 
 def remove_unwanted_sections(
@@ -504,6 +646,10 @@ def remove_unwanted_sections(
     )
 
     selectors_to_remove = [
+        "script",
+        "style",
+        "noscript",
+        "iframe",
         ".cassette_shop",
         "#js-shopInfo",
         "#js-inquiryForm",
@@ -514,8 +660,11 @@ def remove_unwanted_sections(
     ]
 
     for selector in selectors_to_remove:
-        for el in soup_copy.select(selector):
-            el.decompose()
+
+        for element in soup_copy.select(
+            selector
+        ):
+            element.decompose()
 
     return soup_copy
 
@@ -536,15 +685,18 @@ def collect_label_value_pairs(
 
         for parent in tr.parents:
 
-            if parent.name not in [
+            if parent.name not in {
                 "div",
                 "section",
                 "table",
-            ]:
+            }:
                 continue
 
             p_class = " ".join(
-                parent.get("class", [])
+                parent.get(
+                    "class",
+                    [],
+                )
             )
 
             p_id = parent.get(
@@ -552,12 +704,17 @@ def collect_label_value_pairs(
                 "",
             )
 
+            combined = (
+                f"{p_class} {p_id}"
+            ).lower()
+
             if any(
-                k in p_class or k in p_id
-                for k in [
+                keyword in combined
+                for keyword in [
                     "shop",
                     "company",
                     "tenpo",
+                    "store",
                 ]
             ):
                 is_shop_or_company = True
@@ -599,7 +756,9 @@ def collect_label_value_pairs(
         )
 
         if label and value:
+
             if label not in pairs:
+
                 pairs[label] = value
 
     return pairs
@@ -624,7 +783,9 @@ def extract_text_blocks(
 
     for selector in selectors:
 
-        for element in soup.select(selector):
+        for element in soup.select(
+            selector
+        ):
 
             text = clean_text(
                 element.get_text(
@@ -658,7 +819,9 @@ def extract_text_blocks(
 def find_value_by_keywords(
     pairs: Dict[str, str],
     keywords: List[str],
-) -> Optional[Tuple[str, str]]:
+) -> Optional[
+    Tuple[str, str]
+]:
 
     for keyword in keywords:
 
@@ -672,7 +835,10 @@ def find_value_by_keywords(
             )
 
             if cleaned:
-                return cleaned, keyword
+                return (
+                    cleaned,
+                    keyword,
+                )
 
     return None
 
@@ -688,6 +854,7 @@ def extract_title(
     h1 = soup.find("h1")
 
     if h1:
+
         return clean_text(
             h1.get_text(
                 " ",
@@ -696,6 +863,7 @@ def extract_title(
         )
 
     if soup.title:
+
         return clean_text(
             soup.title.get_text(
                 " ",
@@ -712,10 +880,14 @@ def extract_title(
 
 def extract_price_from_blocks(
     blocks: List[str],
-) -> Tuple[Optional[int], Optional[str]]:
+) -> Tuple[
+    Optional[int],
+    Optional[str],
+]:
 
     priority_keywords = [
         "販売価格",
+        "販売価格（税込）",
         "価格",
     ]
 
@@ -727,15 +899,22 @@ def extract_price_from_blocks(
                 continue
 
             if any(
-                ex in block
-                for ex in LOAN_EXCLUSION_WORDS
+                exclusion in block
+                for exclusion
+                in LOAN_EXCLUSION_WORDS
             ):
                 continue
 
-            price = parse_price(block)
+            price = parse_price(
+                block
+            )
 
             if price is not None:
-                return price, block
+
+                return (
+                    price,
+                    block,
+                )
 
     return None, None
 
@@ -747,7 +926,10 @@ def extract_price_from_blocks(
 def extract_area_from_page(
     page_text: str,
     label: str,
-) -> Tuple[Optional[float], Optional[str]]:
+) -> Tuple[
+    Optional[float],
+    Optional[str],
+]:
 
     pattern = (
         rf"{re.escape(label)}"
@@ -766,9 +948,11 @@ def extract_area_from_page(
         return None, None
 
     try:
+
         value = float(
             match.group(1)
         )
+
     except ValueError:
         return None, None
 
@@ -799,7 +983,7 @@ def extract_land_area(
     Optional[str],
 ]:
 
-    res = find_value_by_keywords(
+    result = find_value_by_keywords(
         pairs,
         [
             "土地面積",
@@ -807,23 +991,39 @@ def extract_land_area(
         ],
     )
 
-    if res:
-        value, _ = res
+    if result:
+
+        value, _ = result
 
         parsed = parse_area_m2(
             value
         )
 
         if parsed is not None:
-            return parsed, value
 
-    parsed, text = extract_area_from_page(
-        page_text,
+            return (
+                parsed,
+                value,
+            )
+
+    for label in [
         "土地面積",
-    )
+        "敷地面積",
+    ]:
 
-    if parsed is not None:
-        return parsed, text
+        parsed, text = (
+            extract_area_from_page(
+                page_text,
+                label,
+            )
+        )
+
+        if parsed is not None:
+
+            return (
+                parsed,
+                text,
+            )
 
     for block in blocks:
 
@@ -838,7 +1038,11 @@ def extract_land_area(
         )
 
         if parsed is not None:
-            return parsed, block
+
+            return (
+                parsed,
+                block,
+            )
 
     return None, None
 
@@ -859,54 +1063,59 @@ def extract_building_area(
         "建築面積",
     ]
 
-    res = find_value_by_keywords(
+    result = find_value_by_keywords(
         pairs,
         area_keywords,
     )
 
-    if res:
-        value, matched_kw = res
+    if result:
+
+        value, matched_keyword = result
 
         parsed = parse_area_m2(
             value
         )
 
         if parsed is not None:
+
             return (
                 parsed,
                 value,
-                matched_kw,
+                matched_keyword,
             )
 
-    for kw in area_keywords:
+    for keyword in area_keywords:
 
-        parsed, text = extract_area_from_page(
-            page_text,
-            kw,
+        parsed, text = (
+            extract_area_from_page(
+                page_text,
+                keyword,
+            )
         )
 
         if parsed is not None:
+
             return (
                 parsed,
                 text,
-                kw,
+                keyword,
             )
 
     for block in blocks:
 
         if not any(
-            kw in block
-            for kw in area_keywords
+            keyword in block
+            for keyword in area_keywords
         ):
             continue
 
-        for kw in area_keywords:
+        for keyword in area_keywords:
 
-            if kw not in block:
+            if keyword not in block:
                 continue
 
             after_label = block.split(
-                kw,
+                keyword,
                 1,
             )[1]
 
@@ -915,10 +1124,11 @@ def extract_building_area(
             )
 
             if parsed is not None:
+
                 return (
                     parsed,
                     block,
-                    kw,
+                    keyword,
                 )
 
     return None, None, None
@@ -939,15 +1149,20 @@ def is_company_address(
         "不動産",
         "株式会社",
         "有限会社",
+        "合同会社",
         "支店",
         "営業所",
         "店舗",
         "センター",
-        "アスライク",
-        "〒",
         "担当者",
         "取扱",
         "免許番号",
+        "宅建",
+        "ハウス",
+        "ホーム",
+        "リアルティ",
+        "住まい",
+        "ショールーム",
     ]
 
     return any(
@@ -967,13 +1182,23 @@ def normalize_address(
     if not address:
         return None
 
+    # UIノイズ
     address = re.sub(
         r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$",
         "",
         address,
     ).strip()
 
-    if is_company_address(address):
+    # 郵便番号を除去
+    address = re.sub(
+        r"〒\s*\d{3}-?\d{4}\s*",
+        "",
+        address,
+    ).strip()
+
+    if is_company_address(
+        address
+    ):
         return None
 
     if not re.search(
@@ -991,17 +1216,22 @@ def extract_address(
     page_text: str,
 ) -> Optional[str]:
 
+    # ========================================================
+    # 最優先: 「所在地」ラベル
+    # ========================================================
+
     for label, value in pairs.items():
 
         if "所在地" not in label:
             continue
 
         if any(
-            kw in label
-            for kw in [
+            keyword in label
+            for keyword in [
                 "店舗",
                 "会社",
                 "取扱",
+                "販売会社",
             ]
         ):
             continue
@@ -1013,10 +1243,36 @@ def extract_address(
         if address:
             return address
 
-    patterns = [
-        rf"(?:所在地|物件所在地)\s*({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})",
+    # ========================================================
+    # 「物件所在地」
+    # ========================================================
 
-        rf"({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})\s*地図を見る",
+    for label, value in pairs.items():
+
+        if "物件所在地" not in label:
+            continue
+
+        address = normalize_address(
+            value
+        )
+
+        if address:
+            return address
+
+    # ========================================================
+    # page text
+    # ========================================================
+
+    patterns = [
+
+        rf"(?:物件所在地|所在地)"
+        rf"\s*[:：]?\s*"
+        rf"({PREFECTURES_PATTERN}"
+        rf"[^。\[［\]\]{{2,100}})",
+
+        rf"({PREFECTURES_PATTERN}"
+        rf"[^。\[［\]\n]{{2,100}})"
+        rf"\s*地図を見る",
     ]
 
     for pattern in patterns:
@@ -1036,22 +1292,30 @@ def extract_address(
         if address:
             return address
 
+    # ========================================================
+    # text block
+    # ========================================================
+
     for block in blocks:
 
+        # 会社情報等は明示的に除外
         if any(
-            kw in block
-            for kw in [
+            keyword in block
+            for keyword in [
                 "会社情報",
                 "取り扱い店舗",
                 "店舗情報",
                 "加盟",
                 "免許番号",
+                "販売会社",
+                "取引態様",
             ]
         ):
             continue
 
         match = re.search(
-            rf"({PREFECTURES_PATTERN}[^。\[［\n]{{2,80}})",
+            rf"({PREFECTURES_PATTERN}"
+            rf"[^。\[［\]\n]{{2,100}})",
             block,
         )
 
@@ -1080,24 +1344,20 @@ def extract_layout(
     Optional[str],
 ]:
 
-    res = find_value_by_keywords(
+    result = find_value_by_keywords(
         pairs,
         ["間取り"],
     )
 
-    # 例:
-    # 4LDK
-    # 3LDK+S
-    # 3LDK＋S
     pattern = (
         r"\d+\s*"
         r"(?:LDK|DK|LK|K)"
         r"(?:\s*[\+＋]\s*\d*S)?"
     )
 
-    if res:
+    if result:
 
-        layout_raw, _ = res
+        layout_raw, _ = result
 
         match = re.search(
             pattern,
@@ -1106,6 +1366,7 @@ def extract_layout(
         )
 
         if match:
+
             return (
                 clean_text(
                     match.group(0)
@@ -1124,11 +1385,14 @@ def extract_layout(
         )
 
         if match:
+
             return (
                 clean_text(
                     match.group(0)
                 ),
-                clean_text(block),
+                clean_text(
+                    block
+                ),
             )
 
     return None, None
@@ -1164,15 +1428,19 @@ def extract_construction(
 
         if not any(
             keyword in label
-            for keyword in construction_keywords
+            for keyword
+            in construction_keywords
         ):
             continue
 
-        parsed, precision = parse_year_month(
-            value
+        parsed, precision = (
+            parse_year_month(
+                value
+            )
         )
 
         if parsed:
+
             return (
                 parsed,
                 precision,
@@ -1184,17 +1452,29 @@ def extract_construction(
     # --------------------------------------------------------
 
     patterns = [
-        r"(?:完成時期\s*\(築年月\)|完成時期|築年月|建築年月|完成年月)"
+
+        r"(?:完成時期\s*\(築年月\)|"
+        r"完成時期|築年月|建築年月|完成年月)"
         r"\s*[:：]?\s*"
         r"((?:19|20)\d{2}年\d{1,2}月)",
 
-        r"(?:完成時期\s*\(築年月\)|完成時期|築年月|建築年月|完成年月)"
+        r"(?:完成時期\s*\(築年月\)|"
+        r"完成時期|築年月|建築年月|完成年月)"
         r"[^0-9]{0,30}"
         r"((?:19|20)\d{2})年\s*(\d{1,2})月",
 
         r"(?:築年月|建築年月)"
         r"[^0-9]{0,30}"
-        r"((?:19|20)\d{2})[/-](\d{1,2})",
+        r"((?:19|20)\d{2})"
+        r"[/-]"
+        r"(\d{1,2})",
+
+        r"(?:完成時期|築年月|建築年月)"
+        r"[^0-9]{0,30}"
+        r"(令和\s*\d{1,2}\s*年"
+        r"\s*\d{1,2}\s*月|"
+        r"平成\s*\d{1,2}\s*年"
+        r"\s*\d{1,2}\s*月)",
     ]
 
     for pattern in patterns:
@@ -1210,19 +1490,27 @@ def extract_construction(
         if (
             match.lastindex
             and match.lastindex >= 2
+            and match.group(2)
+            and match.group(1)
         ):
+
             value = (
                 f"{match.group(1)}年"
                 f"{match.group(2)}月"
             )
+
         else:
+
             value = match.group(1)
 
-        parsed, precision = parse_year_month(
-            value
+        parsed, precision = (
+            parse_year_month(
+                value
+            )
         )
 
         if parsed:
+
             return (
                 parsed,
                 precision,
@@ -1246,11 +1534,14 @@ def extract_construction(
         ):
             continue
 
-        parsed, precision = parse_year_month(
-            block
+        parsed, precision = (
+            parse_year_month(
+                block
+            )
         )
 
         if parsed:
+
             return (
                 parsed,
                 precision,
@@ -1271,7 +1562,9 @@ def is_valid_station_name(
     if not station:
         return False
 
-    text = clean_text(station)
+    text = clean_text(
+        station
+    )
 
     if not text:
         return False
@@ -1290,12 +1583,12 @@ def is_valid_station_name(
     }:
         return False
 
-    if len(text) > 15:
+    if len(text) > 20:
         return False
 
     if any(
-        kw in text
-        for kw in [
+        keyword in text
+        for keyword in [
             "お迎え",
             "見学",
             "提案",
@@ -1305,6 +1598,7 @@ def is_valid_station_name(
             "頭金",
             "ローン",
             "リノベ",
+            "お気軽",
         ]
     ):
         return False
@@ -1333,8 +1627,8 @@ def extract_station_info(
     for block in blocks:
 
         if any(
-            kw in block
-            for kw in [
+            keyword in block
+            for keyword in [
                 "会社情報",
                 "取り扱い店舗",
                 "店舗情報",
@@ -1344,22 +1638,26 @@ def extract_station_info(
                 "ご案内方法",
                 "コース",
                 "加盟",
+                "販売会社",
             ]
         ):
             continue
 
-        clean_blocks.append(block)
+        clean_blocks.append(
+            block
+        )
 
     search_sources = (
         clean_blocks
         + [page_text]
     )
 
-    # --------------------------------------------------------
-    # Bus
-    # --------------------------------------------------------
+    # ========================================================
+    # バス
+    # ========================================================
 
     bus_patterns = [
+
         (
             r"(?:([^\s「『]+?"
             r"(?:線|ライン|エクスプレス|モノレール))\s*)?"
@@ -1369,6 +1667,7 @@ def extract_station_info(
             r"\s*(.{1,30}?)"
             r"\s*(?:徒歩|歩)\s*(\d+)\s*分"
         ),
+
         (
             r"(?:([^\s「『]+?"
             r"(?:線|ライン|エクスプレス|モノレール))\s*)?"
@@ -1394,19 +1693,31 @@ def extract_station_info(
 
             if len(groups) == 5:
 
-                line, station, bus_m, stop, walk_m = groups
+                (
+                    line,
+                    station,
+                    bus_minutes,
+                    stop,
+                    walk_minutes,
+                ) = groups
 
                 if not is_valid_station_name(
                     station
                 ):
                     continue
 
-                b_int = int(bus_m)
-                w_int = int(walk_m)
+                bus_int = int(
+                    bus_minutes
+                )
+
+                walk_int = int(
+                    walk_minutes
+                )
 
                 if not (
-                    1 <= b_int <= 180
-                    and 1 <= w_int <= 120
+                    1 <= bus_int <= 180
+                    and
+                    1 <= walk_int <= 120
                 ):
                     continue
 
@@ -1414,49 +1725,80 @@ def extract_station_info(
                     station
                 )
 
-                result["stationAccessType"] = "bus"
-                result["busMinutes"] = b_int
-                result["busStop"] = clean_text(stop)
-                result["busStopWalkMinutes"] = w_int
-                result["transportRaw"] = clean_text(
-                    match.group(0)
+                result["stationAccessType"] = (
+                    "bus"
+                )
+
+                result["busMinutes"] = (
+                    bus_int
+                )
+
+                result["busStop"] = (
+                    clean_text(stop)
+                )
+
+                result["busStopWalkMinutes"] = (
+                    walk_int
+                )
+
+                result["transportRaw"] = (
+                    clean_text(
+                        match.group(0)
+                    )
                 )
 
                 return result
 
-            elif len(groups) == 3:
+            if len(groups) == 3:
 
-                line, station, bus_m = groups
+                (
+                    line,
+                    station,
+                    bus_minutes,
+                ) = groups
 
                 if not is_valid_station_name(
                     station
                 ):
                     continue
 
-                b_int = int(bus_m)
+                bus_int = int(
+                    bus_minutes
+                )
 
                 if not (
-                    1 <= b_int <= 180
+                    1 <= bus_int <= 180
                 ):
                     continue
 
-                result["station"] = clean_text(
-                    station
+                result["station"] = (
+                    clean_text(
+                        station
+                    )
                 )
 
-                result["stationAccessType"] = "bus"
-                result["busMinutes"] = b_int
-                result["transportRaw"] = clean_text(
-                    match.group(0)
+                result["stationAccessType"] = (
+                    "bus"
+                )
+
+                result["busMinutes"] = (
+                    bus_int
+                )
+
+                result["transportRaw"] = (
+                    clean_text(
+                        match.group(0)
+                    )
                 )
 
                 return result
 
-    # --------------------------------------------------------
-    # Walk
-    # --------------------------------------------------------
+    # ========================================================
+    # 徒歩
+    # ========================================================
 
     walk_patterns = [
+
         (
             r"(?:([^\s「『]+?"
             r"(?:線|ライン|エクスプレス|モノレール))\s*)?"
@@ -1464,6 +1806,7 @@ def extract_station_info(
             r"\s*(?:駅)?\s*"
             r"(?:徒歩|歩)\s*(\d+)\s*分"
         ),
+
         (
             r"(?:([^\s「『]+?"
             r"(?:線|ライン|エクスプレス|モノレール))\s*)?"
@@ -1488,11 +1831,14 @@ def extract_station_info(
 
             line = groups[0]
             station = groups[1]
-            walk_m = groups[2]
+            walk_minutes = groups[2]
 
             station_clean = (
                 station
-                .replace("駅", "")
+                .replace(
+                    "駅",
+                    "",
+                )
                 .strip()
             )
 
@@ -1501,22 +1847,37 @@ def extract_station_info(
             ):
                 continue
 
-            walk_int = int(walk_m)
+            walk_int = int(
+                walk_minutes
+            )
 
             if not (
                 1 <= walk_int <= 120
             ):
                 continue
 
-            result["station"] = clean_text(
-                station_clean
+            result["station"] = (
+                clean_text(
+                    station_clean
+                )
             )
 
-            result["stationAccessType"] = "walk"
-            result["stationWalkMinutes"] = walk_int
-            result["walkMinutes"] = walk_int
-            result["transportRaw"] = clean_text(
-                match.group(0)
+            result["stationAccessType"] = (
+                "walk"
+            )
+
+            result["stationWalkMinutes"] = (
+                walk_int
+            )
+
+            result["walkMinutes"] = (
+                walk_int
+            )
+
+            result["transportRaw"] = (
+                clean_text(
+                    match.group(0)
+                )
             )
 
             return result
@@ -1538,6 +1899,7 @@ def extract_information_dates(
     }
 
     patterns = {
+
         "informationDate": (
             r"情報提供日\s*[:：]?\s*"
             r"(20\d{2})年\s*"
@@ -1563,9 +1925,17 @@ def extract_information_dates(
         if not match:
             continue
 
-        year = int(match.group(1))
-        month = int(match.group(2))
-        day = int(match.group(3))
+        year = int(
+            match.group(1)
+        )
+
+        month = int(
+            match.group(2)
+        )
+
+        day = int(
+            match.group(3)
+        )
 
         try:
 
@@ -1575,8 +1945,10 @@ def extract_information_dates(
                 day,
             )
 
-            result[field] = date.strftime(
-                "%Y-%m-%d"
+            result[field] = (
+                date.strftime(
+                    "%Y-%m-%d"
+                )
             )
 
         except ValueError:
@@ -1594,8 +1966,12 @@ def evaluate_detail_quality(
 ) -> Dict[str, Any]:
 
     critical_fields = {
-        "price": detail.get("price"),
-        "address": detail.get("address"),
+        "price": detail.get(
+            "price"
+        ),
+        "address": detail.get(
+            "address"
+        ),
         "constructionMonth": detail.get(
             "constructionMonth"
         ),
@@ -1618,14 +1994,18 @@ def evaluate_detail_quality(
 
     missing_critical = [
         field
-        for field, value in critical_fields.items()
-        if value is None or value == ""
+        for field, value
+        in critical_fields.items()
+        if value is None
+        or value == ""
     ]
 
     missing_important = [
         field
-        for field, value in important_fields.items()
-        if value is None or value == ""
+        for field, value
+        in important_fields.items()
+        if value is None
+        or value == ""
     ]
 
     missing_fields = (
@@ -1674,33 +2054,39 @@ def evaluate_detail_quality(
         "station"
     )
 
-    if station in [
+    if station in {
         "徒",
         "歩",
         "分",
         "バス",
         "駅",
-    ]:
+    }:
         warnings.append(
             "駅名が不正なUI文字列である"
         )
 
     if not station:
+
         warnings.append(
             "駅情報を抽出できない"
         )
 
     if (
-        detail.get("stationAccessType")
+        detail.get(
+            "stationAccessType"
+        )
         == "walk"
-        and detail.get("walkMinutes") is None
+        and detail.get(
+            "walkMinutes"
+        ) is None
     ):
         warnings.append(
             "徒歩分数を抽出できない"
         )
 
-    # 築年月が取れない場合は重要な警告にする。
-    if not detail.get("constructionMonth"):
+    if not detail.get(
+        "constructionMonth"
+    ):
         warnings.append(
             "築年月を抽出できない"
         )
@@ -1713,9 +2099,11 @@ def evaluate_detail_quality(
     has_serious_warning = any(
         any(
             word in warning
-            for word in serious_warning_words
+            for word
+            in serious_warning_words
         )
-        for warning in warnings
+        for warning
+        in warnings
     )
 
     if (
@@ -1758,7 +2146,13 @@ def fetch_detail(
     url: str,
 ) -> Dict[str, Any]:
 
-    if not is_valid_suumo_url(url):
+    # --------------------------------------------------------
+    # URL検証
+    # --------------------------------------------------------
+
+    if not is_valid_suumo_url(
+        url
+    ):
 
         return {
             "success": False,
@@ -1782,6 +2176,7 @@ def fetch_detail(
             "text/html,application/xhtml+xml,"
             "application/xml;q=0.9,*/*;q=0.8"
         ),
+        "Cache-Control": "no-cache",
     }
 
     try:
@@ -1794,8 +2189,10 @@ def fetch_detail(
 
         response.raise_for_status()
 
-        # requestsの推定エンコーディングが
-        # おかしい場合に備えて apparent_encoding を利用。
+        # ----------------------------------------------------
+        # エンコーディング
+        # ----------------------------------------------------
+
         if (
             not response.encoding
             or response.encoding.lower()
@@ -1804,6 +2201,7 @@ def fetch_detail(
                 "latin-1",
             }
         ):
+
             response.encoding = (
                 response.apparent_encoding
                 or "utf-8"
@@ -1827,21 +2225,31 @@ def fetch_detail(
             "error": str(exc),
         }
 
+    # ========================================================
+    # Parse
+    # ========================================================
+
     raw_soup = BeautifulSoup(
         response.text,
         "html.parser",
     )
 
-    clean_soup = remove_unwanted_sections(
-        raw_soup
+    clean_soup = (
+        remove_unwanted_sections(
+            raw_soup
+        )
     )
 
-    pairs = collect_label_value_pairs(
-        clean_soup
+    pairs = (
+        collect_label_value_pairs(
+            clean_soup
+        )
     )
 
-    blocks = extract_text_blocks(
-        clean_soup
+    blocks = (
+        extract_text_blocks(
+            clean_soup
+        )
     )
 
     page_text = (
@@ -1856,17 +2264,17 @@ def fetch_detail(
 
     fetched_at = now_iso()
 
-    # --------------------------------------------------------
-    # Basic fields
-    # --------------------------------------------------------
+    # ========================================================
+    # Basic
+    # ========================================================
 
     title = extract_title(
         clean_soup
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Price
-    # --------------------------------------------------------
+    # ========================================================
 
     price, price_text = (
         extract_price_from_blocks(
@@ -1876,7 +2284,7 @@ def fetch_detail(
 
     if price is None:
 
-        res = find_value_by_keywords(
+        result = find_value_by_keywords(
             pairs,
             [
                 "販売価格",
@@ -1884,9 +2292,9 @@ def fetch_detail(
             ],
         )
 
-        if res:
+        if result:
 
-            value, _ = res
+            value, _ = result
 
             price = parse_price(
                 value
@@ -1894,9 +2302,9 @@ def fetch_detail(
 
             price_text = value
 
-    # --------------------------------------------------------
+    # ========================================================
     # Address
-    # --------------------------------------------------------
+    # ========================================================
 
     address = extract_address(
         pairs,
@@ -1904,9 +2312,9 @@ def fetch_detail(
         page_text,
     )
 
-    # --------------------------------------------------------
-    # Areas
-    # --------------------------------------------------------
+    # ========================================================
+    # Land area
+    # ========================================================
 
     (
         land_area,
@@ -1916,6 +2324,10 @@ def fetch_detail(
         blocks,
         page_text,
     )
+
+    # ========================================================
+    # Building area
+    # ========================================================
 
     (
         building_area,
@@ -1927,18 +2339,21 @@ def fetch_detail(
         page_text,
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Layout
-    # --------------------------------------------------------
+    # ========================================================
 
-    layout, layout_raw = extract_layout(
+    (
+        layout,
+        layout_raw,
+    ) = extract_layout(
         pairs,
         blocks,
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Construction
-    # --------------------------------------------------------
+    # ========================================================
 
     (
         construction_month,
@@ -1950,9 +2365,9 @@ def fetch_detail(
         page_text,
     )
 
-    # --------------------------------------------------------
-    # Construction derived fields
-    # --------------------------------------------------------
+    # ========================================================
+    # Construction derived values
+    # ========================================================
 
     (
         construction_year,
@@ -1967,18 +2382,20 @@ def fetch_detail(
         )
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Transportation
-    # --------------------------------------------------------
+    # ========================================================
 
-    station_info = extract_station_info(
-        blocks,
-        page_text,
+    station_info = (
+        extract_station_info(
+            blocks,
+            page_text,
+        )
     )
 
-    # --------------------------------------------------------
+    # ========================================================
     # Information dates
-    # --------------------------------------------------------
+    # ========================================================
 
     information_dates = (
         extract_information_dates(
@@ -2003,33 +2420,41 @@ def fetch_detail(
         # Basic
         # ----------------------------------------------------
 
-        "title": title,
+        "title":
+            title,
 
         # ----------------------------------------------------
         # Price
         # ----------------------------------------------------
 
-        "price": price,
+        "price":
+            price,
 
-        "priceText": clean_text(
-            price_text
-        ),
+        "priceText":
+            clean_text(
+                price_text
+            ),
 
         # ----------------------------------------------------
         # Address
+        #
+        # ★ main.pyのエリア判定の基準
         # ----------------------------------------------------
 
-        "address": address,
+        "address":
+            address,
 
         # ----------------------------------------------------
         # Land
         # ----------------------------------------------------
 
-        "landAreaM2": land_area,
+        "landAreaM2":
+            land_area,
 
-        "landAreaText": clean_text(
-            land_area_text
-        ),
+        "landAreaText":
+            clean_text(
+                land_area_text
+            ),
 
         # ----------------------------------------------------
         # Building
@@ -2050,9 +2475,11 @@ def fetch_detail(
         # Layout
         # ----------------------------------------------------
 
-        "layout": layout,
+        "layout":
+            layout,
 
-        "layoutRaw": layout_raw,
+        "layoutRaw":
+            layout_raw,
 
         # ----------------------------------------------------
         # Construction
@@ -2189,11 +2616,18 @@ class SuumoDetailAdapter:
         root_path: Optional[str] = None,
         **kwargs,
     ):
-        self.config = config or {}
 
-        self.root_path = root_path
+        self.config = (
+            config or {}
+        )
 
-        self.extra_kwargs = kwargs
+        self.root_path = (
+            root_path
+        )
+
+        self.extra_kwargs = (
+            kwargs
+        )
 
         self.interval_seconds = float(
             self.config.get(
@@ -2202,7 +2636,18 @@ class SuumoDetailAdapter:
             )
         )
 
+        self.timeout = int(
+            self.config.get(
+                "detailTimeoutSeconds",
+                20,
+            )
+        )
+
     def wait(self):
+
+        if self.interval_seconds <= 0:
+            return
+
         time.sleep(
             self.interval_seconds
         )
