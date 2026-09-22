@@ -19,6 +19,11 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     SUUMO_HOST = "suumo.jp"
 
+    SUUMO_HOSTS = {
+        "suumo.jp",
+        "www.suumo.jp",
+    }
+
     # 中古戸建
     USED_HOUSE_PATH = "/chukoikkodate/"
 
@@ -27,13 +32,13 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     # 個別物件ID
     #
-    # 例:
+    # 対応例:
     # /nc_12345678
     # /nc_12345678/
     # /nc_12345678?xxx=yyy
     #
     # queryはpathには含まれないため、
-    # path末尾の / または文字列末尾を許容する。
+    # path上では / または文字列末尾を許容する。
     LISTING_ID_PATTERN = re.compile(
         r"/nc_[0-9]+(?:/|$)",
         re.IGNORECASE
@@ -43,10 +48,16 @@ class SuumoSearchAdapter(PropertyAdapter):
     # 初期化
     # =====================================================
 
-    def __init__(self, config, root_path):
+    def __init__(
+        self,
+        config,
+        root_path
+    ):
         super().__init__(config)
 
-        self.root_path = Path(root_path)
+        self.root_path = Path(
+            root_path
+        )
 
         self.timeout = int(
             self.config.get(
@@ -77,6 +88,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         # 2. maxBuildingAgeYears
         #
         # 検索段階では築年の一次フィルターとして使用。
+        #
         # 最終判定はmain.py側で詳細ページの
         # constructionMonthを使用する。
         # -------------------------------------------------
@@ -127,7 +139,9 @@ class SuumoSearchAdapter(PropertyAdapter):
     # 検索URL読み込み
     # =====================================================
 
-    def load_search_urls(self):
+    def load_search_urls(
+        self
+    ):
         """
         config/search_urls.jsonから
         SUUMO検索URLを読み込む。
@@ -181,20 +195,26 @@ class SuumoSearchAdapter(PropertyAdapter):
         # 配列形式
         # -------------------------------------------------
 
-        if isinstance(data, list):
+        if isinstance(
+            data,
+            list
+        ):
             search_urls = data
 
         # -------------------------------------------------
-        # 通常形式
+        # オブジェクト形式
         # -------------------------------------------------
 
-        elif isinstance(data, dict):
+        elif isinstance(
+            data,
+            dict
+        ):
             search_urls = data.get(
                 "suumo_search_urls",
                 []
             )
 
-            # 念のため旧形式にも対応
+            # 旧形式にも対応
             if not search_urls:
                 search_urls = data.get(
                     "targets",
@@ -253,11 +273,11 @@ class SuumoSearchAdapter(PropertyAdapter):
         """
         SUUMOのURLか判定する。
 
-        重要:
-        - http / https の両方を許容
-        - www.suumo.jp も許容
-        - サブドメインも許容
-        - URLを書き換えない
+        許容:
+        - http
+        - https
+        - suumo.jp
+        - www.suumo.jp
         """
 
         if not url:
@@ -282,7 +302,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         ).lower()
 
         return (
-            hostname == self.SUUMO_HOST
+            hostname in self.SUUMO_HOSTS
             or hostname.endswith(
                 "." + self.SUUMO_HOST
             )
@@ -301,24 +321,23 @@ class SuumoSearchAdapter(PropertyAdapter):
         個別物件URLを最小限だけ正規化する。
 
         重要:
-        この関数ではURLを「きれいにする」ことより、
         SUUMOが返したURLを壊さないことを優先する。
 
-        実施する処理:
+        実施:
         - 相対URL → 絶対URL
         - SUUMOドメイン確認
-        - http / https の保持
-        - pathの保持
-        - queryの保持
+        - http / https保持
+        - host保持
+        - path保持
+        - query保持
         - fragmentのみ削除
-        - 個別物件URLの末尾スラッシュを統一
+        - 個別物件URLの末尾スラッシュを補正
 
-        実施しない処理:
+        実施しない:
         - www.suumo.jpへの強制変更
         - query削除
-        - pathの加工
-        - 大文字小文字の過度な変換
-        - URLの別形式への変換
+        - path加工
+        - 不要なcanonicalize
         """
 
         if not url:
@@ -344,6 +363,24 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
         ):
             return None
+
+        # -------------------------------------------------
+        # SUUMOのホストだけが記載された
+        # 不完全URLへの最低限の対応
+        #
+        # 例:
+        # www.suumo.jp/chukoikkodate/...
+        # -------------------------------------------------
+
+        if re.match(
+            r"^(?:www\.)?suumo\.jp/",
+            original_url,
+            re.IGNORECASE
+        ):
+            original_url = (
+                "https://"
+                + original_url
+            )
 
         # -------------------------------------------------
         # プロトコル相対URL
@@ -385,13 +422,8 @@ class SuumoSearchAdapter(PropertyAdapter):
         path = parsed.path or ""
 
         # -------------------------------------------------
-        # 個別物件IDが含まれる場合だけ
+        # 個別物件IDが含まれる場合のみ
         # 末尾スラッシュを補正
-        #
-        # 例:
-        # /nc_12345678
-        # ↓
-        # /nc_12345678/
         #
         # queryは保持する。
         # -------------------------------------------------
@@ -399,13 +431,15 @@ class SuumoSearchAdapter(PropertyAdapter):
         if self.LISTING_ID_PATTERN.search(
             path
         ):
-            if not path.endswith("/"):
+            if not path.endswith(
+                "/"
+            ):
                 path += "/"
 
         # -------------------------------------------------
         # 最小限の再構成
         #
-        # queryは絶対に捨てない。
+        # queryは保持。
         # fragmentのみ削除。
         # -------------------------------------------------
 
@@ -464,6 +498,20 @@ class SuumoSearchAdapter(PropertyAdapter):
             return None
 
         # -------------------------------------------------
+        # 不完全なSUUMO URL
+        # -------------------------------------------------
+
+        if re.match(
+            r"^(?:www\.)?suumo\.jp/",
+            original_url,
+            re.IGNORECASE
+        ):
+            original_url = (
+                "https://"
+                + original_url
+            )
+
+        # -------------------------------------------------
         # プロトコル相対URL
         # -------------------------------------------------
 
@@ -501,11 +549,6 @@ class SuumoSearchAdapter(PropertyAdapter):
         except ValueError:
             return None
 
-        # -------------------------------------------------
-        # queryを保持
-        # fragmentのみ削除
-        # -------------------------------------------------
-
         return urlunparse(
             (
                 parsed.scheme.lower(),
@@ -530,13 +573,13 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         対応:
 
-        中古戸建
+        中古戸建:
         /chukoikkodate/.../nc_xxxxxxxx/
 
-        新築戸建
+        新築戸建:
         /ikkodate/.../nc_xxxxxxxx/
 
-        queryが付いていても許容する。
+        query付きも許容する。
         """
 
         if not url:
@@ -568,12 +611,7 @@ class SuumoSearchAdapter(PropertyAdapter):
             parsed.hostname or ""
         ).lower()
 
-        if not (
-            hostname == self.SUUMO_HOST
-            or hostname.endswith(
-                "." + self.SUUMO_HOST
-            )
-        ):
+        if hostname not in self.SUUMO_HOSTS:
             return False
 
         # -------------------------------------------------
@@ -581,7 +619,6 @@ class SuumoSearchAdapter(PropertyAdapter):
         # -------------------------------------------------
 
         path = parsed.path or ""
-
         path_lower = path.lower()
 
         is_house_path = (
@@ -599,9 +636,6 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         # -------------------------------------------------
         # 個別物件ID
-        #
-        # queryはpathに含まれないため、
-        # query付きURLも正常に判定できる。
         # -------------------------------------------------
 
         if not self.LISTING_ID_PATTERN.search(
@@ -794,25 +828,35 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         これは一次フィルター。
 
-        最終判定はmain.py側で、
-        詳細ページのconstructionMonthを使って行う。
-
         条件:
         - 条件なし → True
         - 新築戸建 → True
         - 築年不明 → True
         - 条件内 → True
         - 古すぎる → False
+
+        重要:
+        築年不明をここで除外しない。
+        詳細ページで再判定するため。
         """
 
         if self.min_built_year is None:
             return True
 
+        # -------------------------------------------------
         # 新築は築年数条件で除外しない
+        # -------------------------------------------------
+
         if property_type == "新築戸建":
             return True
 
+        # -------------------------------------------------
         # 築年不明は残す
+        #
+        # 詳細ページでconstructionMonthを取得し、
+        # main.py側で最終判定する。
+        # -------------------------------------------------
+
         if built_year is None:
             return True
 
@@ -822,7 +866,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         )
 
     # =====================================================
-    # 物件カード抽出
+    # 物件カードテキスト取得
     # =====================================================
 
     def get_card_text(
@@ -899,13 +943,18 @@ class SuumoSearchAdapter(PropertyAdapter):
         検索結果HTMLから
         個別物件候補を抽出する。
 
-        URLはここで破壊的なcanonicalizeを行わない。
+        ここではまだ
+        「検索条件による最終フィルタリング」は
+        行わない。
+
+        URLは破壊的なcanonicalizeをしない。
 
         戻り値:
 
         [
             {
                 "url": "...",
+                "sourceUrl": "...",
                 "builtYear": 2010,
                 "cardText": "...",
                 "propertyType": "中古戸建"
@@ -937,7 +986,7 @@ class SuumoSearchAdapter(PropertyAdapter):
             # -------------------------------------------------
             # 最小限のURL変換
             #
-            # ここではqueryを保持する。
+            # queryは保持。
             # -------------------------------------------------
 
             normalized_url = (
@@ -950,10 +999,18 @@ class SuumoSearchAdapter(PropertyAdapter):
             if not normalized_url:
                 continue
 
+            # -------------------------------------------------
+            # 個別戸建てURLか確認
+            # -------------------------------------------------
+
             if not self.is_individual_listing_url(
                 normalized_url
             ):
                 continue
+
+            # -------------------------------------------------
+            # 同一ページ内重複
+            # -------------------------------------------------
 
             if normalized_url in seen_urls:
                 continue
@@ -962,17 +1019,29 @@ class SuumoSearchAdapter(PropertyAdapter):
                 normalized_url
             )
 
+            # -------------------------------------------------
+            # URLから物件種別判定
+            # -------------------------------------------------
+
             property_type = (
                 self.get_property_type_from_url(
                     normalized_url
                 )
             )
 
+            # -------------------------------------------------
+            # カード情報
+            # -------------------------------------------------
+
             card_text = (
                 self.get_card_text(
                     link
                 )
             )
+
+            # -------------------------------------------------
+            # 築年
+            # -------------------------------------------------
 
             built_year = (
                 self.extract_built_year(
@@ -982,24 +1051,19 @@ class SuumoSearchAdapter(PropertyAdapter):
 
             results.append(
                 {
-                    # -------------------------------------------------
-                    # 検索結果から取得した個別URL
-                    # -------------------------------------------------
+                    # 元URLを保持
+                    "sourceUrl": normalized_url,
+
+                    # 互換性用
                     "url": normalized_url,
 
-                    # -------------------------------------------------
-                    # 築年
-                    # -------------------------------------------------
+                    # 検索カードから取得した築年
                     "builtYear": built_year,
 
-                    # -------------------------------------------------
-                    # カード全文
-                    # -------------------------------------------------
+                    # 検索カード全文
                     "cardText": card_text,
 
-                    # -------------------------------------------------
                     # URLから判定した種別
-                    # -------------------------------------------------
                     "propertyType": property_type
                 }
             )
@@ -1007,7 +1071,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         return results
 
     # =====================================================
-    # 物件種別判定
+    # 物件種別フィルター
     # =====================================================
 
     def is_property_type_allowed(
@@ -1019,26 +1083,41 @@ class SuumoSearchAdapter(PropertyAdapter):
         検索URL側で指定された物件種別と
         URLから判定した種別が一致するか確認する。
 
-        target_property_typeがない場合:
+        target_property_typeがない:
             True
 
-        URLから種別が判定できない場合:
+        URLから種別判定できない:
             True
 
         不一致:
             False
         """
 
+        # -------------------------------------------------
+        # 検索条件が指定されていない
+        # -------------------------------------------------
+
         if not target_property_type:
             return True
+
+        # -------------------------------------------------
+        # URLから判定できない場合
+        #
+        # 誤除外を避けるため残す。
+        # -------------------------------------------------
 
         if property_type is None:
             return True
 
         normalized_target = (
-            str(target_property_type)
-            .strip()
+            str(
+                target_property_type
+            ).strip()
         )
+
+        # -------------------------------------------------
+        # 中古戸建
+        # -------------------------------------------------
 
         if normalized_target in (
             "中古戸建",
@@ -1049,6 +1128,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 == "中古戸建"
             )
 
+        # -------------------------------------------------
+        # 新築戸建
+        # -------------------------------------------------
+
         if normalized_target in (
             "新築戸建",
             "新築戸建て"
@@ -1058,7 +1141,12 @@ class SuumoSearchAdapter(PropertyAdapter):
                 == "新築戸建"
             )
 
-        # 不明な設定値は誤除外しない
+        # -------------------------------------------------
+        # 不明な設定値
+        #
+        # 誤除外しない。
+        # -------------------------------------------------
+
         return True
 
     # =====================================================
@@ -1073,13 +1161,9 @@ class SuumoSearchAdapter(PropertyAdapter):
     ):
         """
         検索結果HTMLから
-        個別戸建て物件URLだけを抽出する。
+        条件を通過した個別戸建て物件URLだけを抽出する。
 
-        このメソッドは互換性維持用。
-
-        実際のcrawlでは
-        extract_listing_candidates()
-        を直接使用する。
+        互換性維持用。
         """
 
         candidates = (
@@ -1134,7 +1218,7 @@ class SuumoSearchAdapter(PropertyAdapter):
                 continue
 
             # -------------------------------------------------
-            # 築年数条件
+            # 築年数
             # -------------------------------------------------
 
             if not self.is_within_building_age(
@@ -1277,11 +1361,23 @@ class SuumoSearchAdapter(PropertyAdapter):
         1つの検索条件URLについて
         最大max_pagesページを巡回する。
 
-        searchAreaは
-        「検索条件として指定されたエリア」。
+        検索段階で以下をフィルタリング:
 
-        実際の所在地はmain.py側で
-        SUUMO詳細ページのaddressを使って判定する。
+        1. 個別戸建てURLか
+        2. 検索指定の物件種別
+        3. 検索結果から取得できた築年数
+
+        一方、以下はmain.py側で詳細ページを
+        取得して最終判定する:
+
+        - 実所在地
+        - 正確な築年月
+        - 土地面積
+        - 建物面積
+        - 駅徒歩
+        - 接道
+        - 擁壁
+        - その他詳細条件
         """
 
         if not isinstance(
@@ -1319,7 +1415,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         # ページをまたいだ重複排除
         seen_listing_urls = set()
 
-        # ページURLのループ防止
+        # ページURLループ防止
         seen_page_urls = set()
 
         for page_number in range(
@@ -1347,6 +1443,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 f"{current_url}"
             )
 
+            # -------------------------------------------------
+            # 検索ページ取得
+            # -------------------------------------------------
+
             try:
                 html = self.fetch_search_page(
                     current_url
@@ -1373,6 +1473,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
                 break
 
+            # -------------------------------------------------
+            # 候補抽出
+            # -------------------------------------------------
+
             candidates = (
                 self.extract_listing_candidates(
                     html,
@@ -1384,11 +1488,26 @@ class SuumoSearchAdapter(PropertyAdapter):
             rejected_age = 0
             rejected_type = 0
             duplicate_count = 0
+            unknown_year_count = 0
+
+            # -------------------------------------------------
+            # 検索結果フィルタリング
+            # -------------------------------------------------
 
             for candidate in candidates:
 
-                listing_url = candidate.get(
-                    "url"
+                # -------------------------------------------------
+                # sourceUrlを優先
+                # -------------------------------------------------
+
+                listing_url = (
+                    candidate.get(
+                        "sourceUrl"
+                    )
+                    or
+                    candidate.get(
+                        "url"
+                    )
                 )
 
                 if not listing_url:
@@ -1406,8 +1525,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 # 物件種別
                 # -------------------------------------------------
 
-                property_type = candidate.get(
-                    "propertyType"
+                property_type = (
+                    candidate.get(
+                        "propertyType"
+                    )
                 )
 
                 if not self.is_property_type_allowed(
@@ -1429,11 +1550,16 @@ class SuumoSearchAdapter(PropertyAdapter):
                 # 築年数
                 # -------------------------------------------------
 
-                built_year = candidate.get(
-                    "builtYear"
+                built_year = (
+                    candidate.get(
+                        "builtYear"
+                    )
                 )
 
-                if not self.is_within_building_age(
+                if built_year is None:
+                    unknown_year_count += 1
+
+                elif not self.is_within_building_age(
                     built_year,
                     property_type
                 ):
@@ -1442,7 +1568,8 @@ class SuumoSearchAdapter(PropertyAdapter):
                     print(
                         "築年数条件で除外: "
                         f"{listing_url} "
-                        f"(築年={built_year})"
+                        f"(築年={built_year}, "
+                        f"基準={self.min_built_year})"
                     )
 
                     continue
@@ -1455,7 +1582,18 @@ class SuumoSearchAdapter(PropertyAdapter):
                     listing_url
                 )
 
-                # 検索条件の情報を候補に保持
+                # -------------------------------------------------
+                # 検索条件情報を保持
+                # -------------------------------------------------
+
+                candidate["sourceUrl"] = (
+                    listing_url
+                )
+
+                candidate["url"] = (
+                    listing_url
+                )
+
                 candidate["searchArea"] = (
                     target_area
                 )
@@ -1482,11 +1620,16 @@ class SuumoSearchAdapter(PropertyAdapter):
 
                 accepted += 1
 
+            # -------------------------------------------------
+            # ページ単位ログ
+            # -------------------------------------------------
+
             print(
-                f"検索ページ結果: "
+                "検索ページ結果: "
                 f"{len(candidates)}件 / "
                 f"採用 {accepted}件 / "
                 f"築年除外 {rejected_age}件 / "
+                f"築年不明 {unknown_year_count}件 / "
                 f"種別除外 {rejected_type}件 / "
                 f"重複 {duplicate_count}件"
             )
@@ -1537,11 +1680,13 @@ class SuumoSearchAdapter(PropertyAdapter):
     ):
         """
         設定されたSUUMO検索URLを巡回し、
+        検索結果フィルターを通過した
         個別物件候補を返す。
 
-        search_configはmain.pyから渡されるが、
-        検索URL自体はconfig/search_urls.jsonを
-        正式な検索対象として使用する。
+        search_configはmain.pyから渡される。
+
+        検索URL自体は
+        config/search_urls.jsonを正式な検索対象とする。
 
         実所在地の判定はmain.py側で、
         詳細ページのaddressを使って行う。
@@ -1559,12 +1704,23 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         properties = []
 
+        # -------------------------------------------------
         # 全検索条件をまたいだURL重複排除
+        # -------------------------------------------------
+
         seen_urls = set()
 
         total_candidates = 0
         total_added = 0
         total_duplicate = 0
+
+        total_filtered_type = 0
+        total_filtered_age = 0
+        total_unknown_year = 0
+
+        # =================================================
+        # 検索条件ごとの巡回
+        # =================================================
 
         for target in search_targets:
 
@@ -1582,7 +1738,7 @@ class SuumoSearchAdapter(PropertyAdapter):
                 continue
 
             # -------------------------------------------------
-            # 検索URLの検証
+            # 検索URL検証
             # -------------------------------------------------
 
             normalized_search_url = (
@@ -1625,6 +1781,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                     f"{target_property_type}"
                 )
 
+            # -------------------------------------------------
+            # 検索実行
+            # -------------------------------------------------
+
             candidates = (
                 self.crawl_search_target(
                     {
@@ -1641,10 +1801,20 @@ class SuumoSearchAdapter(PropertyAdapter):
             new_count = 0
             duplicate_count = 0
 
+            # -------------------------------------------------
+            # 候補追加
+            # -------------------------------------------------
+
             for candidate in candidates:
 
-                listing_url = candidate.get(
-                    "url"
+                listing_url = (
+                    candidate.get(
+                        "sourceUrl"
+                    )
+                    or
+                    candidate.get(
+                        "url"
+                    )
                 )
 
                 if not listing_url:
@@ -1663,9 +1833,24 @@ class SuumoSearchAdapter(PropertyAdapter):
                     listing_url
                 )
 
-                property_type = candidate.get(
-                    "propertyType"
+                property_type = (
+                    candidate.get(
+                        "propertyType"
+                    )
                 )
+
+                built_year = (
+                    candidate.get(
+                        "builtYear"
+                    )
+                )
+
+                # -------------------------------------------------
+                # 集計
+                # -------------------------------------------------
+
+                if built_year is None:
+                    total_unknown_year += 1
 
                 # -------------------------------------------------
                 # main.pyへ渡す物件データ
@@ -1675,64 +1860,77 @@ class SuumoSearchAdapter(PropertyAdapter):
                     {
                         "source": "suumo",
 
-                        # -------------------------------------------------
-                        # 個別物件URL
+                        # =================================================
+                        # 元の個別物件URL
                         #
-                        # ここではsourceUrlを
-                        # 正式な個別物件URLとして保持する。
-                        # -------------------------------------------------
+                        # 最重要:
+                        # detail取得時にこれを優先して使用する。
+                        # =================================================
                         "sourceUrl": listing_url,
 
-                        # -------------------------------------------------
-                        # urlも同じ値を保持
+                        # =================================================
+                        # URL
                         #
-                        # main.py側の既存データ構造との互換性用。
-                        # -------------------------------------------------
+                        # 既存データとの互換性用。
+                        # =================================================
                         "url": listing_url,
 
-                        # -------------------------------------------------
-                        # 検索条件として指定されたエリア
+                        # =================================================
+                        # 検索条件上のエリア
                         #
-                        # 注意:
-                        # これは実所在地ではない。
-                        # -------------------------------------------------
+                        # 実所在地ではない。
+                        # =================================================
                         "searchArea": candidate.get(
                             "searchArea"
                         ),
 
-                        # 検索条件として指定された種別
+                        # =================================================
+                        # 検索条件上の物件種別
+                        # =================================================
                         "searchPropertyType": candidate.get(
                             "searchPropertyType"
                         ),
 
+                        # =================================================
                         # 検索カードから取得した築年
+                        # =================================================
                         "searchBuiltYear": candidate.get(
                             "builtYear"
                         ),
 
+                        # =================================================
                         # 検索カード全文
+                        # =================================================
                         "searchCardText": candidate.get(
                             "cardText"
                         ),
 
+                        # =================================================
                         # URLから判定した種別
+                        # =================================================
                         "searchDetectedPropertyType": (
                             property_type
                         ),
 
+                        # =================================================
                         # 実際に使用した検索URL
+                        # =================================================
                         "searchUrl": candidate.get(
                             "searchUrl"
                         ),
 
-                        # ページ番号
-                        "searchPageNumber": candidate.get(
-                            "searchPageNumber"
-                        ),
-
-                        # ページURL
+                        # =================================================
+                        # 検索結果ページ
+                        # =================================================
                         "searchPageUrl": candidate.get(
                             "searchPageUrl"
+                        ),
+
+                        # =================================================
+                        # 検索結果ページ番号
+                        # =================================================
+                        "searchPageNumber": candidate.get(
+                            "searchPageNumber"
                         )
                     }
                 )
@@ -1761,8 +1959,14 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         for property_data in properties:
 
-            source_url = property_data.get(
-                "sourceUrl"
+            source_url = (
+                property_data.get(
+                    "sourceUrl"
+                )
+                or
+                property_data.get(
+                    "url"
+                )
             )
 
             if not source_url:
@@ -1772,6 +1976,15 @@ class SuumoSearchAdapter(PropertyAdapter):
                 continue
 
             final_seen.add(
+                source_url
+            )
+
+            # sourceUrl / urlを統一
+            property_data["sourceUrl"] = (
+                source_url
+            )
+
+            property_data["url"] = (
                 source_url
             )
 
@@ -1810,8 +2023,9 @@ class SuumoSearchAdapter(PropertyAdapter):
         # =====================================================
         # 検索エリア集計
         #
-        # ここでは「検索条件上のエリア」を集計。
-        # 実所在地の集計はmain.py側で行う。
+        # 注意:
+        # ここでは検索条件上のエリア。
+        # 実所在地ではない。
         # =====================================================
 
         area_counts = {}
@@ -1834,7 +2048,7 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
 
         # =====================================================
-        # ログ
+        # 最終ログ
         # =====================================================
 
         print(
@@ -1881,6 +2095,12 @@ class SuumoSearchAdapter(PropertyAdapter):
                 f"{unknown_type_count}件"
             )
 
+        if total_unknown_year > 0:
+            print(
+                f"築年不明: "
+                f"{total_unknown_year}件"
+            )
+
         if area_counts:
             print(
                 "検索条件エリア別:"
@@ -1898,6 +2118,16 @@ class SuumoSearchAdapter(PropertyAdapter):
                 "検索段階の築年数基準: "
                 f"{self.min_built_year}年以降"
             )
+
+        print(
+            "※ 築年不明物件は検索段階では除外せず、"
+            "詳細ページ取得後に最終判定します。"
+        )
+
+        print(
+            "※ 実所在地は検索条件エリアではなく、"
+            "詳細ページのaddressを使用して判定します。"
+        )
 
         print(
             "========================================"
