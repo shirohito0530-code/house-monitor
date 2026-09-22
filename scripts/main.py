@@ -10,7 +10,6 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
-
 # ============================================================
 # Imports
 # ============================================================
@@ -21,7 +20,6 @@ try:
 except ImportError:
     from suumo_search import SuumoSearchAdapter
     from suumo_detail import SuumoDetailAdapter
-
 
 # ============================================================
 # Constants
@@ -45,6 +43,14 @@ DEFAULT_DETAIL_FETCH_LIMIT = 5
 # 最大3回までfetch_detailを呼ぶ。
 MAX_DETAIL_FETCH_ATTEMPTS = 3
 
+# SUUMO側への接続障害が連続した場合、
+# その実行での詳細取得を中断する。
+#
+# 例えばGitHub ActionsからSUUMOへ接続できない状態で
+# 20件 × 3回のリトライを行うと非常に時間がかかるため、
+# timeout / network_error が3件連続した時点で停止する。
+MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS = 3
+
 # 再試行対象
 RETRYABLE_DETAIL_ERROR_TYPES = {
     "forbidden",
@@ -54,15 +60,18 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
     "server_error",
 }
 
-# v18:
+# v19:
+# - search_urls.json の suumo_search_urls を認識
+# - search adapterへsearch_configを明示的に渡す
+# - search target=0を異常扱い
 # - detail URL canonicalization
 # - successful detail判定をlastSuccessfulDetail基準へ変更
 # - 404を無駄に3回リトライしない
 # - detailFetchAttempts / detailFetchRunAttemptsを分離
 # - 過去成功データを失敗時に保持
 # - 新規・失敗物件を優先
-MAIN_PARSER_VERSION = "2026-09-22-v18"
-
+# - timeout / network error連続時にdetail batchを停止
+MAIN_PARSER_VERSION = "2026-09-22-v19"
 
 # ============================================================
 # Fallback target area rules
@@ -93,7 +102,6 @@ FALLBACK_AREA_RULES = {
         ],
     },
 }
-
 
 # ============================================================
 # Utility
@@ -539,23 +547,86 @@ def load_search_config() -> Dict[str, Any]:
 
 
 def load_search_urls() -> List[Dict[str, Any]]:
+    """
+    search_urls.jsonから有効な検索対象を読み込む。
+
+    現在のsearch_urls.jsonは以下の形式を使用している。
+
+    {
+      "suumo_search_urls": [
+        {
+          "name": "...",
+          "url": "...",
+          "area": "...",
+          "propertyType": "...",
+          "enabled": true
+        }
+      ]
+    }
+
+    過去のtargets形式および配列形式も後方互換で許容する。
+    """
 
     data = load_json(
         SEARCH_URLS_PATH,
         [],
     )
 
+    # --------------------------------------------------------
+    # 配列形式
+    # --------------------------------------------------------
+
     if isinstance(
         data,
         list,
     ):
-        return data
+
+        return [
+            item
+            for item in data
+            if isinstance(
+                item,
+                dict,
+            )
+            and item.get(
+                "enabled",
+                True,
+            ) is not False
+        ]
+
+    # --------------------------------------------------------
+    # object形式
+    # --------------------------------------------------------
 
     if isinstance(
         data,
         dict,
     ):
 
+        # 現在の形式
+        targets = data.get(
+            "suumo_search_urls"
+        )
+
+        if isinstance(
+            targets,
+            list,
+        ):
+
+            return [
+                item
+                for item in targets
+                if isinstance(
+                    item,
+                    dict,
+                )
+                and item.get(
+                    "enabled",
+                    True,
+                ) is not False
+            ]
+
+        # 旧形式
         targets = data.get(
             "targets"
         )
@@ -564,7 +635,19 @@ def load_search_urls() -> List[Dict[str, Any]]:
             targets,
             list,
         ):
-            return targets
+
+            return [
+                item
+                for item in targets
+                if isinstance(
+                    item,
+                    dict,
+                )
+                and item.get(
+                    "enabled",
+                    True,
+                ) is not False
+            ]
 
     return []
 
@@ -3108,6 +3191,12 @@ def fetch_details(
     success_count = 0
     failure_count = 0
 
+    # --------------------------------------------------------
+    # 連続した接続障害のカウンタ
+    # --------------------------------------------------------
+
+    consecutive_connectivity_errors = 0
+
     for property_data in candidates:
 
         if fetched >= limit:
@@ -3147,9 +3236,57 @@ def fetch_details(
 
             success_count += 1
 
+            # 接続障害の連続状態をリセット
+            consecutive_connectivity_errors = 0
+
         else:
 
             failure_count += 1
+
+            error_type = (
+                property_data.get(
+                    "detailFetchErrorType"
+                )
+            )
+
+            if error_type in {
+                "timeout",
+                "network_error",
+            }:
+
+                consecutive_connectivity_errors += 1
+
+                print(
+                    f"[DETAIL] "
+                    f"consecutive connectivity errors="
+                    f"{consecutive_connectivity_errors}/"
+                    f"{MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS}"
+                )
+
+                # ------------------------------------------------
+                # SUUMOへの接続自体が死んでいる可能性が高い場合、
+                # 残りの物件を無駄に3回ずつ叩かない。
+                # ------------------------------------------------
+
+                if (
+                    consecutive_connectivity_errors
+                    >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
+                ):
+
+                    print(
+                        "[DETAIL] "
+                        "SUUMO connectivity failure "
+                        "threshold reached. "
+                        "Stopping detail fetch for this run."
+                    )
+
+                    break
+
+            else:
+
+                # timeout/network以外の失敗では
+                # 連続接続エラーをリセット
+                consecutive_connectivity_errors = 0
 
         # ----------------------------------------------------
         # Request interval
@@ -3768,6 +3905,32 @@ def main() -> int:
     )
 
     # --------------------------------------------------------
+    # 検索対象が0件の場合
+    #
+    # search_urls.jsonの形式不一致などで0件になった場合に、
+    # 「検索結果0件」と誤認して既存データを上書きしない。
+    # --------------------------------------------------------
+
+    if not search_urls:
+
+        print(
+            "[FATAL] "
+            "No enabled SUUMO search targets were found."
+        )
+
+        print(
+            "[FATAL] "
+            f"Please check: {SEARCH_URLS_PATH}"
+        )
+
+        print(
+            "[FATAL] "
+            "Expected key: suumo_search_urls"
+        )
+
+        return 1
+
+    # --------------------------------------------------------
     # Existing history
     # --------------------------------------------------------
 
@@ -3799,8 +3962,13 @@ def main() -> int:
 
     try:
 
+        # v19:
+        # SuumoSearchAdapter.search() は
+        # search_configを必須引数として受け取る。
         discovered_now = (
-            search_adapter.search()
+            search_adapter.search(
+                search_config
+            )
         )
 
     except Exception as exc:
@@ -3810,7 +3978,21 @@ def main() -> int:
             repr(exc),
         )
 
-        discovered_now = []
+        # ----------------------------------------------------
+        # 検索そのものに失敗した場合、
+        # 既存データを「検索結果0件」として上書きしない。
+        #
+        # GitHub Actionsを失敗扱いにして、
+        # 次回実行で再試行する。
+        # ----------------------------------------------------
+
+        print(
+            "[FATAL] "
+            "Search failed. "
+            "Existing output files will not be overwritten."
+        )
+
+        return 1
 
     if discovered_now is None:
         discovered_now = []
