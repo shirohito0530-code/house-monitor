@@ -7,7 +7,7 @@ import time
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
 
@@ -39,7 +39,7 @@ DISCOVERED_PATH = DATA_DIR / "discovered_listings.json"
 HOUSES_PATH = DATA_DIR / "houses.json"
 SUMMARY_PATH = DATA_DIR / "summary.json"
 
-DEFAULT_DETAIL_FETCH_LIMIT = 5
+DEFAULT_DETAIL_FETCH_LIMIT = 50
 
 MAX_DETAIL_FETCH_ATTEMPTS = 3
 
@@ -58,7 +58,7 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
 # Parser version
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-22-v22"
+MAIN_PARSER_VERSION = "2026-09-22-v23"
 
 
 # ============================================================
@@ -69,6 +69,9 @@ FALLBACK_AREA_RULES = {
     "柏の葉キャンパス": {
         "cities": [
             "柏市",
+        ],
+        "cityCodes": [
+            "sc_kashiwa",
         ],
         "addressPatterns": [
             "柏の葉",
@@ -81,6 +84,9 @@ FALLBACK_AREA_RULES = {
     "流山おおたかの森": {
         "cities": [
             "流山市",
+        ],
+        "cityCodes": [
+            "sc_nagareyama",
         ],
         "addressPatterns": [
             "おおたかの森北",
@@ -461,6 +467,32 @@ def is_valid_suumo_listing_url(
     )
 
 
+def extract_city_from_url(
+    url: Any,
+) -> Optional[str]:
+
+    normalized = normalize_suumo_listing_url(
+        url
+    )
+
+    if not normalized:
+        return None
+
+    path = urlsplit(
+        normalized
+    ).path.lower()
+
+    match = re.search(
+        r"/sc_([a-z0-9]+)/",
+        path,
+    )
+
+    if match:
+        return f"sc_{match.group(1)}"
+
+    return None
+
+
 # ============================================================
 # Config
 # ============================================================
@@ -675,7 +707,7 @@ def get_allowed_property_types(
 
 
 # ============================================================
-# Address / Area
+# Address / Area & Pre-filtering
 # ============================================================
 
 def normalize_address_for_area(
@@ -811,6 +843,112 @@ def normalize_search_area(
         text,
         text,
     )
+
+
+def apply_url_area_prefilter(
+    property_data: Dict[str, Any],
+    search_config: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    url = (
+        property_data.get(
+            "sourceUrl"
+        )
+        or property_data.get(
+            "url"
+        )
+    )
+
+    city_code = extract_city_from_url(
+        url
+    )
+
+    search_area = normalize_search_area(
+        property_data.get(
+            "searchArea"
+        )
+    )
+
+    property_data[
+        "urlCityCode"
+    ] = city_code
+
+    if not city_code:
+
+        property_data[
+            "areaPrefilterExcluded"
+        ] = False
+
+        property_data[
+            "areaPrefilterReason"
+        ] = "city_code_unknown"
+
+        return property_data
+
+    area_rules = get_area_rules(
+        search_config
+    )
+
+    allowed_city_codes = set()
+
+    if search_area in area_rules:
+
+        rule = area_rules[
+            search_area
+        ]
+
+        city_codes = rule.get(
+            "cityCodes",
+            [],
+        )
+
+        if city_codes:
+
+            allowed_city_codes.update(
+                city_codes
+            )
+
+        else:
+
+            cities = rule.get(
+                "cities",
+                [],
+            )
+
+            if "柏市" in cities:
+                allowed_city_codes.add("sc_kashiwa")
+
+            if "流山市" in cities:
+                allowed_city_codes.add("sc_nagareyama")
+
+    else:
+
+        allowed_city_codes = {
+            "sc_kashiwa",
+            "sc_nagareyama",
+        }
+
+    if city_code not in allowed_city_codes:
+
+        property_data[
+            "areaPrefilterExcluded"
+        ] = True
+
+        property_data[
+            "areaPrefilterReason"
+        ] = f"city_mismatch_{city_code}"
+
+    else:
+
+        property_data[
+            "areaPrefilterExcluded"
+        ] = False
+
+        property_data[
+            "areaPrefilterReason"
+        ] = "accepted_target_city"
+
+    return property_data
 
 
 def evaluate_area(
@@ -1149,7 +1287,26 @@ def calculate_age_from_month(
 def evaluate_built_age(
     detail: Dict[str, Any],
     search_config: Dict[str, Any],
+    property_type: Optional[str] = None,
 ) -> Dict[str, Any]:
+
+    p_type = (
+        property_type
+        or normalize_property_type(
+            detail.get(
+                "propertyType"
+            )
+        )
+    )
+
+    if p_type == "新築戸建":
+
+        return {
+            "builtAgeMatched": True,
+            "builtAgeYears": 0.0,
+            "builtAgeReason":
+                "new_house_exempt_from_age_limit",
+        }
 
     max_age = get_search_max_age(
         search_config
@@ -1226,24 +1383,6 @@ def evaluate_built_age(
             result[
                 "builtAgeReason"
             ] = "building_age_over_limit"
-
-        return result
-
-    property_type = normalize_property_type(
-        detail.get(
-            "propertyType"
-        )
-    )
-
-    if property_type == "新築戸建":
-
-        result[
-            "builtAgeMatched"
-        ] = True
-
-        result[
-            "builtAgeReason"
-        ] = "new_house_without_construction_date"
 
         return result
 
@@ -1538,7 +1677,7 @@ def detect_retaining_wall(
 
 
 # ============================================================
-# Search criteria
+# Search criteria evaluation
 # ============================================================
 
 def evaluate_search_criteria(
@@ -1711,6 +1850,9 @@ def evaluate_search_criteria(
     age_result = evaluate_built_age(
         detail,
         search_config,
+        property_type=property_type_result[
+            "propertyType"
+        ],
     )
 
     if age_result[
@@ -2132,25 +2274,12 @@ def normalize_search_result(
 
 # ============================================================
 # Search-level filtering
-#
-# ここでは「検索結果だけから判断可能な条件」を処理する。
-#
-# 詳細ページが必要な条件:
-# - 実価格
-# - 土地面積
-# - 建物面積
-# - 駅徒歩
-# - 実住所
-# - 擁壁
-# - 平坦地
-#
-# はここでは除外しない。
 # ============================================================
 
 def apply_search_result_filter(
     properties: List[Dict[str, Any]],
     search_config: Dict[str, Any],
-) -> tuple[List[Dict[str, Any]], Dict[str, int]]:
+) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
 
     allowed_types = (
         get_allowed_property_types(
@@ -2178,10 +2307,6 @@ def apply_search_result_filter(
         property_data = deepcopy(
             item
         )
-
-        # ----------------------------------------------------
-        # Property type
-        # ----------------------------------------------------
 
         property_type = detect_property_type(
             property_data
@@ -2212,13 +2337,25 @@ def apply_search_result_filter(
 
             continue
 
-        # ----------------------------------------------------
-        # 築年数
-        #
-        # 検索結果に築年が存在する場合のみ判定。
-        #
-        # 不明の場合は残す。
-        # ----------------------------------------------------
+        if property_type == "新築戸建":
+
+            property_data[
+                "searchResultFilterExcluded"
+            ] = False
+
+            property_data[
+                "searchResultFilterReason"
+            ] = "accepted_new_house"
+
+            counters[
+                "accepted"
+            ] += 1
+
+            result.append(
+                property_data
+            )
+
+            continue
 
         if max_age is not None:
 
@@ -2468,15 +2605,6 @@ def merge_property(
             old_count + 1
         )
 
-    # --------------------------------------------------------
-    # URL
-    #
-    # 今回の検索結果で取得したsourceUrlを優先。
-    #
-    # 過去URLを新URLで上書きされること自体は問題ない。
-    # ただしsourceUrlOriginalには検索時の元URLを残す。
-    # --------------------------------------------------------
-
     new_source_url = (
         new.get(
             "sourceUrl"
@@ -2538,10 +2666,6 @@ def merge_discovered_listings(
         Dict[str, Any],
     ] = {}
 
-    # --------------------------------------------------------
-    # Existing history
-    # --------------------------------------------------------
-
     for item in existing:
 
         normalized = normalize_search_result(
@@ -2567,11 +2691,6 @@ def merge_discovered_listings(
             ] = item[
                 "lastSeenAt"
             ]
-
-        # ----------------------------------------------------
-        # Existing source URL is preserved only when the
-        # current item itself does not already have one.
-        # ----------------------------------------------------
 
         if not normalized.get(
             "sourceUrl"
@@ -2628,10 +2747,6 @@ def merge_discovered_listings(
                 key
             ] = normalized
 
-    # --------------------------------------------------------
-    # Current search results
-    # --------------------------------------------------------
-
     for item in discovered:
 
         normalized = normalize_search_result(
@@ -2679,7 +2794,7 @@ def merge_discovered_listings(
 
 
 # ============================================================
-# Detail fetch status
+# Detail fetch status & Priority rules
 # ============================================================
 
 def has_successful_detail(
@@ -2725,6 +2840,18 @@ def should_fetch_detail(
     property_data: Dict[str, Any],
 ) -> bool:
 
+    if property_data.get(
+        "areaPrefilterExcluded",
+        False,
+    ):
+        return False
+
+    if property_data.get(
+        "searchResultFilterExcluded",
+        False,
+    ):
+        return False
+
     return not has_successful_detail(
         property_data
     )
@@ -2734,24 +2861,80 @@ def detail_fetch_priority(
     property_data: Dict[str, Any],
 ) -> int:
 
-    if not has_successful_detail(
+    if property_data.get(
+        "areaPrefilterExcluded",
+        False,
+    ):
+        return 999
+
+    if has_successful_detail(
         property_data
     ):
+        return 900
 
-        error_type = (
-            property_data.get(
-                "detailFetchErrorType"
-            )
+    search_area = normalize_search_area(
+        property_data.get(
+            "searchArea"
         )
+    )
 
-        # 初回取得を最優先
-        if not error_type:
-            return 0
+    city_code = property_data.get(
+        "urlCityCode"
+    )
 
-        # 前回失敗はその次
+    is_target_area_match = False
+
+    if (
+        search_area == "柏の葉キャンパス"
+        and city_code == "sc_kashiwa"
+    ):
+        is_target_area_match = True
+
+    elif (
+        search_area == "流山おおたかの森"
+        and city_code == "sc_nagareyama"
+    ):
+        is_target_area_match = True
+
+    is_new = (
+        property_data.get(
+            "discoveryCount",
+            1,
+        ) == 1
+    )
+
+    price_history = property_data.get(
+        "priceHistory",
+        [],
+    )
+
+    has_price_change = (
+        isinstance(
+            price_history,
+            list,
+        )
+        and len(price_history) >= 2
+    )
+
+    error_type = property_data.get(
+        "detailFetchErrorType"
+    )
+
+    has_error = error_type is not None
+
+    if is_target_area_match:
         return 1
 
-    return 2
+    if is_new:
+        return 2
+
+    if has_price_change:
+        return 3
+
+    if not has_error:
+        return 4
+
+    return 5
 
 
 def classify_detail_error(
@@ -3076,10 +3259,6 @@ def fetch_detail_for_property(
         "lastDetailFetchAt"
     ] = fetched_at
 
-    # ========================================================
-    # SUCCESS
-    # ========================================================
-
     if successful:
 
         detail = deepcopy(
@@ -3155,10 +3334,6 @@ def fetch_detail_for_property(
         ] = MAIN_PARSER_VERSION
 
         return property_data
-
-    # ========================================================
-    # FAILURE
-    # ========================================================
 
     error = (
         last_error
@@ -3238,7 +3413,13 @@ def fetch_details(
     properties: List[Dict[str, Any]],
     detail_adapter: SuumoDetailAdapter,
     limit: int,
-) -> List[Dict[str, Any]]:
+) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
+
+    run_stats = {
+        "fetchedThisRun": 0,
+        "successThisRun": 0,
+        "failureThisRun": 0,
+    }
 
     if limit <= 0:
 
@@ -3247,16 +3428,12 @@ def fetch_details(
             "skip detail fetching"
         )
 
-        return properties
+        return properties, run_stats
 
     candidates = [
         item
         for item in properties
         if should_fetch_detail(item)
-        and not item.get(
-            "searchResultFilterExcluded",
-            False,
-        )
     ]
 
     def sort_timestamp(
@@ -3407,6 +3584,10 @@ def fetch_details(
         len(candidates) - fetched,
     )
 
+    run_stats["fetchedThisRun"] = fetched
+    run_stats["successThisRun"] = success_count
+    run_stats["failureThisRun"] = failure_count
+
     print(
         f"[DETAIL] "
         f"fetched={fetched} "
@@ -3415,29 +3596,7 @@ def fetch_details(
         f"remaining={remaining}"
     )
 
-    return properties
-
-
-# ============================================================
-# Existing detail refresh
-# ============================================================
-
-def refresh_existing_details(
-    properties: List[Dict[str, Any]],
-    detail_adapter: SuumoDetailAdapter,
-    limit: int,
-) -> List[Dict[str, Any]]:
-
-    # 現時点では意図的に何もしない。
-    #
-    # 既に詳細取得済みの物件を毎回全件巡回すると、
-    # SUUMOへのアクセス量が急増するため。
-    #
-    # 将来的に価格更新を実装する場合は、
-    # lastDetailFetchAtから一定期間経過した物件だけを
-    # 対象にする。
-
-    return properties
+    return properties, run_stats
 
 
 # ============================================================
@@ -3507,6 +3666,7 @@ def build_summary(
     discovered: List[Dict[str, Any]],
     houses: List[Dict[str, Any]],
     search_filter_summary: Optional[Dict[str, Any]] = None,
+    run_stats: Optional[Dict[str, int]] = None,
     search_healthy: bool = True,
 ) -> Dict[str, Any]:
 
@@ -3516,6 +3676,8 @@ def build_summary(
 
     price_reduction_count = 0
 
+    area_prefilter_excluded_count = 0
+
     area_excluded_count = 0
     area_unknown_count = 0
 
@@ -3524,7 +3686,7 @@ def build_summary(
 
     property_type_excluded_count = 0
 
-    detail_success_count = 0
+    detail_with_historical_success_count = 0
     detail_failure_count = 0
     detail_pending_count = 0
 
@@ -3539,6 +3701,12 @@ def build_summary(
     detail_other_error_count = 0
 
     for item in discovered:
+
+        if item.get(
+            "areaPrefilterExcluded",
+            False,
+        ):
+            area_prefilter_excluded_count += 1
 
         detail = get_detail(
             item
@@ -3560,15 +3728,15 @@ def build_summary(
 
             poor_count += 1
 
+        if has_successful_detail(item):
+
+            detail_with_historical_success_count += 1
+
         fetch_success = item.get(
             "detailFetchSuccess"
         )
 
-        if fetch_success is True:
-
-            detail_success_count += 1
-
-        elif fetch_success is False:
+        if fetch_success is False:
 
             detail_failure_count += 1
 
@@ -3603,7 +3771,7 @@ def build_summary(
             else:
                 detail_other_error_count += 1
 
-        else:
+        elif fetch_success is not True and not has_successful_detail(item):
 
             detail_pending_count += 1
 
@@ -3710,6 +3878,10 @@ def build_summary(
 
                 price_reduction_count += 1
 
+    fetched_this_run = run_stats.get("fetchedThisRun", 0) if run_stats else 0
+    success_this_run = run_stats.get("successThisRun", 0) if run_stats else 0
+    failure_this_run = run_stats.get("failureThisRun", 0) if run_stats else 0
+
     summary = {
 
         "generatedAt":
@@ -3739,6 +3911,9 @@ def build_summary(
         "priceReductionCount":
             price_reduction_count,
 
+        "areaPrefilterExcludedCount":
+            area_prefilter_excluded_count,
+
         "areaExcludedCount":
             area_excluded_count,
 
@@ -3754,8 +3929,17 @@ def build_summary(
         "propertyTypeExcludedCount":
             property_type_excluded_count,
 
-        "detailSuccessCount":
-            detail_success_count,
+        "detailFetchedThisRun":
+            fetched_this_run,
+
+        "detailSuccessThisRun":
+            success_this_run,
+
+        "detailFailureThisRun":
+            failure_this_run,
+
+        "detailWithHistoricalSuccess":
+            detail_with_historical_success_count,
 
         "detailFailureCount":
             detail_failure_count,
@@ -3859,7 +4043,7 @@ def load_discovered_history(
 
 
 # ============================================================
-# Output envelope
+# Output envelope & Saving
 # ============================================================
 
 def build_output_document(
@@ -3873,10 +4057,6 @@ def build_output_document(
         "summary": summary,
     }
 
-
-# ============================================================
-# Save
-# ============================================================
 
 def save_discovered(
     properties: List[Dict[str, Any]],
@@ -3926,8 +4106,22 @@ def save_houses(
     return houses
 
 
+def save_summary(
+    summary: Dict[str, Any],
+) -> None:
+
+    save_json(
+        SUMMARY_PATH,
+        summary,
+    )
+
+    print(
+        "[OUTPUT] summary saved"
+    )
+
+
 # ============================================================
-# Main
+# Main Execution
 # ============================================================
 
 def main() -> int:
@@ -3974,6 +4168,13 @@ def main() -> int:
         load_search_urls()
     )
 
+    detail_fetch_limit = int(
+        search_config.get(
+            "detailFetchLimit",
+            DEFAULT_DETAIL_FETCH_LIMIT,
+        )
+    )
+
     print(
         "[CONFIG]",
         json.dumps(
@@ -3987,21 +4188,16 @@ def main() -> int:
         f"{len(search_urls)}"
     )
 
+    print(
+        f"[CONFIG] detailFetchLimit="
+        f"{detail_fetch_limit}"
+    )
+
     if not search_urls:
 
         print(
             "[FATAL] "
             "No enabled SUUMO search targets were found."
-        )
-
-        print(
-            "[FATAL] "
-            f"Please check: {SEARCH_URLS_PATH}"
-        )
-
-        print(
-            "[FATAL] "
-            "Expected key: suumo_search_urls"
         )
 
         return 1
@@ -4025,7 +4221,7 @@ def main() -> int:
     )
 
     # ========================================================
-    # Search
+    # Search Execution
     # ========================================================
 
     try:
@@ -4043,12 +4239,6 @@ def main() -> int:
             repr(exc),
         )
 
-        print(
-            "[FATAL] "
-            "Search failed. "
-            "Existing output files will not be overwritten."
-        )
-
         return 1
 
     if discovered_now is None:
@@ -4064,15 +4254,10 @@ def main() -> int:
             "is not a list"
         )
 
-        print(
-            "[FATAL] "
-            "Existing output files will not be overwritten."
-        )
-
         return 1
 
     # ========================================================
-    # Normalize
+    # Normalize Search Results
     # ========================================================
 
     normalized_now = []
@@ -4091,18 +4276,33 @@ def main() -> int:
                 normalized
             )
 
+    # 既存履歴との重複・新規件数チェックログ
+    existing_ids = {
+        get_property_id(item)
+        for item in existing_discovered
+        if get_property_id(item)
+    }
+
+    new_candidate_count = 0
+    overlap_count = 0
+
+    for item in normalized_now:
+
+        p_id = get_property_id(item)
+
+        if p_id in existing_ids:
+            overlap_count += 1
+
+        else:
+            new_candidate_count += 1
+
     print(
         f"[SEARCH] "
-        f"raw={len(discovered_now)} "
-        f"normalized={len(normalized_now)}"
+        f"検索取得候補: {len(discovered_now)} | "
+        f"正規化済み: {len(normalized_now)} | "
+        f"既存履歴との重複: {overlap_count} | "
+        f"今回の新規候補: {new_candidate_count}"
     )
-
-    # ========================================================
-    # Search result integrity check
-    #
-    # raw > 0なのにnormalized=0なら、
-    # URL parser等の回帰と判断する。
-    # ========================================================
 
     if (
         len(discovered_now) > 0
@@ -4116,22 +4316,10 @@ def main() -> int:
             "during URL normalization."
         )
 
-        print(
-            "[FATAL] "
-            "This indicates a search/URL parser regression."
-        )
-
-        print(
-            "[FATAL] "
-            "Existing output files will not be overwritten."
-        )
-
         return 1
 
     # ========================================================
-    # Search result filtering
-    #
-    # ここで検索結果から明確に判定できる条件を適用。
+    # Filter Search Results
     # ========================================================
 
     filtered_now, search_filter_summary = (
@@ -4149,10 +4337,6 @@ def main() -> int:
         )
     )
 
-    # ========================================================
-    # Search health
-    # ========================================================
-
     search_healthy = True
 
     if (
@@ -4164,21 +4348,12 @@ def main() -> int:
 
         print(
             "[WARN] "
-            "Current SUUMO search returned 0 results."
+            "Current SUUMO search returned 0 results. "
+            "Preserving existing history."
         )
 
-        print(
-            "[WARN] "
-            "This run will preserve existing history."
-        )
-
-        print(
-            "[WARN] "
-            "Existing properties will NOT be re-fetched."
-        )
-
-    # ========================================================
-    # Merge
+    # ================================================= grand
+    # Merge History
     # ========================================================
 
     properties = (
@@ -4189,43 +4364,36 @@ def main() -> int:
     )
 
     print(
-        f"[MERGE] total="
+        f"[MERGE] total history properties="
         f"{len(properties)}"
     )
 
     # ========================================================
-    # If search itself is unhealthy:
-    #
-    # do not hammer old SUUMO URLs.
+    # Detail Crawl Pre-filter (URL 市区町村判定)
     # ========================================================
 
-    if not search_healthy:
+    prefilter_excluded_count = 0
 
-        for property_data in properties:
+    for item in properties:
 
-            property_data[
-                "lastSearchStatus"
-            ] = "unhealthy"
+        apply_url_area_prefilter(
+            item,
+            search_config,
+        )
 
-            property_data[
-                "searchResultFilterReason"
-            ] = (
-                property_data.get(
-                    "searchResultFilterReason"
-                )
-                or "search_unavailable"
-            )
+        if item.get(
+            "areaPrefilterExcluded",
+            False,
+        ):
+            prefilter_excluded_count += 1
 
-    else:
-
-        for property_data in properties:
-
-            property_data[
-                "lastSearchStatus"
-            ] = "healthy"
+    print(
+        f"[PREFILTER] URL市区町村プリフィルター除外件数: "
+        f"{prefilter_excluded_count}件 / 全{len(properties)}件"
+    )
 
     # ========================================================
-    # Detail adapter
+    # Detail Crawl Execution
     # ========================================================
 
     detail_adapter = (
@@ -4235,68 +4403,14 @@ def main() -> int:
         )
     )
 
-    detail_limit = to_number(
-        search_config.get(
-            "detailFetchLimit"
-        )
-    )
-
-    if detail_limit is None:
-
-        detail_limit = (
-            DEFAULT_DETAIL_FETCH_LIMIT
-        )
-
-    detail_limit = max(
-        0,
-        int(
-            detail_limit
-        ),
-    )
-
-    print(
-        f"[CONFIG] "
-        f"detailFetchLimit={detail_limit}"
+    properties, run_stats = fetch_details(
+        properties,
+        detail_adapter,
+        limit=detail_fetch_limit,
     )
 
     # ========================================================
-    # Detail fetch
-    #
-    # Search failure時は実行しない。
-    # ========================================================
-
-    if search_healthy:
-
-        properties = fetch_details(
-            properties,
-            detail_adapter,
-            detail_limit,
-        )
-
-    else:
-
-        print(
-            "[DETAIL] "
-            "Skipped because current search "
-            "was unhealthy."
-        )
-
-    # ========================================================
-    # Price history
-    # ========================================================
-
-    for property_data in properties:
-
-        if has_successful_detail(
-            property_data
-        ):
-
-            update_price_history(
-                property_data
-            )
-
-    # ========================================================
-    # Search criteria
+    # Evaluate Search Criteria
     # ========================================================
 
     properties = apply_search_criteria(
@@ -4304,8 +4418,14 @@ def main() -> int:
         search_config,
     )
 
+    for item in properties:
+
+        update_price_history(
+            item
+        )
+
     # ========================================================
-    # Output
+    # Summary & Output Generation
     # ========================================================
 
     houses = build_output(
@@ -4315,8 +4435,18 @@ def main() -> int:
     summary = build_summary(
         properties,
         houses,
-        search_filter_summary,
-        search_healthy,
+        search_filter_summary=search_filter_summary,
+        run_stats=run_stats,
+        search_healthy=search_healthy,
+    )
+
+    print(
+        "[SUMMARY]",
+        json.dumps(
+            summary,
+            ensure_ascii=False,
+            indent=2,
+        )
     )
 
     save_discovered(
@@ -4329,29 +4459,16 @@ def main() -> int:
         summary,
     )
 
-    save_json(
-        SUMMARY_PATH,
-        summary,
+    save_summary(
+        summary
     )
-
-    # ========================================================
-    # Summary
-    # ========================================================
 
     print(
         "============================================"
     )
 
     print(
-        "[SUMMARY]"
-    )
-
-    print(
-        json.dumps(
-            summary,
-            ensure_ascii=False,
-            indent=2,
-        )
+        "Done."
     )
 
     print(
@@ -4361,33 +4478,5 @@ def main() -> int:
     return 0
 
 
-# ============================================================
-# Entry point
-# ============================================================
-
 if __name__ == "__main__":
-
-    try:
-
-        sys.exit(
-            main()
-        )
-
-    except KeyboardInterrupt:
-
-        print(
-            "\n[STOP] interrupted"
-        )
-
-        sys.exit(
-            130
-        )
-
-    except Exception as exc:
-
-        print(
-            "[FATAL]",
-            repr(exc),
-        )
-
-        raise
+    sys.exit(main())
