@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DETAIL_FETCH_LIMIT = 5
 MAX_DETAIL_FETCH_ATTEMPTS = 3
 
-DETAIL_PARSER_VERSION = "2026-09-21-v12"
+DETAIL_PARSER_VERSION = "2026-09-22-v13"
 
 logger = logging.getLogger(__name__)
 
@@ -352,9 +352,9 @@ def normalize_string_list(value):
 # 築年数判定
 # ============================================================
 
-def get_build_year(detail):
+def get_construction_month(detail):
     """
-    詳細データから建築年を取得する。
+    詳細情報から築年月 YYYY-MM を取得する。
 
     優先順位:
     1. constructionMonth
@@ -364,52 +364,81 @@ def get_build_year(detail):
     if not isinstance(detail, dict):
         return None
 
-    construction_month = clean_text(
-        detail.get("constructionMonth")
-    )
+    candidates = [
+        detail.get("constructionMonth"),
+        detail.get("buildYear"),
+    ]
 
-    if construction_month:
+    for value in candidates:
+
+        text = clean_text(value)
+
+        if not text:
+            continue
+
+        # 既に YYYY-MM
         match = re.search(
-            r"((?:19|20)\d{2})",
-            construction_month
+            r"((?:19|20)\d{2})-(0[1-9]|1[0-2])",
+            text
         )
 
         if match:
-            return safe_int(
-                match.group(1)
+            return (
+                f"{match.group(1)}-"
+                f"{match.group(2)}"
             )
 
-    build_year = clean_text(
-        detail.get("buildYear")
-    )
-
-    if build_year:
+        # YYYY年MM月
         match = re.search(
-            r"((?:19|20)\d{2})",
-            build_year
+            r"((?:19|20)\d{2})年"
+            r"(1[0-2]|0?[1-9])月",
+            text
         )
 
         if match:
-            return safe_int(
-                match.group(1)
+            return (
+                f"{match.group(1)}-"
+                f"{int(match.group(2)):02d}"
+            )
+
+        # 年だけ
+        match = re.search(
+            r"((?:19|20)\d{2})年?",
+            text
+        )
+
+        if match:
+            return (
+                f"{match.group(1)}-01"
             )
 
     return None
 
 
+def get_build_year(detail):
+    construction_month = get_construction_month(
+        detail
+    )
+
+    if not construction_month:
+        return None
+
+    return safe_int(
+        construction_month[:4]
+    )
+
+
 def get_min_built_year(search_config):
     """
-    築年数条件から最低建築年を算出する。
+    最低建築年を取得する。
 
     優先順位:
-    1. minBuiltYear
-    2. maxBuiltAgeYears
+        minBuiltYear
+        maxBuiltAgeYears
 
     例:
-        maxBuiltAgeYears = 20
-        現在年 = 2026
-
-        → 2006年以降
+        2026年 + maxBuiltAgeYears=20
+        → 2006年
     """
 
     if not isinstance(search_config, dict):
@@ -436,61 +465,140 @@ def get_min_built_year(search_config):
     return current_year - max_age
 
 
+def get_min_construction_month(
+    search_config
+):
+    """
+    築年数条件を年月ベースで判定するための
+    最低築年月を YYYY-MM で返す。
+
+    minBuiltYear が指定されている場合:
+        YYYY-01
+
+    maxBuiltAgeYears が指定されている場合:
+        現在年月から指定年数を引いた年月
+
+    例:
+        2026-09
+        maxBuiltAgeYears=20
+
+        → 2006-09
+    """
+
+    if not isinstance(search_config, dict):
+        return None
+
+    explicit_year = safe_int(
+        search_config.get("minBuiltYear")
+    )
+
+    if explicit_year is not None:
+        return f"{explicit_year:04d}-01"
+
+    max_age = safe_int(
+        search_config.get("maxBuiltAgeYears")
+    )
+
+    if max_age is None or max_age < 0:
+        return None
+
+    now = datetime.now(timezone.utc)
+
+    try:
+        year = now.year - max_age
+        month = now.month
+
+        return f"{year:04d}-{month:02d}"
+
+    except Exception:
+        return None
+
+
 def evaluate_built_year(
     property_data,
     search_config
 ):
     """
-    築年数条件への適合状況を返す。
+    築年月条件への適合状況を返す。
 
-    戻り値:
-        True  = 条件内
-        False = 条件外
-        None  = 判定不能
+    True:
+        条件内
+
+    False:
+        条件外
+
+    None:
+        築年月を取得できず判定不能
     """
 
-    min_built_year = get_min_built_year(
+    if not isinstance(
+        property_data,
+        dict
+    ):
+        return None
+
+    min_month = get_min_construction_month(
         search_config
     )
 
-    if min_built_year is None:
+    if min_month is None:
         return True
 
     detail = property_data.get(
         "detail"
     )
 
-    build_year = get_build_year(
+    construction_month = get_construction_month(
         detail
     )
 
-    if build_year is None:
+    if construction_month is None:
         return None
 
-    return build_year >= min_built_year
+    return construction_month >= min_month
 
+
+# ============================================================
+# 検索条件判定
+# ============================================================
 
 def apply_search_criteria(
     properties,
     search_config
 ):
     """
-    検索条件を詳細情報取得後に適用する。
+    詳細情報取得後に検索条件を適用する。
 
-    築年数条件については、詳細ページから
-    建築年を取得した上で判定する。
+    現在実装:
+        - 築年数
+
+    今後追加予定:
+        - 価格
+        - 土地面積
+        - 建物面積
+        - 駅徒歩
+        - 平坦地
+        - 擁壁
     """
 
-    if not isinstance(properties, dict):
+    if not isinstance(
+        properties,
+        dict
+    ):
         return properties
 
-    min_built_year = get_min_built_year(
+    min_month = get_min_construction_month(
         search_config
     )
 
-    if min_built_year is None:
+    if min_month is None:
+        logger.info(
+            "築年数条件: 指定なし"
+        )
+
         return properties
 
+    matched_count = 0
     excluded_count = 0
     unknown_count = 0
 
@@ -507,6 +615,10 @@ def apply_search_criteria(
             search_config
         )
 
+        construction_month = get_construction_month(
+            property_data.get("detail")
+        )
+
         if result is True:
 
             property_data[
@@ -514,10 +626,17 @@ def apply_search_criteria(
             ] = True
 
             property_data[
+                "searchCriteriaMismatchReason"
+            ] = None
+
+            property_data[
                 "searchCriteria"
             ] = {
-                "minBuiltYear": min_built_year
+                "minConstructionMonth": min_month,
+                "constructionMonth": construction_month,
             }
+
+            matched_count += 1
 
         elif result is False:
 
@@ -526,11 +645,18 @@ def apply_search_criteria(
             ] = False
 
             property_data[
+                "searchCriteria"
+            ] = {
+                "minConstructionMonth": min_month,
+                "constructionMonth": construction_month,
+            }
+
+            property_data[
                 "searchCriteriaMismatchReason"
             ] = (
                 f"築年数条件外: "
-                f"{get_build_year(property_data.get('detail'))}"
-                f"年 < {min_built_year}年"
+                f"{construction_month} "
+                f"< {min_month}"
             )
 
             excluded_count += 1
@@ -542,6 +668,13 @@ def apply_search_criteria(
             ] = None
 
             property_data[
+                "searchCriteria"
+            ] = {
+                "minConstructionMonth": min_month,
+                "constructionMonth": None,
+            }
+
+            property_data[
                 "searchCriteriaMismatchReason"
             ] = (
                 "築年月を取得できないため"
@@ -551,9 +684,11 @@ def apply_search_criteria(
             unknown_count += 1
 
     logger.info(
-        "築年数フィルタ: 基準=%s年以降 / "
+        "築年数フィルタ: "
+        "基準=%s / 条件内=%s件 / "
         "条件外=%s件 / 判定不能=%s件",
-        min_built_year,
+        min_month,
+        matched_count,
         excluded_count,
         unknown_count,
     )
@@ -678,6 +813,7 @@ def load_sources():
 
 
 def get_suumo_source_config():
+
     sources = load_sources()
 
     source_list = sources.get(
@@ -704,6 +840,7 @@ def get_suumo_source_config():
 
 
 def create_adapters():
+
     sources = load_sources()
 
     adapters = []
@@ -727,6 +864,7 @@ def create_adapters():
             and source.get("name")
             == "suumo_search"
         ):
+
             adapters.append(
                 SuumoSearchAdapter(
                     config=source,
@@ -738,6 +876,7 @@ def create_adapters():
 
 
 def create_detail_adapter():
+
     source_config = (
         get_suumo_source_config()
     )
@@ -751,6 +890,7 @@ def create_detail_adapter():
 def get_detail_fetch_limit(
     search_config
 ):
+
     source_config = (
         get_suumo_source_config()
     )
@@ -762,6 +902,7 @@ def get_detail_fetch_limit(
     )
 
     if configured_limit is None:
+
         configured_limit = (
             search_config.get(
                 "detailFetchLimit",
@@ -770,6 +911,7 @@ def get_detail_fetch_limit(
         )
 
     try:
+
         limit = int(
             configured_limit
         )
@@ -778,9 +920,13 @@ def get_detail_fetch_limit(
         TypeError,
         ValueError
     ):
+
         limit = DEFAULT_DETAIL_FETCH_LIMIT
 
-    return max(0, limit)
+    return max(
+        0,
+        limit
+    )
 
 
 # ============================================================
@@ -788,6 +934,7 @@ def get_detail_fetch_limit(
 # ============================================================
 
 def normalize_url(url):
+
     if not url:
         return ""
 
@@ -800,6 +947,7 @@ def normalize_url(url):
 
 
 def create_property_id(url):
+
     normalized_url = normalize_url(
         url
     )
@@ -822,7 +970,11 @@ def normalize_property(
     item,
     collected_at
 ):
-    if not isinstance(item, dict):
+
+    if not isinstance(
+        item,
+        dict
+    ):
         return None
 
     url = item.get(
@@ -849,22 +1001,28 @@ def normalize_property(
 
     return {
         "id": property_id,
+
         "source": item.get(
             "source",
             "suumo"
         ),
+
         "sourceUrl": url,
+
         "searchArea": item.get(
             "searchArea"
         ),
+
         "searchPropertyType": item.get(
             "searchPropertyType"
         ),
+
         "status": "discovered",
 
         "detailFetched": False,
         "detailFetchedAt": None,
         "lastSuccessfulDetailFetchedAt": None,
+
         "detailDataStale": False,
         "detailNeedsRefresh": True,
 
@@ -885,6 +1043,7 @@ def normalize_property(
         "collectedAt": collected_at,
 
         "lastSearchPrice": parsed_search_price,
+
         "lastSearchPriceText": (
             clean_text(raw_price)
             if raw_price
@@ -896,6 +1055,7 @@ def normalize_property(
         "lastSuccessfulDetailPrice": None,
 
         "price": parsed_search_price,
+
         "priceText": (
             clean_text(raw_price)
             if raw_price
@@ -924,7 +1084,6 @@ def normalize_property(
         "detail": {},
         "lastSuccessfulDetail": {},
 
-        # 検索条件判定
         "searchCriteriaMatched": None,
         "searchCriteriaMismatchReason": None,
         "searchCriteria": {},
@@ -932,7 +1091,7 @@ def normalize_property(
 
 
 # ============================================================
-# 詳細データの品質判定 & 正規化
+# 詳細データ品質判定
 # ============================================================
 
 def validate_detail_data(detail):
@@ -940,6 +1099,7 @@ def validate_detail_data(detail):
     warnings = []
 
     if not isinstance(detail, dict):
+
         return [
             "detailが辞書形式ではありません"
         ]
@@ -949,6 +1109,7 @@ def validate_detail_data(detail):
     )
 
     if not address:
+
         warnings.append(
             "住所が取得できていません"
         )
@@ -956,16 +1117,21 @@ def validate_detail_data(detail):
     elif is_suspicious_address(
         address
     ):
+
         warnings.append(
             "住所が仲介会社住所または不正値の可能性があります"
         )
 
-    construction_month = detail.get(
-        "constructionMonth"
+    construction_month = (
+        detail.get(
+            "constructionMonth"
+        )
     )
 
-    build_year = detail.get(
-        "buildYear"
+    build_year = (
+        detail.get(
+            "buildYear"
+        )
     )
 
     if construction_month:
@@ -973,6 +1139,7 @@ def validate_detail_data(detail):
         if not is_valid_year_month(
             str(construction_month)
         ):
+
             warnings.append(
                 "constructionMonthがYYYY-MM形式ではありません"
             )
@@ -987,11 +1154,13 @@ def validate_detail_data(detail):
             r"\d{4}年\d{1,2}月",
             build_year_text
         ):
+
             warnings.append(
                 "築年月の形式を確認できません"
             )
 
     else:
+
         warnings.append(
             "築年月が取得できていません"
         )
@@ -1002,8 +1171,11 @@ def validate_detail_data(detail):
 
     if (
         station is not None
-        and is_suspicious_station(station)
+        and is_suspicious_station(
+            station
+        )
     ):
+
         warnings.append(
             "駅名が不正値の可能性があります"
         )
@@ -1014,6 +1186,7 @@ def validate_detail_data(detail):
     )
 
     if price is None:
+
         warnings.append(
             "価格が取得できていません"
         )
@@ -1024,6 +1197,7 @@ def validate_detail_data(detail):
     )
 
     if land_area is None:
+
         warnings.append(
             "土地面積が取得できていません"
         )
@@ -1034,6 +1208,7 @@ def validate_detail_data(detail):
     )
 
     if building_area is None:
+
         warnings.append(
             "建物面積が取得できていません"
         )
@@ -1043,6 +1218,7 @@ def validate_detail_data(detail):
     for warning in warnings:
 
         if warning not in unique_warnings:
+
             unique_warnings.append(
                 warning
             )
@@ -1054,10 +1230,12 @@ def determine_detail_quality(
     detail,
     detail_fetched=True
 ):
+
     if (
         not detail_fetched
         or not isinstance(detail, dict)
     ):
+
         return (
             "unknown",
             None,
@@ -1066,13 +1244,16 @@ def determine_detail_quality(
         )
 
     critical_fields = {
+
         "price": (
             detail.get("price")
             or detail.get("priceText")
         ),
-        "address": detail.get(
-            "address"
+
+        "address": (
+            detail.get("address")
         ),
+
         "constructionMonth": (
             detail.get(
                 "constructionMonth"
@@ -1084,6 +1265,7 @@ def determine_detail_quality(
     }
 
     important_fields = {
+
         "landAreaM2": (
             detail.get(
                 "landAreaM2"
@@ -1092,6 +1274,7 @@ def determine_detail_quality(
                 "landArea"
             )
         ),
+
         "buildingAreaM2": (
             detail.get(
                 "buildingAreaM2"
@@ -1100,9 +1283,11 @@ def determine_detail_quality(
                 "buildingArea"
             )
         ),
+
         "layout": detail.get(
             "layout"
         ),
+
         "station": detail.get(
             "station"
         ),
@@ -1153,15 +1338,18 @@ def determine_detail_quality(
         missing_critical
         or has_critical_warning
     ):
+
         quality = "poor"
 
     elif (
         missing_important
         or warnings
     ):
+
         quality = "partial"
 
     else:
+
         quality = "good"
 
     score = {
@@ -1181,9 +1369,16 @@ def determine_detail_quality(
     )
 
 
+# ============================================================
+# 詳細データ正規化
+# ============================================================
+
 def normalize_detail(detail):
 
-    if not isinstance(detail, dict):
+    if not isinstance(
+        detail,
+        dict
+    ):
         return {}
 
     normalized = detail.copy()
@@ -1202,6 +1397,7 @@ def normalize_detail(detail):
     )
 
     if normalized_land_area is not None:
+
         normalized[
             "landAreaM2"
         ] = normalized_land_area
@@ -1222,11 +1418,13 @@ def normalize_detail(detail):
         )
         and land_text not in INVALID_VALUES
     ):
+
         normalized[
             "landAreaText"
         ] = land_text
 
     elif normalized_land_area is not None:
+
         normalized[
             "landAreaText"
         ] = (
@@ -1251,6 +1449,7 @@ def normalize_detail(detail):
     )
 
     if normalized_building_area is not None:
+
         normalized[
             "buildingAreaM2"
         ] = normalized_building_area
@@ -1271,11 +1470,13 @@ def normalize_detail(detail):
         )
         and bld_text not in INVALID_VALUES
     ):
+
         normalized[
             "buildingAreaText"
         ] = bld_text
 
     elif normalized_building_area is not None:
+
         normalized[
             "buildingAreaText"
         ] = (
@@ -1306,6 +1507,7 @@ def normalize_detail(detail):
     )
 
     if normalized_price is not None:
+
         normalized[
             "price"
         ] = normalized_price
@@ -1314,79 +1516,23 @@ def normalize_detail(detail):
     # 築年月
     # --------------------------------------------------------
 
-    construction_month = normalized.get(
-        "constructionMonth"
+    construction_month = (
+        get_construction_month(
+            normalized
+        )
     )
 
     if construction_month:
 
-        construction_month_text = clean_text(
-            construction_month
-        )
+        normalized[
+            "constructionMonth"
+        ] = construction_month
 
-        if not is_valid_year_month(
-            construction_month_text
-        ):
-
-            year_month_match = re.search(
-                r"((?:19|20)\d{2})年(\d{1,2})月",
-                construction_month_text
-            )
-
-            if year_month_match:
-
-                year = (
-                    year_month_match.group(1)
-                )
-
-                month = int(
-                    year_month_match.group(2)
-                )
-
-                normalized[
-                    "constructionMonth"
-                ] = (
-                    f"{year}-{month:02d}"
-                )
-
-    if not normalized.get(
-        "constructionMonth"
-    ):
-
-        build_year = normalized.get(
+        normalized[
             "buildYear"
+        ] = safe_int(
+            construction_month[:4]
         )
-
-        if build_year:
-
-            build_year_text = clean_text(
-                build_year
-            )
-
-            year_month_match = re.search(
-                r"((?:19|20)\d{2})年(\d{1,2})月",
-                build_year_text
-            )
-
-            if year_month_match:
-
-                year = (
-                    year_month_match.group(1)
-                )
-
-                month = int(
-                    year_month_match.group(2)
-                )
-
-                normalized[
-                    "constructionMonth"
-                ] = (
-                    f"{year}-{month:02d}"
-                )
-
-                normalized[
-                    "constructionText"
-                ] = build_year_text
 
     # --------------------------------------------------------
     # 駅情報
@@ -1401,6 +1547,7 @@ def normalize_detail(detail):
         )
 
         if station:
+
             normalized[
                 "station"
             ] = clean_text(
@@ -1413,6 +1560,7 @@ def normalize_detail(detail):
             normalized.get("station")
         )
     ):
+
         normalized[
             "station"
         ] = None
@@ -1426,6 +1574,7 @@ def normalize_detail(detail):
         )
 
         if walking_minutes is not None:
+
             normalized[
                 "stationWalkMinutes"
             ] = safe_int(
@@ -1436,11 +1585,14 @@ def normalize_detail(detail):
         "walkMinutes"
     ) is None:
 
-        station_walk_minutes = normalized.get(
-            "stationWalkMinutes"
+        station_walk_minutes = (
+            normalized.get(
+                "stationWalkMinutes"
+            )
         )
 
         if station_walk_minutes is not None:
+
             normalized[
                 "walkMinutes"
             ] = safe_int(
@@ -1552,7 +1704,7 @@ def normalize_detail(detail):
 
 
 # ============================================================
-# 状態判定 & フラグ更新
+# 状態判定
 # ============================================================
 
 def has_usable_detail(
@@ -1655,6 +1807,7 @@ def update_price_mismatch_and_refresh_flags(
         search_price is not None
         and detail_price is not None
     ):
+
         property_data[
             "searchDetailPriceMismatch"
         ] = (
@@ -1663,12 +1816,15 @@ def update_price_mismatch_and_refresh_flags(
         )
 
     else:
+
         property_data[
             "searchDetailPriceMismatch"
         ] = False
 
-    parser_version = property_data.get(
-        "detailParserVersion"
+    parser_version = (
+        property_data.get(
+            "detailParserVersion"
+        )
     )
 
     is_parser_outdated = (
@@ -1698,7 +1854,7 @@ def update_price_mismatch_and_refresh_flags(
 
 
 # ============================================================
-# 既存物件の読み込み
+# 既存物件読み込み
 # ============================================================
 
 def load_existing_properties():
@@ -1754,67 +1910,45 @@ def load_existing_properties():
         if not property_id:
             continue
 
-        property_data["id"] = property_id
+        property_data[
+            "id"
+        ] = property_id
 
-        property_data.setdefault(
-            "detailFetched",
-            False
-        )
+        defaults = {
+            "detailFetched": False,
+            "detailFetchedAt": None,
+            "lastSuccessfulDetailFetchedAt": None,
+            "detailDataStale": False,
+            "detailNeedsRefresh": True,
+            "searchDetailPriceMismatch": False,
+            "detailFetchError": None,
+            "detailFetchBlocked": False,
+            "detailFetchBlockReason": None,
+            "fetchAttemptCount": 0,
+            "lastFetchAttemptAt": None,
+            "lastFetchParserVersion": None,
+            "priceChanged": False,
+            "detailPrice": None,
+            "detailPriceText": None,
+            "lastSuccessfulDetailPrice": None,
+            "priceHistory": [],
+            "detailParserVersion": None,
+            "detailQuality": "unknown",
+            "detailQualityScore": None,
+            "missingFields": [],
+            "validationWarnings": [],
+            "extractionQuality": {},
+            "searchCriteriaMatched": None,
+            "searchCriteriaMismatchReason": None,
+            "searchCriteria": {},
+        }
 
-        property_data.setdefault(
-            "detailFetchedAt",
-            None
-        )
+        for key, default_value in defaults.items():
 
-        property_data.setdefault(
-            "lastSuccessfulDetailFetchedAt",
-            None
-        )
-
-        property_data.setdefault(
-            "detailDataStale",
-            False
-        )
-
-        property_data.setdefault(
-            "searchDetailPriceMismatch",
-            False
-        )
-
-        property_data.setdefault(
-            "detailFetchError",
-            None
-        )
-
-        property_data.setdefault(
-            "detailFetchBlocked",
-            False
-        )
-
-        property_data.setdefault(
-            "detailFetchBlockReason",
-            None
-        )
-
-        property_data.setdefault(
-            "fetchAttemptCount",
-            0
-        )
-
-        property_data.setdefault(
-            "lastFetchAttemptAt",
-            None
-        )
-
-        property_data.setdefault(
-            "lastFetchParserVersion",
-            None
-        )
-
-        property_data.setdefault(
-            "priceChanged",
-            False
-        )
+            property_data.setdefault(
+                key,
+                default_value
+            )
 
         property_data.setdefault(
             "lastSearchPrice",
@@ -1835,21 +1969,6 @@ def load_existing_properties():
         )
 
         property_data.setdefault(
-            "detailPrice",
-            None
-        )
-
-        property_data.setdefault(
-            "detailPriceText",
-            None
-        )
-
-        property_data.setdefault(
-            "lastSuccessfulDetailPrice",
-            None
-        )
-
-        property_data.setdefault(
             "price",
             parse_price(
                 property_data.get(
@@ -1867,62 +1986,13 @@ def load_existing_properties():
             )
         )
 
-        property_data.setdefault(
-            "priceHistory",
-            []
-        )
-
-        property_data.setdefault(
-            "detailParserVersion",
-            None
-        )
-
-        property_data.setdefault(
-            "detailQuality",
-            "unknown"
-        )
-
-        property_data.setdefault(
-            "detailQualityScore",
-            None
-        )
-
-        property_data.setdefault(
-            "missingFields",
-            []
-        )
-
-        property_data.setdefault(
-            "validationWarnings",
-            []
-        )
-
-        property_data.setdefault(
-            "extractionQuality",
-            {}
-        )
-
-        property_data.setdefault(
-            "searchCriteriaMatched",
-            None
-        )
-
-        property_data.setdefault(
-            "searchCriteriaMismatchReason",
-            None
-        )
-
-        property_data.setdefault(
-            "searchCriteria",
-            {}
-        )
-
         if not isinstance(
             property_data.get(
                 "detail"
             ),
             dict
         ):
+
             property_data[
                 "detail"
             ] = {}
@@ -1933,6 +2003,7 @@ def load_existing_properties():
             ),
             dict
         ):
+
             property_data[
                 "lastSuccessfulDetail"
             ] = property_data[
@@ -1945,6 +2016,7 @@ def load_existing_properties():
             ),
             list
         ):
+
             property_data[
                 "priceHistory"
             ] = []
@@ -1978,6 +2050,7 @@ def merge_property(
     if current.get(
         "sourceUrl"
     ):
+
         merged[
             "sourceUrl"
         ] = current[
@@ -1987,6 +2060,7 @@ def merge_property(
     if current.get(
         "source"
     ):
+
         merged[
             "source"
         ] = current[
@@ -1996,6 +2070,7 @@ def merge_property(
     if current.get(
         "searchArea"
     ):
+
         merged[
             "searchArea"
         ] = current[
@@ -2005,6 +2080,7 @@ def merge_property(
     if current.get(
         "searchPropertyType"
     ):
+
         merged[
             "searchPropertyType"
         ] = current[
@@ -2036,8 +2112,7 @@ def merge_property(
         )
 
         if (
-            existing_search_price
-            is not None
+            existing_search_price is not None
             and current_search_price
             != existing_search_price
         ):
@@ -2068,6 +2143,7 @@ def merge_property(
     if not merged.get(
         "firstSeenAt"
     ):
+
         merged[
             "firstSeenAt"
         ] = current.get(
@@ -2100,6 +2176,7 @@ def merge_properties(
         existing_properties,
         dict
     ):
+
         existing_properties = {}
 
     merged_properties = (
@@ -2110,6 +2187,7 @@ def merge_properties(
         current_properties,
         dict
     ):
+
         property_items = (
             current_properties.values()
         )
@@ -2118,9 +2196,11 @@ def merge_properties(
         current_properties,
         list
     ):
+
         property_items = current_properties
 
     else:
+
         logger.warning(
             "物件データの形式が不正です"
         )
@@ -2179,6 +2259,7 @@ def apply_detail_to_property(
         detail_result,
         dict
     ):
+
         detail_result = {
             "success": False,
             "error": (
@@ -2214,6 +2295,7 @@ def apply_detail_to_property(
             raw_detail,
             dict
         ):
+
             raw_detail = {}
 
         normalized_detail = normalize_detail(
@@ -2338,6 +2420,7 @@ def apply_detail_to_property(
         if property_data.get(
             "lastSuccessfulDetail"
         ):
+
             property_data[
                 "detail"
             ] = property_data[
@@ -2345,6 +2428,7 @@ def apply_detail_to_property(
             ]
 
         else:
+
             property_data[
                 "detail"
             ] = {}
@@ -2447,6 +2531,7 @@ def fetch_details(
         if should_fetch_detail(
             property_data
         ):
+
             candidates.append(
                 (
                     property_id,
@@ -2716,6 +2801,12 @@ def build_output(
         "poor": 0,
     }
 
+    criteria_counts = {
+        "matched": 0,
+        "excluded": 0,
+        "unknown": 0,
+    }
+
     for item in property_list:
 
         quality = item.get(
@@ -2745,10 +2836,33 @@ def build_output(
                     quality
                 ] += 1
 
+        criteria_result = item.get(
+            "searchCriteriaMatched"
+        )
+
+        if criteria_result is True:
+
+            criteria_counts[
+                "matched"
+            ] += 1
+
+        elif criteria_result is False:
+
+            criteria_counts[
+                "excluded"
+            ] += 1
+
+        else:
+
+            criteria_counts[
+                "unknown"
+            ] += 1
+
     return {
         "updatedAt": collected_at,
 
         "summary": {
+
             "discoveredCount": len(
                 property_list
             ),
@@ -2769,6 +2883,10 @@ def build_output(
                     quality_counts_fetched
                 ),
             },
+
+            "searchCriteriaCounts": (
+                criteria_counts
+            ),
         },
 
         "properties": property_list,
@@ -2839,6 +2957,7 @@ def main():
             )
 
             if normalized is not None:
+
                 current_properties.append(
                     normalized
                 )
@@ -2862,6 +2981,7 @@ def main():
         )
 
         if property_id:
+
             current_unique[
                 property_id
             ] = property_data
@@ -2918,7 +3038,10 @@ def main():
         )
 
     # --------------------------------------------------------
-    # 7. 築年数などの検索条件を適用
+    # 7. 検索条件を適用
+    #
+    # 現在は築年数条件を実適用。
+    # 条件外でも discovered_listings には残す。
     # --------------------------------------------------------
 
     merged_properties = apply_search_criteria(
@@ -2950,7 +3073,9 @@ def main():
     # --------------------------------------------------------
     # 9. houses.json
     #
-    # 詳細取得済み ＋ 検索条件内を表示対象とする。
+    # 詳細取得済み
+    # ＋検索条件内
+    # を表示対象とする。
     # --------------------------------------------------------
 
     houses_output = build_output(
@@ -2971,8 +3096,8 @@ def main():
     # 10. 実行ログ
     # --------------------------------------------------------
 
-    min_built_year = (
-        get_min_built_year(
+    min_month = (
+        get_min_construction_month(
             search_config
         )
     )
@@ -2989,7 +3114,7 @@ def main():
     )
 
     logger.info(
-        "詳細取得済み総数 "
+        "表示対象物件数 "
         "(houses.json): %s",
         houses_output[
             "summary"
@@ -3022,9 +3147,9 @@ def main():
     )
 
     logger.info(
-        "築年数条件: %s年以降",
-        min_built_year
-        if min_built_year is not None
+        "築年数条件: %s以降",
+        min_month
+        if min_month is not None
         else "指定なし"
     )
 
