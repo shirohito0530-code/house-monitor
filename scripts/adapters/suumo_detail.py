@@ -2,6 +2,7 @@ import re
 import time
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -11,12 +12,22 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-22-v13"
+DETAIL_PARSER_VERSION = "2026-09-22-v14"
 
 
 # ============================================================
 # Constants
 # ============================================================
+
+SUUMO_HOSTS = {
+    "suumo.jp",
+    "www.suumo.jp",
+}
+
+SUUMO_LISTING_PREFIXES = (
+    "/chukoikkodate/",
+    "/ikkodate/",
+)
 
 INVALID_VALUES = {
     "",
@@ -153,6 +164,124 @@ def clean_suumo_value(
         return None
 
     return text
+
+
+# ============================================================
+# URL
+# ============================================================
+
+def normalize_suumo_url(
+    url: Any,
+) -> Optional[str]:
+
+    """
+    SUUMO物件URLをcanonical URLへ正規化する。
+
+    許可:
+      https://suumo.jp/...
+      https://www.suumo.jp/...
+      http://suumo.jp/...       -> httpsへ正規化
+      http://www.suumo.jp/...   -> httpsへ正規化
+
+    不許可:
+      他ドメイン
+      検索ページ
+      物件以外のページ
+      nc_XXXXXXXX を含まないURL
+    """
+
+    if not url:
+        return None
+
+    text = str(url).strip()
+
+    if not text:
+        return None
+
+    # protocol-relative URL
+    if text.startswith("//"):
+        text = "https:" + text
+
+    # 相対URL
+    elif text.startswith("/"):
+        text = "https://www.suumo.jp" + text
+
+    try:
+        parsed = urlparse(text)
+    except Exception:
+        return None
+
+    scheme = (
+        parsed.scheme or ""
+    ).lower()
+
+    hostname = (
+        parsed.hostname or ""
+    ).lower()
+
+    if hostname == "www.suumo.jp":
+        canonical_host = "www.suumo.jp"
+    elif hostname == "suumo.jp":
+        canonical_host = "www.suumo.jp"
+    else:
+        return None
+
+    # HTTPでもSUUMOならHTTPSへ統一
+    if scheme not in {
+        "http",
+        "https",
+    }:
+        return None
+
+    path = (
+        parsed.path or ""
+    )
+
+    # path内の連続スラッシュのみ修正
+    path = re.sub(
+        r"/{2,}",
+        "/",
+        path,
+    )
+
+    path_lower = path.lower()
+
+    if not any(
+        path_lower.startswith(prefix)
+        for prefix in SUUMO_LISTING_PREFIXES
+    ):
+        return None
+
+    # nc_XXXXXXXX の個別物件ページのみ許可
+    if not re.search(
+        r"/nc_\d+/?$",
+        path_lower,
+    ):
+        return None
+
+    path = path.rstrip("/") + "/"
+
+    # query / fragmentはcanonical URLには含めない
+    return urlunparse(
+        (
+            "https",
+            canonical_host,
+            path,
+            "",
+            "",
+            "",
+        )
+    )
+
+
+def is_valid_suumo_url(
+    url: str,
+) -> bool:
+
+    return (
+        normalize_suumo_url(url)
+        is not None
+    )
 
 
 # ============================================================
@@ -323,18 +452,6 @@ def parse_year_month(
     Optional[str],
     Optional[str],
 ]:
-
-    """
-    対応例:
-
-      2020年3月
-      2020 年 3 月
-      2020/03
-      2020-03
-      2020年
-      令和2年3月
-      平成30年4月
-    """
 
     text = clean_text(value)
 
@@ -576,59 +693,6 @@ def calculate_construction_age_years(
     return round(
         months / 12,
         2,
-    )
-
-
-# ============================================================
-# URL validation
-# ============================================================
-
-def is_valid_suumo_url(
-    url: str,
-) -> bool:
-
-    if not url:
-        return False
-
-    try:
-
-        parsed = __import__(
-            "urllib.parse",
-            fromlist=["urlparse"],
-        ).urlparse(url)
-
-    except Exception:
-        return False
-
-    if parsed.scheme.lower() != "https":
-        return False
-
-    hostname = (
-        parsed.hostname or ""
-    ).lower()
-
-    if hostname != "suumo.jp":
-        return False
-
-    path = (
-        parsed.path or ""
-    ).lower()
-
-    valid_prefixes = (
-        "/chukoikkodate/",
-        "/ikkodate/",
-    )
-
-    if not path.startswith(
-        valid_prefixes
-    ):
-        return False
-
-    return bool(
-        re.search(
-            r"/nc_\d+/?$",
-            path,
-        )
     )
 
 
@@ -1182,14 +1246,12 @@ def normalize_address(
     if not address:
         return None
 
-    # UIノイズ
     address = re.sub(
         r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$",
         "",
         address,
     ).strip()
 
-    # 郵便番号を除去
     address = re.sub(
         r"〒\s*\d{3}-?\d{4}\s*",
         "",
@@ -1217,7 +1279,23 @@ def extract_address(
 ) -> Optional[str]:
 
     # ========================================================
-    # 最優先: 「所在地」ラベル
+    # 最優先: 「物件所在地」
+    # ========================================================
+
+    for label, value in pairs.items():
+
+        if "物件所在地" not in label:
+            continue
+
+        address = normalize_address(
+            value
+        )
+
+        if address:
+            return address
+
+    # ========================================================
+    # 次点: 「所在地」
     # ========================================================
 
     for label, value in pairs.items():
@@ -1244,22 +1322,6 @@ def extract_address(
             return address
 
     # ========================================================
-    # 「物件所在地」
-    # ========================================================
-
-    for label, value in pairs.items():
-
-        if "物件所在地" not in label:
-            continue
-
-        address = normalize_address(
-            value
-        )
-
-        if address:
-            return address
-
-    # ========================================================
     # page text
     # ========================================================
 
@@ -1268,7 +1330,7 @@ def extract_address(
         rf"(?:物件所在地|所在地)"
         rf"\s*[:：]?\s*"
         rf"({PREFECTURES_PATTERN}"
-        rf"[^。\[［\]\]{{2,100}})",
+        rf"[^。\[［\]\n]{{2,100}})",
 
         rf"({PREFECTURES_PATTERN}"
         rf"[^。\[［\]\n]{{2,100}})"
@@ -1298,7 +1360,6 @@ def extract_address(
 
     for block in blocks:
 
-        # 会社情報等は明示的に除外
         if any(
             keyword in block
             for keyword in [
@@ -1428,8 +1489,7 @@ def extract_construction(
 
         if not any(
             keyword in label
-            for keyword
-            in construction_keywords
+            for keyword in construction_keywords
         ):
             continue
 
@@ -2139,26 +2199,89 @@ def evaluate_detail_quality(
 
 
 # ============================================================
+# HTTP error classification
+# ============================================================
+
+def classify_http_error(
+    exc: Exception,
+) -> str:
+
+    if isinstance(
+        exc,
+        requests.Timeout,
+    ):
+        return "timeout"
+
+    if isinstance(
+        exc,
+        requests.ConnectionError,
+    ):
+        return "connection_error"
+
+    if isinstance(
+        exc,
+        requests.HTTPError,
+    ):
+
+        response = getattr(
+            exc,
+            "response",
+            None,
+        )
+
+        if response is not None:
+
+            status = response.status_code
+
+            if status == 404:
+                return "http_404"
+
+            if status in {
+                401,
+                403,
+            }:
+                return "http_forbidden"
+
+            if 500 <= status <= 599:
+                return "http_5xx"
+
+            return (
+                f"http_{status}"
+            )
+
+        return "http_error"
+
+    return "request_error"
+
+
+# ============================================================
 # Detail fetch
 # ============================================================
 
 def fetch_detail(
     url: str,
+    timeout: int = 20,
 ) -> Dict[str, Any]:
 
     # --------------------------------------------------------
-    # URL検証
+    # URL canonicalization
     # --------------------------------------------------------
 
-    if not is_valid_suumo_url(
-        url
-    ):
+    canonical_url = (
+        normalize_suumo_url(
+            url
+        )
+    )
+
+    if not canonical_url:
 
         return {
             "success": False,
             "fetchedAt": now_iso(),
             "detail": None,
             "error": "invalid_suumo_url",
+            "errorType": "invalid_suumo_url",
+            "sourceUrl": url,
         }
 
     headers = {
@@ -2182,15 +2305,38 @@ def fetch_detail(
     try:
 
         response = requests.get(
-            url,
+            canonical_url,
             headers=headers,
-            timeout=20,
+            timeout=timeout,
+            allow_redirects=True,
         )
 
         response.raise_for_status()
 
         # ----------------------------------------------------
-        # エンコーディング
+        # Redirect先確認
+        # ----------------------------------------------------
+
+        final_url = (
+            normalize_suumo_url(
+                response.url
+            )
+        )
+
+        if final_url is None:
+
+            return {
+                "success": False,
+                "fetchedAt": now_iso(),
+                "detail": None,
+                "error": "redirected_outside_suumo",
+                "errorType": "redirected_outside_suumo",
+                "sourceUrl": canonical_url,
+                "finalUrl": response.url,
+            }
+
+        # ----------------------------------------------------
+        # Encoding
         # ----------------------------------------------------
 
         if (
@@ -2209,11 +2355,19 @@ def fetch_detail(
 
     except requests.RequestException as exc:
 
+        error_type = (
+            classify_http_error(
+                exc
+            )
+        )
+
         return {
             "success": False,
             "fetchedAt": now_iso(),
             "detail": None,
             "error": str(exc),
+            "errorType": error_type,
+            "sourceUrl": canonical_url,
         }
 
     except Exception as exc:
@@ -2223,6 +2377,26 @@ def fetch_detail(
             "fetchedAt": now_iso(),
             "detail": None,
             "error": str(exc),
+            "errorType": "unexpected_error",
+            "sourceUrl": canonical_url,
+        }
+
+    # ========================================================
+    # Empty response detection
+    # ========================================================
+
+    html = response.text or ""
+
+    if len(html.strip()) < 500:
+
+        return {
+            "success": False,
+            "fetchedAt": now_iso(),
+            "detail": None,
+            "error": "empty_or_too_short_html",
+            "errorType": "empty_html",
+            "sourceUrl": canonical_url,
+            "finalUrl": final_url,
         }
 
     # ========================================================
@@ -2230,7 +2404,7 @@ def fetch_detail(
     # ========================================================
 
     raw_soup = BeautifulSoup(
-        response.text,
+        html,
         "html.parser",
     )
 
@@ -2437,8 +2611,6 @@ def fetch_detail(
 
         # ----------------------------------------------------
         # Address
-        #
-        # ★ main.pyのエリア判定の基準
         # ----------------------------------------------------
 
         "address":
@@ -2581,7 +2753,16 @@ def fetch_detail(
             fetched_at,
 
         "sourceUrl":
-            url,
+            canonical_url,
+
+        "finalUrl":
+            final_url,
+
+        "httpStatus":
+            response.status_code,
+
+        "htmlLength":
+            len(html),
     }
 
     # ========================================================
@@ -2599,6 +2780,9 @@ def fetch_detail(
         "fetchedAt": fetched_at,
         "detail": detail,
         "error": None,
+        "errorType": None,
+        "sourceUrl": canonical_url,
+        "finalUrl": final_url,
     }
 
 
@@ -2658,5 +2842,6 @@ class SuumoDetailAdapter:
     ) -> Dict[str, Any]:
 
         return fetch_detail(
-            url
+            url,
+            timeout=self.timeout,
         )
