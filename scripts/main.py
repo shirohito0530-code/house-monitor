@@ -1,2605 +1,1586 @@
-import hashlib
-import logging
+from __future__ import annotations
+
+import json
 import re
+import sys
+import time
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
-from storage import load_json, save_json
-from adapters.suumo_search import SuumoSearchAdapter
-from adapters.suumo_detail import SuumoDetailAdapter
+# ============================================================
+# Imports
+# ============================================================
+
+try:
+    from adapters.suumo_search import SuumoSearchAdapter
+    from adapters.suumo_detail import SuumoDetailAdapter
+except ImportError:
+    from suumo_search import SuumoSearchAdapter
+    from suumo_detail import SuumoDetailAdapter
 
 
 # ============================================================
-# 基本設定
+# Constants
 # ============================================================
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parent
+
+CONFIG_DIR = ROOT / "config"
+DATA_DIR = ROOT / "data"
+
+SEARCH_CONFIG_PATH = CONFIG_DIR / "search.json"
+SEARCH_URLS_PATH = CONFIG_DIR / "search_urls.json"
+
+DISCOVERED_PATH = DATA_DIR / "discovered_listings.json"
+HOUSES_PATH = DATA_DIR / "houses.json"
 
 DEFAULT_DETAIL_FETCH_LIMIT = 5
 MAX_DETAIL_FETCH_ATTEMPTS = 3
 
-DETAIL_PARSER_VERSION = "2026-09-22-v13"
-
-logger = logging.getLogger(__name__)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
-)
+MAIN_PARSER_VERSION = "2026-09-22-v13"
 
 
-INVALID_VALUES = {
-    "",
-    "-",
-    "ー",
-    "－",
-    "―",
-    "なし",
-    "ヒント",
-    "詳細を見る",
-    "地図を見る",
-    "周辺環境",
-    "支払シミュレーション",
-    "お問い合わせ",
-    "資料請求",
-    "確認",
+# ============================================================
+# Target area rules
+# ============================================================
+#
+# IMPORTANT
+# ------------------------------------------------------------
+# searchArea:
+#   「どのSUUMO検索条件から見つかったか」
+#
+# areaDetected:
+#   「詳細ページの実住所から判定した実際の対象エリア」
+#
+# この2つは絶対に混同しない。
+#
+# ============================================================
+
+AREA_RULES = {
+    "柏の葉キャンパス": {
+        "cities": [
+            "柏市",
+        ],
+        "address_patterns": [
+            "柏の葉",
+            "若柴",
+            "正連寺",
+            "中十余二",
+            "十余二",
+        ],
+    },
+
+    "流山おおたかの森": {
+        "cities": [
+            "流山市",
+        ],
+        "address_patterns": [
+            "おおたかの森北",
+            "おおたかの森西",
+            "おおたかの森東",
+            "おおたかの森南",
+        ],
+    },
 }
 
 
-PROMOTIONAL_WORDS = [
-    "ヒント",
-    "詳細を見る",
-    "地図を見る",
-    "周辺環境",
-    "支払シミュレーション",
-    "お問い合わせ",
-    "資料請求",
-    "確認",
-    "おすすめ",
-    "無料相談",
-]
-
-
 # ============================================================
-# 共通ユーティリティ
+# Utility
 # ============================================================
 
-def now_iso():
-    return datetime.now(timezone.utc).isoformat()
+def now_iso() -> str:
+    return datetime.now(
+        timezone.utc
+    ).isoformat()
 
 
-def safe_timestamp(value):
-    if not value:
-        return 0
+def load_json(
+    path: Path,
+    default: Any,
+) -> Any:
+
+    if not path.exists():
+        return deepcopy(default)
 
     try:
-        return datetime.fromisoformat(
-            str(value).replace("Z", "+00:00")
-        ).timestamp()
-    except (TypeError, ValueError, OverflowError):
-        return 0
+        with path.open(
+            "r",
+            encoding="utf-8",
+        ) as f:
+            return json.load(f)
+
+    except Exception as exc:
+
+        print(
+            f"[WARN] JSON読み込み失敗: "
+            f"{path}: {exc}"
+        )
+
+        return deepcopy(default)
 
 
-def safe_int(value):
-    if value is None or isinstance(value, bool):
+def save_json(
+    path: Path,
+    data: Any,
+) -> None:
+
+    path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    temp_path = path.with_suffix(
+        path.suffix + ".tmp"
+    )
+
+    with temp_path.open(
+        "w",
+        encoding="utf-8",
+    ) as f:
+
+        json.dump(
+            data,
+            f,
+            ensure_ascii=False,
+            indent=2,
+        )
+
+    temp_path.replace(path)
+
+
+def clean_text(
+    value: Any,
+) -> Optional[str]:
+
+    if value is None:
         return None
 
-    if isinstance(value, int):
-        return value
+    text = re.sub(
+        r"\s+",
+        " ",
+        str(value),
+    ).strip()
 
-    if isinstance(value, float):
-        return int(value)
-
-    if isinstance(value, str):
-        text = value.strip().replace(",", "")
-        match = re.search(r"-?[0-9]+", text)
-
-        if match:
-            try:
-                return int(match.group(0))
-            except ValueError:
-                return None
-
-    return None
+    return text or None
 
 
-def parse_price(value):
-    if value is None or isinstance(value, bool):
+def to_number(
+    value: Any,
+) -> Optional[float]:
+
+    if value is None:
         return None
 
-    if isinstance(value, int):
-        return value if value > 0 else None
+    if isinstance(
+        value,
+        (int, float),
+    ):
+        return float(value)
 
-    if isinstance(value, float):
-        price = int(value)
-        return price if price > 0 else None
+    text = str(value)
 
     text = (
-        str(value)
-        .strip()
+        text
         .replace(",", "")
+        .replace("，", "")
         .replace(" ", "")
         .replace("　", "")
     )
 
-    if not text:
-        return None
-
     match = re.search(
-        r"(?:(\d+(?:\.\d+)?)\s*億)"
-        r"(?:\s*(\d+(?:\.\d+)?)\s*万)?"
-        r"(?:円)?",
+        r"-?\d+(?:\.\d+)?",
         text,
-    )
-
-    if match:
-        oku = float(match.group(1))
-        man = float(match.group(2) or 0)
-
-        price = int(
-            round(
-                oku * 100_000_000
-                + man * 10_000
-            )
-        )
-
-        return price if price > 0 else None
-
-    match = re.search(
-        r"(\d+(?:\.\d+)?)\s*万(?:円)?",
-        text
-    )
-
-    if match:
-        price = int(
-            round(
-                float(match.group(1)) * 10_000
-            )
-        )
-
-        return price if price > 0 else None
-
-    match = re.search(
-        r"(\d[\d\s]*)\s*円",
-        text
-    )
-
-    if match:
-        try:
-            price = int(
-                match.group(1).replace(" ", "")
-            )
-
-            return price if price > 0 else None
-
-        except ValueError:
-            return None
-
-    return None
-
-
-def parse_float(value):
-    if value is None or isinstance(value, bool):
-        return None
-
-    if isinstance(value, (int, float)):
-        number = float(value)
-        return number if number > 0 else None
-
-    text = (
-        str(value)
-        .replace(",", "")
-        .replace("　", " ")
-        .replace("m 2", "m2")
-        .replace("m²", "m2")
-        .replace("㎡", "m2")
-    )
-
-    match = re.search(
-        r"([0-9]+(?:\.[0-9]+)?)",
-        text
     )
 
     if not match:
         return None
 
     try:
-        number = float(match.group(1))
-        return number if number > 0 else None
+        return float(
+            match.group(0)
+        )
+
     except ValueError:
         return None
 
 
-def clean_text(value):
+def to_bool(
+    value: Any,
+) -> Optional[bool]:
+
+    if isinstance(value, bool):
+        return value
+
     if value is None:
-        return ""
-
-    return re.sub(
-        r"\s+",
-        " ",
-        str(value)
-    ).strip()
-
-
-def is_promotional_text(value):
-    text = clean_text(value)
-
-    if not text:
-        return True
-
-    return any(
-        word in text
-        for word in PROMOTIONAL_WORDS
-    )
-
-
-def is_valid_year_month(value):
-    if not isinstance(value, str):
-        return False
-
-    return bool(
-        re.fullmatch(
-            r"\d{4}-(0[1-9]|1[0-2])",
-            value.strip()
-        )
-    )
-
-
-def is_suspicious_station(value):
-    if value is None:
-        return True
-
-    text = clean_text(value)
-
-    if not text:
-        return True
-
-    suspicious_values = {
-        "徒",
-        "歩",
-        "徒歩",
-        "駅",
-        "ヒント",
-        "なし",
-        "null",
-        "none",
-    }
-
-    if (
-        text.lower() in suspicious_values
-        or len(text) > 15
-    ):
-        return True
-
-    promotional_words = [
-        "見学",
-        "お迎え",
-        "提案",
-        "案内",
-        "ローン",
-        "頭金",
-        "月々",
-        "物件",
-    ]
-
-    return any(
-        word in text
-        for word in promotional_words
-    )
-
-
-def is_suspicious_address(value):
-    if value is None:
-        return True
-
-    text = clean_text(value)
-
-    if not text:
-        return True
-
-    suspicious_words = [
-        "不動産",
-        "株式会社",
-        "有限会社",
-        "支店",
-        "営業所",
-        "店舗",
-        "センター",
-        "アスライク",
-        "免許番号",
-    ]
-
-    return any(
-        word in text
-        for word in suspicious_words
-    )
-
-
-def normalize_warning_list(value):
-    if not isinstance(value, list):
-        return []
-
-    result = []
-
-    for item in value:
-        text = clean_text(item)
-
-        if text and text not in result:
-            result.append(text)
-
-    return result
-
-
-def normalize_string_list(value):
-    if not isinstance(value, list):
-        return []
-
-    result = []
-
-    for item in value:
-        if item is None:
-            continue
-
-        text = clean_text(item)
-
-        if text and text not in result:
-            result.append(text)
-
-    return result
-
-
-# ============================================================
-# 築年数判定
-# ============================================================
-
-def get_construction_month(detail):
-    """
-    詳細情報から築年月 YYYY-MM を取得する。
-
-    優先順位:
-    1. constructionMonth
-    2. buildYear
-    """
-
-    if not isinstance(detail, dict):
         return None
 
-    candidates = [
-        detail.get("constructionMonth"),
-        detail.get("buildYear"),
-    ]
+    text = str(value).strip().lower()
 
-    for value in candidates:
+    if text in {
+        "true",
+        "1",
+        "yes",
+        "y",
+        "はい",
+        "有",
+        "あり",
+    }:
+        return True
 
-        text = clean_text(value)
-
-        if not text:
-            continue
-
-        # 既に YYYY-MM
-        match = re.search(
-            r"((?:19|20)\d{2})-(0[1-9]|1[0-2])",
-            text
-        )
-
-        if match:
-            return (
-                f"{match.group(1)}-"
-                f"{match.group(2)}"
-            )
-
-        # YYYY年MM月
-        match = re.search(
-            r"((?:19|20)\d{2})年"
-            r"(1[0-2]|0?[1-9])月",
-            text
-        )
-
-        if match:
-            return (
-                f"{match.group(1)}-"
-                f"{int(match.group(2)):02d}"
-            )
-
-        # 年だけ
-        match = re.search(
-            r"((?:19|20)\d{2})年?",
-            text
-        )
-
-        if match:
-            return (
-                f"{match.group(1)}-01"
-            )
+    if text in {
+        "false",
+        "0",
+        "no",
+        "n",
+        "いいえ",
+        "無",
+        "なし",
+    }:
+        return False
 
     return None
 
 
-def get_build_year(detail):
-    construction_month = get_construction_month(
-        detail
-    )
-
-    if not construction_month:
-        return None
-
-    return safe_int(
-        construction_month[:4]
-    )
-
-
-def get_min_built_year(search_config):
-    """
-    最低建築年を取得する。
-
-    優先順位:
-        minBuiltYear
-        maxBuiltAgeYears
-
-    例:
-        2026年 + maxBuiltAgeYears=20
-        → 2006年
-    """
-
-    if not isinstance(search_config, dict):
-        return None
-
-    explicit_year = safe_int(
-        search_config.get("minBuiltYear")
-    )
-
-    if explicit_year is not None:
-        return explicit_year
-
-    max_age = safe_int(
-        search_config.get("maxBuiltAgeYears")
-    )
-
-    if max_age is None or max_age < 0:
-        return None
-
-    current_year = datetime.now(
-        timezone.utc
-    ).year
-
-    return current_year - max_age
-
-
-def get_min_construction_month(
-    search_config
-):
-    """
-    築年数条件を年月ベースで判定するための
-    最低築年月を YYYY-MM で返す。
-
-    minBuiltYear が指定されている場合:
-        YYYY-01
-
-    maxBuiltAgeYears が指定されている場合:
-        現在年月から指定年数を引いた年月
-
-    例:
-        2026-09
-        maxBuiltAgeYears=20
-
-        → 2006-09
-    """
-
-    if not isinstance(search_config, dict):
-        return None
-
-    explicit_year = safe_int(
-        search_config.get("minBuiltYear")
-    )
-
-    if explicit_year is not None:
-        return f"{explicit_year:04d}-01"
-
-    max_age = safe_int(
-        search_config.get("maxBuiltAgeYears")
-    )
-
-    if max_age is None or max_age < 0:
-        return None
-
-    now = datetime.now(timezone.utc)
-
-    try:
-        year = now.year - max_age
-        month = now.month
-
-        return f"{year:04d}-{month:02d}"
-
-    except Exception:
-        return None
-
-
-def evaluate_built_year(
-    property_data,
-    search_config
-):
-    """
-    築年月条件への適合状況を返す。
-
-    True:
-        条件内
-
-    False:
-        条件外
-
-    None:
-        築年月を取得できず判定不能
-    """
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return None
-
-    min_month = get_min_construction_month(
-        search_config
-    )
-
-    if min_month is None:
-        return True
-
-    detail = property_data.get(
-        "detail"
-    )
-
-    construction_month = get_construction_month(
-        detail
-    )
-
-    if construction_month is None:
-        return None
-
-    return construction_month >= min_month
-
-
 # ============================================================
-# 検索条件判定
+# Config
 # ============================================================
 
-def apply_search_criteria(
-    properties,
-    search_config
-):
-    """
-    詳細情報取得後に検索条件を適用する。
+def load_search_config() -> Dict[str, Any]:
 
-    現在実装:
-        - 築年数
-
-    今後追加予定:
-        - 価格
-        - 土地面積
-        - 建物面積
-        - 駅徒歩
-        - 平坦地
-        - 擁壁
-    """
-
-    if not isinstance(
-        properties,
-        dict
-    ):
-        return properties
-
-    min_month = get_min_construction_month(
-        search_config
-    )
-
-    if min_month is None:
-        logger.info(
-            "築年数条件: 指定なし"
-        )
-
-        return properties
-
-    matched_count = 0
-    excluded_count = 0
-    unknown_count = 0
-
-    for property_data in properties.values():
-
-        if not isinstance(
-            property_data,
-            dict
-        ):
-            continue
-
-        result = evaluate_built_year(
-            property_data,
-            search_config
-        )
-
-        construction_month = get_construction_month(
-            property_data.get("detail")
-        )
-
-        if result is True:
-
-            property_data[
-                "searchCriteriaMatched"
-            ] = True
-
-            property_data[
-                "searchCriteriaMismatchReason"
-            ] = None
-
-            property_data[
-                "searchCriteria"
-            ] = {
-                "minConstructionMonth": min_month,
-                "constructionMonth": construction_month,
-            }
-
-            matched_count += 1
-
-        elif result is False:
-
-            property_data[
-                "searchCriteriaMatched"
-            ] = False
-
-            property_data[
-                "searchCriteria"
-            ] = {
-                "minConstructionMonth": min_month,
-                "constructionMonth": construction_month,
-            }
-
-            property_data[
-                "searchCriteriaMismatchReason"
-            ] = (
-                f"築年数条件外: "
-                f"{construction_month} "
-                f"< {min_month}"
-            )
-
-            excluded_count += 1
-
-        else:
-
-            property_data[
-                "searchCriteriaMatched"
-            ] = None
-
-            property_data[
-                "searchCriteria"
-            ] = {
-                "minConstructionMonth": min_month,
-                "constructionMonth": None,
-            }
-
-            property_data[
-                "searchCriteriaMismatchReason"
-            ] = (
-                "築年月を取得できないため"
-                "築年数条件を判定できません"
-            )
-
-            unknown_count += 1
-
-    logger.info(
-        "築年数フィルタ: "
-        "基準=%s / 条件内=%s件 / "
-        "条件外=%s件 / 判定不能=%s件",
-        min_month,
-        matched_count,
-        excluded_count,
-        unknown_count,
-    )
-
-    return properties
-
-
-# ============================================================
-# 価格履歴
-# ============================================================
-
-def normalize_price_history(
-    history,
-    current_price,
-    recorded_at,
-    source="detail"
-):
-    if not isinstance(history, list):
-        history = []
-
-    normalized = []
-
-    for item in history:
-
-        if not isinstance(item, dict):
-            continue
-
-        price = parse_price(
-            item.get("price")
-        )
-
-        if price is None:
-            continue
-
-        recorded_time = (
-            item.get("recordedAt")
-            or recorded_at
-        )
-
-        item_source = (
-            item.get("source")
-            or source
-        )
-
-        normalized.append({
-            "price": price,
-            "recordedAt": recorded_time,
-            "source": item_source,
-        })
-
-    deduplicated = []
-    seen = set()
-
-    for item in normalized:
-
-        key = (
-            item["price"],
-            item["recordedAt"],
-            item["source"],
-        )
-
-        if key in seen:
-            continue
-
-        seen.add(key)
-        deduplicated.append(item)
-
-    deduplicated.sort(
-        key=lambda item:
-        safe_timestamp(
-            item.get("recordedAt")
-        )
-    )
-
-    current_price = parse_price(
-        current_price
-    )
-
-    if current_price is None:
-        return deduplicated
-
-    latest_price = (
-        deduplicated[-1].get("price")
-        if deduplicated
-        else None
-    )
-
-    if latest_price != current_price:
-
-        deduplicated.append({
-            "price": current_price,
-            "recordedAt": recorded_at,
-            "source": source,
-        })
-
-        deduplicated.sort(
-            key=lambda item:
-            safe_timestamp(
-                item.get("recordedAt")
-            )
-        )
-
-    return deduplicated
-
-
-# ============================================================
-# 設定・アダプター
-# ============================================================
-
-def load_config():
-    return load_json(
-        ROOT / "config" / "search.json",
-        default={}
-    )
-
-
-def load_sources():
-    return load_json(
-        ROOT / "config" / "sources.json",
-        default={"sources": []}
-    )
-
-
-def get_suumo_source_config():
-
-    sources = load_sources()
-
-    source_list = sources.get(
-        "sources",
-        []
+    config = load_json(
+        SEARCH_CONFIG_PATH,
+        {},
     )
 
     if not isinstance(
-        source_list,
-        list
+        config,
+        dict,
     ):
         return {}
 
-    for source in source_list:
+    return config
 
-        if (
-            isinstance(source, dict)
-            and source.get("name")
-            == "suumo_search"
+
+def load_search_urls() -> List[Dict[str, Any]]:
+
+    data = load_json(
+        SEARCH_URLS_PATH,
+        [],
+    )
+
+    if isinstance(
+        data,
+        list,
+    ):
+        return data
+
+    if isinstance(
+        data,
+        dict,
+    ):
+
+        targets = data.get(
+            "targets"
+        )
+
+        if isinstance(
+            targets,
+            list,
         ):
-            return source
+            return targets
 
-    return {}
-
-
-def create_adapters():
-
-    sources = load_sources()
-
-    adapters = []
-
-    source_list = sources.get(
-        "sources",
-        []
-    )
-
-    if not isinstance(
-        source_list,
-        list
-    ):
-        return adapters
-
-    for source in source_list:
-
-        if (
-            isinstance(source, dict)
-            and source.get("enabled")
-            and source.get("name")
-            == "suumo_search"
-        ):
-
-            adapters.append(
-                SuumoSearchAdapter(
-                    config=source,
-                    root_path=ROOT
-                )
-            )
-
-    return adapters
-
-
-def create_detail_adapter():
-
-    source_config = (
-        get_suumo_source_config()
-    )
-
-    return SuumoDetailAdapter(
-        config=source_config,
-        root_path=ROOT
-    )
-
-
-def get_detail_fetch_limit(
-    search_config
-):
-
-    source_config = (
-        get_suumo_source_config()
-    )
-
-    configured_limit = (
-        source_config.get(
-            "detailFetchLimit"
-        )
-    )
-
-    if configured_limit is None:
-
-        configured_limit = (
-            search_config.get(
-                "detailFetchLimit",
-                DEFAULT_DETAIL_FETCH_LIMIT
-            )
-        )
-
-    try:
-
-        limit = int(
-            configured_limit
-        )
-
-    except (
-        TypeError,
-        ValueError
-    ):
-
-        limit = DEFAULT_DETAIL_FETCH_LIMIT
-
-    return max(
-        0,
-        limit
-    )
+    return []
 
 
 # ============================================================
-# 物件ID・URL処理
+# Search configuration helpers
 # ============================================================
 
-def normalize_url(url):
+def normalize_property_type(
+    value: Any,
+) -> Optional[str]:
 
-    if not url:
-        return ""
+    text = clean_text(value)
 
-    return (
-        str(url)
-        .split("?")[0]
-        .split("#")[0]
-        .rstrip("/")
-    )
-
-
-def create_property_id(url):
-
-    normalized_url = normalize_url(
-        url
-    )
-
-    if not normalized_url:
+    if not text:
         return None
 
-    digest = hashlib.sha256(
-        normalized_url.encode("utf-8")
-    ).hexdigest()[:16]
+    if "中古" in text:
+        return "中古戸建"
 
-    return f"suumo-{digest}"
+    if "新築" in text:
+        return "新築戸建"
+
+    return text
+
+
+def get_search_max_age(
+    config: Dict[str, Any],
+) -> Optional[float]:
+
+    value = config.get(
+        "maxBuiltAgeYears"
+    )
+
+    if value is not None:
+        return to_number(value)
+
+    # 旧設定との互換
+    value = config.get(
+        "maxBuildingAgeYears"
+    )
+
+    if value is not None:
+        return to_number(value)
+
+    return None
 
 
 # ============================================================
-# 物件データ初期化
+# Address / Area
 # ============================================================
 
-def normalize_property(
-    item,
-    collected_at
-):
+def normalize_address_for_area(
+    address: Any,
+) -> Optional[str]:
 
-    if not isinstance(
-        item,
-        dict
-    ):
+    if address is None:
         return None
 
-    url = item.get(
-        "sourceUrl",
-        ""
+    text = str(address)
+
+    text = re.sub(
+        r"\s+",
+        "",
+        text,
     )
 
-    property_id = create_property_id(
-        url
+    text = (
+        text
+        .replace("　", "")
+        .replace("〒", "")
     )
 
-    if not property_id:
+    return text or None
+
+
+def detect_area_from_address(
+    address: Any,
+) -> Optional[str]:
+    """
+    詳細ページの実住所から監視対象エリアを判定。
+
+    検索URL・駅名・タイトルは使用しない。
+    """
+
+    normalized = normalize_address_for_area(
+        address
+    )
+
+    if not normalized:
         return None
 
-    raw_price = (
-        item.get("price")
-        or item.get("priceText")
-        or item.get("priceValue")
+    for area, rule in AREA_RULES.items():
+
+        cities = rule.get(
+            "cities",
+            [],
+        )
+
+        patterns = rule.get(
+            "address_patterns",
+            [],
+        )
+
+        city_matched = any(
+            city in normalized
+            for city in cities
+        )
+
+        if not city_matched:
+            continue
+
+        address_matched = any(
+            pattern in normalized
+            for pattern in patterns
+        )
+
+        if address_matched:
+            return area
+
+    return None
+
+
+def evaluate_area(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    実住所によるエリア最終判定。
+
+    areaMatched:
+      True  = 対象エリア
+      False = 明確に対象外
+      None  = 住所取得不能などで判定不能
+    """
+
+    detail = (
+        property_data.get("detail")
+        or property_data.get(
+            "lastSuccessfulDetail"
+        )
+        or {}
     )
-
-    parsed_search_price = parse_price(
-        raw_price
-    )
-
-    return {
-        "id": property_id,
-
-        "source": item.get(
-            "source",
-            "suumo"
-        ),
-
-        "sourceUrl": url,
-
-        "searchArea": item.get(
-            "searchArea"
-        ),
-
-        "searchPropertyType": item.get(
-            "searchPropertyType"
-        ),
-
-        "status": "discovered",
-
-        "detailFetched": False,
-        "detailFetchedAt": None,
-        "lastSuccessfulDetailFetchedAt": None,
-
-        "detailDataStale": False,
-        "detailNeedsRefresh": True,
-
-        "searchDetailPriceMismatch": False,
-
-        "detailFetchError": None,
-        "detailFetchBlocked": False,
-        "detailFetchBlockReason": None,
-
-        "fetchAttemptCount": 0,
-        "lastFetchAttemptAt": None,
-        "lastFetchParserVersion": None,
-
-        "priceChanged": False,
-
-        "firstSeenAt": collected_at,
-        "lastSeenAt": collected_at,
-        "collectedAt": collected_at,
-
-        "lastSearchPrice": parsed_search_price,
-
-        "lastSearchPriceText": (
-            clean_text(raw_price)
-            if raw_price
-            else None
-        ),
-
-        "detailPrice": None,
-        "detailPriceText": None,
-        "lastSuccessfulDetailPrice": None,
-
-        "price": parsed_search_price,
-
-        "priceText": (
-            clean_text(raw_price)
-            if raw_price
-            else None
-        ),
-
-        "priceHistory": (
-            [{
-                "price": parsed_search_price,
-                "recordedAt": collected_at,
-                "source": "search",
-            }]
-            if parsed_search_price
-            else []
-        ),
-
-        "detailParserVersion": None,
-
-        "detailQuality": "unknown",
-        "detailQualityScore": None,
-
-        "missingFields": [],
-        "validationWarnings": [],
-        "extractionQuality": {},
-
-        "detail": {},
-        "lastSuccessfulDetail": {},
-
-        "searchCriteriaMatched": None,
-        "searchCriteriaMismatchReason": None,
-        "searchCriteria": {},
-    }
-
-
-# ============================================================
-# 詳細データ品質判定
-# ============================================================
-
-def validate_detail_data(detail):
-
-    warnings = []
-
-    if not isinstance(detail, dict):
-
-        return [
-            "detailが辞書形式ではありません"
-        ]
 
     address = detail.get(
         "address"
     )
 
+    search_area = property_data.get(
+        "searchArea"
+    )
+
+    detected_area = detect_area_from_address(
+        address
+    )
+
+    result = {
+        "areaMatched": None,
+        "areaDetected": detected_area,
+        "areaAddress": address,
+        "areaValidationReason": None,
+    }
+
+    # --------------------------------------------------------
+    # 住所が取れない
+    # --------------------------------------------------------
+
     if not address:
 
-        warnings.append(
-            "住所が取得できていません"
-        )
+        result[
+            "areaValidationReason"
+        ] = "address_unavailable"
 
-    elif is_suspicious_address(
-        address
-    ):
-
-        warnings.append(
-            "住所が仲介会社住所または不正値の可能性があります"
-        )
-
-    construction_month = (
-        detail.get(
-            "constructionMonth"
-        )
-    )
-
-    build_year = (
-        detail.get(
-            "buildYear"
-        )
-    )
-
-    if construction_month:
-
-        if not is_valid_year_month(
-            str(construction_month)
-        ):
-
-            warnings.append(
-                "constructionMonthがYYYY-MM形式ではありません"
-            )
-
-    elif build_year:
-
-        build_year_text = clean_text(
-            build_year
-        )
-
-        if not re.search(
-            r"\d{4}年\d{1,2}月",
-            build_year_text
-        ):
-
-            warnings.append(
-                "築年月の形式を確認できません"
-            )
-
-    else:
-
-        warnings.append(
-            "築年月が取得できていません"
-        )
-
-    station = detail.get(
-        "station"
-    )
-
-    if (
-        station is not None
-        and is_suspicious_station(
-            station
-        )
-    ):
-
-        warnings.append(
-            "駅名が不正値の可能性があります"
-        )
-
-    price = parse_price(
-        detail.get("price")
-        or detail.get("priceText")
-    )
-
-    if price is None:
-
-        warnings.append(
-            "価格が取得できていません"
-        )
-
-    land_area = parse_float(
-        detail.get("landAreaM2")
-        or detail.get("landArea")
-    )
-
-    if land_area is None:
-
-        warnings.append(
-            "土地面積が取得できていません"
-        )
-
-    building_area = parse_float(
-        detail.get("buildingAreaM2")
-        or detail.get("buildingArea")
-    )
-
-    if building_area is None:
-
-        warnings.append(
-            "建物面積が取得できていません"
-        )
-
-    unique_warnings = []
-
-    for warning in warnings:
-
-        if warning not in unique_warnings:
-
-            unique_warnings.append(
-                warning
-            )
-
-    return unique_warnings
-
-
-def determine_detail_quality(
-    detail,
-    detail_fetched=True
-):
-
-    if (
-        not detail_fetched
-        or not isinstance(detail, dict)
-    ):
-
-        return (
-            "unknown",
-            None,
-            [],
-            []
-        )
-
-    critical_fields = {
-
-        "price": (
-            detail.get("price")
-            or detail.get("priceText")
-        ),
-
-        "address": (
-            detail.get("address")
-        ),
-
-        "constructionMonth": (
-            detail.get(
-                "constructionMonth"
-            )
-            or detail.get(
-                "buildYear"
-            )
-        ),
-    }
-
-    important_fields = {
-
-        "landAreaM2": (
-            detail.get(
-                "landAreaM2"
-            )
-            or detail.get(
-                "landArea"
-            )
-        ),
-
-        "buildingAreaM2": (
-            detail.get(
-                "buildingAreaM2"
-            )
-            or detail.get(
-                "buildingArea"
-            )
-        ),
-
-        "layout": detail.get(
-            "layout"
-        ),
-
-        "station": detail.get(
-            "station"
-        ),
-    }
-
-    missing_critical = [
-        f
-        for f, v
-        in critical_fields.items()
-        if v is None or v == ""
-    ]
-
-    missing_important = [
-        f
-        for f, v
-        in important_fields.items()
-        if v is None or v == ""
-    ]
-
-    missing_fields = (
-        missing_critical
-        + missing_important
-    )
-
-    warnings = validate_detail_data(
-        detail
-    )
-
-    critical_warning_words = [
-        "住所が仲介会社住所",
-        "住所が取得できていません",
-        "築年月の形式",
-        "築年月が取得",
-        "価格が取得",
-        "detailが辞書",
-        "駅名が不正",
-    ]
-
-    has_critical_warning = any(
-        any(
-            word in warning
-            for word in critical_warning_words
-        )
-        for warning in warnings
-    )
-
-    if (
-        missing_critical
-        or has_critical_warning
-    ):
-
-        quality = "poor"
-
-    elif (
-        missing_important
-        or warnings
-    ):
-
-        quality = "partial"
-
-    else:
-
-        quality = "good"
-
-    score = {
-        "good": 100,
-        "partial": 70,
-        "poor": 30,
-    }.get(
-        quality,
-        0
-    )
-
-    return (
-        quality,
-        score,
-        warnings,
-        missing_fields
-    )
-
-
-# ============================================================
-# 詳細データ正規化
-# ============================================================
-
-def normalize_detail(detail):
-
-    if not isinstance(
-        detail,
-        dict
-    ):
-        return {}
-
-    normalized = detail.copy()
+        return result
 
     # --------------------------------------------------------
-    # 土地面積
+    # 実住所が監視対象外
     # --------------------------------------------------------
 
-    land_area_raw = (
-        normalized.get("landAreaM2")
-        or normalized.get("landArea")
-    )
+    if detected_area is None:
 
-    normalized_land_area = parse_float(
-        land_area_raw
-    )
-
-    if normalized_land_area is not None:
-
-        normalized[
-            "landAreaM2"
-        ] = normalized_land_area
-
-    land_text = clean_text(
-        normalized.get(
-            "landAreaText"
-        )
-        or normalized.get(
-            "landArea"
-        )
-    )
-
-    if (
-        land_text
-        and not is_promotional_text(
-            land_text
-        )
-        and land_text not in INVALID_VALUES
-    ):
-
-        normalized[
-            "landAreaText"
-        ] = land_text
-
-    elif normalized_land_area is not None:
-
-        normalized[
-            "landAreaText"
-        ] = (
-            f"{normalized_land_area}m²"
-        )
-
-    # --------------------------------------------------------
-    # 建物面積
-    # --------------------------------------------------------
-
-    building_area_raw = (
-        normalized.get(
-            "buildingAreaM2"
-        )
-        or normalized.get(
-            "buildingArea"
-        )
-    )
-
-    normalized_building_area = parse_float(
-        building_area_raw
-    )
-
-    if normalized_building_area is not None:
-
-        normalized[
-            "buildingAreaM2"
-        ] = normalized_building_area
-
-    bld_text = clean_text(
-        normalized.get(
-            "buildingAreaText"
-        )
-        or normalized.get(
-            "buildingArea"
-        )
-    )
-
-    if (
-        bld_text
-        and not is_promotional_text(
-            bld_text
-        )
-        and bld_text not in INVALID_VALUES
-    ):
-
-        normalized[
-            "buildingAreaText"
-        ] = bld_text
-
-    elif normalized_building_area is not None:
-
-        normalized[
-            "buildingAreaText"
-        ] = (
-            f"{normalized_building_area}m²"
-        )
-
-    normalized.pop(
-        "landArea",
-        None
-    )
-
-    normalized.pop(
-        "buildingArea",
-        None
-    )
-
-    # --------------------------------------------------------
-    # 価格
-    # --------------------------------------------------------
-
-    raw_price = (
-        normalized.get("price")
-        or normalized.get("priceText")
-    )
-
-    normalized_price = parse_price(
-        raw_price
-    )
-
-    if normalized_price is not None:
-
-        normalized[
-            "price"
-        ] = normalized_price
-
-    # --------------------------------------------------------
-    # 築年月
-    # --------------------------------------------------------
-
-    construction_month = (
-        get_construction_month(
-            normalized
-        )
-    )
-
-    if construction_month:
-
-        normalized[
-            "constructionMonth"
-        ] = construction_month
-
-        normalized[
-            "buildYear"
-        ] = safe_int(
-            construction_month[:4]
-        )
-
-    # --------------------------------------------------------
-    # 駅情報
-    # --------------------------------------------------------
-
-    if not normalized.get(
-        "station"
-    ):
-
-        station = normalized.get(
-            "stationText"
-        )
-
-        if station:
-
-            normalized[
-                "station"
-            ] = clean_text(
-                station
-            )
-
-    if (
-        normalized.get("station")
-        and is_suspicious_station(
-            normalized.get("station")
-        )
-    ):
-
-        normalized[
-            "station"
-        ] = None
-
-    if not normalized.get(
-        "stationWalkMinutes"
-    ):
-
-        walking_minutes = normalized.get(
-            "walkingMinutes"
-        )
-
-        if walking_minutes is not None:
-
-            normalized[
-                "stationWalkMinutes"
-            ] = safe_int(
-                walking_minutes
-            )
-
-    if normalized.get(
-        "walkMinutes"
-    ) is None:
-
-        station_walk_minutes = (
-            normalized.get(
-                "stationWalkMinutes"
-            )
-        )
-
-        if station_walk_minutes is not None:
-
-            normalized[
-                "walkMinutes"
-            ] = safe_int(
-                station_walk_minutes
-            )
-
-    if normalized.get(
-        "walkMinutes"
-    ) is not None:
-
-        normalized[
-            "walkMinutes"
-        ] = safe_int(
-            normalized.get(
-                "walkMinutes"
-            )
-        )
-
-    # --------------------------------------------------------
-    # 住所
-    # --------------------------------------------------------
-
-    if normalized.get(
-        "address"
-    ):
-
-        address = str(
-            normalized["address"]
-        )
-
-        address = re.sub(
-            r"\s*[\[［].*?[\]］]",
-            "",
-            address
-        )
-
-        address = re.sub(
-            r"\s*[\[［].*$",
-            "",
-            address
-        )
-
-        address = re.sub(
-            r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$",
-            "",
-            address
-        )
-
-        normalized[
-            "address"
-        ] = clean_text(
-            address
-        )
-
-    # --------------------------------------------------------
-    # 所在地ペア
-    # --------------------------------------------------------
-
-    label_value_pairs = normalized.get(
-        "labelValuePairs"
-    )
-
-    if isinstance(
-        label_value_pairs,
-        dict
-    ):
-
-        pairs = label_value_pairs.copy()
-
-        if pairs.get("所在地"):
-
-            location = clean_text(
-                pairs["所在地"]
-            )
-
-            location = re.sub(
-                r"\s*(地図を見る|周辺環境|詳細を見る|お気に入り).*$",
-                "",
-                location
-            )
-
-            pairs["所在地"] = location
-
-        normalized[
-            "labelValuePairs"
-        ] = pairs
-
-    normalized[
-        "missingFields"
-    ] = normalize_string_list(
-        normalized.get(
-            "missingFields"
-        )
-    )
-
-    normalized[
-        "validationWarnings"
-    ] = normalize_warning_list(
-        normalized.get(
-            "validationWarnings"
-        )
-    )
-
-    normalized[
-        "detailParserVersion"
-    ] = DETAIL_PARSER_VERSION
-
-    return normalized
-
-
-# ============================================================
-# 状態判定
-# ============================================================
-
-def has_usable_detail(
-    property_data: dict
-) -> bool:
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return False
-
-    return bool(
-        property_data.get(
-            "detailFetched"
-        )
-        or property_data.get(
-            "lastSuccessfulDetailFetchedAt"
-        )
-    )
-
-
-def reset_detail_fetch_state_if_parser_updated(
-    property_data: dict
-) -> None:
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return
-
-    last_version = property_data.get(
-        "lastFetchParserVersion"
-    )
-
-    if (
-        last_version
-        != DETAIL_PARSER_VERSION
-    ):
-
-        property_data[
-            "fetchAttemptCount"
-        ] = 0
-
-        property_data[
-            "detailFetchBlocked"
-        ] = False
-
-        property_data[
-            "detailFetchBlockReason"
-        ] = None
-
-        property_data[
-            "lastFetchParserVersion"
-        ] = DETAIL_PARSER_VERSION
-
-
-def should_fetch_detail(
-    property_data: dict
-) -> bool:
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return False
-
-    if property_data.get(
-        "detailFetchBlocked"
-    ):
-        return False
-
-    return bool(
-        property_data.get(
-            "detailNeedsRefresh"
-        )
-    )
-
-
-def update_price_mismatch_and_refresh_flags(
-    property_data: dict
-) -> None:
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return
-
-    search_price = property_data.get(
-        "lastSearchPrice"
-    )
-
-    detail_price = property_data.get(
-        "detailPrice"
-    )
-
-    if (
-        search_price is not None
-        and detail_price is not None
-    ):
-
-        property_data[
-            "searchDetailPriceMismatch"
-        ] = (
-            search_price
-            != detail_price
-        )
-
-    else:
-
-        property_data[
-            "searchDetailPriceMismatch"
-        ] = False
-
-    parser_version = (
-        property_data.get(
-            "detailParserVersion"
-        )
-    )
-
-    is_parser_outdated = (
-        parser_version
-        != DETAIL_PARSER_VERSION
-    )
-
-    never_fetched = not bool(
-        property_data.get(
-            "lastSuccessfulDetailFetchedAt"
-        )
-    )
-
-    price_changed = bool(
-        property_data.get(
-            "priceChanged"
-        )
-    )
-
-    property_data[
-        "detailNeedsRefresh"
-    ] = bool(
-        price_changed
-        or is_parser_outdated
-        or never_fetched
-    )
-
-
-# ============================================================
-# 既存物件読み込み
-# ============================================================
-
-def load_existing_properties():
-
-    path = (
-        ROOT
-        / "data"
-        / "discovered_listings.json"
-    )
-
-    data = load_json(
-        path,
-        default={}
-    )
-
-    if not isinstance(
-        data,
-        dict
-    ):
-        return {}
-
-    properties = data.get(
-        "properties",
-        []
-    )
-
-    if not isinstance(
-        properties,
-        list
-    ):
-        return {}
-
-    result = {}
-
-    for property_data in properties:
-
-        if not isinstance(
-            property_data,
-            dict
-        ):
-            continue
-
-        property_id = (
-            property_data.get("id")
-            or create_property_id(
-                property_data.get(
-                    "sourceUrl",
-                    ""
-                )
-            )
-        )
-
-        if not property_id:
-            continue
-
-        property_data[
-            "id"
-        ] = property_id
-
-        defaults = {
-            "detailFetched": False,
-            "detailFetchedAt": None,
-            "lastSuccessfulDetailFetchedAt": None,
-            "detailDataStale": False,
-            "detailNeedsRefresh": True,
-            "searchDetailPriceMismatch": False,
-            "detailFetchError": None,
-            "detailFetchBlocked": False,
-            "detailFetchBlockReason": None,
-            "fetchAttemptCount": 0,
-            "lastFetchAttemptAt": None,
-            "lastFetchParserVersion": None,
-            "priceChanged": False,
-            "detailPrice": None,
-            "detailPriceText": None,
-            "lastSuccessfulDetailPrice": None,
-            "priceHistory": [],
-            "detailParserVersion": None,
-            "detailQuality": "unknown",
-            "detailQualityScore": None,
-            "missingFields": [],
-            "validationWarnings": [],
-            "extractionQuality": {},
-            "searchCriteriaMatched": None,
-            "searchCriteriaMismatchReason": None,
-            "searchCriteria": {},
-        }
-
-        for key, default_value in defaults.items():
-
-            property_data.setdefault(
-                key,
-                default_value
-            )
-
-        property_data.setdefault(
-            "lastSearchPrice",
-            parse_price(
-                property_data.get(
-                    "price"
-                )
-            )
-        )
-
-        property_data.setdefault(
-            "lastSearchPriceText",
-            clean_text(
-                property_data.get(
-                    "priceText"
-                )
-            )
-        )
-
-        property_data.setdefault(
-            "price",
-            parse_price(
-                property_data.get(
-                    "price"
-                )
-            )
-        )
-
-        property_data.setdefault(
-            "priceText",
-            clean_text(
-                property_data.get(
-                    "priceText"
-                )
-            )
-        )
-
-        if not isinstance(
-            property_data.get(
-                "detail"
-            ),
-            dict
-        ):
-
-            property_data[
-                "detail"
-            ] = {}
-
-        if not isinstance(
-            property_data.get(
-                "lastSuccessfulDetail"
-            ),
-            dict
-        ):
-
-            property_data[
-                "lastSuccessfulDetail"
-            ] = property_data[
-                "detail"
-            ]
-
-        if not isinstance(
-            property_data.get(
-                "priceHistory"
-            ),
-            list
-        ):
-
-            property_data[
-                "priceHistory"
-            ] = []
-
-        update_price_mismatch_and_refresh_flags(
-            property_data
-        )
+        result["areaMatched"] = False
 
         result[
-            property_id
-        ] = property_data
+            "areaValidationReason"
+        ] = "address_outside_target_area"
+
+        return result
+
+    # --------------------------------------------------------
+    # 検索エリアがない
+    # --------------------------------------------------------
+
+    if not search_area:
+
+        result["areaMatched"] = True
+
+        result[
+            "areaValidationReason"
+        ] = "area_detected"
+
+        return result
+
+    # --------------------------------------------------------
+    # 検索エリアと実住所が一致
+    # --------------------------------------------------------
+
+    if detected_area == search_area:
+
+        result["areaMatched"] = True
+
+        result[
+            "areaValidationReason"
+        ] = "address_area_matched"
+
+        return result
+
+    # --------------------------------------------------------
+    # 検索エリアと実住所が不一致
+    # --------------------------------------------------------
+
+    result["areaMatched"] = False
+
+    result[
+        "areaValidationReason"
+    ] = "search_area_address_mismatch"
 
     return result
 
 
 # ============================================================
-# 物件統合
+# Construction / Age
+# ============================================================
+
+def get_construction_month(
+    detail: Dict[str, Any],
+) -> Optional[str]:
+
+    value = detail.get(
+        "constructionMonth"
+    )
+
+    if value:
+        return str(value)
+
+    value = detail.get(
+        "constructionYearMonth"
+    )
+
+    if value:
+        return str(value)
+
+    return None
+
+
+def calculate_age_from_month(
+    construction_month: str,
+) -> Optional[float]:
+
+    match = re.fullmatch(
+        r"(\d{4})-(\d{2})",
+        construction_month,
+    )
+
+    if not match:
+        return None
+
+    year = int(
+        match.group(1)
+    )
+
+    month = int(
+        match.group(2)
+    )
+
+    if not (
+        1900
+        <= year
+        <= datetime.now().year + 2
+    ):
+        return None
+
+    if not (
+        1 <= month <= 12
+    ):
+        return None
+
+    now = datetime.now(
+        timezone.utc
+    )
+
+    months = (
+        (now.year - year) * 12
+        + (now.month - month)
+    )
+
+    if months < 0:
+        return None
+
+    return round(
+        months / 12,
+        2,
+    )
+
+
+def evaluate_built_age(
+    detail: Dict[str, Any],
+    search_config: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    max_age = get_search_max_age(
+        search_config
+    )
+
+    construction_month = (
+        get_construction_month(
+            detail
+        )
+    )
+
+    result = {
+        "builtAgeMatched": None,
+        "builtAgeYears": None,
+        "builtAgeReason": None,
+    }
+
+    if max_age is None:
+
+        result[
+            "builtAgeMatched"
+        ] = True
+
+        result[
+            "builtAgeReason"
+        ] = "age_filter_not_configured"
+
+        return result
+
+    if construction_month:
+
+        age = detail.get(
+            "constructionAgeYears"
+        )
+
+        if age is None:
+            age = calculate_age_from_month(
+                construction_month
+            )
+
+        result[
+            "builtAgeYears"
+        ] = age
+
+        if age is None:
+
+            result[
+                "builtAgeReason"
+            ] = "construction_date_unparseable"
+
+            return result
+
+        if age <= max_age:
+
+            result[
+                "builtAgeMatched"
+            ] = True
+
+            result[
+                "builtAgeReason"
+            ] = "within_age_limit"
+
+        else:
+
+            result[
+                "builtAgeMatched"
+            ] = False
+
+            result[
+                "builtAgeReason"
+            ] = "building_age_over_limit"
+
+        return result
+
+    # 築年月不明の場合は判定不能
+    result[
+        "builtAgeMatched"
+    ] = None
+
+    result[
+        "builtAgeReason"
+    ] = "construction_date_unavailable"
+
+    return result
+
+
+# ============================================================
+# Detail getters
+# ============================================================
+
+def get_detail(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    detail = property_data.get(
+        "detail"
+    )
+
+    if isinstance(
+        detail,
+        dict,
+    ):
+        return detail
+
+    detail = property_data.get(
+        "lastSuccessfulDetail"
+    )
+
+    if isinstance(
+        detail,
+        dict,
+    ):
+        return detail
+
+    return {}
+
+
+def get_price(
+    detail: Dict[str, Any],
+) -> Optional[float]:
+
+    return to_number(
+        detail.get("price")
+    )
+
+
+def get_land_area(
+    detail: Dict[str, Any],
+) -> Optional[float]:
+
+    return to_number(
+        detail.get("landAreaM2")
+    )
+
+
+def get_building_area(
+    detail: Dict[str, Any],
+) -> Optional[float]:
+
+    return to_number(
+        detail.get("buildingAreaM2")
+    )
+
+
+def get_walk_minutes(
+    detail: Dict[str, Any],
+) -> Optional[float]:
+
+    value = detail.get(
+        "walkMinutes"
+    )
+
+    if value is not None:
+        return to_number(value)
+
+    value = detail.get(
+        "stationWalkMinutes"
+    )
+
+    if value is not None:
+        return to_number(value)
+
+    return None
+
+
+# ============================================================
+# Flat land / retaining wall
+# ============================================================
+
+def detect_flat_land(
+    detail: Dict[str, Any],
+) -> Optional[bool]:
+
+    for key in [
+        "flatLand",
+        "isFlatLand",
+        "landFlat",
+    ]:
+
+        if key in detail:
+
+            value = to_bool(
+                detail.get(key)
+            )
+
+            if value is not None:
+                return value
+
+    texts = []
+
+    for key in [
+        "landCondition",
+        "landConditionText",
+        "landRemarks",
+        "remarks",
+        "description",
+        "textBlocks",
+    ]:
+
+        value = detail.get(key)
+
+        if isinstance(
+            value,
+            list,
+        ):
+            texts.extend(
+                str(v)
+                for v in value
+                if v is not None
+            )
+
+        elif value:
+            texts.append(
+                str(value)
+            )
+
+    if not texts:
+        return None
+
+    text = " ".join(texts)
+
+    negative_words = [
+        "傾斜地",
+        "ひな壇",
+        "高低差",
+        "擁壁",
+        "崖",
+        "段差",
+    ]
+
+    positive_words = [
+        "平坦地",
+        "整形地",
+        "平坦",
+    ]
+
+    if any(
+        word in text
+        for word in negative_words
+    ):
+        return False
+
+    if any(
+        word in text
+        for word in positive_words
+    ):
+        return True
+
+    return None
+
+
+def detect_retaining_wall(
+    detail: Dict[str, Any],
+) -> Optional[bool]:
+
+    for key in [
+        "retainingWall",
+        "hasRetainingWall",
+        "isRetainingWall",
+    ]:
+
+        if key in detail:
+
+            value = to_bool(
+                detail.get(key)
+            )
+
+            if value is not None:
+                return value
+
+    texts = []
+
+    for key in [
+        "landCondition",
+        "landConditionText",
+        "landRemarks",
+        "remarks",
+        "description",
+        "textBlocks",
+    ]:
+
+        value = detail.get(key)
+
+        if isinstance(
+            value,
+            list,
+        ):
+            texts.extend(
+                str(v)
+                for v in value
+                if v is not None
+            )
+
+        elif value:
+            texts.append(
+                str(value)
+            )
+
+    if not texts:
+        return None
+
+    text = " ".join(texts)
+
+    negative_words = [
+        "擁壁",
+        "よう壁",
+        "ヨウヘキ",
+        "高低差",
+        "崖",
+        "土留め",
+    ]
+
+    if any(
+        word in text
+        for word in negative_words
+    ):
+        return True
+
+    return False
+
+
+# ============================================================
+# Search criteria
+# ============================================================
+
+def evaluate_search_criteria(
+    property_data: Dict[str, Any],
+    search_config: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    detail = get_detail(
+        property_data
+    )
+
+    reasons: List[str] = []
+
+    # ========================================================
+    # Area
+    # ========================================================
+
+    area_result = evaluate_area(
+        property_data
+    )
+
+    # ========================================================
+    # Price
+    # ========================================================
+
+    max_price_man = to_number(
+        search_config.get(
+            "maxPriceMan"
+        )
+    )
+
+    price = get_price(
+        detail
+    )
+
+    price_matched = None
+
+    if max_price_man is None:
+
+        price_matched = True
+
+    elif price is None:
+
+        price_matched = None
+
+    else:
+
+        price_matched = (
+            price
+            <= max_price_man * 10_000
+        )
+
+        if not price_matched:
+            reasons.append(
+                "price_over_limit"
+            )
+
+    # ========================================================
+    # Walk
+    # ========================================================
+
+    max_walk = to_number(
+        search_config.get(
+            "maxWalkMinutes"
+        )
+    )
+
+    walk_minutes = get_walk_minutes(
+        detail
+    )
+
+    walk_matched = None
+
+    if max_walk is None:
+
+        walk_matched = True
+
+    elif walk_minutes is None:
+
+        walk_matched = None
+
+    else:
+
+        walk_matched = (
+            walk_minutes
+            <= max_walk
+        )
+
+        if not walk_matched:
+            reasons.append(
+                "walk_over_limit"
+            )
+
+    # ========================================================
+    # Land
+    # ========================================================
+
+    min_land = to_number(
+        search_config.get(
+            "minLandArea"
+        )
+    )
+
+    land_area = get_land_area(
+        detail
+    )
+
+    land_matched = None
+
+    if min_land is None:
+
+        land_matched = True
+
+    elif land_area is None:
+
+        land_matched = None
+
+    else:
+
+        land_matched = (
+            land_area
+            >= min_land
+        )
+
+        if not land_matched:
+            reasons.append(
+                "land_area_under_limit"
+            )
+
+    # ========================================================
+    # Building
+    # ========================================================
+
+    min_building = to_number(
+        search_config.get(
+            "minBuildingArea"
+        )
+    )
+
+    building_area = get_building_area(
+        detail
+    )
+
+    building_matched = None
+
+    if min_building is None:
+
+        building_matched = True
+
+    elif building_area is None:
+
+        building_matched = None
+
+    else:
+
+        building_matched = (
+            building_area
+            >= min_building
+        )
+
+        if not building_matched:
+            reasons.append(
+                "building_area_under_limit"
+            )
+
+    # ========================================================
+    # Building age
+    # ========================================================
+
+    age_result = evaluate_built_age(
+        detail,
+        search_config,
+    )
+
+    if (
+        age_result[
+            "builtAgeMatched"
+        ] is False
+    ):
+        reasons.append(
+            age_result[
+                "builtAgeReason"
+            ]
+        )
+
+    # ========================================================
+    # Flat land
+    # ========================================================
+
+    only_flat_land = bool(
+        search_config.get(
+            "onlyFlatLand",
+            False,
+        )
+    )
+
+    flat_land = detect_flat_land(
+        detail
+    )
+
+    flat_land_matched = None
+
+    if not only_flat_land:
+
+        flat_land_matched = True
+
+    elif flat_land is None:
+
+        flat_land_matched = None
+
+    else:
+
+        flat_land_matched = (
+            flat_land is True
+        )
+
+        if not flat_land_matched:
+            reasons.append(
+                "not_flat_land"
+            )
+
+    # ========================================================
+    # Retaining wall
+    # ========================================================
+
+    exclude_retaining_wall = bool(
+        search_config.get(
+            "excludeRetainingWall",
+            False,
+        )
+    )
+
+    retaining_wall = (
+        detect_retaining_wall(
+            detail
+        )
+    )
+
+    retaining_wall_matched = None
+
+    if not exclude_retaining_wall:
+
+        retaining_wall_matched = True
+
+    elif retaining_wall is None:
+
+        retaining_wall_matched = None
+
+    else:
+
+        retaining_wall_matched = (
+            retaining_wall is False
+        )
+
+        if not retaining_wall_matched:
+            reasons.append(
+                "retaining_wall_detected"
+            )
+
+    # ========================================================
+    # Final determination
+    # ========================================================
+    #
+    # False = 明確に条件違反
+    # None  = 判定不能
+    # True  = 条件適合
+    #
+    # 今回は場所違いを絶対に houses.json に
+    # 入れないことを優先する。
+    # ========================================================
+
+    all_results = [
+        area_result["areaMatched"],
+        price_matched,
+        walk_matched,
+        land_matched,
+        building_matched,
+        age_result["builtAgeMatched"],
+        flat_land_matched,
+        retaining_wall_matched,
+    ]
+
+    if False in all_results:
+
+        matched = False
+
+    elif all(
+        value is True
+        for value in all_results
+    ):
+
+        matched = True
+
+    else:
+
+        matched = None
+
+    return {
+        # ----------------------------------------------------
+        # Area
+        # ----------------------------------------------------
+
+        "areaMatched":
+            area_result["areaMatched"],
+
+        "areaDetected":
+            area_result["areaDetected"],
+
+        "areaAddress":
+            area_result["areaAddress"],
+
+        "areaValidationReason":
+            area_result[
+                "areaValidationReason"
+            ],
+
+        # ----------------------------------------------------
+        # Individual criteria
+        # ----------------------------------------------------
+
+        "priceMatched":
+            price_matched,
+
+        "walkMatched":
+            walk_matched,
+
+        "landAreaMatched":
+            land_matched,
+
+        "buildingAreaMatched":
+            building_matched,
+
+        "builtAgeMatched":
+            age_result[
+                "builtAgeMatched"
+            ],
+
+        "builtAgeYears":
+            age_result[
+                "builtAgeYears"
+            ],
+
+        "flatLandMatched":
+            flat_land_matched,
+
+        "retainingWallMatched":
+            retaining_wall_matched,
+
+        # ----------------------------------------------------
+        # Overall
+        # ----------------------------------------------------
+
+        "searchCriteriaMatched":
+            matched,
+
+        "searchCriteriaReasons":
+            reasons,
+    }
+
+
+def apply_search_criteria(
+    properties: List[Dict[str, Any]],
+    search_config: Dict[str, Any],
+) -> List[Dict[str, Any]]:
+
+    for property_data in properties:
+
+        result = evaluate_search_criteria(
+            property_data,
+            search_config,
+        )
+
+        property_data.update(
+            result
+        )
+
+        property_data[
+            "criteriaEvaluatedAt"
+        ] = now_iso()
+
+        property_data[
+            "criteriaParserVersion"
+        ] = MAIN_PARSER_VERSION
+
+    return properties
+
+
+# ============================================================
+# Property identity
+# ============================================================
+
+def normalize_url(
+    url: Any,
+) -> Optional[str]:
+
+    if not url:
+        return None
+
+    text = str(url).strip()
+
+    text = text.split(
+        "#",
+        1,
+    )[0]
+
+    text = text.rstrip(
+        "/"
+    )
+
+    return text or None
+
+
+def get_property_id(
+    property_data: Dict[str, Any],
+) -> Optional[str]:
+
+    for key in [
+        "id",
+        "propertyId",
+        "listingId",
+    ]:
+
+        value = property_data.get(
+            key
+        )
+
+        if value:
+            return str(value)
+
+    url = normalize_url(
+        property_data.get(
+            "url"
+        )
+        or property_data.get(
+            "sourceUrl"
+        )
+    )
+
+    if url:
+
+        match = re.search(
+            r"/nc_(\d+)$",
+            url,
+        )
+
+        if match:
+            return (
+                "nc_"
+                + match.group(1)
+            )
+
+        return url
+
+    return None
+
+
+# ============================================================
+# Search result normalization
+# ============================================================
+
+def normalize_search_result(
+    item: Dict[str, Any],
+) -> Optional[Dict[str, Any]]:
+
+    if not isinstance(
+        item,
+        dict,
+    ):
+        return None
+
+    url = normalize_url(
+        item.get("url")
+        or item.get("sourceUrl")
+        or item.get("href")
+    )
+
+    if not url:
+        return None
+
+    property_id = (
+        item.get("id")
+        or item.get("propertyId")
+        or item.get("listingId")
+    )
+
+    if not property_id:
+
+        match = re.search(
+            r"/nc_(\d+)$",
+            url,
+        )
+
+        if match:
+            property_id = (
+                "nc_"
+                + match.group(1)
+            )
+
+    result = deepcopy(
+        item
+    )
+
+    result["url"] = url
+
+    if property_id:
+        result["id"] = str(
+            property_id
+        )
+
+    result.setdefault(
+        "discoveredAt",
+        now_iso(),
+    )
+
+    return result
+
+
+# ============================================================
+# Merge discovery history
 # ============================================================
 
 def merge_property(
-    existing,
-    current,
-    collected_at
-):
+    old: Dict[str, Any],
+    new: Dict[str, Any],
+) -> Dict[str, Any]:
 
-    if existing is None:
-        return current
-
-    merged = existing.copy()
-
-    if current.get(
-        "sourceUrl"
-    ):
-
-        merged[
-            "sourceUrl"
-        ] = current[
-            "sourceUrl"
-        ]
-
-    if current.get(
-        "source"
-    ):
-
-        merged[
-            "source"
-        ] = current[
-            "source"
-        ]
-
-    if current.get(
-        "searchArea"
-    ):
-
-        merged[
-            "searchArea"
-        ] = current[
-            "searchArea"
-        ]
-
-    if current.get(
-        "searchPropertyType"
-    ):
-
-        merged[
-            "searchPropertyType"
-        ] = current[
-            "searchPropertyType"
-        ]
-
-    existing_search_price = (
-        merged.get(
-            "lastSearchPrice"
-        )
+    merged = deepcopy(
+        old
     )
 
-    current_search_price = (
-        current.get(
-            "lastSearchPrice"
-        )
-    )
+    for key, value in new.items():
 
-    if current_search_price is not None:
+        if key == "detail":
 
-        merged[
-            "lastSearchPrice"
-        ] = current_search_price
+            if value:
+                merged["detail"] = value
 
-        merged[
-            "lastSearchPriceText"
-        ] = current.get(
-            "lastSearchPriceText"
-        )
+            continue
 
-        if (
-            existing_search_price is not None
-            and current_search_price
-            != existing_search_price
-        ):
+        if key == "lastSuccessfulDetail":
 
-            logger.info(
-                "検索一覧での価格差分を検知 "
-                "(ID: %s): %s -> %s",
-                merged.get("id"),
-                existing_search_price,
-                current_search_price,
-            )
+            if value:
+                merged[
+                    "lastSuccessfulDetail"
+                ] = value
 
-            merged[
-                "priceChanged"
-            ] = True
+            continue
 
-            merged[
-                "priceHistory"
-            ] = normalize_price_history(
-                merged.get(
-                    "priceHistory"
-                ),
-                current_search_price,
-                collected_at,
-                source="search"
-            )
-
-    if not merged.get(
-        "firstSeenAt"
-    ):
-
-        merged[
-            "firstSeenAt"
-        ] = current.get(
-            "firstSeenAt",
-            collected_at
-        )
-
-    merged[
-        "lastSeenAt"
-    ] = collected_at
-
-    merged[
-        "collectedAt"
-    ] = collected_at
-
-    update_price_mismatch_and_refresh_flags(
-        merged
-    )
+        if value is not None:
+            merged[key] = value
 
     return merged
 
 
-def merge_properties(
-    existing_properties,
-    current_properties,
-    collected_at
-):
+def merge_discovered_listings(
+    existing: List[Dict[str, Any]],
+    discovered: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
 
-    if not isinstance(
-        existing_properties,
-        dict
-    ):
+    by_id: Dict[str, Dict[str, Any]] = {}
 
-        existing_properties = {}
+    for item in existing:
 
-    merged_properties = (
-        existing_properties.copy()
+        normalized = normalize_search_result(
+            item
+        )
+
+        if not normalized:
+            continue
+
+        key = get_property_id(
+            normalized
+        )
+
+        if key:
+            by_id[key] = normalized
+
+    for item in discovered:
+
+        normalized = normalize_search_result(
+            item
+        )
+
+        if not normalized:
+            continue
+
+        key = get_property_id(
+            normalized
+        )
+
+        if not key:
+            continue
+
+        if key in by_id:
+
+            by_id[key] = merge_property(
+                by_id[key],
+                normalized,
+            )
+
+        else:
+
+            by_id[key] = normalized
+
+    return list(
+        by_id.values()
+    )
+
+
+# ============================================================
+# Detail fetch
+# ============================================================
+
+def should_fetch_detail(
+    property_data: Dict[str, Any],
+) -> bool:
+
+    detail = property_data.get(
+        "detail"
     )
 
     if isinstance(
-        current_properties,
-        dict
+        detail,
+        dict,
     ):
+        return False
 
-        property_items = (
-            current_properties.values()
-        )
+    last_detail = property_data.get(
+        "lastSuccessfulDetail"
+    )
 
-    elif isinstance(
-        current_properties,
-        list
+    if isinstance(
+        last_detail,
+        dict,
     ):
+        return False
 
-        property_items = current_properties
-
-    else:
-
-        logger.warning(
-            "物件データの形式が不正です"
-        )
-
-        return merged_properties
-
-    for current in property_items:
-
-        if not isinstance(
-            current,
-            dict
-        ):
-            continue
-
-        property_id = current.get(
-            "id"
-        )
-
-        if not property_id:
-            continue
-
-        existing = (
-            merged_properties.get(
-                property_id
-            )
-        )
-
-        merged_properties[
-            property_id
-        ] = merge_property(
-            existing,
-            current,
-            collected_at
-        )
-
-    return merged_properties
+    return True
 
 
-# ============================================================
-# 詳細取得結果の反映
-# ============================================================
+def fetch_detail_for_property(
+    property_data: Dict[str, Any],
+    detail_adapter: SuumoDetailAdapter,
+) -> Dict[str, Any]:
 
-def apply_detail_to_property(
-    property_data: dict,
-    detail_result: dict,
-    fetched_at: str
-) -> None:
-
-    if not isinstance(
-        property_data,
-        dict
-    ):
-        return
-
-    if not isinstance(
-        detail_result,
-        dict
-    ):
-
-        detail_result = {
-            "success": False,
-            "error": (
-                "詳細取得結果が辞書形式ではありません"
-            )
-        }
-
-    detail_fetched = bool(
-        detail_result.get(
-            "success",
-            False
+    url = normalize_url(
+        property_data.get(
+            "url"
         )
     )
 
-    property_data[
-        "detailFetched"
-    ] = detail_fetched
-
-    property_data[
-        "detailFetchedAt"
-    ] = fetched_at
-
-    if detail_fetched:
-
-        raw_detail = (
-            detail_result.get(
-                "detail",
-                {}
-            )
-        )
-
-        if not isinstance(
-            raw_detail,
-            dict
-        ):
-
-            raw_detail = {}
-
-        normalized_detail = normalize_detail(
-            raw_detail
-        )
-
-        quality, score, warnings, missing_fields = (
-            determine_detail_quality(
-                normalized_detail,
-                detail_fetched=True
-            )
-        )
-
-        property_data[
-            "detail"
-        ] = normalized_detail
-
-        property_data[
-            "lastSuccessfulDetail"
-        ] = normalized_detail
-
-        property_data[
-            "lastSuccessfulDetailFetchedAt"
-        ] = fetched_at
-
-        property_data[
-            "detailQuality"
-        ] = quality
-
-        property_data[
-            "detailQualityScore"
-        ] = score
-
-        property_data[
-            "validationWarnings"
-        ] = warnings
-
-        property_data[
-            "missingFields"
-        ] = missing_fields
-
-        detail_price = parse_price(
-            normalized_detail.get(
-                "price"
-            )
-            or normalized_detail.get(
-                "priceText"
-            )
-        )
-
-        property_data[
-            "detailPrice"
-        ] = detail_price
-
-        if detail_price is not None:
-
-            property_data[
-                "detailPriceText"
-            ] = clean_text(
-                normalized_detail.get(
-                    "priceText"
-                )
-            )
-
-            property_data[
-                "lastSuccessfulDetailPrice"
-            ] = detail_price
-
-            property_data[
-                "price"
-            ] = detail_price
-
-            property_data[
-                "priceHistory"
-            ] = normalize_price_history(
-                property_data.get(
-                    "priceHistory"
-                ),
-                detail_price,
-                fetched_at,
-                source="detail"
-            )
-
-        else:
-
-            property_data[
-                "detailPriceText"
-            ] = None
-
-            property_data[
-                "price"
-            ] = property_data.get(
-                "lastSearchPrice"
-            )
-
-        property_data[
-            "detailParserVersion"
-        ] = DETAIL_PARSER_VERSION
-
-        property_data[
-            "priceChanged"
-        ] = False
-
-        property_data[
-            "detailDataStale"
-        ] = False
-
-        property_data[
-            "detailFetchError"
-        ] = None
-
-        property_data[
-            "detailFetchBlocked"
-        ] = False
-
-        property_data[
-            "detailFetchBlockReason"
-        ] = None
-
-    else:
-
-        if property_data.get(
-            "lastSuccessfulDetail"
-        ):
-
-            property_data[
-                "detail"
-            ] = property_data[
-                "lastSuccessfulDetail"
-            ]
-
-        else:
-
-            property_data[
-                "detail"
-            ] = {}
-
-        property_data[
-            "detailDataStale"
-        ] = bool(
-            property_data.get(
-                "lastSuccessfulDetailFetchedAt"
-            )
-        )
-
-        property_data[
-            "detailQuality"
-        ] = "unknown"
-
-        property_data[
-            "detailQualityScore"
-        ] = None
-
-        property_data[
-            "missingFields"
-        ] = []
-
-        property_data[
-            "validationWarnings"
-        ] = [
-            "最新の詳細情報の再取得に失敗しました"
-        ]
-
-        property_data[
-            "detailPrice"
-        ] = None
-
-        property_data[
-            "detailPriceText"
-        ] = None
-
-        property_data[
-            "price"
-        ] = property_data.get(
-            "lastSearchPrice"
-        )
-
-        error_msg = (
-            detail_result.get(
-                "error"
-            )
-            or "Unknown error"
-        )
-
-        property_data[
-            "detailFetchError"
-        ] = str(
-            error_msg
-        )
-
-    update_price_mismatch_and_refresh_flags(
-        property_data
-    )
-
-
-# ============================================================
-# 詳細情報取得
-# ============================================================
-
-def fetch_details(
-    properties,
-    detail_adapter,
-    max_count
-):
-
-    fetched_count = 0
-    success_count = 0
-    error_count = 0
-
-    if max_count <= 0:
-
-        logger.info(
-            "詳細取得上限が0のため、"
-            "詳細取得をスキップします"
-        )
-
-        return properties
-
-    candidates = []
-
-    for property_id, property_data in properties.items():
-
-        if not isinstance(
-            property_data,
-            dict
-        ):
-            continue
-
-        reset_detail_fetch_state_if_parser_updated(
-            property_data
-        )
-
-        if should_fetch_detail(
-            property_data
-        ):
-
-            candidates.append(
-                (
-                    property_id,
-                    property_data
-                )
-            )
-
-    candidates.sort(
-        key=lambda item: (
-            0
-            if item[1].get(
-                "priceChanged"
-            )
-            else 1,
-
-            item[1].get(
-                "fetchAttemptCount",
-                0
-            ),
-
-            -safe_timestamp(
-                item[1].get(
-                    "lastSeenAt"
-                )
-            ),
-        )
-    )
-
-    logger.info(
-        "詳細再取得対象: %s件",
-        len(candidates)
-    )
-
-    for property_id, property_data in candidates:
-
-        if fetched_count >= max_count:
-            break
-
-        url = property_data.get(
-            "sourceUrl"
-        )
-
-        if not url:
-            continue
-
-        logger.info(
-            "詳細情報取得開始: %s %s",
-            property_id,
-            url
-        )
-
-        fetched_count += 1
-
-        fetched_at = now_iso()
-
-        property_data[
-            "fetchAttemptCount"
-        ] = (
-            property_data.get(
-                "fetchAttemptCount",
-                0
-            )
-            + 1
-        )
-
-        property_data[
-            "lastFetchAttemptAt"
-        ] = fetched_at
+    if not url:
+        return property_data
+
+    result = None
+
+    for attempt in range(
+        1,
+        MAX_DETAIL_FETCH_ATTEMPTS + 1,
+    ):
 
         try:
 
@@ -2609,550 +1590,705 @@ def fetch_details(
                 )
             )
 
-        except Exception as error:
-
-            logger.exception(
-                "詳細情報取得中に例外発生: %s",
-                property_id
-            )
+        except Exception as exc:
 
             result = {
                 "success": False,
-                "error": str(error),
+                "detail": None,
+                "error": str(exc),
             }
-
-        if not isinstance(
-            result,
-            dict
-        ):
-
-            result = {
-                "success": False,
-                "error": (
-                    "詳細取得結果が辞書形式ではありません"
-                )
-            }
-
-        apply_detail_to_property(
-            property_data,
-            result,
-            fetched_at
-        )
 
         if result.get(
             "success"
         ):
+            break
 
-            success_count += 1
-
-            logger.info(
-                "詳細情報取得成功: %s "
-                "quality=%s score=%s",
-                property_id,
-                property_data.get(
-                    "detailQuality"
-                ),
-                property_data.get(
-                    "detailQualityScore"
-                ),
-            )
-
-        else:
-
-            error_count += 1
-
-            logger.warning(
-                "詳細情報取得失敗: %s %s",
-                property_id,
-                result.get(
-                    "error"
+        if attempt < (
+            MAX_DETAIL_FETCH_ATTEMPTS
+        ):
+            time.sleep(
+                2 ** (
+                    attempt - 1
                 )
             )
 
-            if (
-                property_data.get(
-                    "fetchAttemptCount",
-                    0
-                )
-                >= MAX_DETAIL_FETCH_ATTEMPTS
-            ):
+    if not result:
 
-                property_data[
-                    "detailFetchBlocked"
-                ] = True
+        return property_data
 
+    property_data[
+        "detailFetchAttempts"
+    ] = property_data.get(
+        "detailFetchAttempts",
+        0,
+    ) + 1
+
+    property_data[
+        "lastDetailFetchAt"
+    ] = result.get(
+        "fetchedAt"
+    ) or now_iso()
+
+    if result.get(
+        "success"
+    ) and result.get(
+        "detail"
+    ):
+
+        detail = result[
+            "detail"
+        ]
+
+        property_data[
+            "detail"
+        ] = detail
+
+        property_data[
+            "lastSuccessfulDetail"
+        ] = deepcopy(
+            detail
+        )
+
+        property_data[
+            "detailFetchSuccess"
+        ] = True
+
+        property_data[
+            "detailFetchError"
+        ] = None
+
+    else:
+
+        property_data[
+            "detailFetchSuccess"
+        ] = False
+
+        property_data[
+            "detailFetchError"
+        ] = result.get(
+            "error"
+        )
+
+        # ----------------------------------------------------
+        # IMPORTANT
+        # ----------------------------------------------------
+        # 以前取得できていた詳細情報がある場合、
+        # 取得失敗によってそれを消さない。
+        # ----------------------------------------------------
+
+        if (
+            "lastSuccessfulDetail"
+            in property_data
+        ):
+
+            property_data[
+                "detail"
+            ] = deepcopy(
                 property_data[
-                    "detailFetchBlockReason"
-                ] = (
-                    "max_attempts_reached"
-                )
+                    "lastSuccessfulDetail"
+                ]
+            )
+
+    return property_data
+
+
+def fetch_details(
+    properties: List[Dict[str, Any]],
+    detail_adapter: SuumoDetailAdapter,
+    limit: int,
+) -> List[Dict[str, Any]]:
+
+    fetched = 0
+
+    for property_data in properties:
+
+        if fetched >= limit:
+            break
+
+        if not should_fetch_detail(
+            property_data
+        ):
+            continue
+
+        print(
+            "[DETAIL]",
+            property_data.get(
+                "url"
+            )
+        )
+
+        fetch_detail_for_property(
+            property_data,
+            detail_adapter,
+        )
+
+        fetched += 1
 
         try:
-
             detail_adapter.wait()
+        except Exception:
+            pass
 
-        except Exception as error:
-
-            logger.warning(
-                "待機処理に失敗しました: %s",
-                error
-            )
-
-    logger.info(
-        "詳細取得結果: 処理=%s件 / "
-        "成功=%s件 / 失敗=%s件",
-        fetched_count,
-        success_count,
-        error_count,
+    print(
+        f"[DETAIL] fetched={fetched}"
     )
 
     return properties
 
 
 # ============================================================
-# 出力データ作成
+# Existing detail refresh
 # ============================================================
+
+def refresh_existing_details(
+    properties: List[Dict[str, Any]],
+    detail_adapter: SuumoDetailAdapter,
+    limit: int,
+) -> List[Dict[str, Any]]:
+
+    """
+    既存物件を必要に応じて再取得する。
+
+    今回は基本的に新規物件を優先。
+    """
+
+    return properties
+
+
+# ============================================================
+# Output filtering
+# ============================================================
+
+def is_displayable_property(
+    property_data: Dict[str, Any],
+) -> bool:
+
+    # --------------------------------------------------------
+    # 実住所から対象エリア確認済みであることを必須化
+    # --------------------------------------------------------
+
+    if (
+        property_data.get(
+            "areaMatched"
+        ) is not True
+    ):
+        return False
+
+    # --------------------------------------------------------
+    # 検索条件
+    # --------------------------------------------------------
+
+    if (
+        property_data.get(
+            "searchCriteriaMatched"
+        ) is not True
+    ):
+        return False
+
+    # --------------------------------------------------------
+    # Detail
+    # --------------------------------------------------------
+
+    detail = get_detail(
+        property_data
+    )
+
+    if not detail:
+        return False
+
+    return True
+
 
 def build_output(
-    properties,
-    collected_at,
-    filter_fetched_only=False,
-    filter_search_criteria=False
-):
+    properties: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
 
-    property_list = list(
-        properties.values()
-    )
+    result = []
 
-    if filter_fetched_only:
+    for property_data in properties:
 
-        property_list = [
-            item
-            for item in property_list
-            if has_usable_detail(item)
-        ]
-
-    if filter_search_criteria:
-
-        before_count = len(
-            property_list
-        )
-
-        property_list = [
-            item
-            for item in property_list
-            if item.get(
-                "searchCriteriaMatched"
-            ) is not False
-        ]
-
-        excluded_count = (
-            before_count
-            - len(property_list)
-        )
-
-        if excluded_count:
-
-            logger.info(
-                "検索条件外物件を出力から除外: %s件",
-                excluded_count
-            )
-
-    property_list.sort(
-        key=lambda item: (
-            item.get(
-                "lastSeenAt",
-                ""
-            ),
-            item.get(
-                "id",
-                ""
-            )
-        ),
-        reverse=True,
-    )
-
-    detail_fetched_count = sum(
-        1
-        for item in property_list
-        if item.get(
-            "detailFetched"
-        )
-    )
-
-    detail_error_count = sum(
-        1
-        for item in property_list
-        if item.get(
-            "detailFetchError"
-        )
-    )
-
-    quality_counts_all = {
-        "good": 0,
-        "partial": 0,
-        "poor": 0,
-        "unknown": 0,
-    }
-
-    quality_counts_fetched = {
-        "good": 0,
-        "partial": 0,
-        "poor": 0,
-    }
-
-    criteria_counts = {
-        "matched": 0,
-        "excluded": 0,
-        "unknown": 0,
-    }
-
-    for item in property_list:
-
-        quality = item.get(
-            "detailQuality",
-            "unknown"
-        )
-
-        if quality in quality_counts_all:
-
-            quality_counts_all[
-                quality
-            ] += 1
-
-        else:
-
-            quality_counts_all[
-                "unknown"
-            ] += 1
-
-        if item.get(
-            "detailFetched"
+        if not is_displayable_property(
+            property_data
         ):
+            continue
 
-            if quality in quality_counts_fetched:
-
-                quality_counts_fetched[
-                    quality
-                ] += 1
-
-        criteria_result = item.get(
-            "searchCriteriaMatched"
+        result.append(
+            property_data
         )
 
-        if criteria_result is True:
+    return result
 
-            criteria_counts[
-                "matched"
-            ] += 1
 
-        elif criteria_result is False:
+# ============================================================
+# Summary
+# ============================================================
 
-            criteria_counts[
-                "excluded"
-            ] += 1
+def build_summary(
+    discovered: List[Dict[str, Any]],
+    houses: List[Dict[str, Any]],
+) -> Dict[str, Any]:
 
-        else:
+    good_count = 0
+    partial_count = 0
+    poor_count = 0
 
-            criteria_counts[
-                "unknown"
-            ] += 1
+    price_reduction_count = 0
+
+    area_excluded_count = 0
+    area_unknown_count = 0
+
+    criteria_excluded_count = 0
+
+    for item in discovered:
+
+        quality = (
+            get_detail(item).get(
+                "detailQuality"
+            )
+        )
+
+        if quality == "good":
+            good_count += 1
+
+        elif quality == "partial":
+            partial_count += 1
+
+        elif quality == "poor":
+            poor_count += 1
+
+        if (
+            item.get(
+                "areaMatched"
+            ) is False
+        ):
+            area_excluded_count += 1
+
+        elif (
+            item.get(
+                "areaMatched"
+            ) is None
+        ):
+            area_unknown_count += 1
+
+        if (
+            item.get(
+                "searchCriteriaMatched"
+            ) is False
+        ):
+            criteria_excluded_count += 1
+
+        # ----------------------------------------------------
+        # Price reduction
+        # ----------------------------------------------------
+
+        price_history = item.get(
+            "priceHistory"
+        )
+
+        if isinstance(
+            price_history,
+            list,
+        ) and len(
+            price_history
+        ) >= 2:
+
+            old_price = to_number(
+                price_history[-2].get(
+                    "price"
+                )
+                if isinstance(
+                    price_history[-2],
+                    dict,
+                )
+                else None
+            )
+
+            new_price = to_number(
+                price_history[-1].get(
+                    "price"
+                )
+                if isinstance(
+                    price_history[-1],
+                    dict,
+                )
+                else None
+            )
+
+            if (
+                old_price is not None
+                and new_price is not None
+                and new_price < old_price
+            ):
+                price_reduction_count += 1
 
     return {
-        "updatedAt": collected_at,
+        "generatedAt": now_iso(),
+        "parserVersion": MAIN_PARSER_VERSION,
 
-        "summary": {
+        "discoveredCount": len(
+            discovered
+        ),
 
-            "discoveredCount": len(
-                property_list
-            ),
+        "houseCount": len(
+            houses
+        ),
 
-            "detailFetchedCount": (
-                detail_fetched_count
-            ),
+        "goodCount": good_count,
+        "partialCount": partial_count,
+        "poorCount": poor_count,
 
-            "detailErrorCount": (
-                detail_error_count
-            ),
+        "priceReductionCount":
+            price_reduction_count,
 
-            "detailQualityCounts": {
-                "all": (
-                    quality_counts_all
-                ),
-                "fetched": (
-                    quality_counts_fetched
-                ),
-            },
+        "areaExcludedCount":
+            area_excluded_count,
 
-            "searchCriteriaCounts": (
-                criteria_counts
-            ),
-        },
+        "areaUnknownCount":
+            area_unknown_count,
 
-        "properties": property_list,
+        "criteriaExcludedCount":
+            criteria_excluded_count,
     }
 
 
 # ============================================================
-# メイン処理
+# Save discovered
 # ============================================================
 
-def main():
+def save_discovered(
+    properties: List[Dict[str, Any]],
+) -> None:
 
-    search_config = load_config()
+    save_json(
+        DISCOVERED_PATH,
+        properties,
+    )
+
+
+def save_houses(
+    properties: List[Dict[str, Any]],
+) -> None:
+
+    houses = build_output(
+        properties
+    )
+
+    save_json(
+        HOUSES_PATH,
+        houses,
+    )
+
+    print(
+        f"[OUTPUT] houses={len(houses)}"
+    )
+
+
+# ============================================================
+# Main
+# ============================================================
+
+def main() -> int:
+
+    print(
+        "============================================"
+    )
+
+    print(
+        "House Monitor"
+    )
+
+    print(
+        f"main parser: {MAIN_PARSER_VERSION}"
+    )
+
+    print(
+        "============================================"
+    )
+
+    # --------------------------------------------------------
+    # Directories
+    # --------------------------------------------------------
+
+    DATA_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    # --------------------------------------------------------
+    # Config
+    # --------------------------------------------------------
+
+    search_config = load_search_config()
+
+    search_urls = load_search_urls()
+
+    print(
+        "[CONFIG]",
+        json.dumps(
+            search_config,
+            ensure_ascii=False,
+        )
+    )
+
+    print(
+        f"[CONFIG] search targets="
+        f"{len(search_urls)}"
+    )
+
+    # --------------------------------------------------------
+    # Existing history
+    # --------------------------------------------------------
+
+    existing_discovered = load_json(
+        DISCOVERED_PATH,
+        [],
+    )
 
     if not isinstance(
-        search_config,
-        dict
+        existing_discovered,
+        list,
     ):
+        existing_discovered = []
 
-        logger.warning(
-            "search.jsonの形式が不正です。"
-            "空の設定として処理します"
-        )
-
-        search_config = {}
-
-    collected_at = now_iso()
-
-    current_properties = []
-
-    # --------------------------------------------------------
-    # 1. SUUMO検索
-    # --------------------------------------------------------
-
-    for adapter in create_adapters():
-
-        try:
-
-            results = adapter.search(
-                search_config
-            )
-
-        except Exception as error:
-
-            logger.exception(
-                "検索処理に失敗しました: %s",
-                error
-            )
-
-            continue
-
-        if not isinstance(
-            results,
-            list
-        ):
-
-            logger.warning(
-                "検索結果がリスト形式ではありません"
-            )
-
-            continue
-
-        for item in results:
-
-            normalized = normalize_property(
-                item,
-                collected_at
-            )
-
-            if normalized is not None:
-
-                current_properties.append(
-                    normalized
-                )
-
-    # --------------------------------------------------------
-    # 2. 今回の検出結果をID単位で重複排除
-    # --------------------------------------------------------
-
-    current_unique = {}
-
-    for property_data in current_properties:
-
-        if not isinstance(
-            property_data,
-            dict
-        ):
-            continue
-
-        property_id = property_data.get(
-            "id"
-        )
-
-        if property_id:
-
-            current_unique[
-                property_id
-            ] = property_data
-
-    # --------------------------------------------------------
-    # 3. 既存物件読み込み
-    # --------------------------------------------------------
-
-    existing_properties = (
-        load_existing_properties()
+    print(
+        f"[HISTORY] existing="
+        f"{len(existing_discovered)}"
     )
 
     # --------------------------------------------------------
-    # 4. 既存データと今回の結果を統合
+    # Search adapter
     # --------------------------------------------------------
 
-    merged_properties = merge_properties(
-        existing_properties,
-        current_unique,
-        collected_at
-    )
-
-    # --------------------------------------------------------
-    # 5. 詳細取得上限
-    # --------------------------------------------------------
-
-    max_detail_count = (
-        get_detail_fetch_limit(
-            search_config
+    search_adapter = (
+        SuumoSearchAdapter(
+            config=search_config,
+            root_path=str(ROOT),
         )
     )
 
     # --------------------------------------------------------
-    # 6. 詳細情報取得
+    # Search
     # --------------------------------------------------------
 
-    if max_detail_count > 0:
+    try:
 
-        detail_adapter = (
-            create_detail_adapter()
+        discovered_now = (
+            search_adapter.search()
         )
 
-        merged_properties = fetch_details(
-            merged_properties,
-            detail_adapter,
-            max_detail_count
+    except TypeError:
+
+        # search adapterによっては
+        # search_urlsを引数に取る実装があるため対応
+        discovered_now = (
+            search_adapter.search(
+                search_urls
+            )
         )
 
-    else:
+    except Exception as exc:
 
-        logger.info(
-            "詳細取得上限が0のため、"
-            "アダプター作成をスキップします"
+        print(
+            "[ERROR] SUUMO search failed:",
+            exc,
         )
+
+        discovered_now = []
+
+    if discovered_now is None:
+        discovered_now = []
+
+    if not isinstance(
+        discovered_now,
+        list,
+    ):
+        discovered_now = []
+
+    normalized_now = []
+
+    for item in discovered_now:
+
+        normalized = (
+            normalize_search_result(
+                item
+            )
+        )
+
+        if normalized:
+            normalized_now.append(
+                normalized
+            )
+
+    print(
+        f"[SEARCH] discovered="
+        f"{len(normalized_now)}"
+    )
 
     # --------------------------------------------------------
-    # 7. 検索条件を適用
+    # Merge
+    # --------------------------------------------------------
+
+    properties = (
+        merge_discovered_listings(
+            existing_discovered,
+            normalized_now,
+        )
+    )
+
+    print(
+        f"[MERGE] total="
+        f"{len(properties)}"
+    )
+
+    # --------------------------------------------------------
+    # Detail adapter
+    # --------------------------------------------------------
+
+    detail_adapter = (
+        SuumoDetailAdapter(
+            config=search_config,
+            root_path=str(ROOT),
+        )
+    )
+
+    # --------------------------------------------------------
+    # IMPORTANT:
     #
-    # 現在は築年数条件を実適用。
-    # 条件外でも discovered_listings には残す。
+    # 新規物件は詳細ページを取得する。
+    #
+    # 検索結果だけでは実住所が分からないため、
+    # エリア判定を詳細取得前には確定させない。
     # --------------------------------------------------------
 
-    merged_properties = apply_search_criteria(
-        merged_properties,
-        search_config
+    detail_limit = to_number(
+        search_config.get(
+            "detailFetchLimit"
+        )
+    )
+
+    if detail_limit is None:
+        detail_limit = (
+            DEFAULT_DETAIL_FETCH_LIMIT
+        )
+
+    detail_limit = int(
+        detail_limit
     )
 
     # --------------------------------------------------------
-    # 8. discovered_listings.json
-    #
-    # 全発見履歴を保存。
-    # 条件外物件も履歴として残す。
+    # Detail fetch
     # --------------------------------------------------------
 
-    discovered_output = build_output(
-        merged_properties,
-        collected_at,
-        filter_fetched_only=False,
-        filter_search_criteria=False
+    properties = fetch_details(
+        properties,
+        detail_adapter,
+        detail_limit,
+    )
+
+    # --------------------------------------------------------
+    # Criteria
+    # --------------------------------------------------------
+
+    properties = apply_search_criteria(
+        properties,
+        search_config,
+    )
+
+    # --------------------------------------------------------
+    # Save discovery history
+    #
+    # IMPORTANT:
+    # area外も保存する。
+    # --------------------------------------------------------
+
+    save_discovered(
+        properties
+    )
+
+    # --------------------------------------------------------
+    # Save houses
+    #
+    # IMPORTANT:
+    #
+    # areaMatched=True
+    # searchCriteriaMatched=True
+    #
+    # の物件だけを表示する。
+    # --------------------------------------------------------
+
+    save_houses(
+        properties
+    )
+
+    # --------------------------------------------------------
+    # Summary
+    # --------------------------------------------------------
+
+    houses = build_output(
+        properties
+    )
+
+    summary = build_summary(
+        properties,
+        houses,
+    )
+
+    summary_path = (
+        DATA_DIR / "summary.json"
     )
 
     save_json(
-        ROOT
-        / "data"
-        / "discovered_listings.json",
-        discovered_output
+        summary_path,
+        summary,
     )
 
-    # --------------------------------------------------------
-    # 9. houses.json
-    #
-    # 詳細取得済み
-    # ＋検索条件内
-    # を表示対象とする。
-    # --------------------------------------------------------
-
-    houses_output = build_output(
-        merged_properties,
-        collected_at,
-        filter_fetched_only=True,
-        filter_search_criteria=True
+    print(
+        "============================================"
     )
 
-    save_json(
-        ROOT
-        / "data"
-        / "houses.json",
-        houses_output
+    print(
+        "[SUMMARY]"
     )
 
-    # --------------------------------------------------------
-    # 10. 実行ログ
-    # --------------------------------------------------------
-
-    min_month = (
-        get_min_construction_month(
-            search_config
+    print(
+        json.dumps(
+            summary,
+            ensure_ascii=False,
+            indent=2,
         )
     )
 
-    logger.info(
-        "今回の検出物件数: %s",
-        len(current_unique)
+    print(
+        "============================================"
     )
 
-    logger.info(
-        "全発見物件総数 "
-        "(discovered_listings.json): %s",
-        len(merged_properties)
-    )
+    return 0
 
-    logger.info(
-        "表示対象物件数 "
-        "(houses.json): %s",
-        houses_output[
-            "summary"
-        ][
-            "discoveredCount"
-        ]
-    )
 
-    logger.info(
-        "詳細取得上限: %s",
-        max_detail_count
-    )
-
-    logger.info(
-        "詳細取得済み累積件数: %s",
-        discovered_output[
-            "summary"
-        ][
-            "detailFetchedCount"
-        ]
-    )
-
-    logger.info(
-        "詳細取得エラー件数: %s",
-        discovered_output[
-            "summary"
-        ][
-            "detailErrorCount"
-        ]
-    )
-
-    logger.info(
-        "築年数条件: %s以降",
-        min_month
-        if min_month is not None
-        else "指定なし"
-    )
-
+# ============================================================
+# Entry point
+# ============================================================
 
 if __name__ == "__main__":
-    main()
+
+    try:
+        sys.exit(
+            main()
+        )
+
+    except KeyboardInterrupt:
+
+        print(
+            "\n[STOP] interrupted"
+        )
+
+        sys.exit(130)
+
+    except Exception as exc:
+
+        print(
+            "[FATAL]",
+            repr(exc),
+        )
+
+        raise
