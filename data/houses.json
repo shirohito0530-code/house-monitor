@@ -1,9 +1,9 @@
 {
-  "updatedAt": "2026-09-22T04:08:27.140199+00:00",
+  "updatedAt": "2026-09-22T04:51:43.607138+00:00",
   "properties": [],
   "summary": {
-    "generatedAt": "2026-09-22T04:08:27.135394+00:00",
-    "parserVersion": "2026-09-22-v16",
+    "generatedAt": "2026-09-22T04:51:43.600764+00:00",
+    "parserVersion": "2026-09-22-v17",
     "discoveredCount": 186,
     "houseCount": 0,
     "goodCount": 0,
@@ -16,10 +16,15 @@
     "criteriaUnknownCount": 186,
     "propertyTypeExcludedCount": 0,
     "detailSuccessCount": 0,
-    "detailFailureCount": 20,
+    "detailFailureCount": 40,
+    "detailPendingCount": 146,
+    "detailInvalidUrlCount": 20,
     "detailNotFoundCount": 0,
     "detailForbiddenCount": 0,
+    "detailRateLimitedCount": 0,
     "detailTimeoutCount": 0,
+    "detailNetworkErrorCount": 0,
+    "detailParseErrorCount": 0,
     "detailOtherErrorCount": 20
   }
 }
