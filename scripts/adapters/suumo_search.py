@@ -26,8 +26,16 @@ class SuumoSearchAdapter(PropertyAdapter):
     NEW_HOUSE_PATH = "/ikkodate/"
 
     # 個別物件ID
+    #
+    # 例:
+    # /nc_12345678
+    # /nc_12345678/
+    # /nc_12345678?xxx=yyy
+    #
+    # queryはpathには含まれないため、
+    # path末尾の / または文字列末尾を許容する。
     LISTING_ID_PATTERN = re.compile(
-        r"/nc_[0-9]+/?$",
+        r"/nc_[0-9]+(?:/|$)",
         re.IGNORECASE
     )
 
@@ -67,9 +75,6 @@ class SuumoSearchAdapter(PropertyAdapter):
         # 優先順位:
         # 1. maxBuiltAgeYears
         # 2. maxBuildingAgeYears
-        #
-        # 例:
-        # "maxBuiltAgeYears": 20
         #
         # 検索段階では築年の一次フィルターとして使用。
         # 最終判定はmain.py側で詳細ページの
@@ -189,6 +194,13 @@ class SuumoSearchAdapter(PropertyAdapter):
                 []
             )
 
+            # 念のため旧形式にも対応
+            if not search_urls:
+                search_urls = data.get(
+                    "targets",
+                    []
+                )
+
         else:
             print(
                 "検索URL設定の形式が不正です"
@@ -204,7 +216,31 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
             return []
 
-        return search_urls
+        # -------------------------------------------------
+        # enabled=false は除外
+        # -------------------------------------------------
+
+        enabled_urls = []
+
+        for target in search_urls:
+
+            if not isinstance(
+                target,
+                dict
+            ):
+                continue
+
+            if target.get(
+                "enabled",
+                True
+            ) is False:
+                continue
+
+            enabled_urls.append(
+                target
+            )
+
+        return enabled_urls
 
     # =====================================================
     # URL判定
@@ -215,19 +251,30 @@ class SuumoSearchAdapter(PropertyAdapter):
         url
     ):
         """
-        SUUMOの正規URLか判定する。
+        SUUMOのURLか判定する。
+
+        重要:
+        - http / https の両方を許容
+        - www.suumo.jp も許容
+        - サブドメインも許容
+        - URLを書き換えない
         """
 
         if not url:
             return False
 
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(
+                str(url).strip()
+            )
 
         except ValueError:
             return False
 
-        if parsed.scheme.lower() != "https":
+        if parsed.scheme.lower() not in (
+            "http",
+            "https"
+        ):
             return False
 
         hostname = (
@@ -241,30 +288,55 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
         )
 
+    # =====================================================
+    # 個別物件URL正規化
+    # =====================================================
+
     def normalize_url(
         self,
         url,
         base_url
     ):
         """
-        個別物件URLを正規化する。
+        個別物件URLを最小限だけ正規化する。
 
-        - https
-        - SUUMOドメイン
-        - クエリ削除
-        - fragment削除
-        - 個別物件URL末尾スラッシュ統一
+        重要:
+        この関数ではURLを「きれいにする」ことより、
+        SUUMOが返したURLを壊さないことを優先する。
+
+        実施する処理:
+        - 相対URL → 絶対URL
+        - SUUMOドメイン確認
+        - http / https の保持
+        - pathの保持
+        - queryの保持
+        - fragmentのみ削除
+        - 個別物件URLの末尾スラッシュを統一
+
+        実施しない処理:
+        - www.suumo.jpへの強制変更
+        - query削除
+        - pathの加工
+        - 大文字小文字の過度な変換
+        - URLの別形式への変換
         """
 
         if not url:
             return None
 
-        url = str(url).strip()
+        original_url = str(
+            url
+        ).strip()
 
-        if url.startswith("#"):
+        if not original_url:
             return None
 
-        if url.lower().startswith(
+        if original_url.startswith(
+            "#"
+        ):
+            return None
+
+        if original_url.lower().startswith(
             (
                 "javascript:",
                 "mailto:",
@@ -273,10 +345,29 @@ class SuumoSearchAdapter(PropertyAdapter):
         ):
             return None
 
-        absolute_url = urljoin(
-            base_url,
-            url
-        )
+        # -------------------------------------------------
+        # プロトコル相対URL
+        #
+        # //www.suumo.jp/...
+        # -------------------------------------------------
+
+        if original_url.startswith(
+            "//"
+        ):
+            absolute_url = (
+                "https:"
+                + original_url
+            )
+
+        else:
+            absolute_url = urljoin(
+                base_url,
+                original_url
+            )
+
+        # -------------------------------------------------
+        # URLとして妥当か確認
+        # -------------------------------------------------
 
         if not self.is_valid_url(
             absolute_url
@@ -291,7 +382,19 @@ class SuumoSearchAdapter(PropertyAdapter):
         except ValueError:
             return None
 
-        path = parsed.path
+        path = parsed.path or ""
+
+        # -------------------------------------------------
+        # 個別物件IDが含まれる場合だけ
+        # 末尾スラッシュを補正
+        #
+        # 例:
+        # /nc_12345678
+        # ↓
+        # /nc_12345678/
+        #
+        # queryは保持する。
+        # -------------------------------------------------
 
         if self.LISTING_ID_PATTERN.search(
             path
@@ -299,18 +402,29 @@ class SuumoSearchAdapter(PropertyAdapter):
             if not path.endswith("/"):
                 path += "/"
 
+        # -------------------------------------------------
+        # 最小限の再構成
+        #
+        # queryは絶対に捨てない。
+        # fragmentのみ削除。
+        # -------------------------------------------------
+
         normalized = urlunparse(
             (
                 parsed.scheme.lower(),
-                parsed.netloc.lower(),
+                parsed.netloc,
                 path,
-                "",
-                "",
+                parsed.params,
+                parsed.query,
                 ""
             )
         )
 
         return normalized
+
+    # =====================================================
+    # 検索ページURL正規化
+    # =====================================================
 
     def normalize_search_url(
         self,
@@ -318,22 +432,29 @@ class SuumoSearchAdapter(PropertyAdapter):
         base_url=None
     ):
         """
-        検索ページ用URLを正規化する。
+        検索ページ用URLを最小限だけ正規化する。
 
         検索ページではページング等に
-        クエリパラメータを使用するため、
+        query parameterを使用するため、
         queryは保持する。
         """
 
         if not url:
             return None
 
-        url = str(url).strip()
+        original_url = str(
+            url
+        ).strip()
 
-        if url.startswith("#"):
+        if not original_url:
             return None
 
-        if url.lower().startswith(
+        if original_url.startswith(
+            "#"
+        ):
+            return None
+
+        if original_url.lower().startswith(
             (
                 "javascript:",
                 "mailto:",
@@ -342,29 +463,53 @@ class SuumoSearchAdapter(PropertyAdapter):
         ):
             return None
 
-        if base_url:
-            url = urljoin(
-                base_url,
-                url
+        # -------------------------------------------------
+        # プロトコル相対URL
+        # -------------------------------------------------
+
+        if original_url.startswith(
+            "//"
+        ):
+            absolute_url = (
+                "https:"
+                + original_url
             )
 
+        elif base_url:
+            absolute_url = urljoin(
+                base_url,
+                original_url
+            )
+
+        else:
+            absolute_url = original_url
+
+        # -------------------------------------------------
+        # URL検証
+        # -------------------------------------------------
+
         if not self.is_valid_url(
-            url
+            absolute_url
         ):
             return None
 
         try:
             parsed = urlparse(
-                url
+                absolute_url
             )
 
         except ValueError:
             return None
 
+        # -------------------------------------------------
+        # queryを保持
+        # fragmentのみ削除
+        # -------------------------------------------------
+
         return urlunparse(
             (
                 parsed.scheme.lower(),
-                parsed.netloc.lower(),
+                parsed.netloc,
                 parsed.path,
                 parsed.params,
                 parsed.query,
@@ -390,35 +535,61 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         新築戸建
         /ikkodate/.../nc_xxxxxxxx/
+
+        queryが付いていても許容する。
         """
 
         if not url:
             return False
 
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(
+                str(url)
+            )
 
         except ValueError:
             return False
 
-        if parsed.scheme.lower() != "https":
+        # -------------------------------------------------
+        # scheme
+        # -------------------------------------------------
+
+        if parsed.scheme.lower() not in (
+            "http",
+            "https"
+        ):
             return False
+
+        # -------------------------------------------------
+        # host
+        # -------------------------------------------------
 
         hostname = (
             parsed.hostname or ""
         ).lower()
 
-        if hostname != self.SUUMO_HOST:
+        if not (
+            hostname == self.SUUMO_HOST
+            or hostname.endswith(
+                "." + self.SUUMO_HOST
+            )
+        ):
             return False
 
-        path = parsed.path.lower()
+        # -------------------------------------------------
+        # path
+        # -------------------------------------------------
+
+        path = parsed.path or ""
+
+        path_lower = path.lower()
 
         is_house_path = (
-            path.startswith(
+            path_lower.startswith(
                 self.USED_HOUSE_PATH
             )
             or
-            path.startswith(
+            path_lower.startswith(
                 self.NEW_HOUSE_PATH
             )
         )
@@ -426,12 +597,23 @@ class SuumoSearchAdapter(PropertyAdapter):
         if not is_house_path:
             return False
 
+        # -------------------------------------------------
+        # 個別物件ID
+        #
+        # queryはpathに含まれないため、
+        # query付きURLも正常に判定できる。
+        # -------------------------------------------------
+
         if not self.LISTING_ID_PATTERN.search(
             path
         ):
             return False
 
         return True
+
+    # =====================================================
+    # 物件種別判定
+    # =====================================================
 
     def get_property_type_from_url(
         self,
@@ -450,12 +632,16 @@ class SuumoSearchAdapter(PropertyAdapter):
             return None
 
         try:
-            parsed = urlparse(url)
+            parsed = urlparse(
+                str(url)
+            )
 
         except ValueError:
             return None
 
-        path = parsed.path.lower()
+        path = (
+            parsed.path or ""
+        ).lower()
 
         if path.startswith(
             self.USED_HOUSE_PATH
@@ -499,7 +685,8 @@ class SuumoSearchAdapter(PropertyAdapter):
         response = requests.get(
             url,
             headers=headers,
-            timeout=self.timeout
+            timeout=self.timeout,
+            allow_redirects=True
         )
 
         response.raise_for_status()
@@ -592,6 +779,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 pass
 
         return None
+
+    # =====================================================
+    # 築年数条件
+    # =====================================================
 
     def is_within_building_age(
         self,
@@ -695,6 +886,10 @@ class SuumoSearchAdapter(PropertyAdapter):
             strip=True
         )
 
+    # =====================================================
+    # 物件候補抽出
+    # =====================================================
+
     def extract_listing_candidates(
         self,
         html,
@@ -703,6 +898,8 @@ class SuumoSearchAdapter(PropertyAdapter):
         """
         検索結果HTMLから
         個別物件候補を抽出する。
+
+        URLはここで破壊的なcanonicalizeを行わない。
 
         戻り値:
 
@@ -722,6 +919,8 @@ class SuumoSearchAdapter(PropertyAdapter):
         )
 
         results = []
+
+        # 同一ページ内の重複排除
         seen_urls = set()
 
         for link in soup.select(
@@ -734,6 +933,12 @@ class SuumoSearchAdapter(PropertyAdapter):
 
             if not href:
                 continue
+
+            # -------------------------------------------------
+            # 最小限のURL変換
+            #
+            # ここではqueryを保持する。
+            # -------------------------------------------------
 
             normalized_url = (
                 self.normalize_url(
@@ -777,9 +982,24 @@ class SuumoSearchAdapter(PropertyAdapter):
 
             results.append(
                 {
+                    # -------------------------------------------------
+                    # 検索結果から取得した個別URL
+                    # -------------------------------------------------
                     "url": normalized_url,
+
+                    # -------------------------------------------------
+                    # 築年
+                    # -------------------------------------------------
                     "builtYear": built_year,
+
+                    # -------------------------------------------------
+                    # カード全文
+                    # -------------------------------------------------
                     "cardText": card_text,
+
+                    # -------------------------------------------------
+                    # URLから判定した種別
+                    # -------------------------------------------------
                     "propertyType": property_type
                 }
             )
@@ -820,13 +1040,19 @@ class SuumoSearchAdapter(PropertyAdapter):
             .strip()
         )
 
-        if normalized_target == "中古戸建":
+        if normalized_target in (
+            "中古戸建",
+            "中古戸建て"
+        ):
             return (
                 property_type
                 == "中古戸建"
             )
 
-        if normalized_target == "新築戸建":
+        if normalized_target in (
+            "新築戸建",
+            "新築戸建て"
+        ):
             return (
                 property_type
                 == "新築戸建"
@@ -892,7 +1118,6 @@ class SuumoSearchAdapter(PropertyAdapter):
                 target_property_type
             ):
                 property_type_filtered += 1
-
                 continue
 
             # -------------------------------------------------
@@ -1052,12 +1277,8 @@ class SuumoSearchAdapter(PropertyAdapter):
         1つの検索条件URLについて
         最大max_pagesページを巡回する。
 
-        重要:
-
         searchAreaは
         「検索条件として指定されたエリア」。
-
-        ここでは実際の所在地を判定しない。
 
         実際の所在地はmain.py側で
         SUUMO詳細ページのaddressを使って判定する。
@@ -1318,25 +1539,12 @@ class SuumoSearchAdapter(PropertyAdapter):
         設定されたSUUMO検索URLを巡回し、
         個別物件候補を返す。
 
-        重要:
+        search_configはmain.pyから渡されるが、
+        検索URL自体はconfig/search_urls.jsonを
+        正式な検索対象として使用する。
 
-        この段階では
-        「検索URLに含まれていたエリア」
-        をsearchAreaとして保持するだけ。
-
-        物件の実所在地をsearchAreaから
-        推定・確定しない。
-
-        最終的なエリア判定は
-        main.pyの詳細ページ取得後、
-
-            detail.address
-                ↓
-            detect_area_from_address()
-                ↓
-            areaMatched
-
-        で行う。
+        実所在地の判定はmain.py側で、
+        詳細ページのaddressを使って行う。
         """
 
         search_targets = (
@@ -1467,13 +1675,27 @@ class SuumoSearchAdapter(PropertyAdapter):
                     {
                         "source": "suumo",
 
+                        # -------------------------------------------------
                         # 個別物件URL
+                        #
+                        # ここではsourceUrlを
+                        # 正式な個別物件URLとして保持する。
+                        # -------------------------------------------------
                         "sourceUrl": listing_url,
 
+                        # -------------------------------------------------
+                        # urlも同じ値を保持
+                        #
+                        # main.py側の既存データ構造との互換性用。
+                        # -------------------------------------------------
+                        "url": listing_url,
+
+                        # -------------------------------------------------
                         # 検索条件として指定されたエリア
                         #
                         # 注意:
                         # これは実所在地ではない。
+                        # -------------------------------------------------
                         "searchArea": candidate.get(
                             "searchArea"
                         ),
