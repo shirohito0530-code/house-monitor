@@ -13,5 +13,34 @@
   "minBuildingArea": 80,
   "maxBuiltAgeYears": 20,
   "onlyFlatLand": false,
-  "excludeRetainingWall": false
+  "excludeRetainingWall": false,
+
+  "detailFetchLimit": 20,
+  "detailRequestIntervalSeconds": 1.5,
+
+  "areaRules": {
+    "柏の葉キャンパス": {
+      "cities": [
+        "柏市"
+      ],
+      "addressPatterns": [
+        "柏の葉",
+        "若柴",
+        "正連寺",
+        "中十余二",
+        "十余二"
+      ]
+    },
+    "流山おおたかの森": {
+      "cities": [
+        "流山市"
+      ],
+      "addressPatterns": [
+        "おおたかの森北",
+        "おおたかの森西",
+        "おおたかの森東",
+        "おおたかの森南"
+      ]
+    }
+  }
 }
