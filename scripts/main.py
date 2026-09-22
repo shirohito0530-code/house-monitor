@@ -26,26 +26,14 @@ except ImportError:
 # Constants
 # ============================================================
 
-# IMPORTANT
-# ------------------------------------------------------------
-# main.py is located at:
+# main.py:
 #
 #   house-monitor/scripts/main.py
 #
-# Therefore:
-#
-#   Path(__file__).resolve().parent
-#
-# points to:
-#
-#   house-monitor/scripts
-#
-# We need the repository root:
+# repository root:
 #
 #   house-monitor
 #
-# ------------------------------------------------------------
-
 ROOT = Path(__file__).resolve().parent.parent
 
 CONFIG_DIR = ROOT / "config"
@@ -61,30 +49,11 @@ SUMMARY_PATH = DATA_DIR / "summary.json"
 DEFAULT_DETAIL_FETCH_LIMIT = 5
 MAX_DETAIL_FETCH_ATTEMPTS = 3
 
-MAIN_PARSER_VERSION = "2026-09-22-v14"
+MAIN_PARSER_VERSION = "2026-09-22-v15"
 
 
 # ============================================================
 # Fallback target area rules
-# ============================================================
-#
-# IMPORTANT
-# ------------------------------------------------------------
-# searchArea:
-#   「どのSUUMO検索条件から見つかったか」
-#
-# areaDetected:
-#   「詳細ページの実住所から判定したエリア」
-#
-# この2つは絶対に混同しない。
-#
-# 原則として search.json の areaRules を使用する。
-# 以下は search.json に areaRules がない場合の
-# 後方互換用。
-#
-# 注意:
-# これは「柏の葉キャンパス周辺」の候補判定であり、
-# 「柏の葉小学校区」の公式学区判定ではない。
 # ============================================================
 
 FALLBACK_AREA_RULES = {
@@ -247,11 +216,13 @@ def to_number(
         return None
 
     try:
+
         return float(
             match.group(0)
         )
 
     except ValueError:
+
         return None
 
 
@@ -314,10 +285,12 @@ def load_search_config() -> Dict[str, Any]:
         config,
         dict,
     ):
+
         print(
             "[WARN] search.json が "
             "objectではありません"
         )
+
         return {}
 
     return config
@@ -334,6 +307,7 @@ def load_search_urls() -> List[Dict[str, Any]]:
         data,
         list,
     ):
+
         return data
 
     if isinstance(
@@ -349,6 +323,7 @@ def load_search_urls() -> List[Dict[str, Any]]:
             targets,
             list,
         ):
+
             return targets
 
     return []
@@ -387,6 +362,7 @@ def get_search_max_age(
     )
 
     if value is not None:
+
         return to_number(
             value
         )
@@ -397,6 +373,7 @@ def get_search_max_age(
     )
 
     if value is not None:
+
         return to_number(
             value
         )
@@ -437,6 +414,7 @@ def get_allowed_property_types(
         values,
         list,
     ):
+
         return []
 
     result = []
@@ -450,6 +428,7 @@ def get_allowed_property_types(
         )
 
         if normalized:
+
             result.append(
                 normalized
             )
@@ -493,7 +472,6 @@ def detect_area_from_address(
     詳細ページの実住所から監視対象エリアを判定。
 
     検索URL・駅名・タイトルは使用しない。
-
     必ず detail.address を優先する。
     """
 
@@ -528,6 +506,7 @@ def detect_area_from_address(
         )
 
         if patterns is None:
+
             patterns = rule.get(
                 "address_patterns",
                 [],
@@ -537,12 +516,14 @@ def detect_area_from_address(
             cities,
             list,
         ):
+
             cities = []
 
         if not isinstance(
             patterns,
             list,
         ):
+
             patterns = []
 
         # ----------------------------------------------------
@@ -575,15 +556,35 @@ def detect_area_from_address(
             if not address_matched:
                 continue
 
-        # ----------------------------------------------------
-        # If city and pattern conditions passed
-        # ----------------------------------------------------
-
         return str(
             area
         )
 
     return None
+
+
+def normalize_search_area(
+    value: Any,
+) -> Optional[str]:
+
+    text = clean_text(
+        value
+    )
+
+    if not text:
+        return None
+
+    aliases = {
+        "柏の葉": "柏の葉キャンパス",
+        "柏の葉キャンパス": "柏の葉キャンパス",
+        "流山おおたかの森": "流山おおたかの森",
+        "おおたかの森": "流山おおたかの森",
+    }
+
+    return aliases.get(
+        text,
+        text,
+    )
 
 
 def evaluate_area(
@@ -619,13 +620,14 @@ def evaluate_area(
         detail,
         dict,
     ):
+
         detail = {}
 
     address = detail.get(
         "address"
     )
 
-    search_area = clean_text(
+    search_area = normalize_search_area(
         property_data.get(
             "searchArea"
         )
@@ -646,7 +648,7 @@ def evaluate_area(
     }
 
     # --------------------------------------------------------
-    # 住所が取得できない
+    # 住所取得不能
     # --------------------------------------------------------
 
     if not address:
@@ -658,7 +660,7 @@ def evaluate_area(
         return result
 
     # --------------------------------------------------------
-    # 実住所が監視対象外
+    # 実住所が対象外
     # --------------------------------------------------------
 
     if detected_area is None:
@@ -674,7 +676,7 @@ def evaluate_area(
         return result
 
     # --------------------------------------------------------
-    # 検索元エリアが不明
+    # 検索元エリア不明
     # --------------------------------------------------------
 
     if not search_area:
@@ -707,16 +709,6 @@ def evaluate_area(
 
     # --------------------------------------------------------
     # 検索元と実住所が不一致
-    #
-    # 例:
-    #
-    # searchArea:
-    #   柏の葉キャンパス
-    #
-    # actual address:
-    #   流山市おおたかの森...
-    #
-    # → 除外
     # --------------------------------------------------------
 
     result[
@@ -725,9 +717,7 @@ def evaluate_area(
 
     result[
         "areaValidationReason"
-    ] = (
-        "search_area_address_mismatch"
-    )
+    ] = "search_area_address_mismatch"
 
     return result
 
@@ -781,7 +771,6 @@ def detect_property_type(
         if normalized:
             return normalized
 
-    # URLからの最終推定
     url = normalize_url(
         property_data.get(
             "url"
@@ -869,11 +858,11 @@ def get_construction_month(
         )
 
         if value:
+
             return str(
                 value
             )
 
-    # constructionTextから補完
     construction_text = (
         detail.get(
             "constructionText"
@@ -906,6 +895,7 @@ def get_construction_month(
         )
 
         if year_match:
+
             return year_match.group(1)
 
     return None
@@ -934,7 +924,6 @@ def calculate_age_from_month(
 
     if month_text is None:
 
-        # 年だけなら年齢は年単位で概算
         month = 1
 
     else:
@@ -946,6 +935,7 @@ def calculate_age_from_month(
         if not (
             1 <= month <= 12
         ):
+
             return None
 
     current = datetime.now(
@@ -957,6 +947,7 @@ def calculate_age_from_month(
         <= year
         <= current.year + 2
     ):
+
         return None
 
     months = (
@@ -967,8 +958,10 @@ def calculate_age_from_month(
         )
     )
 
+    # Future completion date is treated as new.
     if months < 0:
-        return None
+
+        return 0.0
 
     return round(
         months / 12,
@@ -991,10 +984,6 @@ def evaluate_built_age(
         "builtAgeReason": None,
     }
 
-    # --------------------------------------------------------
-    # 年齢フィルターなし
-    # --------------------------------------------------------
-
     if max_age is None:
 
         result[
@@ -1006,14 +995,6 @@ def evaluate_built_age(
         ] = "age_filter_not_configured"
 
         return result
-
-    # --------------------------------------------------------
-    # 新築戸建
-    #
-    # 新築の場合、築年月が取得できなくても
-    # 検索結果上で新築と確認できている場合は
-    # 年齢条件上は許容する。
-    # --------------------------------------------------------
 
     property_type = normalize_property_type(
         detail.get(
@@ -1083,10 +1064,6 @@ def evaluate_built_age(
 
         return result
 
-    # --------------------------------------------------------
-    # 新築の場合
-    # --------------------------------------------------------
-
     if property_type == "新築戸建":
 
         result[
@@ -1098,10 +1075,6 @@ def evaluate_built_age(
         ] = "new_house_without_construction_date"
 
         return result
-
-    # --------------------------------------------------------
-    # 中古等で築年月不明
-    # --------------------------------------------------------
 
     result[
         "builtAgeMatched"
@@ -1132,6 +1105,7 @@ def get_detail(
         detail,
         dict,
     ):
+
         return detail
 
     detail = property_data.get(
@@ -1142,6 +1116,7 @@ def get_detail(
         detail,
         dict,
     ):
+
         return detail
 
     return {}
@@ -1328,12 +1303,14 @@ def detect_flat_land(
         word in text
         for word in negative_words
     ):
+
         return False
 
     if any(
         word in text
         for word in positive_words
     ):
+
         return True
 
     return None
@@ -1365,6 +1342,20 @@ def detect_retaining_wall(
     if not text:
         return None
 
+    no_retaining_words = [
+        "擁壁なし",
+        "擁壁無",
+        "擁壁無し",
+        "擁壁不要",
+    ]
+
+    if any(
+        word in text
+        for word in no_retaining_words
+    ):
+
+        return False
+
     retaining_words = [
         "擁壁",
         "よう壁",
@@ -1378,21 +1369,8 @@ def detect_retaining_wall(
         word in text
         for word in retaining_words
     ):
+
         return True
-
-    # 明示的に擁壁なしと書かれている場合
-    no_retaining_words = [
-        "擁壁なし",
-        "擁壁無",
-        "擁壁無し",
-        "擁壁不要",
-    ]
-
-    if any(
-        word in text
-        for word in no_retaining_words
-    ):
-        return False
 
     return None
 
@@ -1426,6 +1404,7 @@ def evaluate_search_criteria(
             "areaMatched"
         ] is False
     ):
+
         reasons.append(
             area_result[
                 "areaValidationReason"
@@ -1448,6 +1427,7 @@ def evaluate_search_criteria(
             "propertyTypeMatched"
         ] is False
     ):
+
         reasons.append(
             property_type_result[
                 "propertyTypeReason"
@@ -1690,19 +1670,6 @@ def evaluate_search_criteria(
     # ========================================================
     # Final determination
     # ========================================================
-    #
-    # False:
-    #   明確に条件違反
-    #
-    # None:
-    #   判定不能
-    #
-    # True:
-    #   条件適合
-    #
-    # IMPORTANT:
-    #   houses.json は True のみ。
-    # ========================================================
 
     all_results = [
         area_result[
@@ -1739,10 +1706,6 @@ def evaluate_search_criteria(
 
     return {
 
-        # ----------------------------------------------------
-        # Area
-        # ----------------------------------------------------
-
         "areaMatched":
             area_result[
                 "areaMatched"
@@ -1763,10 +1726,6 @@ def evaluate_search_criteria(
                 "areaValidationReason"
             ],
 
-        # ----------------------------------------------------
-        # Property type
-        # ----------------------------------------------------
-
         "propertyType":
             property_type_result[
                 "propertyType"
@@ -1781,10 +1740,6 @@ def evaluate_search_criteria(
             property_type_result[
                 "propertyTypeReason"
             ],
-
-        # ----------------------------------------------------
-        # Individual criteria
-        # ----------------------------------------------------
 
         "priceMatched":
             price_matched,
@@ -1818,10 +1773,6 @@ def evaluate_search_criteria(
 
         "retainingWallMatched":
             retaining_wall_matched,
-
-        # ----------------------------------------------------
-        # Overall
-        # ----------------------------------------------------
 
         "searchCriteriaMatched":
             matched,
@@ -1948,6 +1899,7 @@ def normalize_search_result(
         item,
         dict,
     ):
+
         return None
 
     url = normalize_url(
@@ -2042,12 +1994,6 @@ def normalize_search_result(
 def update_price_history(
     property_data: Dict[str, Any],
 ) -> None:
-    """
-    現在価格をpriceHistoryへ記録。
-
-    既存のpriceHistoryがある場合は、
-    同一価格を連続記録しない。
-    """
 
     detail = get_detail(
         property_data
@@ -2092,6 +2038,7 @@ def update_price_history(
         last_price is not None
         and last_price == price
     ):
+
         return
 
     history.append({
@@ -2099,7 +2046,6 @@ def update_price_history(
         "recordedAt": now_iso(),
     })
 
-    # 履歴は過剰に肥大化させない
     property_data[
         "priceHistory"
     ] = history[-100:]
@@ -2140,7 +2086,6 @@ def merge_property(
 
             continue
 
-        # Noneで既存データを上書きしない
         if value is not None:
 
             merged[
@@ -2245,6 +2190,7 @@ def should_fetch_detail(
         detail,
         dict,
     ):
+
         return False
 
     last_detail = (
@@ -2257,6 +2203,7 @@ def should_fetch_detail(
         last_detail,
         dict,
     ):
+
         return False
 
     return True
@@ -2318,6 +2265,7 @@ def fetch_detail_for_property(
         if result.get(
             "success"
         ):
+
             break
 
         if attempt < (
@@ -2396,20 +2344,11 @@ def fetch_detail_for_property(
             "error"
         )
 
-        # ----------------------------------------------------
-        # IMPORTANT
-        # ----------------------------------------------------
-        # 以前取得できていた詳細情報がある場合、
-        # 取得失敗によってそれを消さない。
-        # ----------------------------------------------------
-
-        if (
-            isinstance(
-                property_data.get(
-                    "lastSuccessfulDetail"
-                ),
-                dict,
-            )
+        if isinstance(
+            property_data.get(
+                "lastSuccessfulDetail"
+            ),
+            dict,
         ):
 
             property_data[
@@ -2461,7 +2400,6 @@ def fetch_details(
 
         except Exception:
 
-            # wait()がない実装でも停止させない
             pass
 
     print(
@@ -2481,16 +2419,6 @@ def refresh_existing_details(
     limit: int,
 ) -> List[Dict[str, Any]]:
 
-    """
-    既存物件の再取得。
-
-    現在は新規物件を優先するため、
-    自動再取得は行わない。
-
-    将来的に価格監視を強化する場合は、
-    ここにrefresh周期を実装する。
-    """
-
     return properties
 
 
@@ -2502,32 +2430,25 @@ def is_displayable_property(
     property_data: Dict[str, Any],
 ) -> bool:
 
-    # --------------------------------------------------------
-    # 実住所から対象エリア確認済みであることを必須化
-    # --------------------------------------------------------
-
+    # 実住所から対象エリア確認済み
     if (
         property_data.get(
             "areaMatched"
         ) is not True
     ):
+
         return False
 
-    # --------------------------------------------------------
     # 全検索条件を通過
-    # --------------------------------------------------------
-
     if (
         property_data.get(
             "searchCriteriaMatched"
         ) is not True
     ):
+
         return False
 
-    # --------------------------------------------------------
-    # Detail
-    # --------------------------------------------------------
-
+    # Detail必須
     detail = get_detail(
         property_data
     )
@@ -2549,6 +2470,7 @@ def build_output(
         if not is_displayable_property(
             property_data
         ):
+
             continue
 
         result.append(
@@ -2761,30 +2683,176 @@ def build_summary(
 
 
 # ============================================================
+# Persistent history loader
+# ============================================================
+
+def load_discovered_history(
+    path: Path,
+) -> List[Dict[str, Any]]:
+    """
+    discovered_listings.json の読み込み。
+
+    新形式:
+        {
+          "updatedAt": "...",
+          "properties": [...],
+          "summary": {...}
+        }
+
+    旧形式:
+        [...]
+    
+    の両方を受け付ける。
+
+    これにより、過去の配列形式データが残っていても
+    次回実行時に正しい内部形式へ移行できる。
+    """
+
+    if not path.exists():
+
+        return []
+
+    data = load_json(
+        path,
+        [],
+    )
+
+    # --------------------------------------------------------
+    # New object format
+    # --------------------------------------------------------
+
+    if isinstance(
+        data,
+        dict,
+    ):
+
+        properties = data.get(
+            "properties",
+            [],
+        )
+
+        if isinstance(
+            properties,
+            list,
+        ):
+
+            return properties
+
+        print(
+            "[WARN] discovered_listings.json の "
+            "properties が配列ではありません"
+        )
+
+        return []
+
+    # --------------------------------------------------------
+    # Legacy array format
+    # --------------------------------------------------------
+
+    if isinstance(
+        data,
+        list,
+    ):
+
+        print(
+            "[INFO] discovered_listings.json は "
+            "旧配列形式です。"
+            "今回の実行で新形式へ移行します。"
+        )
+
+        return data
+
+    print(
+        "[WARN] discovered_listings.json の形式が不正です。"
+    )
+
+    return []
+
+
+# ============================================================
+# Output envelope
+# ============================================================
+
+def build_output_document(
+    properties: List[Dict[str, Any]],
+    summary: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    GitHub Pages / GitHub Actions が利用する
+    標準JSONオブジェクトを生成する。
+
+    必ず以下の3キーを持つ:
+
+      updatedAt
+      properties
+      summary
+    """
+
+    return {
+        "updatedAt": now_iso(),
+        "properties": properties,
+        "summary": summary,
+    }
+
+
+# ============================================================
 # Save
 # ============================================================
 
 def save_discovered(
     properties: List[Dict[str, Any]],
+    summary: Dict[str, Any],
 ) -> None:
+    """
+    discovered_listings.json を保存。
+
+    IMPORTANT:
+    配列を直接保存しない。
+    必ず object形式で保存する。
+    """
+
+    document = build_output_document(
+        properties,
+        summary,
+    )
 
     save_json(
         DISCOVERED_PATH,
-        properties,
+        document,
+    )
+
+    print(
+        f"[OUTPUT] discovered="
+        f"{len(properties)}"
     )
 
 
 def save_houses(
     properties: List[Dict[str, Any]],
+    summary: Dict[str, Any],
 ) -> List[Dict[str, Any]]:
+    """
+    houses.json を保存。
+
+    areaMatched == True
+    かつ
+    searchCriteriaMatched == True
+
+    の物件だけを保存する。
+    """
 
     houses = build_output(
         properties
     )
 
+    document = build_output_document(
+        houses,
+        summary,
+    )
+
     save_json(
         HOUSES_PATH,
-        houses,
+        document,
     )
 
     print(
@@ -2869,18 +2937,10 @@ def main() -> int:
     # --------------------------------------------------------
 
     existing_discovered = (
-        load_json(
-            DISCOVERED_PATH,
-            [],
+        load_discovered_history(
+            DISCOVERED_PATH
         )
     )
-
-    if not isinstance(
-        existing_discovered,
-        list,
-    ):
-
-        existing_discovered = []
 
     print(
         f"[HISTORY] existing="
@@ -2910,16 +2970,22 @@ def main() -> int:
 
     except TypeError:
 
-        # ----------------------------------------------------
-        # Adapterによってはsearch_urlsを
-        # 引数に取る実装があるため対応
-        # ----------------------------------------------------
+        try:
 
-        discovered_now = (
-            search_adapter.search(
-                search_urls
+            discovered_now = (
+                search_adapter.search(
+                    search_urls
+                )
             )
-        )
+
+        except Exception as exc:
+
+            print(
+                "[ERROR] SUUMO search failed:",
+                repr(exc),
+            )
+
+            discovered_now = []
 
     except Exception as exc:
 
@@ -3020,12 +3086,6 @@ def main() -> int:
     # --------------------------------------------------------
     # Detail fetch
     # --------------------------------------------------------
-    #
-    # 新規物件は詳細ページを取得する。
-    #
-    # 検索結果だけでは実住所が分からないため、
-    # エリア判定を詳細取得前には確定させない。
-    # --------------------------------------------------------
 
     properties = fetch_details(
         properties,
@@ -3057,9 +3117,28 @@ def main() -> int:
     )
 
     # --------------------------------------------------------
-    # Save discovery history
+    # Build houses first
+    # --------------------------------------------------------
+
+    houses = build_output(
+        properties
+    )
+
+    # --------------------------------------------------------
+    # Build summary
     #
     # IMPORTANT:
+    # discovered と houses の両方を
+    # 最終状態で集計する。
+    # --------------------------------------------------------
+
+    summary = build_summary(
+        properties,
+        houses,
+    )
+
+    # --------------------------------------------------------
+    # Save discovered history
     #
     # area外
     # 条件外
@@ -3068,44 +3147,49 @@ def main() -> int:
     #
     # も保存する。
     #
-    # これにより、なぜDashboardから消えたか追跡できる。
+    # JSON形式:
+    #
+    # {
+    #   "updatedAt": "...",
+    #   "properties": [...],
+    #   "summary": {...}
+    # }
     # --------------------------------------------------------
 
     save_discovered(
-        properties
+        properties,
+        summary,
     )
 
     # --------------------------------------------------------
     # Save houses
     #
-    # IMPORTANT:
+    # JSON形式:
     #
-    # areaMatched == True
-    #
-    # AND
-    #
-    # searchCriteriaMatched == True
-    #
-    # の物件だけを表示する。
+    # {
+    #   "updatedAt": "...",
+    #   "properties": [...],
+    #   "summary": {...}
+    # }
     # --------------------------------------------------------
 
-    houses = save_houses(
-        properties
-    )
-
-    # --------------------------------------------------------
-    # Summary
-    # --------------------------------------------------------
-
-    summary = build_summary(
+    save_houses(
         properties,
-        houses,
+        summary,
     )
+
+    # --------------------------------------------------------
+    # Save standalone summary
+    # --------------------------------------------------------
 
     save_json(
         SUMMARY_PATH,
         summary,
     )
+
+    # --------------------------------------------------------
+    # Console summary
+    # --------------------------------------------------------
 
     print(
         "============================================"
