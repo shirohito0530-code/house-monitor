@@ -11,7 +11,8 @@
   "maxWalkMinutes": 20,
   "minLandArea": 100,
   "minBuildingArea": 80,
-  "maxBuildingAgeYears": 20,
+  "maxBuiltAgeYears": 20,
   "onlyFlatLand": false,
-  "excludeRetainingWall": false
+  "excludeRetainingWall": false,
+  "detailFetchLimit": 20
 }
