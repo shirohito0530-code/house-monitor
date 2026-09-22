@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-22-v15"
+DETAIL_PARSER_VERSION = "2026-09-22-v16-url-preserve"
 
 
 # ============================================================
@@ -98,6 +98,7 @@ def now_iso() -> str:
 
 
 def clean_text(value: Any) -> Optional[str]:
+
     if value is None:
         return None
 
@@ -170,30 +171,30 @@ def clean_suumo_value(
 # URL
 # ============================================================
 
-def normalize_suumo_url(
+def _prepare_suumo_url(
     url: Any,
 ) -> Optional[str]:
 
     """
-    SUUMO物件URLを取得用URLとして正規化する。
+    SUUMO URLをHTTP取得可能な形に最低限だけ補正する。
 
     重要:
-      この関数は「表示用URLを作る」ためではなく、
-      HTTP取得時の安全性確認・最低限の正規化に使用する。
+      この関数ではURLを「美しく正規化」しない。
 
-    設計方針:
-      - SUUMOドメインのみ許可
-      - http / https を許可
-      - httpsへ統一
-      - パスは原則として保持
-      - queryは保持
-      - fragmentのみ削除
-      - 末尾スラッシュを勝手に追加しない
-      - URLの不要な加工を行わない
+    許可する補正:
+      - //www.suumo.jp/... -> https://www.suumo.jp/...
+      - /chukoikkodate/... -> https://www.suumo.jp/...
+      - host/schemeがない場合の最低限の補正
 
-    これにより、
-    SUUMO検索結果から取得した個別物件URLを
-    表示用リンクとしても極力そのまま利用できる。
+    保持するもの:
+      - http / https
+      - www有無
+      - path
+      - query
+      - 末尾スラッシュ
+
+    削除するもの:
+      - fragmentのみ
     """
 
     if not url:
@@ -204,17 +205,75 @@ def normalize_suumo_url(
     if not text:
         return None
 
-    # protocol-relative URL
+    # --------------------------------------------------------
+    # Protocol-relative URL
+    #
+    # 例:
+    #   //www.suumo.jp/chukoikkodate/.../nc_123/
+    #
+    # HTTPアクセスのためschemeだけ補う。
+    # --------------------------------------------------------
+
     if text.startswith("//"):
+
         text = "https:" + text
 
-    # 相対URL
+    # --------------------------------------------------------
+    # Relative URL
+    #
+    # 例:
+    #   /chukoikkodate/chiba/sc_xxx/nc_123/
+    #
+    # SUUMO上の相対URLだけ最低限補正する。
+    # --------------------------------------------------------
+
     elif text.startswith("/"):
+
         text = "https://www.suumo.jp" + text
 
+    # --------------------------------------------------------
+    # schemeなしのSUUMO URL
+    #
+    # 例:
+    #   www.suumo.jp/chukoikkodate/...
+    # --------------------------------------------------------
+
+    elif text.startswith("www.suumo.jp/"):
+
+        text = "https://" + text
+
+    elif text.startswith("suumo.jp/"):
+
+        text = "https://" + text
+
+    return text
+
+
+def _parse_and_validate_suumo_url(
+    url: Any,
+) -> Optional[Any]:
+
+    """
+    SUUMO URLを解析し、安全性と個別物件URLであることを確認する。
+
+    この関数ではpathを書き換えない。
+    """
+
+    prepared = _prepare_suumo_url(
+        url
+    )
+
+    if not prepared:
+        return None
+
     try:
-        parsed = urlparse(text)
+
+        parsed = urlparse(
+            prepared
+        )
+
     except Exception:
+
         return None
 
     scheme = (
@@ -244,19 +303,23 @@ def normalize_suumo_url(
 
     # --------------------------------------------------------
     # Path
+    #
+    # IMPORTANT:
+    # ここでは /{2,} -> / のような加工をしない。
     # --------------------------------------------------------
 
     path = (
         parsed.path or ""
     )
 
-    path = re.sub(
-        r"/{2,}",
-        "/",
-        path,
-    )
+    if not path:
+        return None
 
     path_lower = path.lower()
+
+    # --------------------------------------------------------
+    # SUUMO戸建て個別ページ
+    # --------------------------------------------------------
 
     if not any(
         path_lower.startswith(prefix)
@@ -265,36 +328,71 @@ def normalize_suumo_url(
         return None
 
     # --------------------------------------------------------
-    # 個別物件URL判定
+    # 個別物件ID
     #
-    # 末尾スラッシュの有無は問わない。
-    # queryが付いていてもpathだけで判定する。
+    # 旧:
+    #   /nc_\d+/?$
+    #
+    # 新:
+    #   /nc_\d+(?:/|$)
+    #
+    # queryが付いていてもpathだけで判定できる。
     # --------------------------------------------------------
 
     if not re.search(
-        r"/nc_\d+(?:/)?$",
-        path_lower,
+        r"/nc_\d+(?:/|$)",
+        path,
+        re.IGNORECASE,
     ):
         return None
 
-    # --------------------------------------------------------
-    # ここが重要
-    #
-    # 以前:
-    #   query / fragmentを完全削除
-    #   末尾/を強制追加
-    #
-    # 今回:
-    #   queryは保持
-    #   fragmentのみ削除
-    #   pathは原則そのまま
-    # --------------------------------------------------------
+    return parsed
+
+
+def normalize_suumo_url(
+    url: Any,
+) -> Optional[str]:
+
+    """
+    SUUMO物件URLをHTTP取得用URLとして最低限だけ正規化する。
+
+    ========================================================
+    重要な設計方針
+    ========================================================
+
+    この関数はURLを別のURLに作り替えるためのものではない。
+
+    以下を維持する:
+
+      - http / https
+      - suumo.jp / www.suumo.jp
+      - path
+      - path中のスラッシュ
+      - query
+      - 末尾スラッシュ
+
+    以下のみ変更:
+
+      - 相対URL → 絶対URL
+      - protocol-relative URL → 絶対URL
+      - fragment削除
+
+    これにより、検索結果から取得した個別物件URLを
+    可能な限りそのまま詳細取得に利用する。
+    """
+
+    parsed = _parse_and_validate_suumo_url(
+        url
+    )
+
+    if parsed is None:
+        return None
 
     return urlunparse(
         (
-            "https",
-            hostname,
-            path,
+            parsed.scheme,
+            parsed.netloc,
+            parsed.path,
             parsed.params,
             parsed.query,
             "",
@@ -307,93 +405,53 @@ def preserve_suumo_listing_url(
 ) -> Optional[str]:
 
     """
-    ユーザーに表示するためのSUUMO物件URL。
+    ユーザーに表示・保存するためのSUUMO物件URL。
 
-    URLそのものを可能な限り保持する。
+    URLを可能な限り元の状態で保持する。
 
-    目的:
-      - 詳細ページへのリンクを壊さない
-      - queryを不用意に削除しない
-      - 末尾スラッシュを勝手に変更しない
+    ========================================================
+    保持
+    ========================================================
 
-    ただし、安全性のためSUUMOの個別物件URLであることは確認する。
+      - http / https
+      - www有無
+      - path
+      - path中のスラッシュ
+      - query
+      - 末尾スラッシュ
+
+    ========================================================
+    変更
+    ========================================================
+
+      - 相対URLは絶対URLへ
+      - protocol-relative URLはhttpsを補完
+      - fragmentのみ削除
+      - scheme / hostは比較用に小文字化
+
+    ========================================================
+    変更しない
+    ========================================================
+
+      - http → https の強制変換
+      - suumo.jp → www.suumo.jp の強制変換
+      - pathのスラッシュ整理
+      - query削除
+      - 末尾スラッシュ追加
     """
 
-    if not url:
-        return None
-
-    text = str(url).strip()
-
-    if not text:
-        return None
-
-    if text.startswith("//"):
-        text = "https:" + text
-
-    elif text.startswith("/"):
-        text = "https://www.suumo.jp" + text
-
-    try:
-        parsed = urlparse(text)
-    except Exception:
-        return None
-
-    scheme = (
-        parsed.scheme or ""
-    ).lower()
-
-    hostname = (
-        parsed.hostname or ""
-    ).lower()
-
-    if hostname not in SUUMO_HOSTS:
-        return None
-
-    if scheme not in {
-        "http",
-        "https",
-    }:
-        return None
-
-    path = (
-        parsed.path or ""
+    parsed = _parse_and_validate_suumo_url(
+        url
     )
 
-    path = re.sub(
-        r"/{2,}",
-        "/",
-        path,
-    )
-
-    path_lower = path.lower()
-
-    if not any(
-        path_lower.startswith(prefix)
-        for prefix in SUUMO_LISTING_PREFIXES
-    ):
+    if parsed is None:
         return None
-
-    if not re.search(
-        r"/nc_\d+(?:/)?$",
-        path_lower,
-    ):
-        return None
-
-    # --------------------------------------------------------
-    # 表示用URLは可能な限り元URLを維持
-    #
-    # httpだけhttpsへ変更。
-    # hostの大文字小文字だけ正規化。
-    # fragmentはWebリンクとして不要なので削除。
-    # queryは保持。
-    # 末尾スラッシュも変更しない。
-    # --------------------------------------------------------
 
     return urlunparse(
         (
-            "https",
-            hostname,
-            path,
+            parsed.scheme,
+            parsed.netloc,
+            parsed.path,
             parsed.params,
             parsed.query,
             "",
@@ -405,10 +463,15 @@ def is_valid_suumo_url(
     url: str,
 ) -> bool:
 
-    return (
-        normalize_suumo_url(url)
-        is not None
+    """
+    SUUMO個別物件URLとして有効か確認する。
+    """
+
+    parsed = _parse_and_validate_suumo_url(
+        url
     )
+
+    return parsed is not None
 
 
 # ============================================================
@@ -525,6 +588,7 @@ def parse_price(
             )
 
         except ValueError:
+
             return None
 
     return None
@@ -566,6 +630,7 @@ def parse_area_m2(
         )
 
     except ValueError:
+
         return None
 
 
@@ -781,6 +846,7 @@ def calculate_construction_age_years(
     )
 
     if reference_date is None:
+
         reference_date = datetime.now(
             timezone.utc
         )
@@ -892,6 +958,7 @@ def collect_label_value_pairs(
                     "store",
                 ]
             ):
+
                 is_shop_or_company = True
                 break
 
@@ -1129,6 +1196,7 @@ def extract_area_from_page(
         )
 
     except ValueError:
+
         return None, None
 
     start = max(
@@ -2087,6 +2155,7 @@ def extract_information_dates(
             )
 
         except ValueError:
+
             continue
 
     return result
@@ -2154,6 +2223,7 @@ def evaluate_detail_quality(
         detail.get("priceText")
         and detail.get("price") is None
     ):
+
         warnings.append(
             "価格テキストは存在するが数値化できない"
         )
@@ -2162,6 +2232,7 @@ def evaluate_detail_quality(
         detail.get("landAreaText")
         and detail.get("landAreaM2") is None
     ):
+
         warnings.append(
             "土地面積テキストは存在するが数値化できない"
         )
@@ -2170,6 +2241,7 @@ def evaluate_detail_quality(
         detail.get("buildingAreaText")
         and detail.get("buildingAreaM2") is None
     ):
+
         warnings.append(
             "建物面積テキストは存在するが数値化できない"
         )
@@ -2181,6 +2253,7 @@ def evaluate_detail_quality(
     if address and is_company_address(
         str(address)
     ):
+
         warnings.append(
             "会社・店舗住所の可能性がある"
         )
@@ -2196,6 +2269,7 @@ def evaluate_detail_quality(
         "バス",
         "駅",
     }:
+
         warnings.append(
             "駅名が不正なUI文字列である"
         )
@@ -2215,6 +2289,7 @@ def evaluate_detail_quality(
             "walkMinutes"
         ) is None
     ):
+
         warnings.append(
             "徒歩分数を抽出できない"
         )
@@ -2222,6 +2297,7 @@ def evaluate_detail_quality(
     if not detail.get(
         "constructionMonth"
     ):
+
         warnings.append(
             "築年月を抽出できない"
         )
@@ -2234,26 +2310,27 @@ def evaluate_detail_quality(
     has_serious_warning = any(
         any(
             word in warning
-            for word
-            in serious_warning_words
+            for word in serious_warning_words
         )
-        for warning
-        in warnings
+        for warning in warnings
     )
 
     if (
         missing_critical
         or has_serious_warning
     ):
+
         quality = "poor"
 
     elif (
         missing_important
         or warnings
     ):
+
         quality = "partial"
 
     else:
+
         quality = "good"
 
     score = {
@@ -2285,12 +2362,14 @@ def classify_http_error(
         exc,
         requests.Timeout,
     ):
+
         return "timeout"
 
     if isinstance(
         exc,
         requests.ConnectionError,
     ):
+
         return "connection_error"
 
     if isinstance(
@@ -2315,9 +2394,11 @@ def classify_http_error(
                 401,
                 403,
             }:
+
                 return "http_forbidden"
 
             if 500 <= status <= 599:
+
                 return "http_5xx"
 
             return (
@@ -2339,7 +2420,7 @@ def fetch_detail(
 ) -> Dict[str, Any]:
 
     # --------------------------------------------------------
-    # 表示用 / 元URL
+    # 元URL
     # --------------------------------------------------------
 
     original_url = str(
@@ -2359,7 +2440,9 @@ def fetch_detail(
         }
 
     # --------------------------------------------------------
-    # 表示用URLは可能な限り保持
+    # 表示・保存用URL
+    #
+    # 可能な限り元URLの形を維持する。
     # --------------------------------------------------------
 
     display_url = (
@@ -2370,6 +2453,8 @@ def fetch_detail(
 
     # --------------------------------------------------------
     # HTTP取得用URL
+    #
+    # ここでも不要なcanonicalizeはしない。
     # --------------------------------------------------------
 
     request_url = (
@@ -2411,6 +2496,10 @@ def fetch_detail(
         "Cache-Control": "no-cache",
     }
 
+    # ========================================================
+    # HTTP Request
+    # ========================================================
+
     try:
 
         response = requests.get(
@@ -2423,7 +2512,9 @@ def fetch_detail(
         response.raise_for_status()
 
         # ----------------------------------------------------
-        # Redirect先確認
+        # Redirect先
+        #
+        # redirect先も可能な限りそのまま保持する。
         # ----------------------------------------------------
 
         final_url = (
@@ -2432,18 +2523,36 @@ def fetch_detail(
             )
         )
 
-        # redirect先がSUUMOであれば、
-        # preserve_suumo_listing_url() で取れないケースもあるため
-        # 安全確認だけ別途実施する。
+        # ----------------------------------------------------
+        # redirect先が個別物件URLでない場合
+        #
+        # 例えばSUUMO側がcanonical/別ページへ遷移させるケースが
+        # あり得るため、まずSUUMOドメインかどうかを確認する。
+        #
+        # ここでは「redirectされたから即失敗」とはしない。
+        # ----------------------------------------------------
+
         if final_url is None:
 
-            final_normalized = (
-                normalize_suumo_url(
+            try:
+
+                redirected = urlparse(
                     response.url
                 )
-            )
 
-            if final_normalized is None:
+                redirected_hostname = (
+                    redirected.hostname
+                    or ""
+                ).lower()
+
+            except Exception:
+
+                redirected_hostname = ""
+
+            if (
+                redirected_hostname
+                not in SUUMO_HOSTS
+            ):
 
                 return {
                     "success": False,
@@ -2459,25 +2568,15 @@ def fetch_detail(
                     "finalUrl": response.url,
                 }
 
-            final_url = final_normalized
+            # ------------------------------------------------
+            # SUUMO内リダイレクトであれば、
+            # 個別物件URLとして再利用できない場合でも
+            # 実際に取得したURLを保持する。
+            # ------------------------------------------------
 
-        # ----------------------------------------------------
-        # Encoding
-        # ----------------------------------------------------
-
-        if (
-            not response.encoding
-            or response.encoding.lower()
-            in {
-                "iso-8859-1",
-                "latin-1",
-            }
-        ):
-
-            response.encoding = (
-                response.apparent_encoding
-                or "utf-8"
-            )
+            final_url = str(
+                response.url
+            ).strip()
 
     except requests.RequestException as exc:
 
@@ -2514,6 +2613,24 @@ def fetch_detail(
             ),
             "requestUrl": request_url,
         }
+
+    # ========================================================
+    # Encoding
+    # ========================================================
+
+    if (
+        not response.encoding
+        or response.encoding.lower()
+        in {
+            "iso-8859-1",
+            "latin-1",
+        }
+    ):
+
+        response.encoding = (
+            response.apparent_encoding
+            or "utf-8"
+        )
 
     # ========================================================
     # Empty response detection
@@ -2739,7 +2856,7 @@ def fetch_detail(
         # URL
         #
         # sourceUrl:
-        #   ユーザーが開くためのURL
+        #   保存・表示するためのURL
         #
         # requestUrl:
         #   HTTP取得に使用したURL
@@ -2939,8 +3056,8 @@ def fetch_detail(
 
         # ----------------------------------------------------
         # IMPORTANT:
-        # sourceUrlは加工済みrequest URLではなく、
-        # ユーザーが開くためのURLを返す。
+        # sourceUrlは加工済みcanonical URLではなく、
+        # 表示・再利用用URLを返す。
         # ----------------------------------------------------
 
         "sourceUrl": (
