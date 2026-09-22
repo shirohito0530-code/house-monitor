@@ -848,6 +848,7 @@ def normalize_search_area(
 def apply_url_area_prefilter(
     property_data: Dict[str, Any],
     search_config: Dict[str, Any],
+    search_urls: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
 
     url = (
@@ -885,48 +886,52 @@ def apply_url_area_prefilter(
 
         return property_data
 
-    area_rules = get_area_rules(
-        search_config
-    )
-
     allowed_city_codes = set()
 
-    if search_area in area_rules:
+    # 1. search_urls.json の設定から動的に許容市区町村コードを取得
+    for target in search_urls:
 
-        rule = area_rules[
-            search_area
-        ]
-
-        city_codes = rule.get(
-            "cityCodes",
-            [],
+        target_area = normalize_search_area(
+            target.get("area")
         )
 
-        if city_codes:
+        if target_area == search_area:
 
-            allowed_city_codes.update(
-                city_codes
-            )
+            codes = target.get("allowedCityCodes")
+
+            if isinstance(codes, list):
+                allowed_city_codes.update(codes)
+
+    # 2. 未定義の場合は areaRules / FALLBACK から取得
+    if not allowed_city_codes:
+
+        area_rules = get_area_rules(
+            search_config
+        )
+
+        if search_area in area_rules:
+
+            rule = area_rules[search_area]
+
+            city_codes = rule.get("cityCodes", [])
+
+            if city_codes:
+                allowed_city_codes.update(city_codes)
+
+            else:
+                cities = rule.get("cities", [])
+
+                if "柏市" in cities:
+                    allowed_city_codes.add("sc_kashiwa")
+
+                if "流山市" in cities:
+                    allowed_city_codes.add("sc_nagareyama")
 
         else:
-
-            cities = rule.get(
-                "cities",
-                [],
-            )
-
-            if "柏市" in cities:
-                allowed_city_codes.add("sc_kashiwa")
-
-            if "流山市" in cities:
-                allowed_city_codes.add("sc_nagareyama")
-
-    else:
-
-        allowed_city_codes = {
-            "sc_kashiwa",
-            "sc_nagareyama",
-        }
+            allowed_city_codes = {
+                "sc_kashiwa",
+                "sc_nagareyama",
+            }
 
     if city_code not in allowed_city_codes:
 
@@ -1285,18 +1290,18 @@ def calculate_age_from_month(
 
 
 def evaluate_built_age(
-    detail: Dict[str, Any],
+    property_data: Dict[str, Any],
     search_config: Dict[str, Any],
-    property_type: Optional[str] = None,
 ) -> Dict[str, Any]:
 
+    detail = get_detail(
+        property_data
+    )
+
     p_type = (
-        property_type
-        or normalize_property_type(
-            detail.get(
-                "propertyType"
-            )
-        )
+        normalize_property_type(detail.get("propertyType"))
+        or normalize_property_type(property_data.get("propertyType"))
+        or normalize_property_type(property_data.get("searchPropertyType"))
     )
 
     if p_type == "新築戸建":
@@ -1848,11 +1853,8 @@ def evaluate_search_criteria(
             )
 
     age_result = evaluate_built_age(
-        detail,
+        property_data,
         search_config,
-        property_type=property_type_result[
-            "propertyType"
-        ],
     )
 
     if age_result[
@@ -2682,6 +2684,8 @@ def merge_discovered_listings(
         if not key:
             continue
 
+        normalized["seenThisRun"] = False
+
         if item.get(
             "lastSeenAt"
         ):
@@ -2763,6 +2767,8 @@ def merge_discovered_listings(
         if not key:
             continue
 
+        normalized["seenThisRun"] = True
+
         if key in by_id:
 
             by_id[
@@ -2771,6 +2777,8 @@ def merge_discovered_listings(
                 by_id[key],
                 normalized,
             )
+
+            by_id[key]["seenThisRun"] = True
 
         else:
 
@@ -2852,9 +2860,40 @@ def should_fetch_detail(
     ):
         return False
 
-    return not has_successful_detail(
+    seen_this_run = property_data.get(
+        "seenThisRun",
+        False,
+    )
+
+    has_success = has_successful_detail(
         property_data
     )
+
+    if not seen_this_run and has_success:
+        return False
+
+    if seen_this_run and not has_success:
+        return True
+
+    price_history = property_data.get(
+        "priceHistory",
+        [],
+    )
+
+    if (
+        seen_this_run
+        and isinstance(price_history, list)
+        and len(price_history) >= 2
+    ):
+        return True
+
+    if (
+        seen_this_run
+        and property_data.get("detailFetchErrorType") in RETRYABLE_DETAIL_ERROR_TYPES
+    ):
+        return True
+
+    return not has_success
 
 
 def detail_fetch_priority(
@@ -2867,40 +2906,21 @@ def detail_fetch_priority(
     ):
         return 999
 
-    if has_successful_detail(
+    seen_this_run = property_data.get(
+        "seenThisRun",
+        False,
+    )
+
+    has_success = has_successful_detail(
         property_data
-    ):
+    )
+
+    if has_success and not seen_this_run:
         return 900
 
-    search_area = normalize_search_area(
-        property_data.get(
-            "searchArea"
-        )
-    )
-
-    city_code = property_data.get(
-        "urlCityCode"
-    )
-
-    is_target_area_match = False
-
-    if (
-        search_area == "柏の葉キャンパス"
-        and city_code == "sc_kashiwa"
-    ):
-        is_target_area_match = True
-
-    elif (
-        search_area == "流山おおたかの森"
-        and city_code == "sc_nagareyama"
-    ):
-        is_target_area_match = True
-
     is_new = (
-        property_data.get(
-            "discoveryCount",
-            1,
-        ) == 1
+        property_data.get("firstDiscoveredAt") is not None
+        and property_data.get("discoveryCount") == 1
     )
 
     price_history = property_data.get(
@@ -2909,29 +2929,27 @@ def detail_fetch_priority(
     )
 
     has_price_change = (
-        isinstance(
-            price_history,
-            list,
-        )
+        isinstance(price_history, list)
         and len(price_history) >= 2
     )
 
-    error_type = property_data.get(
+    has_error = property_data.get(
         "detailFetchErrorType"
-    )
+    ) is not None
 
-    has_error = error_type is not None
-
-    if is_target_area_match:
-        return 1
+    if seen_this_run and not has_success:
+        return 0
 
     if is_new:
-        return 2
+        return 1
 
     if has_price_change:
+        return 2
+
+    if has_error:
         return 3
 
-    if not has_error:
+    if not has_success:
         return 4
 
     return 5
@@ -4221,8 +4239,11 @@ def main() -> int:
     )
 
     # ========================================================
-    # Search Execution
+    # Search Execution & Dynamic Health Check
     # ========================================================
+
+    search_healthy = False
+    discovered_now = []
 
     try:
 
@@ -4232,6 +4253,23 @@ def main() -> int:
             )
         )
 
+        if discovered_now is None:
+            discovered_now = []
+
+        if len(discovered_now) == 0 and len(existing_discovered) > 0:
+
+            print(
+                "[WARN] "
+                "Current SUUMO search returned 0 results. "
+                "Preserving existing history."
+            )
+
+            search_healthy = False
+
+        else:
+
+            search_healthy = True
+
     except Exception as exc:
 
         print(
@@ -4239,30 +4277,15 @@ def main() -> int:
             repr(exc),
         )
 
-        return 1
-
-    if discovered_now is None:
-        discovered_now = []
-
-    if not isinstance(
-        discovered_now,
-        list,
-    ):
-
-        print(
-            "[FATAL] search adapter result "
-            "is not a list"
-        )
-
-        return 1
+        search_healthy = False
 
     # ========================================================
-    # Normalize Search Results
+    # Normalize Search Results (二重呼び出しの解消)
     # ========================================================
 
     normalized_now = []
 
-    for item in discovered_now:
+    for item in (discovered_now or []):
 
         normalized = (
             normalize_search_result(
@@ -4337,22 +4360,7 @@ def main() -> int:
         )
     )
 
-    search_healthy = True
-
-    if (
-        len(discovered_now) == 0
-        and len(existing_discovered) > 0
-    ):
-
-        search_healthy = False
-
-        print(
-            "[WARN] "
-            "Current SUUMO search returned 0 results. "
-            "Preserving existing history."
-        )
-
-    # ================================================= grand
+    # ========================================================
     # Merge History
     # ========================================================
 
@@ -4369,7 +4377,7 @@ def main() -> int:
     )
 
     # ========================================================
-    # Detail Crawl Pre-filter (URL 市区町村判定)
+    # Detail Crawl Pre-filter (URL 市区町村判定 & 動的 config 連動)
     # ========================================================
 
     prefilter_excluded_count = 0
@@ -4379,6 +4387,7 @@ def main() -> int:
         apply_url_area_prefilter(
             item,
             search_config,
+            search_urls,
         )
 
         if item.get(
@@ -4396,21 +4405,37 @@ def main() -> int:
     # Detail Crawl Execution
     # ========================================================
 
-    detail_adapter = (
-        SuumoDetailAdapter(
-            config=search_config,
-            root_path=str(ROOT),
-        )
-    )
+    run_stats = {
+        "fetchedThisRun": 0,
+        "successThisRun": 0,
+        "failureThisRun": 0,
+    }
 
-    properties, run_stats = fetch_details(
-        properties,
-        detail_adapter,
-        limit=detail_fetch_limit,
-    )
+    if search_healthy:
+
+        detail_adapter = (
+            SuumoDetailAdapter(
+                config=search_config,
+                root_path=str(ROOT),
+            )
+        )
+
+        properties, run_stats = fetch_details(
+            properties,
+            detail_adapter,
+            limit=detail_fetch_limit,
+        )
+
+    else:
+
+        print(
+            "[DETAIL] "
+            "Skipped because current search "
+            "was unhealthy."
+        )
 
     # ========================================================
-    # Evaluate Search Criteria
+    # Evaluate Search Criteria & Price History Update
     # ========================================================
 
     properties = apply_search_criteria(
@@ -4420,9 +4445,11 @@ def main() -> int:
 
     for item in properties:
 
-        update_price_history(
-            item
-        )
+        if has_successful_detail(item):
+
+            update_price_history(
+                item
+            )
 
     # ========================================================
     # Summary & Output Generation
