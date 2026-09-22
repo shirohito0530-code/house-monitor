@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-22-v14"
+DETAIL_PARSER_VERSION = "2026-09-22-v15"
 
 
 # ============================================================
@@ -175,19 +175,25 @@ def normalize_suumo_url(
 ) -> Optional[str]:
 
     """
-    SUUMO物件URLをcanonical URLへ正規化する。
+    SUUMO物件URLを取得用URLとして正規化する。
 
-    許可:
-      https://suumo.jp/...
-      https://www.suumo.jp/...
-      http://suumo.jp/...       -> httpsへ正規化
-      http://www.suumo.jp/...   -> httpsへ正規化
+    重要:
+      この関数は「表示用URLを作る」ためではなく、
+      HTTP取得時の安全性確認・最低限の正規化に使用する。
 
-    不許可:
-      他ドメイン
-      検索ページ
-      物件以外のページ
-      nc_XXXXXXXX を含まないURL
+    設計方針:
+      - SUUMOドメインのみ許可
+      - http / https を許可
+      - httpsへ統一
+      - パスは原則として保持
+      - queryは保持
+      - fragmentのみ削除
+      - 末尾スラッシュを勝手に追加しない
+      - URLの不要な加工を行わない
+
+    これにより、
+    SUUMO検索結果から取得した個別物件URLを
+    表示用リンクとしても極力そのまま利用できる。
     """
 
     if not url:
@@ -219,25 +225,31 @@ def normalize_suumo_url(
         parsed.hostname or ""
     ).lower()
 
-    if hostname == "www.suumo.jp":
-        canonical_host = "www.suumo.jp"
-    elif hostname == "suumo.jp":
-        canonical_host = "www.suumo.jp"
-    else:
+    # --------------------------------------------------------
+    # Host
+    # --------------------------------------------------------
+
+    if hostname not in SUUMO_HOSTS:
         return None
 
-    # HTTPでもSUUMOならHTTPSへ統一
+    # --------------------------------------------------------
+    # Scheme
+    # --------------------------------------------------------
+
     if scheme not in {
         "http",
         "https",
     }:
         return None
 
+    # --------------------------------------------------------
+    # Path
+    # --------------------------------------------------------
+
     path = (
         parsed.path or ""
     )
 
-    # path内の連続スラッシュのみ修正
     path = re.sub(
         r"/{2,}",
         "/",
@@ -252,23 +264,138 @@ def normalize_suumo_url(
     ):
         return None
 
-    # nc_XXXXXXXX の個別物件ページのみ許可
+    # --------------------------------------------------------
+    # 個別物件URL判定
+    #
+    # 末尾スラッシュの有無は問わない。
+    # queryが付いていてもpathだけで判定する。
+    # --------------------------------------------------------
+
     if not re.search(
-        r"/nc_\d+/?$",
+        r"/nc_\d+(?:/)?$",
         path_lower,
     ):
         return None
 
-    path = path.rstrip("/") + "/"
+    # --------------------------------------------------------
+    # ここが重要
+    #
+    # 以前:
+    #   query / fragmentを完全削除
+    #   末尾/を強制追加
+    #
+    # 今回:
+    #   queryは保持
+    #   fragmentのみ削除
+    #   pathは原則そのまま
+    # --------------------------------------------------------
 
-    # query / fragmentはcanonical URLには含めない
     return urlunparse(
         (
             "https",
-            canonical_host,
+            hostname,
             path,
+            parsed.params,
+            parsed.query,
             "",
-            "",
+        )
+    )
+
+
+def preserve_suumo_listing_url(
+    url: Any,
+) -> Optional[str]:
+
+    """
+    ユーザーに表示するためのSUUMO物件URL。
+
+    URLそのものを可能な限り保持する。
+
+    目的:
+      - 詳細ページへのリンクを壊さない
+      - queryを不用意に削除しない
+      - 末尾スラッシュを勝手に変更しない
+
+    ただし、安全性のためSUUMOの個別物件URLであることは確認する。
+    """
+
+    if not url:
+        return None
+
+    text = str(url).strip()
+
+    if not text:
+        return None
+
+    if text.startswith("//"):
+        text = "https:" + text
+
+    elif text.startswith("/"):
+        text = "https://www.suumo.jp" + text
+
+    try:
+        parsed = urlparse(text)
+    except Exception:
+        return None
+
+    scheme = (
+        parsed.scheme or ""
+    ).lower()
+
+    hostname = (
+        parsed.hostname or ""
+    ).lower()
+
+    if hostname not in SUUMO_HOSTS:
+        return None
+
+    if scheme not in {
+        "http",
+        "https",
+    }:
+        return None
+
+    path = (
+        parsed.path or ""
+    )
+
+    path = re.sub(
+        r"/{2,}",
+        "/",
+        path,
+    )
+
+    path_lower = path.lower()
+
+    if not any(
+        path_lower.startswith(prefix)
+        for prefix in SUUMO_LISTING_PREFIXES
+    ):
+        return None
+
+    if not re.search(
+        r"/nc_\d+(?:/)?$",
+        path_lower,
+    ):
+        return None
+
+    # --------------------------------------------------------
+    # 表示用URLは可能な限り元URLを維持
+    #
+    # httpだけhttpsへ変更。
+    # hostの大文字小文字だけ正規化。
+    # fragmentはWebリンクとして不要なので削除。
+    # queryは保持。
+    # 末尾スラッシュも変更しない。
+    # --------------------------------------------------------
+
+    return urlunparse(
+        (
+            "https",
+            hostname,
+            path,
+            parsed.params,
+            parsed.query,
             "",
         )
     )
@@ -458,10 +585,6 @@ def parse_year_month(
     if not text:
         return None, None
 
-    # --------------------------------------------------------
-    # 西暦 YYYY年MM月
-    # --------------------------------------------------------
-
     patterns = [
         r"((?:19|20)\d{2})\s*年\s*(\d{1,2})\s*月",
         r"((?:19|20)\d{2})\s*[/-]\s*(\d{1,2})",
@@ -492,10 +615,6 @@ def parse_year_month(
                 "month",
             )
 
-    # --------------------------------------------------------
-    # 西暦 YYYY年
-    # --------------------------------------------------------
-
     match = re.search(
         r"((?:19|20)\d{2})\s*年",
         text,
@@ -507,10 +626,6 @@ def parse_year_month(
             f"{int(match.group(1)):04d}-01",
             "year",
         )
-
-    # --------------------------------------------------------
-    # 和暦 YYYY年MM月
-    # --------------------------------------------------------
 
     era_patterns = [
         (
@@ -556,10 +671,6 @@ def parse_year_month(
                 f"{year:04d}-{month:02d}",
                 "month",
             )
-
-    # --------------------------------------------------------
-    # 和暦 年のみ
-    # --------------------------------------------------------
 
     era_year_patterns = [
         (
@@ -1278,10 +1389,6 @@ def extract_address(
     page_text: str,
 ) -> Optional[str]:
 
-    # ========================================================
-    # 最優先: 「物件所在地」
-    # ========================================================
-
     for label, value in pairs.items():
 
         if "物件所在地" not in label:
@@ -1293,10 +1400,6 @@ def extract_address(
 
         if address:
             return address
-
-    # ========================================================
-    # 次点: 「所在地」
-    # ========================================================
 
     for label, value in pairs.items():
 
@@ -1320,10 +1423,6 @@ def extract_address(
 
         if address:
             return address
-
-    # ========================================================
-    # page text
-    # ========================================================
 
     patterns = [
 
@@ -1353,10 +1452,6 @@ def extract_address(
 
         if address:
             return address
-
-    # ========================================================
-    # text block
-    # ========================================================
 
     for block in blocks:
 
@@ -1481,10 +1576,6 @@ def extract_construction(
         "築年",
     ]
 
-    # --------------------------------------------------------
-    # 1. table
-    # --------------------------------------------------------
-
     for label, value in pairs.items():
 
         if not any(
@@ -1506,10 +1597,6 @@ def extract_construction(
                 precision,
                 value,
             )
-
-    # --------------------------------------------------------
-    # 2. page text
-    # --------------------------------------------------------
 
     patterns = [
 
@@ -1576,10 +1663,6 @@ def extract_construction(
                 precision,
                 value,
             )
-
-    # --------------------------------------------------------
-    # 3. text blocks
-    # --------------------------------------------------------
 
     for block in blocks:
 
@@ -1711,10 +1794,6 @@ def extract_station_info(
         clean_blocks
         + [page_text]
     )
-
-    # ========================================================
-    # バス
-    # ========================================================
 
     bus_patterns = [
 
@@ -1852,10 +1931,6 @@ def extract_station_info(
                 )
 
                 return result
-
-    # ========================================================
-    # 徒歩
-    # ========================================================
 
     walk_patterns = [
 
@@ -2264,16 +2339,46 @@ def fetch_detail(
 ) -> Dict[str, Any]:
 
     # --------------------------------------------------------
-    # URL canonicalization
+    # 表示用 / 元URL
     # --------------------------------------------------------
 
-    canonical_url = (
-        normalize_suumo_url(
-            url
+    original_url = str(
+        url
+    ).strip()
+
+    if not original_url:
+
+        return {
+            "success": False,
+            "fetchedAt": now_iso(),
+            "detail": None,
+            "error": "empty_suumo_url",
+            "errorType": "invalid_suumo_url",
+            "sourceUrl": url,
+            "requestUrl": None,
+        }
+
+    # --------------------------------------------------------
+    # 表示用URLは可能な限り保持
+    # --------------------------------------------------------
+
+    display_url = (
+        preserve_suumo_listing_url(
+            original_url
         )
     )
 
-    if not canonical_url:
+    # --------------------------------------------------------
+    # HTTP取得用URL
+    # --------------------------------------------------------
+
+    request_url = (
+        normalize_suumo_url(
+            original_url
+        )
+    )
+
+    if not request_url:
 
         return {
             "success": False,
@@ -2281,7 +2386,11 @@ def fetch_detail(
             "detail": None,
             "error": "invalid_suumo_url",
             "errorType": "invalid_suumo_url",
-            "sourceUrl": url,
+            "sourceUrl": (
+                display_url
+                or original_url
+            ),
+            "requestUrl": None,
         }
 
     headers = {
@@ -2305,7 +2414,7 @@ def fetch_detail(
     try:
 
         response = requests.get(
-            canonical_url,
+            request_url,
             headers=headers,
             timeout=timeout,
             allow_redirects=True,
@@ -2318,22 +2427,39 @@ def fetch_detail(
         # ----------------------------------------------------
 
         final_url = (
-            normalize_suumo_url(
+            preserve_suumo_listing_url(
                 response.url
             )
         )
 
+        # redirect先がSUUMOであれば、
+        # preserve_suumo_listing_url() で取れないケースもあるため
+        # 安全確認だけ別途実施する。
         if final_url is None:
 
-            return {
-                "success": False,
-                "fetchedAt": now_iso(),
-                "detail": None,
-                "error": "redirected_outside_suumo",
-                "errorType": "redirected_outside_suumo",
-                "sourceUrl": canonical_url,
-                "finalUrl": response.url,
-            }
+            final_normalized = (
+                normalize_suumo_url(
+                    response.url
+                )
+            )
+
+            if final_normalized is None:
+
+                return {
+                    "success": False,
+                    "fetchedAt": now_iso(),
+                    "detail": None,
+                    "error": "redirected_outside_suumo",
+                    "errorType": "redirected_outside_suumo",
+                    "sourceUrl": (
+                        display_url
+                        or original_url
+                    ),
+                    "requestUrl": request_url,
+                    "finalUrl": response.url,
+                }
+
+            final_url = final_normalized
 
         # ----------------------------------------------------
         # Encoding
@@ -2367,7 +2493,11 @@ def fetch_detail(
             "detail": None,
             "error": str(exc),
             "errorType": error_type,
-            "sourceUrl": canonical_url,
+            "sourceUrl": (
+                display_url
+                or original_url
+            ),
+            "requestUrl": request_url,
         }
 
     except Exception as exc:
@@ -2378,7 +2508,11 @@ def fetch_detail(
             "detail": None,
             "error": str(exc),
             "errorType": "unexpected_error",
-            "sourceUrl": canonical_url,
+            "sourceUrl": (
+                display_url
+                or original_url
+            ),
+            "requestUrl": request_url,
         }
 
     # ========================================================
@@ -2395,7 +2529,11 @@ def fetch_detail(
             "detail": None,
             "error": "empty_or_too_short_html",
             "errorType": "empty_html",
-            "sourceUrl": canonical_url,
+            "sourceUrl": (
+                display_url
+                or original_url
+            ),
+            "requestUrl": request_url,
             "finalUrl": final_url,
         }
 
@@ -2598,6 +2736,29 @@ def fetch_detail(
             title,
 
         # ----------------------------------------------------
+        # URL
+        #
+        # sourceUrl:
+        #   ユーザーが開くためのURL
+        #
+        # requestUrl:
+        #   HTTP取得に使用したURL
+        #
+        # finalUrl:
+        #   実際のレスポンスURL
+        # ----------------------------------------------------
+
+        "sourceUrl":
+            display_url
+            or original_url,
+
+        "requestUrl":
+            request_url,
+
+        "finalUrl":
+            final_url,
+
+        # ----------------------------------------------------
         # Price
         # ----------------------------------------------------
 
@@ -2752,12 +2913,6 @@ def fetch_detail(
         "fetchedAt":
             fetched_at,
 
-        "sourceUrl":
-            canonical_url,
-
-        "finalUrl":
-            final_url,
-
         "httpStatus":
             response.status_code,
 
@@ -2781,8 +2936,23 @@ def fetch_detail(
         "detail": detail,
         "error": None,
         "errorType": None,
-        "sourceUrl": canonical_url,
-        "finalUrl": final_url,
+
+        # ----------------------------------------------------
+        # IMPORTANT:
+        # sourceUrlは加工済みrequest URLではなく、
+        # ユーザーが開くためのURLを返す。
+        # ----------------------------------------------------
+
+        "sourceUrl": (
+            display_url
+            or original_url
+        ),
+
+        "requestUrl":
+            request_url,
+
+        "finalUrl":
+            final_url,
     }
 
 
