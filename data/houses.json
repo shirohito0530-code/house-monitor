@@ -1,0 +1,19 @@
+{
+  "updatedAt": "2026-09-22T03:16:16.842815+00:00",
+  "properties": [],
+  "summary": {
+    "generatedAt": "2026-09-22T03:16:16.838009+00:00",
+    "parserVersion": "2026-09-22-v15",
+    "discoveredCount": 166,
+    "houseCount": 0,
+    "goodCount": 0,
+    "partialCount": 0,
+    "poorCount": 0,
+    "priceReductionCount": 0,
+    "areaExcludedCount": 0,
+    "areaUnknownCount": 166,
+    "criteriaExcludedCount": 0,
+    "criteriaUnknownCount": 166,
+    "propertyTypeExcludedCount": 0
+  }
+}
