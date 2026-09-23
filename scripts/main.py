@@ -4394,6 +4394,75 @@ def main() -> int:
     )
 
     # --------------------------------------------------------
+    # Previous state snapshot
+    #
+    # IMPORTANT:
+    # detail fetch前に前回状態を保存する。
+    #
+    # fetch_details() が成功すると detail / currentPrice 等が
+    # 今回取得値へ更新されるため、previous_stateを
+    # detail fetch後に作ると価格変更を正しく検知できない。
+    # --------------------------------------------------------
+    previous_state: Dict[
+        str,
+        Dict[str, Any],
+    ] = {}
+    for item in properties:
+        property_id = get_property_id(
+            item
+        )
+        if not property_id:
+            continue
+        previous_state[
+            property_id
+        ] = {
+            "currentPrice": item.get(
+                "currentPrice"
+            ),
+            "status": item.get(
+                "status"
+            ),
+            "lastDetailFetchAt": item.get(
+                "lastDetailFetchAt"
+            ),
+        }
+        # ----------------------------------------------------
+        # priceHistoryの直近価格も、
+        # detail fetch前の価格として保存する。
+        #
+        # currentPriceが存在しない旧データでも、
+        # 過去の価格履歴から比較できるようにする。
+        # ----------------------------------------------------
+        history = item.get(
+            "priceHistory"
+        )
+        if (
+            isinstance(
+                history,
+                list,
+            )
+            and history
+            and isinstance(
+                history[-1],
+                dict,
+            )
+        ):
+            history_last_price = to_number(
+                history[-1].get(
+                    "price"
+                )
+            )
+            if (
+                history_last_price
+                is not None
+            ):
+                previous_state[
+                    property_id
+                ][
+                    "historicalPrice"
+                ] = history_last_price
+
+    # --------------------------------------------------------
     # Detail fetch
     # --------------------------------------------------------
 
@@ -4435,93 +4504,7 @@ def main() -> int:
 
     # --------------------------------------------------------
     # Run category
-    #
-    # Detail fetch前のcurrentPriceを保存して、
-    # 今回の価格変化を正しく検知する。
     # --------------------------------------------------------
-
-    previous_state: Dict[
-        str,
-        Dict[str, Any],
-    ] = {}
-
-    for item in properties:
-
-        property_id = get_property_id(
-            item
-        )
-
-        if not property_id:
-            continue
-
-        previous_state[
-            property_id
-        ] = {
-            "currentPrice": item.get(
-                "currentPrice"
-            ),
-            "status": item.get(
-                "status"
-            ),
-            "lastDetailFetchAt": item.get(
-                "lastDetailFetchAt"
-            ),
-        }
-
-    # --------------------------------------------------------
-    # NOTE:
-    # previous_stateを作る位置について。
-    #
-    # この時点ではfetch_details後なので、
-    # currentPriceが既に前回値のままの場合は正しく比較できる。
-    # 一方、detailからcurrentPriceを直接更新する実装の場合は
-    # priceHistory側を基準にする。
-    #
-    # より確実にするため、priceHistoryの直近価格を
-    # previousCurrentPriceとしても保存する。
-    # --------------------------------------------------------
-
-    for item in properties:
-
-        property_id = get_property_id(
-            item
-        )
-
-        if not property_id:
-            continue
-
-        history = item.get(
-            "priceHistory"
-        )
-
-        if (
-            isinstance(
-                history,
-                list,
-            )
-            and history
-            and isinstance(
-                history[-1],
-                dict,
-            )
-        ):
-
-            history_last_price = to_number(
-                history[-1].get(
-                    "price"
-                )
-            )
-
-            if (
-                history_last_price
-                is not None
-            ):
-
-                previous_state[
-                    property_id
-                ][
-                    "historicalPrice"
-                ] = history_last_price
 
     now_ts = now_iso()
 
