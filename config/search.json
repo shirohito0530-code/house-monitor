@@ -7,7 +7,7 @@
     "中古戸建",
     "新築戸建"
   ],
-  "maxPriceMan": 12000,
+  "maxPriceMan": 15000,
   "maxWalkMinutes": 20,
   "minLandArea": 100,
   "minBuildingArea": 80,
