@@ -14,7 +14,9 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-09-24-v19-detail-flow-compatible"
+DETAIL_PARSER_VERSION = (
+    "2026-09-24-v20-detail-main-compatible"
+)
 
 
 # ============================================================
@@ -185,7 +187,12 @@ def clean_text(value: Any) -> Optional[str]:
     if value is None:
         return None
 
-    text = re.sub(r"\s+", " ", str(value)).strip()
+    text = re.sub(
+        r"\s+",
+        " ",
+        str(value),
+    ).strip()
+
     return text or None
 
 
@@ -397,7 +404,6 @@ def parse_price(
         .replace("　", "")
     )
 
-    # 例: 1億2,800万円
     match = re.search(
         r"(?:(\d+(?:\.\d+)?)\s*億)"
         r"(?:\s*(\d+(?:\.\d+)?)\s*万)?"
@@ -423,7 +429,6 @@ def parse_price(
             else None
         )
 
-    # 例: 8,500万円
     match = re.search(
         r"(\d+(?:\.\d+)?)\s*万(?:円)?",
         text,
@@ -444,7 +449,6 @@ def parse_price(
             else None
         )
 
-    # 例: 85,000,000円
     match = re.search(
         r"(\d[\d\s]*)\s*円",
         text,
@@ -518,7 +522,6 @@ def parse_year_month(
     if not text:
         return None, None
 
-    # Gregorian
     patterns = [
         (
             r"((?:19|20)\d{2})"
@@ -555,7 +558,6 @@ def parse_year_month(
                     "month",
                 )
 
-    # Year only
     match = re.search(
         r"((?:19|20)\d{2})\s*年",
         text,
@@ -568,7 +570,6 @@ def parse_year_month(
             "year",
         )
 
-    # Japanese eras
     era_patterns = [
         (
             r"令和\s*(\d{1,2})\s*年"
@@ -794,10 +795,6 @@ def collect_label_value_pairs(
 
     pairs: List[Dict[str, Any]] = []
 
-    # --------------------------------------------------------
-    # table / tr / th-td
-    # --------------------------------------------------------
-
     for tr in soup.find_all("tr"):
 
         if _parent_is_excluded(tr):
@@ -868,10 +865,6 @@ def collect_label_value_pairs(
 
             else:
                 i += 1
-
-    # --------------------------------------------------------
-    # dl / dt-dd
-    # --------------------------------------------------------
 
     for dl in soup.find_all("dl"):
 
@@ -2039,8 +2032,6 @@ def collect_construction_candidates(
 
     candidates = []
 
-    # 「完成時期」は新築の完成予定日であり、
-    # 中古住宅の築年齢判定に直接使用しない。
     exact_keywords = [
         "築年月",
         "建築年月",
@@ -2128,7 +2119,6 @@ def collect_construction_candidates(
                 )
             )
 
-    # Blocks
     for block in blocks:
 
         if not any(
@@ -2178,7 +2168,6 @@ def collect_property_type_candidates(
 
         text = clean_text(text) or ""
 
-        # Explicit terms first.
         if re.search(
             r"新築\s*(?:一戸建て|一戸建|戸建)",
             text,
@@ -2191,8 +2180,6 @@ def collect_property_type_candidates(
         ):
             return "中古戸建"
 
-        # Generic 新築/中古 only when no
-        # contradictory detached-house context exists.
         if "新築" in text:
             return "新築戸建"
 
@@ -2201,7 +2188,6 @@ def collect_property_type_candidates(
 
         return None
 
-    # Structured
     for pair in pairs:
 
         if not any(
@@ -2228,7 +2214,6 @@ def collect_property_type_candidates(
                 )
             )
 
-    # Title
     if title:
 
         p_type = classify(title)
@@ -2245,9 +2230,6 @@ def collect_property_type_candidates(
                 )
             )
 
-    # Blocks:
-    # Avoid generic pages where unrelated "新築/中古"
-    # words appear in explanatory text.
     for block in blocks:
 
         if not any(
@@ -2542,10 +2524,6 @@ def extract_station_info(
                 )
             )
 
-    # --------------------------------------------------------
-    # Select
-    # --------------------------------------------------------
-
     if candidates:
 
         candidates.sort(
@@ -2693,7 +2671,6 @@ def evaluate_detail_quality(
 
     warnings = []
 
-    # Address
     if detail.get("address"):
 
         if is_company_address(
@@ -2713,7 +2690,6 @@ def evaluate_detail_quality(
                 "所在地が都道府県住所形式ではない"
             )
 
-    # Area
     land = detail.get(
         "landAreaM2"
     )
@@ -2746,7 +2722,6 @@ def evaluate_detail_quality(
                 "建物面積が異常に小さい"
             )
 
-    # Price
     price = detail.get(
         "price"
     )
@@ -2759,7 +2734,6 @@ def evaluate_detail_quality(
                 "販売価格が異常に低い"
             )
 
-    # Station
     if not detail.get(
         "station"
     ):
@@ -2768,7 +2742,6 @@ def evaluate_detail_quality(
             "駅情報を抽出できない"
         )
 
-    # Audit
     audit = detail.get(
         "extractionAudit",
         {},
@@ -2895,11 +2868,57 @@ DESKTOP_HEADERS = {
 }
 
 
+def classify_http_error(
+    exception: Optional[Exception] = None,
+    status_code: Optional[int] = None,
+) -> str:
+
+    if status_code == 403:
+        return "forbidden"
+
+    if status_code == 429:
+        return "rate_limited"
+
+    if (
+        status_code is not None
+        and 500 <= status_code <= 599
+    ):
+        return "server_error"
+
+    if isinstance(
+        exception,
+        requests.exceptions.Timeout,
+    ):
+        return "timeout"
+
+    if isinstance(
+        exception,
+        requests.exceptions.ConnectionError,
+    ):
+        return "network_error"
+
+    if isinstance(
+        exception,
+        requests.exceptions.RequestException,
+    ):
+        return "network_error"
+
+    if exception is not None:
+        return "network_error"
+
+    if status_code is not None:
+        return "http_error"
+
+    return "network_error"
+
+
 def fetch_html(
     request_url: str,
     headers: Dict[str, str],
     timeout: int,
 ) -> Dict[str, Any]:
+
+    response = None
 
     try:
 
@@ -2909,6 +2928,44 @@ def fetch_html(
             timeout=timeout,
             allow_redirects=True,
         )
+
+        status_code = response.status_code
+
+        if status_code == 403:
+
+            return {
+                "success": False,
+                "html": "",
+                "response": response,
+                "finalUrl": response.url,
+                "error": "http_403_forbidden",
+                "errorType": "forbidden",
+                "httpStatus": status_code,
+            }
+
+        if status_code == 429:
+
+            return {
+                "success": False,
+                "html": "",
+                "response": response,
+                "finalUrl": response.url,
+                "error": "http_429_rate_limited",
+                "errorType": "rate_limited",
+                "httpStatus": status_code,
+            }
+
+        if 500 <= status_code <= 599:
+
+            return {
+                "success": False,
+                "html": "",
+                "response": response,
+                "finalUrl": response.url,
+                "error": f"http_{status_code}_server_error",
+                "errorType": "server_error",
+                "httpStatus": status_code,
+            }
 
         response.raise_for_status()
 
@@ -2934,16 +2991,35 @@ def fetch_html(
             "response": response,
             "finalUrl": response.url,
             "error": None,
+            "errorType": None,
+            "httpStatus": status_code,
         }
 
     except Exception as exc:
 
+        status_code = (
+            response.status_code
+            if response is not None
+            else None
+        )
+
+        final_url = (
+            response.url
+            if response is not None
+            else None
+        )
+
         return {
             "success": False,
             "html": "",
-            "response": None,
-            "finalUrl": None,
+            "response": response,
+            "finalUrl": final_url,
             "error": str(exc),
+            "errorType": classify_http_error(
+                exception=exc,
+                status_code=status_code,
+            ),
+            "httpStatus": status_code,
         }
 
 
@@ -3641,6 +3717,9 @@ def fetch_detail(
             "error": "empty_suumo_url",
             "errorType": "invalid_suumo_url",
             "sourceUrl": url,
+            "requestUrl": None,
+            "finalUrl": None,
+            "httpStatus": None,
         }
 
     display_url = (
@@ -3666,6 +3745,9 @@ def fetch_detail(
             "sourceUrl":
                 display_url
                 or original_url,
+            "requestUrl": None,
+            "finalUrl": None,
+            "httpStatus": None,
         }
 
     fetched_at = now_iso()
@@ -3680,6 +3762,10 @@ def fetch_detail(
         timeout,
     )
 
+    # --------------------------------------------------------
+    # Mobile failure -> desktop fallback
+    # --------------------------------------------------------
+
     if not first["success"]:
 
         second = fetch_html(
@@ -3690,23 +3776,41 @@ def fetch_detail(
 
         if not second["success"]:
 
+            # Prefer the second attempt's error because
+            # it is the latest/desktop attempt.
             return {
                 "success": False,
                 "fetchedAt": fetched_at,
                 "detail": None,
                 "error": (
-                    first["error"]
-                    or second["error"]
+                    second.get("error")
+                    or first.get("error")
+                    or "detail_fetch_failed"
                 ),
-                "errorType": "http_error",
+                "errorType": (
+                    second.get("errorType")
+                    or first.get("errorType")
+                    or "network_error"
+                ),
                 "sourceUrl":
                     display_url
                     or original_url,
+                "requestUrl":
+                    request_url,
+                "finalUrl":
+                    second.get("finalUrl")
+                    or first.get("finalUrl"),
+                "httpStatus":
+                    second.get("httpStatus")
+                    or first.get("httpStatus"),
             }
 
         first = second
 
-    html = first["html"]
+    html = first.get(
+        "html",
+        "",
+    )
 
     if len(
         html.strip()
@@ -3721,17 +3825,30 @@ def fetch_detail(
             "sourceUrl":
                 display_url
                 or original_url,
+            "requestUrl":
+                request_url,
+            "finalUrl":
+                first.get("finalUrl")
+                or request_url,
+            "httpStatus":
+                first.get("httpStatus"),
         }
 
     final_url = (
         preserve_suumo_listing_url(
-            first["finalUrl"]
+            first.get(
+                "finalUrl"
+            )
         )
-        or first["finalUrl"]
+        or first.get(
+            "finalUrl"
+        )
         or request_url
     )
 
-    response = first["response"]
+    response = first.get(
+        "response"
+    )
 
     primary_detail = parse_detail_html(
         html=html,
@@ -3744,7 +3861,12 @@ def fetch_detail(
         http_status=(
             response.status_code
             if response
-            else 200
+            else (
+                first.get(
+                    "httpStatus"
+                )
+                or 200
+            )
         ),
     )
 
@@ -3753,6 +3875,7 @@ def fetch_detail(
     # --------------------------------------------------------
 
     secondary_detail = None
+    secondary_fetch = None
 
     should_retry = (
         retry_desktop_on_partial
@@ -3766,44 +3889,64 @@ def fetch_detail(
 
     if should_retry:
 
-        second = fetch_html(
+        secondary_fetch = fetch_html(
             request_url,
             DESKTOP_HEADERS,
             timeout,
         )
 
-        if second["success"]:
+        if secondary_fetch["success"]:
 
-            second_final_url = (
-                preserve_suumo_listing_url(
-                    second["finalUrl"]
+            second_html = secondary_fetch.get(
+                "html",
+                "",
+            )
+
+            if len(
+                second_html.strip()
+            ) >= 500:
+
+                second_final_url = (
+                    preserve_suumo_listing_url(
+                        secondary_fetch.get(
+                            "finalUrl"
+                        )
+                    )
+                    or secondary_fetch.get(
+                        "finalUrl"
+                    )
+                    or request_url
                 )
-                or second["finalUrl"]
-                or request_url
-            )
 
-            second_response = (
-                second["response"]
-            )
-
-            secondary_detail = (
-                parse_detail_html(
-                    html=second["html"],
-                    source_url=(
-                        display_url
-                        or original_url
-                    ),
-                    request_url=request_url,
-                    final_url=(
-                        second_final_url
-                    ),
-                    http_status=(
-                        second_response.status_code
-                        if second_response
-                        else 200
-                    ),
+                second_response = (
+                    secondary_fetch.get(
+                        "response"
+                    )
                 )
-            )
+
+                secondary_detail = (
+                    parse_detail_html(
+                        html=second_html,
+                        source_url=(
+                            display_url
+                            or original_url
+                        ),
+                        request_url=request_url,
+                        final_url=(
+                            second_final_url
+                        ),
+                        http_status=(
+                            second_response.status_code
+                            if second_response
+                            else (
+                                secondary_fetch.get(
+                                    "httpStatus"
+                                )
+                                or 200
+                            )
+                        ),
+                    )
+                )
 
     # --------------------------------------------------------
     # Merge
@@ -3838,15 +3981,18 @@ def fetch_detail(
             "deepAudit"
         ] = {
             "performed": False,
-            "reason":
-                (
-                    "primary_detail_quality_good"
-                    if primary_detail.get(
-                        "detailQuality"
-                    ) == "good"
-                    else
+            "reason": (
+                "primary_detail_quality_good"
+                if primary_detail.get(
+                    "detailQuality"
+                ) == "good"
+                else (
                     "secondary_fetch_failed_or_disabled"
-                ),
+                    if should_retry
+                    else
+                    "deep_audit_not_required"
+                )
+            ),
         }
 
     detail[
@@ -3858,7 +4004,9 @@ def fetch_detail(
     ] = (
         response.status_code
         if response
-        else None
+        else first.get(
+            "httpStatus"
+        )
     )
 
     detail[
@@ -3879,6 +4027,10 @@ def fetch_detail(
         "finalUrl":
             detail.get(
                 "finalUrl"
+            ),
+        "httpStatus":
+            detail.get(
+                "httpStatus"
             ),
     }
 
