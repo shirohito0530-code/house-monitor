@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-24-v25.1-market-db"
+MAIN_PARSER_VERSION = "2026-09-24-v27.0-market-db"
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -79,17 +79,19 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
 
 # ============================================================
 # Fallback target area rules
+#
+# IMPORTANT:
+# search.json が正常に存在する場合はそちらを優先する。
+# fallback は search.json と同じ意味になるようにする。
 # ============================================================
 
 FALLBACK_AREA_RULES = {
     "柏の葉キャンパス": {
         "cities": [
             "柏市",
-            "流山市",
         ],
         "cityCodes": [
             "sc_kashiwa",
-            "sc_nagareyama",
         ],
         "addressPatterns": [
             "柏の葉",
@@ -102,19 +104,15 @@ FALLBACK_AREA_RULES = {
     "流山おおたかの森": {
         "cities": [
             "流山市",
-            "柏市",
         ],
         "cityCodes": [
             "sc_nagareyama",
-            "sc_kashiwa",
         ],
         "addressPatterns": [
             "おおたかの森北",
             "おおたかの森西",
             "おおたかの森東",
             "おおたかの森南",
-            "西初石",
-            "市野谷",
         ],
     },
 }
@@ -141,14 +139,14 @@ def calculate_days_between(
             str(start_iso).replace("Z", "+00:00")
         )
 
-        if end_iso:
-            dt_end = datetime.fromisoformat(
-                str(end_iso).replace("Z", "+00:00")
+        if dt_end := end_iso:
+            dt_end_obj = datetime.fromisoformat(
+                str(dt_end).replace("Z", "+00:00")
             )
         else:
-            dt_end = datetime.now(timezone.utc)
+            dt_end_obj = datetime.now(timezone.utc)
 
-        delta = dt_end - dt_start
+        delta = dt_end_obj - dt_start
 
         return max(0, delta.days)
 
@@ -815,12 +813,20 @@ def apply_url_area_prefilter(
                         if c
                     )
 
+    # 安全側:
+    # エリア規則が存在するのにcityCodesが取得できない場合、
+    # 柏市・流山市の両方を無条件許可しない。
     if not allowed_city_codes:
 
-        allowed_city_codes = {
-            "sc_kashiwa",
-            "sc_nagareyama",
-        }
+        property_data[
+            "areaPrefilterExcluded"
+        ] = False
+
+        property_data[
+            "areaPrefilterReason"
+        ] = "city_code_rule_unavailable"
+
+        return property_data
 
     if city_code not in allowed_city_codes:
 
@@ -846,7 +852,7 @@ def apply_url_area_prefilter(
 
 
 # ============================================================
-# Detail Helpers
+# Detail Helpers & Refresh Logic
 # ============================================================
 
 def get_detail(
@@ -1000,7 +1006,6 @@ def detail_fetch_priority(
         False,
     )
 
-    # 新規物件は最優先
     if (
         seen
         and not has_success
@@ -1008,49 +1013,27 @@ def detail_fetch_priority(
     ):
         return 0
 
-    # 現在activeで詳細未取得
     if (
         status == "active"
         and not has_success
     ):
-        if (
-            attempts < MAX_DETAIL_FETCH_ATTEMPTS
-            or error_type in RETRYABLE_DETAIL_ERROR_TYPES
-        ):
+        if attempts < MAX_DETAIL_FETCH_ATTEMPTS:
             return 1
 
-    # エリア判定に必要な詳細未取得
-    if not has_success:
-
-        if (
-            property_data.get(
-                "areaClassification"
-            )
-            in {
-                None,
-                "",
-                "unknown",
-                "subTarget",
-            }
-        ):
-            return 2
-
-    # stale詳細
     if (
         has_success
         and is_detail_stale(
             property_data
         )
     ):
-        return 3
+        return 2
 
-    # retryable error
     if (
         error_type
         in RETRYABLE_DETAIL_ERROR_TYPES
         and attempts < MAX_DETAIL_FETCH_ATTEMPTS
     ):
-        return 4
+        return 3
 
     return 999
 
@@ -1748,11 +1731,11 @@ def enrich_with_detail(
     detail_res: Dict[str, Any],
 ) -> Dict[str, Any]:
 
-    now = now_iso()
+    attempt_at = now_iso()
 
     property_data[
-        "lastDetailFetchAt"
-    ] = now
+        "lastDetailAttemptAt"
+    ] = attempt_at
 
     attempts = int(
         property_data.get(
@@ -1782,6 +1765,9 @@ def enrich_with_detail(
             "unknown_error",
         )
 
+        # 重要:
+        # 失敗時は lastDetailFetchAt を更新しない。
+        # 「最後に正常取得できた時刻」として扱うため。
         return property_data
 
     property_data[
@@ -1791,6 +1777,14 @@ def enrich_with_detail(
     property_data[
         "detailFetchErrorType"
     ] = None
+
+    property_data[
+        "lastDetailFetchAt"
+    ] = attempt_at
+
+    property_data[
+        "lastSuccessfulDetailAt"
+    ] = attempt_at
 
     detail_content = detail_res.get(
         "detail",
@@ -1809,7 +1803,9 @@ def enrich_with_detail(
 
     property_data[
         "lastSuccessfulDetail"
-    ] = detail_content
+    ] = deepcopy(
+        detail_content
+    )
 
     if detail_content.get(
         "address"
@@ -1950,6 +1946,20 @@ def evaluate_property_criteria(
         "areaExcludedReason"
     ] = excluded_reason
 
+    is_criteria_matched = (
+        property_data.get("builtAgeMatched") is not False
+        and property_data.get("propertyTypeMatched") is not False
+        and property_data.get("areaMatched") is not False
+    )
+
+    property_data[
+        "searchCriteriaMatched"
+    ] = is_criteria_matched
+
+    property_data[
+        "searchResultFilterExcluded"
+    ] = not is_criteria_matched
+
     # --------------------------------------------------------
     # Price History
     # --------------------------------------------------------
@@ -1987,10 +1997,19 @@ def evaluate_property_criteria(
 
         else:
 
-            last_price = to_number(
-                price_history[-1].get(
-                    "price"
+            last_entry = price_history[-1]
+
+            last_price = (
+                to_number(
+                    last_entry.get(
+                        "price"
+                    )
                 )
+                if isinstance(
+                    last_entry,
+                    dict,
+                )
+                else None
             )
 
             if (
@@ -2032,49 +2051,57 @@ def evaluate_property_criteria(
     reductions = [
         item
         for item in price_history
-        if item.get(
-            "changeType"
-        ) == "reduction"
+        if (
+            isinstance(item, dict)
+            and item.get(
+                "changeType"
+            ) == "reduction"
+        )
     ]
 
     property_data[
         "priceReductionCount"
     ] = len(reductions)
 
-    if reductions:
-
-        first_price = to_number(
+    first_price = (
+        to_number(
             price_history[0].get(
                 "price"
             )
         )
+        if price_history
+        and isinstance(
+            price_history[0],
+            dict,
+        )
+        else None
+    )
 
-        latest_price = current_price
+    latest_price = current_price
 
-        if (
-            first_price is not None
-            and latest_price is not None
-            and first_price > 0
-        ):
+    if (
+        first_price is not None
+        and latest_price is not None
+        and first_price > 0
+    ):
 
-            property_data[
-                "totalPriceReductionAmount"
-            ] = (
-                first_price
-                - latest_price
-            )
+        reduction_amount = (
+            first_price
+            - latest_price
+        )
 
-            property_data[
-                "totalPriceReductionRate"
-            ] = round(
-                (
-                    first_price
-                    - latest_price
-                )
-                / first_price
-                * 100,
-                2,
-            )
+        property_data[
+            "totalPriceReductionAmount"
+        ] = reduction_amount
+
+        property_data[
+            "totalPriceReductionRate"
+        ] = round(
+            reduction_amount
+            / first_price
+            * 100,
+            2,
+        )
 
     else:
 
@@ -2128,6 +2155,7 @@ def evaluate_property_criteria(
 def update_property_lifecycle(
     property_data: Dict[str, Any],
     now_timestamp: str,
+    search_healthy: bool = True,
 ) -> Dict[str, Any]:
 
     if not property_data.get(
@@ -2158,17 +2186,26 @@ def update_property_lifecycle(
 
     else:
 
-        property_data[
-            "status"
-        ] = "observed_ended"
-
-        if not property_data.get(
-            "endedObservedAt"
-        ):
+        if search_healthy:
 
             property_data[
+                "status"
+            ] = "observed_ended"
+
+            if not property_data.get(
                 "endedObservedAt"
-            ] = now_timestamp
+            ):
+
+                property_data[
+                    "endedObservedAt"
+                ] = now_timestamp
+
+        else:
+
+            print(
+                f"[INFO] 検索一部失敗のためステータス維持: "
+                f"{property_data.get('propertyId')}"
+            )
 
     days_listed = calculate_days_between(
         property_data.get(
@@ -2236,7 +2273,10 @@ def build_listing_observation(
                 property_data.get(
                     "price"
                 )
-                or property_data.get(
+                if property_data.get(
+                    "price"
+                ) is not None
+                else property_data.get(
                     "currentPrice"
                 )
             ),
@@ -2244,7 +2284,10 @@ def build_listing_observation(
             property_data.get(
                 "priceMan"
             )
-            or property_data.get(
+            if property_data.get(
+                "priceMan"
+            ) is not None
+            else property_data.get(
                 "currentPriceMan"
             ),
         "searchTargets":
@@ -2547,6 +2590,7 @@ def run_pipeline() -> None:
     ] = []
 
     search_target_stats = []
+    search_healthy = True
 
     for target in search_urls:
 
@@ -2578,13 +2622,52 @@ def run_pipeline() -> None:
             f"タイプ={target_property_type}"
         )
 
-        candidates = (
-            search_adapter.fetch_search_results(
-                url,
-                target=target,
-                config=search_config,
+        target_success = True
+
+        try:
+
+            candidates = (
+                search_adapter.fetch_search_results(
+                    url,
+                    target=target,
+                    config=search_config,
+                )
             )
-        )
+
+            if not isinstance(
+                candidates,
+                list,
+            ):
+                candidates = []
+
+                target_success = False
+
+                print(
+                    "[WARN] 検索結果がlistではありません。"
+                )
+
+            if getattr(
+                search_adapter,
+                "last_search_healthy",
+                True,
+            ) is False:
+
+                target_success = False
+
+        except Exception as exc:
+
+            print(
+                f"[ERROR] 検索ターゲット失敗 "
+                f"[{target_area} - "
+                f"{target_property_type}]: {exc}"
+            )
+
+            candidates = []
+
+            target_success = False
+
+        if not target_success:
+            search_healthy = False
 
         target_count = 0
 
@@ -2592,6 +2675,12 @@ def run_pipeline() -> None:
             candidates,
             start=1,
         ):
+
+            if not isinstance(
+                candidate,
+                dict,
+            ):
+                continue
 
             candidate[
                 "searchPosition"
@@ -2615,6 +2704,10 @@ def run_pipeline() -> None:
 
             candidate[
                 "searchTargetPropertyType"
+            ] = target_property_type
+
+            candidate[
+                "searchPropertyType"
             ] = target_property_type
 
             candidate[
@@ -2650,17 +2743,21 @@ def run_pipeline() -> None:
                     target_property_type,
                 "count":
                     target_count,
+                "success":
+                    target_success,
             }
         )
 
         print(
             f"検索候補取得完了: "
-            f"{target_count}件"
+            f"{target_count}件 "
+            f"(Success={target_success})"
         )
 
     print(
         f"全検索候補取得完了: "
-        f"{len(all_candidates)}件"
+        f"{len(all_candidates)}件 "
+        f"(Overall Search Healthy={search_healthy})"
     )
 
     # --------------------------------------------------------
@@ -2687,13 +2784,11 @@ def run_pipeline() -> None:
 
             existing_count += 1
 
-            # Search occurrence is preserved.
             merge_search_occurrence(
                 existing,
                 candidate,
             )
 
-            # Update volatile search fields.
             if candidate.get(
                 "name"
             ):
@@ -2735,6 +2830,15 @@ def run_pipeline() -> None:
                     "searchArea"
                 ] = candidate.get(
                     "searchArea"
+                )
+
+            if candidate.get(
+                "searchPropertyType"
+            ):
+                existing[
+                    "searchPropertyType"
+                ] = candidate.get(
+                    "searchPropertyType"
                 )
 
             existing[
@@ -2842,18 +2946,40 @@ def run_pipeline() -> None:
         ),
     )
 
-    fetch_limit = int(
-        search_config.get(
-            "detailFetchLimit",
-            DEFAULT_DETAIL_FETCH_LIMIT,
+    try:
+
+        fetch_limit = int(
+            search_config.get(
+                "detailFetchLimit",
+                DEFAULT_DETAIL_FETCH_LIMIT,
+            )
         )
+
+    except (TypeError, ValueError):
+
+        fetch_limit = DEFAULT_DETAIL_FETCH_LIMIT
+
+    try:
+
+        request_interval = float(
+            search_config.get(
+                "detailRequestIntervalSeconds",
+                1.5,
+            )
+        )
+
+    except (TypeError, ValueError):
+
+        request_interval = 1.5
+
+    fetch_limit = max(
+        0,
+        fetch_limit,
     )
 
-    request_interval = float(
-        search_config.get(
-            "detailRequestIntervalSeconds",
-            1.5,
-        )
+    request_interval = max(
+        0.0,
+        request_interval,
     )
 
     to_fetch = [
@@ -2880,6 +3006,7 @@ def run_pipeline() -> None:
 
     detail_success_count = 0
     detail_failure_count = 0
+    detail_interrupted = False
 
     for i, item in enumerate(
         to_fetch,
@@ -2904,11 +3031,33 @@ def run_pipeline() -> None:
             f"{item.get('name', 'N/A')}"
         )
 
-        detail_res = (
-            detail_adapter.fetch_detail(
-                url
+        try:
+
+            detail_res = (
+                detail_adapter.fetch_detail(
+                    url
+                )
             )
-        )
+
+            if not isinstance(
+                detail_res,
+                dict,
+            ):
+                detail_res = {
+                    "success": False,
+                    "errorType":
+                        "invalid_detail_response",
+                }
+
+        except Exception as exc:
+
+            detail_res = {
+                "success": False,
+                "errorType":
+                    "adapter_exception",
+                "error":
+                    str(exc),
+            }
 
         enrich_with_detail(
             item,
@@ -2943,16 +3092,19 @@ def run_pipeline() -> None:
                     "詳細取得を中断します。"
                 )
 
+                detail_interrupted = True
                 break
 
-        time.sleep(
-            request_interval
-        )
+        if request_interval > 0:
+            time.sleep(
+                request_interval
+            )
 
     print(
         f"詳細取得結果: "
         f"success={detail_success_count}, "
-        f"failure={detail_failure_count}"
+        f"failure={detail_failure_count}, "
+        f"interrupted={detail_interrupted}"
     )
 
     # --------------------------------------------------------
@@ -2969,6 +3121,7 @@ def run_pipeline() -> None:
         update_property_lifecycle(
             item,
             now_stamp,
+            search_healthy=search_healthy,
         )
 
     properties_final = list(
@@ -3002,6 +3155,12 @@ def run_pipeline() -> None:
 
     else:
 
+        observations = []
+
+    if not isinstance(
+        observations,
+        list,
+    ):
         observations = []
 
     new_observations_count = 0
@@ -3074,6 +3233,10 @@ def run_pipeline() -> None:
                 "status"
             ) == "active"
             and item.get(
+                "searchCriteriaMatched",
+                True,
+            ) is not False
+            and item.get(
                 "areaClassification"
             )
             in {
@@ -3144,12 +3307,12 @@ def run_pipeline() -> None:
     detail_pending_count = sum(
         1
         for p in properties_final
-        if not has_successful_detail(
-            p
+        if (
+            not has_successful_detail(p)
+            and p.get(
+                "status"
+            ) == "active"
         )
-        and p.get(
-            "status"
-        ) == "active"
     )
 
     price_reduction_count = sum(
@@ -3168,6 +3331,10 @@ def run_pipeline() -> None:
             now_iso(),
         "parserVersion":
             MAIN_PARSER_VERSION,
+        "searchHealthy":
+            search_healthy,
+        "detailInterrupted":
+            detail_interrupted,
         "totalObserved":
             len(properties_final),
         "activeCount":
@@ -3216,6 +3383,11 @@ def run_pipeline() -> None:
     )
 
     print(
+        f"Search Healthy  : "
+        f"{summary['searchHealthy']}"
+    )
+
+    print(
         f"Market DB       : "
         f"{summary['totalObserved']}"
     )
@@ -3248,6 +3420,11 @@ def run_pipeline() -> None:
     print(
         f"Price Reduction : "
         f"{summary['priceReductionCount']}"
+    )
+
+    print(
+        f"Detail Interrupted : "
+        f"{summary['detailInterrupted']}"
     )
 
     print(
