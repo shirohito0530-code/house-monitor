@@ -51,14 +51,15 @@ class SuumoSearchAdapter(PropertyAdapter):
     Identity
     --------
     SUUMO listing identity is based on:
+
         suumo:nc_xxxxx
 
     Cross-target duplicate handling
     -------------------------------
     IMPORTANT:
 
-    A listing appearing in multiple search targets must NOT be removed
-    at this adapter level.
+    A listing appearing in multiple search targets must NOT be
+    removed at this adapter level.
 
     Example:
 
@@ -96,6 +97,11 @@ class SuumoSearchAdapter(PropertyAdapter):
 
     USED_HOUSE_PATH = "/chukoikkodate/"
     NEW_HOUSE_PATH = "/ikkodate/"
+
+    SEARCH_HOUSE_PATHS = (
+        USED_HOUSE_PATH,
+        NEW_HOUSE_PATH,
+    )
 
     LISTING_ID_PATTERN = re.compile(
         r"/nc_\d+(?:/|$)",
@@ -137,8 +143,27 @@ class SuumoSearchAdapter(PropertyAdapter):
             minimum=1,
         )
 
+        # --------------------------------------------------------
+        # Search request interval
+        #
+        # New preferred key:
+        #   searchRequestIntervalSeconds
+        #
+        # Backward-compatible fallback:
+        #   intervalSeconds
+        #
+        # Do NOT use detailRequestIntervalSeconds here.
+        # That setting belongs to the detail adapter.
+        # --------------------------------------------------------
+
         self.interval = self._safe_float(
-            self.config.get("intervalSeconds", 5),
+            self.config.get(
+                "searchRequestIntervalSeconds",
+                self.config.get(
+                    "intervalSeconds",
+                    5,
+                ),
+            ),
             default=5.0,
             minimum=0.0,
         )
@@ -300,7 +325,11 @@ class SuumoSearchAdapter(PropertyAdapter):
             Dict[str, Any]
         ] = []
 
-        seen_target_keys = set()
+        # URL単位で重複排除。
+        #
+        # 同じURLに異なる名前を付けたターゲットを
+        # 二重実行しないため。
+        seen_urls = set()
 
         for index, target in enumerate(
             raw_targets,
@@ -342,7 +371,20 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
                 continue
 
-            normalized_target = dict(target)
+            if normalized_url in seen_urls:
+                print(
+                    "[WARN] 重複検索URLをスキップ: "
+                    f"{normalized_url}"
+                )
+                continue
+
+            seen_urls.add(
+                normalized_url
+            )
+
+            normalized_target = dict(
+                target
+            )
 
             normalized_target["url"] = (
                 normalized_url
@@ -358,22 +400,6 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
 
             normalized_target["name"] = name
-
-            target_key = (
-                str(name),
-                normalized_url,
-            )
-
-            if target_key in seen_target_keys:
-                print(
-                    "[WARN] 重複検索ターゲットをスキップ: "
-                    f"{name}"
-                )
-                continue
-
-            seen_target_keys.add(
-                target_key
-            )
 
             enabled_targets.append(
                 normalized_target
@@ -585,13 +611,11 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         path_lower = path.lower()
 
-        is_house_path = (
+        is_house_path = any(
             path_lower.startswith(
-                self.USED_HOUSE_PATH
+                house_path
             )
-            or path_lower.startswith(
-                self.NEW_HOUSE_PATH
-            )
+            for house_path in self.SEARCH_HOUSE_PATHS
         )
 
         if not is_house_path:
@@ -621,10 +645,15 @@ class SuumoSearchAdapter(PropertyAdapter):
         base_url: Optional[str] = None,
     ) -> Optional[str]:
         """
-        Canonicalize a SUUMO search URL.
+        Canonicalize a SUUMO detached-house search URL.
 
         Query parameters are retained because they may contain
         search filters and pagination parameters.
+
+        Only detached-house search paths are accepted:
+
+            /chukoikkodate/
+            /ikkodate/
         """
 
         absolute_url = (
@@ -652,6 +681,18 @@ class SuumoSearchAdapter(PropertyAdapter):
             return None
 
         path = parsed.path or "/"
+
+        path_lower = path.lower()
+
+        is_house_search_path = any(
+            path_lower.startswith(
+                house_path
+            )
+            for house_path in self.SEARCH_HOUSE_PATHS
+        )
+
+        if not is_house_search_path:
+            return None
 
         return urlunparse(
             (
@@ -699,13 +740,11 @@ class SuumoSearchAdapter(PropertyAdapter):
         path = parsed.path or ""
         path_lower = path.lower()
 
-        is_house_path = (
+        is_house_path = any(
             path_lower.startswith(
-                self.USED_HOUSE_PATH
+                house_path
             )
-            or path_lower.startswith(
-                self.NEW_HOUSE_PATH
-            )
+            for house_path in self.SEARCH_HOUSE_PATHS
         )
 
         if not is_house_path:
@@ -1012,7 +1051,7 @@ class SuumoSearchAdapter(PropertyAdapter):
         URL-derived property type is authoritative for the
         detached-house search paths.
 
-        Unknown type is retained.
+        Unknown target type or unknown property type is retained.
         """
 
         if not target_property_type:
@@ -1154,55 +1193,100 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         IMPORTANT INTERFACE:
 
-        main.py calls:
-
             crawl_search_target(
                 url,
                 target=target,
                 config=config,
             )
 
-        Therefore this method intentionally returns a LIST,
-        not the old target_result dictionary.
+        Returns:
+
+            List[Dict[str, Any]]
 
         Per-target diagnostics are stored in:
+
             self.search_target_results
 
         Deduplication:
+
             - same page: deduplicated
             - same target across pages: deduplicated
             - different targets: NOT deduplicated
         """
 
-        target = (
-            target
-            if isinstance(target, dict)
-            else {}
-        )
+        # --------------------------------------------------------
+        # Normalize arguments first.
+        # --------------------------------------------------------
 
-        config = (
-            config
-            if isinstance(config, dict)
-            else self.config
-        )
+        if not isinstance(
+            target,
+            dict,
+        ):
+            target = {}
+
+        if not isinstance(
+            config,
+            dict,
+        ):
+            config = self.config
+
+        # --------------------------------------------------------
+        # Backward-compatible handling.
+        #
+        # If a legacy caller accidentally supplies a target dict
+        # as the first positional argument:
+        #
+        #   crawl_search_target(target)
+        #
+        # interpret it safely.
+        # --------------------------------------------------------
+
+        if (
+            isinstance(url, dict)
+            and not target
+        ):
+            target = dict(url)
+            url = target.get("url")
 
         if not url:
             url = target.get("url")
+
+        target_name = (
+            target.get("name")
+            or target.get("target")
+            or url
+            or "unknown"
+        )
+
+        target_area = target.get(
+            "area"
+        )
+
+        target_property_type = (
+            target.get("propertyType")
+        )
+
+        # --------------------------------------------------------
+        # Reset target-level health.
+        #
+        # This is essential because main.py checks
+        # last_search_healthy after each target.
+        # --------------------------------------------------------
+
+        self.last_search_healthy = True
+
+        # --------------------------------------------------------
+        # Missing URL
+        # --------------------------------------------------------
 
         if not url:
             self.last_search_healthy = False
 
             result = {
-                "target": (
-                    target.get("name")
-                    or target.get("target")
-                    or "unknown"
-                ),
-                "targetArea": target.get(
-                    "area"
-                ),
-                "targetPropertyType": target.get(
-                    "propertyType"
+                "target": target_name,
+                "targetArea": target_area,
+                "targetPropertyType": (
+                    target_property_type
                 ),
                 "searchUrl": None,
                 "success": False,
@@ -1229,28 +1313,15 @@ class SuumoSearchAdapter(PropertyAdapter):
             )
         )
 
-        target_name = (
-            target.get("name")
-            or target.get("target")
-            or url
-            or "unknown"
-        )
-
-        target_area = target.get(
-            "area"
-        )
-
-        target_property_type = (
-            target.get("propertyType")
-        )
-
         target_result: Dict[
             str,
             Any,
         ] = {
             "target": target_name,
             "targetArea": target_area,
-            "targetPropertyType": target_property_type,
+            "targetPropertyType": (
+                target_property_type
+            ),
             "searchUrl": normalized_start_url,
             "success": True,
             "error": None,
@@ -1265,17 +1336,13 @@ class SuumoSearchAdapter(PropertyAdapter):
         }
 
         # --------------------------------------------------------
-        # Reset health for this target.
-        #
-        # main.py checks this value after every target.
+        # Invalid search URL
         # --------------------------------------------------------
-
-        self.last_search_healthy = True
 
         if not normalized_start_url:
             target_result["success"] = False
             target_result["error"] = (
-                "Invalid search URL"
+                "Invalid SUUMO detached-house search URL"
             )
 
             self.last_search_healthy = False
@@ -1301,14 +1368,19 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         interval = self._safe_float(
             config.get(
-                "intervalSeconds",
-                self.interval,
+                "searchRequestIntervalSeconds",
+                config.get(
+                    "intervalSeconds",
+                    self.interval,
+                ),
             ),
             default=self.interval,
             minimum=0.0,
         )
 
-        current_url = normalized_start_url
+        current_url = (
+            normalized_start_url
+        )
 
         all_candidates: List[
             Dict[str, Any]
@@ -1317,10 +1389,10 @@ class SuumoSearchAdapter(PropertyAdapter):
         seen_page_urls = set()
 
         # IMPORTANT:
-        # This set is LOCAL TO ONE SEARCH TARGET.
         #
-        # It must never be shared across different targets,
-        # otherwise main.py cannot record cross-target occurrences.
+        # This set belongs to ONE target only.
+        #
+        # Never share this set across targets.
         seen_listing_ids = set()
 
         for page_number in range(
@@ -1347,6 +1419,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 f"{page_number}/{max_pages} "
                 f"{current_url}"
             )
+
+            # ----------------------------------------------------
+            # Fetch
+            # ----------------------------------------------------
 
             try:
                 html = (
@@ -1400,7 +1476,13 @@ class SuumoSearchAdapter(PropertyAdapter):
 
                 break
 
-            target_result["pagesFetched"] += 1
+            target_result[
+                "pagesFetched"
+            ] += 1
+
+            # ----------------------------------------------------
+            # Extract candidates
+            # ----------------------------------------------------
 
             candidates = (
                 self.extract_listing_candidates(
@@ -1453,8 +1535,12 @@ class SuumoSearchAdapter(PropertyAdapter):
                 if not listing_id:
                     continue
 
+                listing_id = str(
+                    listing_id
+                ).lower()
+
                 # ------------------------------------------------
-                # Target-local duplicate
+                # Same target duplicate
                 # ------------------------------------------------
 
                 if listing_id in seen_listing_ids:
@@ -1468,7 +1554,7 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
 
                 # ------------------------------------------------
-                # Conservative property-type filter
+                # Conservative property type filter
                 # ------------------------------------------------
 
                 if not self.is_property_type_allowed(
@@ -1486,9 +1572,7 @@ class SuumoSearchAdapter(PropertyAdapter):
                     page_unknown_year += 1
 
                 # ------------------------------------------------
-                # IMPORTANT:
-                #
-                # No age/price/area/walk filtering here.
+                # Mark as seen within this target.
                 # ------------------------------------------------
 
                 seen_listing_ids.add(
@@ -1502,6 +1586,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 candidate = dict(
                     candidate
                 )
+
+                # ------------------------------------------------
+                # Identity
+                # ------------------------------------------------
 
                 candidate["source"] = (
                     "suumo"
@@ -1531,17 +1619,17 @@ class SuumoSearchAdapter(PropertyAdapter):
                 # Search provenance
                 # ------------------------------------------------
 
-                candidate["searchArea"] = (
-                    target_area
-                )
+                candidate[
+                    "searchArea"
+                ] = target_area
 
                 candidate[
                     "searchPropertyType"
                 ] = target_property_type
 
-                candidate["searchUrl"] = (
-                    normalized_start_url
-                )
+                candidate[
+                    "searchUrl"
+                ] = normalized_start_url
 
                 candidate[
                     "searchPageUrl"
@@ -1555,9 +1643,9 @@ class SuumoSearchAdapter(PropertyAdapter):
                     "searchPosition"
                 ] = position_idx
 
-                candidate["searchTarget"] = (
-                    target_name
-                )
+                candidate[
+                    "searchTarget"
+                ] = target_name
 
                 candidate[
                     "searchTargetArea"
@@ -1573,6 +1661,9 @@ class SuumoSearchAdapter(PropertyAdapter):
 
                 # ------------------------------------------------
                 # Initial detail state
+                #
+                # main.py may overwrite these values after detail
+                # acquisition.
                 # ------------------------------------------------
 
                 candidate[
@@ -1600,6 +1691,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
 
                 page_accepted += 1
+
+            # ----------------------------------------------------
+            # Page statistics
+            # ----------------------------------------------------
 
             page_stat = {
                 "pageNumber": page_number,
@@ -1632,6 +1727,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 f"重複={page_duplicate}件"
             )
 
+            # ----------------------------------------------------
+            # Pagination end
+            # ----------------------------------------------------
+
             if page_number >= max_pages:
                 break
 
@@ -1660,6 +1759,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 time.sleep(
                     interval
                 )
+
+        # ========================================================
+        # Finalize target result
+        # ========================================================
 
         target_result[
             "candidates"
@@ -1725,6 +1828,13 @@ class SuumoSearchAdapter(PropertyAdapter):
             ]
         )
 
+        # --------------------------------------------------------
+        # Zero candidates is NOT a network/search-health failure.
+        #
+        # A valid search page with zero results is still a
+        # successful fetch.
+        # --------------------------------------------------------
+
         if (
             target_result["success"]
             and target_result["pagesFetched"] > 0
@@ -1757,7 +1867,12 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         main.py fetch_search_target() calls this method first.
 
-        This intentionally returns a list of candidates.
+        Returns:
+            List[Dict[str, Any]]
+
+        Per-target diagnostics remain available through:
+
+            self.search_target_results
         """
 
         return self.crawl_search_target(
@@ -1784,10 +1899,10 @@ class SuumoSearchAdapter(PropertyAdapter):
         This method is retained for direct adapter use.
 
         IMPORTANT:
-        Unlike the previous implementation, it does NOT perform
-        global cross-target deduplication.
 
-        Therefore:
+        No global cross-target deduplication is performed.
+
+        Example:
 
             target A -> nc_123
             target B -> nc_123
@@ -1881,8 +1996,12 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
             )
 
-            # crawl_search_target() resets health for each target,
-            # so explicitly preserve global health here.
+            # ----------------------------------------------------
+            # crawl_search_target() resets health for each target.
+            #
+            # Preserve global health across all targets.
+            # ----------------------------------------------------
+
             target_result = (
                 self.search_target_results[-1]
                 if self.search_target_results
@@ -1937,10 +2056,12 @@ class SuumoSearchAdapter(PropertyAdapter):
                 if not listing_id:
                     continue
 
+                listing_id = str(
+                    listing_id
+                ).lower()
+
                 # ------------------------------------------------
                 # DO NOT deduplicate across targets.
-                #
-                # Each occurrence is intentionally preserved.
                 # ------------------------------------------------
 
                 property_data = dict(
@@ -2000,13 +2121,29 @@ class SuumoSearchAdapter(PropertyAdapter):
                 f"候補={len(candidates)}件"
             )
 
+            # ----------------------------------------------------
+            # Wait between targets.
+            # ----------------------------------------------------
+
+            interval = self._safe_float(
+                config.get(
+                    "searchRequestIntervalSeconds",
+                    config.get(
+                        "intervalSeconds",
+                        self.interval,
+                    ),
+                ),
+                default=self.interval,
+                minimum=0.0,
+            )
+
             if (
-                self.interval > 0
+                interval > 0
                 and target_index
                 < len(search_targets) - 1
             ):
                 time.sleep(
-                    self.interval
+                    interval
                 )
 
         print(
