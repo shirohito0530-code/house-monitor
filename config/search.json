@@ -14,9 +14,16 @@
   "maxBuiltAgeYears": 20,
   "onlyFlatLand": false,
   "excludeRetainingWall": false,
+  
+  "maxPagesPerRun": 3,
+  "deepScanEnabled": false,
+  "deepScanPages": 5,
 
   "detailFetchLimit": 400,
   "detailRequestIntervalSeconds": 1.5,
+  
+  "detailRefreshDaysActive": 2,
+  "detailRefreshDaysEnded": 14,
 
   "areaRules": {
     "柏の葉キャンパス": {
