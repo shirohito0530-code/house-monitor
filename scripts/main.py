@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-24-v28.0-market-db"
+MAIN_PARSER_VERSION = "2026-09-24-v28.1-market-db-schema"
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -3598,10 +3598,15 @@ def run_pipeline() -> None:
         if not url:
             continue
 
+        display_name = (
+            item.get("name")
+            or item.get("propertyId")
+            or get_property_id(item)
+            or "N/A"
+        )
         print(
             f"[{i}/{len(to_fetch)}] "
-            f"詳細取得中: "
-            f"{item.get('name', 'N/A')}"
+            f"詳細取得中: {display_name}"
         )
 
         try:
@@ -3649,10 +3654,22 @@ def run_pipeline() -> None:
             detail_failure_count += 1
             consecutive_errors += 1
 
+            error_type = detail_res.get("errorType")
+            error_message = detail_res.get("error")
             print(
                 "  -> 取得失敗: "
-                f"{detail_res.get('errorType')} "
+                f"{error_type} "
                 f"(連続={consecutive_errors})"
+            )
+            if error_message:
+                print(
+                    f"     error={error_message}"
+                )
+            print(
+                f"     propertyId={item.get('propertyId') or get_property_id(item)}"
+            )
+            print(
+                f"     sourceUrl={url}"
             )
 
             if (
@@ -3822,11 +3839,15 @@ def run_pipeline() -> None:
     save_json(
         HOUSES_PATH,
         {
+            "schemaVersion":
+                "1.0",
+            "parserVersion":
+                MAIN_PARSER_VERSION,
             "updatedAt":
                 now_iso(),
             "count":
                 len(active_houses),
-            "houses":
+            "properties":
                 active_houses,
         },
     )
