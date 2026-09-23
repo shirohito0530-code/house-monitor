@@ -91,3 +91,49 @@ def save_json(path, data):
             temporary_path.unlink()
 
         raise
+
+def load_observations(
+    path,
+):
+    data = load_json(
+        path,
+        default=[],
+    )
+
+    if isinstance(
+        data,
+        dict,
+    ):
+        data = data.get(
+            "observations",
+            [],
+        )
+
+    if not isinstance(
+        data,
+        list,
+    ):
+        return []
+
+    return data
+
+
+def save_observations(
+    path,
+    observations,
+):
+    save_json(
+        path,
+        {
+            "updatedAt": (
+                __import__(
+                    "datetime"
+                ).datetime.now(
+                    __import__(
+                        "datetime"
+                    ).timezone.utc
+                ).isoformat()
+            ),
+            "observations": observations,
+        },
+    )
