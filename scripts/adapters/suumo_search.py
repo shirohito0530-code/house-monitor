@@ -1474,7 +1474,32 @@ class SuumoSearchAdapter(PropertyAdapter):
                 candidate["searchPageNumber"] = (
                     page_number
                 )
-
+                
+                candidate["searchPosition"] = (
+                    len(candidates) + 1
+                )
+                
+                candidate["searchTarget"] = (
+                    target.get("name")
+                    or target.get("target")
+                    or (
+                        f"{target_area}_"
+                        f"{target_property_type}"
+                    )
+                )
+                
+                candidate["searchTargetArea"] = (
+                    target_area
+                )
+                
+                candidate["searchTargetPropertyType"] = (
+                    target_property_type
+                )
+                
+                candidate["discoveredAt"] = (
+                    datetime.now().astimezone().isoformat()
+                )
+                
                 all_candidates.append(
                     candidate
                 )
