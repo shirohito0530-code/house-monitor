@@ -31,6 +31,11 @@ SUUMO_LISTING_PREFIXES = (
     "/ikkodate/",
 )
 
+SUUMO_LISTING_PATH_PATTERN = re.compile(
+    r"^/(?:chukoikkodate|ikkodate)/.+/nc_\d+(?:/)?$",
+    re.IGNORECASE,
+)
+
 INVALID_VALUES = {
     "",
     "-",
@@ -316,19 +321,7 @@ def _parse_and_validate_suumo_url(url: Any) -> Optional[Any]:
     if not path:
         return None
 
-    path_lower = path.lower()
-
-    if not any(
-        path_lower.startswith(prefix)
-        for prefix in SUUMO_LISTING_PREFIXES
-    ):
-        return None
-
-    if not re.search(
-        r"/nc_\d+(?:/|$)",
-        path,
-        re.IGNORECASE,
-    ):
+    if not SUUMO_LISTING_PATH_PATTERN.match(path):
         return None
 
     return parsed
@@ -341,13 +334,17 @@ def normalize_suumo_url(url: Any) -> Optional[str]:
     if parsed is None:
         return None
 
+    path = parsed.path or ""
+    if not path.endswith("/"):
+        path += "/"
+
     return urlunparse(
         (
-            parsed.scheme,
-            parsed.netloc,
-            parsed.path,
-            parsed.params,
-            parsed.query,
+            "https",
+            "suumo.jp",
+            path,
+            "",
+            "",
             "",
         )
     )
@@ -360,13 +357,17 @@ def preserve_suumo_listing_url(url: Any) -> Optional[str]:
     if parsed is None:
         return None
 
+    path = parsed.path or ""
+    if not path.endswith("/"):
+        path += "/"
+
     return urlunparse(
         (
-            parsed.scheme,
-            parsed.netloc,
-            parsed.path,
-            parsed.params,
-            parsed.query,
+            "https",
+            "suumo.jp",
+            path,
+            "",
+            "",
             "",
         )
     )
@@ -956,6 +957,14 @@ def extract_text_blocks(
 # ============================================================
 
 def _value_key(value: Any) -> str:
+
+    if value is None:
+        return ""
+
+    if isinstance(value, dict):
+        if "station" in value and value["station"] is not None:
+            return str(value["station"]).strip()
+        return str(value).strip()
 
     if isinstance(value, float):
         return f"{value:.6f}"
@@ -2936,11 +2945,37 @@ def parse_detail_html(
     }
 
     # --------------------------------------------------------
+    # Canonical listing URL
+    #
+    # main.py / suumo_search.py と物件識別を統一する。
+    # 個別物件URLは
+    # https://suumo.jp/.../nc_xxxxxxxx/
+    # に統一し、query / fragment は除去する。
+    # --------------------------------------------------------
+
+    normalized_listing_url = (
+        normalize_suumo_url(
+            source_url
+        )
+        or normalize_suumo_url(
+            request_url
+        )
+        or normalize_suumo_url(
+            final_url
+        )
+    )
+
+    # --------------------------------------------------------
     # Detail
     # --------------------------------------------------------
 
     detail: Dict[str, Any] = {
 
+        # main.py が参照する正式なparser version
+        "parserVersion":
+            DETAIL_PARSER_VERSION,
+
+        # 後方互換用
         "detailParserVersion":
             DETAIL_PARSER_VERSION,
 
@@ -2950,8 +2985,13 @@ def parse_detail_html(
         "propertyType":
             property_type,
 
+        # main.py が参照するcanonical URL
+        "url":
+            normalized_listing_url,
+
         "sourceUrl":
-            source_url,
+            normalized_listing_url
+            or source_url,
 
         "requestUrl":
             request_url,
@@ -3130,6 +3170,54 @@ def merge_detail_candidates(
                     [],
                 )
             )
+
+        if field == "station":
+            primary_station = primary.get("station")
+            secondary_station = secondary.get("station")
+
+            selected_val, selected_cand = select_best_candidate(candidates)
+
+            station_str = None
+            selected_station_dict = None
+
+            if isinstance(selected_val, dict):
+                station_str = selected_val.get("station")
+                selected_station_dict = selected_val
+            elif isinstance(selected_val, str):
+                station_str = selected_val
+
+            if not station_str:
+                station_str = primary_station or secondary_station
+
+            merged["station"] = station_str
+
+            station_related_keys = [
+                "stationWalkMinutes",
+                "walkMinutes",
+                "transportRaw",
+                "stationAccessType",
+                "busMinutes",
+                "busStop",
+                "busStopWalkMinutes",
+            ]
+
+            if selected_station_dict:
+                for station_key in station_related_keys:
+                    if selected_station_dict.get(station_key) is not None:
+                        merged[station_key] = selected_station_dict[station_key]
+
+            for station_key in station_related_keys:
+                if (
+                    merged.get(station_key) is None
+                    and secondary.get(station_key) is not None
+                ):
+                    merged[station_key] = secondary[station_key]
+
+            merged_audit[field] = build_audit_entry(
+                candidates,
+                station_str,
+            )
+            continue
 
         selected_primary = (
             primary.get(field)
