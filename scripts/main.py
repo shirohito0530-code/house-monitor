@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-24-v27.0-market-db"
+MAIN_PARSER_VERSION = "2026-09-24-v28.0-market-db"
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -79,10 +79,6 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
 
 # ============================================================
 # Fallback target area rules
-#
-# IMPORTANT:
-# search.json が正常に存在する場合はそちらを優先する。
-# fallback は search.json と同じ意味になるようにする。
 # ============================================================
 
 FALLBACK_AREA_RULES = {
@@ -139,9 +135,9 @@ def calculate_days_between(
             str(start_iso).replace("Z", "+00:00")
         )
 
-        if dt_end := end_iso:
+        if end_iso:
             dt_end_obj = datetime.fromisoformat(
-                str(dt_end).replace("Z", "+00:00")
+                str(end_iso).replace("Z", "+00:00")
             )
         else:
             dt_end_obj = datetime.now(timezone.utc)
@@ -604,6 +600,26 @@ def get_allowed_property_types(
     )
 
 
+def get_numeric_search_criteria(
+    config: Dict[str, Any],
+) -> Dict[str, Optional[float]]:
+
+    return {
+        "maxPriceMan": to_number(
+            config.get("maxPriceMan")
+        ),
+        "maxWalkMinutes": to_number(
+            config.get("maxWalkMinutes")
+        ),
+        "minLandArea": to_number(
+            config.get("minLandArea")
+        ),
+        "minBuildingArea": to_number(
+            config.get("minBuildingArea")
+        ),
+    }
+
+
 # ============================================================
 # Identity
 # ============================================================
@@ -813,9 +829,6 @@ def apply_url_area_prefilter(
                         if c
                     )
 
-    # 安全側:
-    # エリア規則が存在するのにcityCodesが取得できない場合、
-    # 柏市・流山市の両方を無条件許可しない。
     if not allowed_city_codes:
 
         property_data[
@@ -1399,35 +1412,65 @@ def evaluate_built_age(
 # ============================================================
 
 def get_price(
-    detail: Dict[str, Any],
+    property_data: Dict[str, Any],
 ) -> Optional[float]:
 
-    return to_number(
-        detail.get("price")
+    detail = get_detail(
+        property_data
     )
+
+    value = detail.get("price")
+
+    if value is None:
+        value = property_data.get("price")
+
+    if value is None:
+        value = property_data.get(
+            "currentPrice"
+        )
+
+    return to_number(value)
 
 
 def get_land_area(
-    detail: Dict[str, Any],
+    property_data: Dict[str, Any],
 ) -> Optional[float]:
 
-    return to_number(
-        detail.get("landAreaM2")
+    detail = get_detail(
+        property_data
     )
+
+    value = detail.get("landAreaM2")
+
+    if value is None:
+        value = property_data.get("land")
+
+    return to_number(value)
 
 
 def get_building_area(
-    detail: Dict[str, Any],
+    property_data: Dict[str, Any],
 ) -> Optional[float]:
 
-    return to_number(
-        detail.get("buildingAreaM2")
+    detail = get_detail(
+        property_data
     )
+
+    value = detail.get("buildingAreaM2")
+
+    if value is None:
+        value = property_data.get("building")
+
+    return to_number(value)
 
 
 def get_walk_minutes(
-    detail: Dict[str, Any],
+    property_data: Dict[str, Any],
 ) -> Optional[float]:
+
+    detail = get_detail(
+        property_data
+    )
 
     for key in [
         "walkMinutes",
@@ -1439,7 +1482,204 @@ def get_walk_minutes(
         if value is not None:
             return to_number(value)
 
+    for key in [
+        "walk",
+        "stationWalkMinutes",
+    ]:
+
+        value = property_data.get(key)
+
+        if value is not None:
+            return to_number(value)
+
     return None
+
+
+# ============================================================
+# Numeric Criteria
+# ============================================================
+
+def evaluate_numeric_criteria(
+    property_data: Dict[str, Any],
+    search_config: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    criteria = get_numeric_search_criteria(
+        search_config
+    )
+
+    price = get_price(
+        property_data
+    )
+
+    walk = get_walk_minutes(
+        property_data
+    )
+
+    land = get_land_area(
+        property_data
+    )
+
+    building = get_building_area(
+        property_data
+    )
+
+    result: Dict[str, Any] = {
+        "priceMan": (
+            int(price)
+            if price is not None
+            else None
+        ),
+        "walkMinutes": walk,
+        "landAreaM2": land,
+        "buildingAreaM2": building,
+
+        "priceMatched": None,
+        "walkMatched": None,
+        "landAreaMatched": None,
+        "buildingAreaMatched": None,
+
+        "priceReason": None,
+        "walkReason": None,
+        "landAreaReason": None,
+        "buildingAreaReason": None,
+    }
+
+    # --------------------------------------------------------
+    # Price
+    # --------------------------------------------------------
+
+    max_price = criteria["maxPriceMan"]
+
+    if max_price is None:
+
+        result["priceMatched"] = True
+        result["priceReason"] = (
+            "price_filter_not_configured"
+        )
+
+    elif price is None:
+
+        result["priceReason"] = (
+            "price_unavailable"
+        )
+
+    elif price <= max_price:
+
+        result["priceMatched"] = True
+        result["priceReason"] = (
+            "within_price_limit"
+        )
+
+    else:
+
+        result["priceMatched"] = False
+        result["priceReason"] = (
+            "price_over_limit"
+        )
+
+    # --------------------------------------------------------
+    # Walk
+    # --------------------------------------------------------
+
+    max_walk = criteria["maxWalkMinutes"]
+
+    if max_walk is None:
+
+        result["walkMatched"] = True
+        result["walkReason"] = (
+            "walk_filter_not_configured"
+        )
+
+    elif walk is None:
+
+        result["walkReason"] = (
+            "walk_minutes_unavailable"
+        )
+
+    elif walk <= max_walk:
+
+        result["walkMatched"] = True
+        result["walkReason"] = (
+            "within_walk_limit"
+        )
+
+    else:
+
+        result["walkMatched"] = False
+        result["walkReason"] = (
+            "walk_minutes_over_limit"
+        )
+
+    # --------------------------------------------------------
+    # Land
+    # --------------------------------------------------------
+
+    min_land = criteria["minLandArea"]
+
+    if min_land is None:
+
+        result["landAreaMatched"] = True
+        result["landAreaReason"] = (
+            "land_area_filter_not_configured"
+        )
+
+    elif land is None:
+
+        result["landAreaReason"] = (
+            "land_area_unavailable"
+        )
+
+    elif land >= min_land:
+
+        result["landAreaMatched"] = True
+        result["landAreaReason"] = (
+            "within_land_area_limit"
+        )
+
+    else:
+
+        result["landAreaMatched"] = False
+        result["landAreaReason"] = (
+            "land_area_below_limit"
+        )
+
+    # --------------------------------------------------------
+    # Building
+    # --------------------------------------------------------
+
+    min_building = criteria[
+        "minBuildingArea"
+    ]
+
+    if min_building is None:
+
+        result["buildingAreaMatched"] = True
+        result["buildingAreaReason"] = (
+            "building_area_filter_not_configured"
+        )
+
+    elif building is None:
+
+        result["buildingAreaReason"] = (
+            "building_area_unavailable"
+        )
+
+    elif building >= min_building:
+
+        result["buildingAreaMatched"] = True
+        result["buildingAreaReason"] = (
+            "within_building_area_limit"
+        )
+
+    else:
+
+        result["buildingAreaMatched"] = False
+        result["buildingAreaReason"] = (
+            "building_area_below_limit"
+        )
+
+    return result
 
 
 # ============================================================
@@ -1765,9 +2005,6 @@ def enrich_with_detail(
             "unknown_error",
         )
 
-        # 重要:
-        # 失敗時は lastDetailFetchAt を更新しない。
-        # 「最後に正常取得できた時刻」として扱うため。
         return property_data
 
     property_data[
@@ -1901,6 +2138,10 @@ def evaluate_property_criteria(
     search_config: Dict[str, Any],
 ) -> Dict[str, Any]:
 
+    # --------------------------------------------------------
+    # Area
+    # --------------------------------------------------------
+
     area_eval = evaluate_area(
         property_data,
         search_config,
@@ -1910,6 +2151,10 @@ def evaluate_property_criteria(
         area_eval
     )
 
+    # --------------------------------------------------------
+    # School district
+    # --------------------------------------------------------
+
     school_eval = evaluate_school_district(
         property_data
     )
@@ -1917,6 +2162,10 @@ def evaluate_property_criteria(
     property_data.update(
         school_eval
     )
+
+    # --------------------------------------------------------
+    # Property type
+    # --------------------------------------------------------
 
     type_eval = evaluate_property_type(
         property_data,
@@ -1927,6 +2176,10 @@ def evaluate_property_criteria(
         type_eval
     )
 
+    # --------------------------------------------------------
+    # Building age
+    # --------------------------------------------------------
+
     age_eval = evaluate_built_age(
         property_data,
         search_config,
@@ -1935,6 +2188,23 @@ def evaluate_property_criteria(
     property_data.update(
         age_eval
     )
+
+    # --------------------------------------------------------
+    # Numeric criteria
+    # --------------------------------------------------------
+
+    numeric_eval = evaluate_numeric_criteria(
+        property_data,
+        search_config,
+    )
+
+    property_data.update(
+        numeric_eval
+    )
+
+    # --------------------------------------------------------
+    # Area exclusion reason
+    # --------------------------------------------------------
 
     excluded_reason = (
         assign_area_excluded_reason(
@@ -1946,10 +2216,42 @@ def evaluate_property_criteria(
         "areaExcludedReason"
     ] = excluded_reason
 
-    is_criteria_matched = (
-        property_data.get("builtAgeMatched") is not False
-        and property_data.get("propertyTypeMatched") is not False
-        and property_data.get("areaMatched") is not False
+    # --------------------------------------------------------
+    # Overall criteria
+    #
+    # None = unknown/pending
+    # False = confirmed failure
+    #
+    # Market DBにはunknownも残す。
+    # --------------------------------------------------------
+
+    criteria_flags = [
+        property_data.get(
+            "builtAgeMatched"
+        ),
+        property_data.get(
+            "propertyTypeMatched"
+        ),
+        property_data.get(
+            "areaMatched"
+        ),
+        property_data.get(
+            "priceMatched"
+        ),
+        property_data.get(
+            "walkMatched"
+        ),
+        property_data.get(
+            "landAreaMatched"
+        ),
+        property_data.get(
+            "buildingAreaMatched"
+        ),
+    ]
+
+    is_criteria_matched = not any(
+        value is False
+        for value in criteria_flags
     )
 
     property_data[
@@ -2268,6 +2570,7 @@ def build_listing_observation(
             property_data.get(
                 "status"
             ),
+
         "currentPrice":
             to_number(
                 property_data.get(
@@ -2280,6 +2583,7 @@ def build_listing_observation(
                     "currentPrice"
                 )
             ),
+
         "currentPriceMan":
             property_data.get(
                 "priceMan"
@@ -2290,58 +2594,106 @@ def build_listing_observation(
             else property_data.get(
                 "currentPriceMan"
             ),
+
         "searchTargets":
             property_data.get(
                 "searchTargets",
                 [],
             ),
+
         "searchOccurrences":
             property_data.get(
                 "searchOccurrences",
                 [],
             ),
+
         "searchPageNumbers":
             property_data.get(
                 "searchPageNumbers",
                 [],
             ),
+
         "areaClassification":
             property_data.get(
                 "areaClassification"
             ),
+
         "schoolDistrictStatus":
             property_data.get(
                 "schoolDistrictStatus"
             ),
+
+        "propertyTypeMatched":
+            property_data.get(
+                "propertyTypeMatched"
+            ),
+
+        "builtAgeMatched":
+            property_data.get(
+                "builtAgeMatched"
+            ),
+
+        "priceMatched":
+            property_data.get(
+                "priceMatched"
+            ),
+
+        "walkMatched":
+            property_data.get(
+                "walkMatched"
+            ),
+
+        "landAreaMatched":
+            property_data.get(
+                "landAreaMatched"
+            ),
+
+        "buildingAreaMatched":
+            property_data.get(
+                "buildingAreaMatched"
+            ),
+
+        "searchCriteriaMatched":
+            property_data.get(
+                "searchCriteriaMatched"
+            ),
+
         "detailFetchStatus":
             property_data.get(
                 "detailFetchStatus"
             ),
+
         "detailQuality":
             detail.get(
                 "detailQuality"
             ),
+
         "builtAgeYears":
             property_data.get(
                 "builtAgeYears"
             ),
+
         "landAreaM2":
             property_data.get(
                 "land"
             ),
+
         "buildingAreaM2":
             property_data.get(
                 "building"
             ),
+
         "walkMinutes":
             property_data.get(
                 "walk"
             ),
+
         "priceReductionCount":
             property_data.get(
                 "priceReductionCount",
                 0,
             ),
+
         "parserVersion":
             MAIN_PARSER_VERSION,
     }
@@ -2388,6 +2740,32 @@ def merge_search_occurrence(
         "searchPosition"
     )
 
+    search_area = normalize_search_area(
+        candidate.get(
+            "searchTargetArea"
+        )
+        or candidate.get(
+            "searchArea"
+        )
+    )
+
+    property_type = normalize_property_type(
+        candidate.get(
+            "searchTargetPropertyType"
+        )
+        or candidate.get(
+            "searchPropertyType"
+        )
+    )
+
+    search_url = candidate.get(
+        "searchUrl"
+    )
+
+    search_page_url = candidate.get(
+        "searchPageUrl"
+    )
+
     existing[
         "searchTargets"
     ] = append_unique(
@@ -2408,10 +2786,12 @@ def merge_search_occurrence(
 
     occurrence = {
         "searchTarget": target,
-        "searchPageNumber":
-            page_number,
-        "searchPosition":
-            position,
+        "searchTargetArea": search_area,
+        "searchTargetPropertyType": property_type,
+        "searchUrl": search_url,
+        "searchPageUrl": search_page_url,
+        "searchPageNumber": page_number,
+        "searchPosition": position,
         "observedAt":
             candidate.get(
                 "discoveredAt"
@@ -2434,6 +2814,18 @@ def merge_search_occurrence(
             "searchTarget"
         ),
         occurrence.get(
+            "searchTargetArea"
+        ),
+        occurrence.get(
+            "searchTargetPropertyType"
+        ),
+        occurrence.get(
+            "searchUrl"
+        ),
+        occurrence.get(
+            "searchPageUrl"
+        ),
+        occurrence.get(
             "searchPageNumber"
         ),
         occurrence.get(
@@ -2445,6 +2837,18 @@ def merge_search_occurrence(
         (
             item.get(
                 "searchTarget"
+            ),
+            item.get(
+                "searchTargetArea"
+            ),
+            item.get(
+                "searchTargetPropertyType"
+            ),
+            item.get(
+                "searchUrl"
+            ),
+            item.get(
+                "searchPageUrl"
             ),
             item.get(
                 "searchPageNumber"
@@ -2469,6 +2873,80 @@ def merge_search_occurrence(
     existing[
         "searchOccurrences"
     ] = occurrences
+
+
+# ============================================================
+# Search Adapter Compatibility
+# ============================================================
+
+def fetch_search_target(
+    search_adapter: Any,
+    url: str,
+    target: Dict[str, Any],
+    config: Dict[str, Any],
+) -> List[Dict[str, Any]]:
+
+    """
+    現行search adapterとのインターフェースを一本化する。
+
+    優先:
+      fetch_search_results()
+
+    後方互換:
+      crawl_search_target()
+
+    search adapter側では、価格・面積・築年数等の
+    最終条件による除外を行わない。
+    """
+
+    if hasattr(
+        search_adapter,
+        "fetch_search_results",
+    ):
+
+        result = (
+            search_adapter.fetch_search_results(
+                url,
+                target=target,
+                config=config,
+            )
+        )
+
+    elif hasattr(
+        search_adapter,
+        "crawl_search_target",
+    ):
+
+        result = (
+            search_adapter.crawl_search_target(
+                url,
+                target=target,
+                config=config,
+            )
+        )
+
+    else:
+
+        raise AttributeError(
+            "SuumoSearchAdapterに"
+            "fetch_search_results() または "
+            "crawl_search_target() がありません。"
+        )
+
+    if not isinstance(
+        result,
+        list,
+    ):
+        return []
+
+    return [
+        item
+        for item in result
+        if isinstance(
+            item,
+            dict,
+        )
+    ]
 
 
 # ============================================================
@@ -2581,7 +3059,8 @@ def run_pipeline() -> None:
 
     search_adapter = (
         SuumoSearchAdapter(
-            search_config
+            search_config,
+            ROOT,
         )
     )
 
@@ -2600,17 +3079,46 @@ def run_pipeline() -> None:
         ) is False:
             continue
 
-        target_area = target.get(
-            "area"
+        target_area = normalize_search_area(
+            target.get("area")
         )
 
-        target_property_type = target.get(
-            "propertyType"
+        target_property_type = normalize_property_type(
+            target.get("propertyType")
         )
 
         url = target.get(
             "url"
         )
+
+        if not url:
+
+            search_healthy = False
+
+            search_target_stats.append(
+                {
+                    "name":
+                        target.get(
+                            "name"
+                        ),
+                    "area":
+                        target_area,
+                    "propertyType":
+                        target_property_type,
+                    "count":
+                        0,
+                    "success":
+                        False,
+                    "reason":
+                        "search_url_missing",
+                }
+            )
+
+            print(
+                "[WARN] 検索URLがありません。"
+            )
+
+            continue
 
         print(
             "------------------------------------------------------------"
@@ -2626,25 +3134,12 @@ def run_pipeline() -> None:
 
         try:
 
-            candidates = (
-                search_adapter.fetch_search_results(
-                    url,
-                    target=target,
-                    config=search_config,
-                )
+            candidates = fetch_search_target(
+                search_adapter,
+                url,
+                target,
+                search_config,
             )
-
-            if not isinstance(
-                candidates,
-                list,
-            ):
-                candidates = []
-
-                target_success = False
-
-                print(
-                    "[WARN] 検索結果がlistではありません。"
-                )
 
             if getattr(
                 search_adapter,
@@ -2682,14 +3177,33 @@ def run_pipeline() -> None:
             ):
                 continue
 
+            candidate = dict(
+                candidate
+            )
+
+            # ------------------------------------------------
+            # Search provenance
+            #
+            # Search adapter側で既に付いている値を優先。
+            # 無い場合のみmainで補完する。
+            # ------------------------------------------------
+
             candidate[
                 "searchPosition"
-            ] = pos
+            ] = (
+                candidate.get(
+                    "searchPosition"
+                )
+                or pos
+            )
 
             candidate[
                 "searchTarget"
             ] = (
-                target.get(
+                candidate.get(
+                    "searchTarget"
+                )
+                or target.get(
                     "name"
                 )
                 or (
@@ -2700,19 +3214,57 @@ def run_pipeline() -> None:
 
             candidate[
                 "searchTargetArea"
-            ] = target_area
+            ] = normalize_search_area(
+                candidate.get(
+                    "searchTargetArea"
+                )
+                or target_area
+            )
 
             candidate[
                 "searchTargetPropertyType"
-            ] = target_property_type
+            ] = normalize_property_type(
+                candidate.get(
+                    "searchTargetPropertyType"
+                )
+                or target_property_type
+            )
 
             candidate[
                 "searchPropertyType"
-            ] = target_property_type
+            ] = normalize_property_type(
+                candidate.get(
+                    "searchPropertyType"
+                )
+                or target_property_type
+            )
+
+            candidate[
+                "searchUrl"
+            ] = (
+                candidate.get(
+                    "searchUrl"
+                )
+                or url
+            )
+
+            candidate[
+                "searchPageUrl"
+            ] = (
+                candidate.get(
+                    "searchPageUrl"
+                )
+                or url
+            )
 
             candidate[
                 "discoveredAt"
-            ] = now_iso()
+            ] = (
+                candidate.get(
+                    "discoveredAt"
+                )
+                or now_iso()
+            )
 
             normalized = (
                 normalize_search_result(
@@ -2741,6 +3293,8 @@ def run_pipeline() -> None:
                     target_area,
                 "propertyType":
                     target_property_type,
+                "url":
+                    url,
                 "count":
                     target_count,
                 "success":
@@ -2841,6 +3395,7 @@ def run_pipeline() -> None:
                     "searchPropertyType"
                 )
 
+            # 最新検索位置は互換性のため保持
             existing[
                 "searchTarget"
             ] = candidate.get(
@@ -2857,6 +3412,18 @@ def run_pipeline() -> None:
                 "searchPosition"
             ] = candidate.get(
                 "searchPosition"
+            )
+
+            existing[
+                "searchUrl"
+            ] = candidate.get(
+                "searchUrl"
+            )
+
+            existing[
+                "searchPageUrl"
+            ] = candidate.get(
+                "searchPageUrl"
             )
 
             existing[
@@ -2875,7 +3442,12 @@ def run_pipeline() -> None:
 
             candidate[
                 "firstSeenAt"
-            ] = now_stamp
+            ] = (
+                candidate.get(
+                    "discoveredAt"
+                )
+                or now_stamp
+            )
 
             candidate[
                 "lastSeenAt"
@@ -2909,7 +3481,7 @@ def run_pipeline() -> None:
     print(
         f"MERGE完了: "
         f"新規={new_count}, "
-        f"既存={existing_count}, "
+        f"既存候補={existing_count}, "
         f"Market DB={len(db)}"
     )
 
@@ -2998,7 +3570,8 @@ def run_pipeline() -> None:
 
     detail_adapter = (
         SuumoDetailAdapter(
-            search_config
+            search_config,
+            ROOT,
         )
     )
 
@@ -3326,41 +3899,96 @@ def run_pipeline() -> None:
         for p in properties_final
     )
 
+    criteria_excluded_count = sum(
+        1
+        for p in properties_final
+        if p.get(
+            "searchCriteriaMatched"
+        ) is False
+    )
+
+    criteria_pending_count = sum(
+        1
+        for p in properties_final
+        if (
+            p.get(
+                "searchCriteriaMatched"
+            ) is True
+            and any(
+                p.get(key) is None
+                for key in [
+                    "areaMatched",
+                    "propertyTypeMatched",
+                    "builtAgeMatched",
+                    "priceMatched",
+                    "walkMatched",
+                    "landAreaMatched",
+                    "buildingAreaMatched",
+                ]
+            )
+        )
+    )
+
     summary = {
         "updatedAt":
             now_iso(),
         "parserVersion":
             MAIN_PARSER_VERSION,
+
         "searchHealthy":
             search_healthy,
+
         "detailInterrupted":
             detail_interrupted,
+
         "totalObserved":
             len(properties_final),
+
         "activeCount":
             active_count,
+
         "endedCount":
             ended_count,
+
         "primaryTargetCount":
             primary_count,
+
         "subTargetCount":
             subtarget_count,
+
         "detailPendingCount":
             detail_pending_count,
+
+        "criteriaExcludedCount":
+            criteria_excluded_count,
+
+        "criteriaPendingCount":
+            criteria_pending_count,
+
         "detailSuccessThisRun":
             detail_success_count,
+
         "detailFailureThisRun":
             detail_failure_count,
+
         "priceReductionCount":
             price_reduction_count,
+
         "observationsCount":
             len(observations),
+
         "searchCandidateCount":
             len(all_candidates),
+
         "newPropertyCount":
             new_count,
-        "existingPropertyCount":
+
+        "existingPropertyCandidateCount":
             existing_count,
+
+        "marketDbCount":
+            len(properties_final),
+
         "searchTargetStats":
             search_target_stats,
     }
@@ -3389,7 +4017,7 @@ def run_pipeline() -> None:
 
     print(
         f"Market DB       : "
-        f"{summary['totalObserved']}"
+        f"{summary['marketDbCount']}"
     )
 
     print(
@@ -3415,6 +4043,16 @@ def run_pipeline() -> None:
     print(
         f"Detail Pending  : "
         f"{summary['detailPendingCount']}"
+    )
+
+    print(
+        f"Criteria Excluded : "
+        f"{summary['criteriaExcludedCount']}"
+    )
+
+    print(
+        f"Criteria Pending : "
+        f"{summary['criteriaPendingCount']}"
     )
 
     print(
