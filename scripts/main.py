@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-24-v28.1-market-db-schema"
+MAIN_PARSER_VERSION = "2026-09-25-v29-market-history"
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -74,6 +74,31 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
     "timeout",
     "network_error",
     "server_error",
+}
+
+# ============================================================
+# Market History DB
+# ============================================================
+HOUSE_DB_SCHEMA_VERSION = "2.0"
+# houses.json に保存するMarket DB上のライフサイクル状態
+#
+# active:
+#   現在SUUMO検索で確認されている物件
+#
+# observed_ended:
+#   過去には確認されたが、現在の正常な検索では
+#   確認できなくなった物件
+HOUSE_DB_STATUSES = {
+    "active",
+    "observed_ended",
+}
+# houses.json に保存する対象エリア
+#
+# searchCriteriaMatched はここでは使用しない。
+# 条件外物件も市場履歴として保持する。
+HOUSE_DB_AREA_CLASSIFICATIONS = {
+    "primaryTarget",
+    "subTarget",
 }
 
 
@@ -862,6 +887,47 @@ def apply_url_area_prefilter(
         ] = "accepted_target_city"
 
     return property_data
+
+
+# ============================================================
+# Market History DB Selection
+# ============================================================
+def is_market_history_property(
+    property_data: Dict[str, Any],
+) -> bool:
+    """
+    houses.json に保存するMarket History DB対象か判定する。
+    保存対象:
+      - active
+      - observed_ended
+    かつ:
+      - primaryTarget
+      - subTarget
+    重要:
+      searchCriteriaMatched は判定しない。
+    したがって、
+      ・価格上限超過
+      ・土地面積不足
+      ・徒歩分数超過
+      ・築年数超過
+      ・その他検索条件外
+    の物件でも、対象エリアに存在した物件なら
+    市場履歴としてhouses.jsonに保持する。
+    """
+    if not isinstance(property_data, dict):
+        return False
+    status = property_data.get("status")
+    if status not in HOUSE_DB_STATUSES:
+        return False
+    area_classification = property_data.get(
+        "areaClassification"
+    )
+    if (
+        area_classification
+        not in HOUSE_DB_AREA_CLASSIFICATIONS
+    ):
+        return False
+    return True
 
 
 # ============================================================
@@ -3814,42 +3880,97 @@ def run_pipeline() -> None:
     # --------------------------------------------------------
     # 10. Houses Output
     # --------------------------------------------------------
-
-    active_houses = [
+    #
+    # houses.json は「現在の採用物件」ではなく、
+    # 対象エリアのMarket History DBとして扱う。
+    #
+    # 保存対象:
+    #   - active
+    #   - observed_ended
+    #
+    # 対象エリア:
+    #   - primaryTarget
+    #   - subTarget
+    #
+    # 重要:
+    #   searchCriteriaMatched == False
+    #   でも保存する。
+    #
+    # これにより、現在の検索条件から外れた物件でも、
+    # 過去の市場価格・値下げ・掲載期間等を
+    # 後から参照できる。
+    # --------------------------------------------------------
+    market_houses = [
         item
         for item in properties_final
-        if (
-            item.get(
-                "status"
-            ) == "active"
-            and item.get(
-                "searchCriteriaMatched",
-                True,
-            ) is not False
-            and item.get(
-                "areaClassification"
-            )
-            in {
-                "primaryTarget",
-                "subTarget",
-            }
-        )
+        if is_market_history_property(item)
     ]
-
+    market_history_active_count = sum(
+        1
+        for item in market_houses
+        if item.get("status") == "active"
+    )
+    market_history_ended_count = sum(
+        1
+        for item in market_houses
+        if item.get("status") == "observed_ended"
+    )
+    market_history_criteria_excluded_count = sum(
+        1
+        for item in market_houses
+        if item.get("searchCriteriaMatched") is False
+    )
+    market_history_criteria_pending_count = sum(
+        1
+        for item in market_houses
+        if (
+            item.get("searchCriteriaMatched") is True
+            and any(
+                item.get(key) is None
+                for key in [
+                    "areaMatched",
+                    "propertyTypeMatched",
+                    "builtAgeMatched",
+                    "priceMatched",
+                    "walkMatched",
+                    "landAreaMatched",
+                    "buildingAreaMatched",
+                ]
+            )
+        )
+    )
     save_json(
         HOUSES_PATH,
         {
             "schemaVersion":
-                "1.0",
+                HOUSE_DB_SCHEMA_VERSION,
             "parserVersion":
                 MAIN_PARSER_VERSION,
             "updatedAt":
                 now_iso(),
             "count":
-                len(active_houses),
+                len(market_houses),
+            "activeCount":
+                market_history_active_count,
+            "endedCount":
+                market_history_ended_count,
+            "criteriaExcludedCount":
+                market_history_criteria_excluded_count,
+            "criteriaPendingCount":
+                market_history_criteria_pending_count,
             "properties":
-                active_houses,
+                market_houses,
         },
+    )
+    print(
+        f"Market History DB保存完了: "
+        f"total={len(market_houses)}, "
+        f"active={market_history_active_count}, "
+        f"ended={market_history_ended_count}, "
+        f"criteriaExcluded="
+        f"{market_history_criteria_excluded_count}, "
+        f"criteriaPending="
+        f"{market_history_criteria_pending_count}"
     )
 
     # --------------------------------------------------------
@@ -3959,6 +4080,20 @@ def run_pipeline() -> None:
         "searchHealthy":
             search_healthy,
 
+        # ----------------------------------------------------
+        # Market History DB
+        # ----------------------------------------------------
+        "marketHistoryCount":
+            len(market_houses),
+        "marketHistoryActiveCount":
+            market_history_active_count,
+        "marketHistoryEndedCount":
+            market_history_ended_count,
+        "marketHistoryCriteriaExcludedCount":
+            market_history_criteria_excluded_count,
+        "marketHistoryCriteriaPendingCount":
+            market_history_criteria_pending_count,
+
         "detailInterrupted":
             detail_interrupted,
 
@@ -4039,6 +4174,31 @@ def run_pipeline() -> None:
     print(
         f"Market DB       : "
         f"{summary['marketDbCount']}"
+    )
+
+    print(
+        f"Market History  : "
+        f"{summary['marketHistoryCount']}"
+    )
+
+    print(
+        f"History Active  : "
+        f"{summary['marketHistoryActiveCount']}"
+    )
+
+    print(
+        f"History Ended   : "
+        f"{summary['marketHistoryEndedCount']}"
+    )
+
+    print(
+        f"History Criteria Excluded : "
+        f"{summary['marketHistoryCriteriaExcludedCount']}"
+    )
+
+    print(
+        f"History Criteria Pending  : "
+        f"{summary['marketHistoryCriteriaPendingCount']}"
     )
 
     print(
