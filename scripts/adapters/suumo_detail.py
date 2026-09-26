@@ -2264,6 +2264,21 @@ def collect_property_type_candidates(
 # Station / transportation
 # ============================================================
 
+def get_station_walk_minutes_for_sort(
+    candidate: Dict[str, Any],
+) -> float:
+    value = candidate.get("value")
+    if not isinstance(value, dict):
+        return 999.0
+    walk_minutes = value.get("stationWalkMinutes")
+    if walk_minutes is None:
+        return 999.0
+    try:
+        return float(walk_minutes)
+    except (TypeError, ValueError):
+        return 999.0
+
+
 def extract_station_info(
     blocks: List[str],
     page_text: str,
@@ -2532,16 +2547,8 @@ def extract_station_info(
                     "confidence",
                     0,
                 ),
-                (
-                    -x["value"].get(
-                        "stationWalkMinutes",
-                        999,
-                    )
-                    if isinstance(
-                        x.get("value"),
-                        dict,
-                    )
-                    else -999
+                -get_station_walk_minutes_for_sort(
+                    x
                 ),
             ),
             reverse=True,
