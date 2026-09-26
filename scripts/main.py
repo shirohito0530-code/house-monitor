@@ -934,6 +934,68 @@ def is_market_history_property(
 # Detail Helpers & Refresh Logic
 # ============================================================
 
+def is_detail_target_property(
+    property_data: Dict[str, Any],
+    search_config: Dict[str, Any],
+    search_urls: List[Dict[str, Any]],
+) -> bool:
+    """
+    詳細取得対象エリアの物件か判定する。
+    明確に対象外と判定できる市区町村コードは除外する。
+    city_code が取得できない場合は、従来互換性のため
+    True として扱う。
+    """
+    if not isinstance(property_data, dict):
+        return False
+    if property_data.get(
+        "areaPrefilterExcluded",
+        False,
+    ):
+        return False
+    url = (
+        property_data.get("sourceUrl")
+        or property_data.get("url")
+    )
+    city_code = extract_city_from_url(url)
+    # 市区町村コードが取得できない場合は、
+    # ここでは安全側に「対象候補」とする
+    if not city_code:
+        return True
+    allowed_city_codes = set()
+    # search_urls の設定を優先
+    for target in search_urls:
+        codes = target.get(
+            "allowedCityCodes"
+        )
+        if isinstance(codes, list):
+            allowed_city_codes.update(
+                str(code)
+                for code in codes
+                if code
+            )
+    # search_urls に無ければ search.json / fallback を利用
+    if not allowed_city_codes:
+        area_rules = get_area_rules(
+            search_config
+        )
+        for rule in area_rules.values():
+            if not isinstance(rule, dict):
+                continue
+            codes = rule.get(
+                "cityCodes"
+            )
+            if isinstance(codes, list):
+                allowed_city_codes.update(
+                    str(code)
+                    for code in codes
+                    if code
+                )
+    # ルールが取得できない場合は従来互換
+    if not allowed_city_codes:
+        return True
+    return city_code in allowed_city_codes
+
+
 def get_detail(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
@@ -3620,18 +3682,25 @@ def run_pipeline() -> None:
         request_interval,
     )
 
-    to_fetch = [
-        item
-        for item in items_by_priority
-        if detail_fetch_priority(
-            item
-        ) < 999
-    ][:fetch_limit]
+    detail_queue_excluded_count = 0
+    to_fetch_candidates = []
+    for item in items_by_priority:
+        if detail_fetch_priority(item) >= 999:
+            continue
+        if not is_detail_target_property(
+            item,
+            search_config,
+            search_urls,
+        ):
+            detail_queue_excluded_count += 1
+            continue
+        to_fetch_candidates.append(item)
+    to_fetch = to_fetch_candidates[:fetch_limit]
 
     print(
-        f"詳細情報取得キュー: "
-        f"{len(to_fetch)}件 "
-        f"(上限={fetch_limit})"
+        f"詳細取得キュー: {len(to_fetch)}件 "
+        f"(上限={fetch_limit}, "
+        f"対象外除外={detail_queue_excluded_count})"
     )
 
     detail_adapter = (
@@ -3718,36 +3787,50 @@ def run_pipeline() -> None:
         else:
 
             detail_failure_count += 1
-            consecutive_errors += 1
-
-            error_type = detail_res.get("errorType")
-            error_message = detail_res.get("error")
+            error_type = detail_res.get(
+                "errorType"
+            )
+            error_message = detail_res.get(
+                "error"
+            )
             print(
                 "  -> 取得失敗: "
-                f"{error_type} "
-                f"(連続={consecutive_errors})"
+                f"{error_type}"
             )
             if error_message:
                 print(
                     f"     error={error_message}"
                 )
             print(
-                f"     propertyId={item.get('propertyId') or get_property_id(item)}"
+                "     propertyId="
+                f"{item.get('propertyId') or get_property_id(item)}"
             )
             print(
                 f"     sourceUrl={url}"
             )
+            # 接続系エラーだけを
+            # circuit breaker の対象とする
+            if (
+                error_type
+                in RETRYABLE_DETAIL_ERROR_TYPES
+            ):
+                consecutive_errors += 1
+            else:
+                # Parserエラー等の場合は
+                # 接続エラー連続数をリセット
+                consecutive_errors = 0
 
             if (
-                consecutive_errors
+                error_type
+                in RETRYABLE_DETAIL_ERROR_TYPES
+                and consecutive_errors
                 >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
             ):
-
                 print(
-                    "[WARN] 連続エラー上限に達したため"
+                    "[WARN] 連続した接続系エラーが"
+                    "上限に達したため"
                     "詳細取得を中断します。"
                 )
-
                 detail_interrupted = True
                 break
 
