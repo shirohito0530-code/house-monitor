@@ -67,6 +67,10 @@ jobs:
               Path("data/houses.json"),
           ]
 
+          # =================================================
+          # 必須ファイル確認
+          # =================================================
+
           for path in REQUIRED_FILES:
               if not path.exists():
                   raise SystemExit(
@@ -75,9 +79,27 @@ jobs:
 
               print(f"Found: {path}")
 
-          # -------------------------------------------------
+          # =================================================
+          # 共通ID取得
+          #
+          # 現行スキーマ:
+          #   propertyId = canonical ID
+          #
+          # 旧データとの互換性のため:
+          #   id
+          # もフォールバックとして許容
+          # =================================================
+
+          def get_property_id(property_data):
+              return (
+                  property_data.get("propertyId")
+                  or property_data.get("id")
+              )
+
+          # =================================================
           # discovered_listings.json
-          # -------------------------------------------------
+          # =================================================
+
           discovered_path = Path(
               "data/discovered_listings.json"
           )
@@ -126,21 +148,28 @@ jobs:
                       f"properties[{index}] must be an object"
                   )
 
-              if not property_data.get("id"):
+              property_id = get_property_id(
+                  property_data
+              )
+
+              if not property_id:
                   raise SystemExit(
                       "ERROR: discovered_listings.json "
-                      f"properties[{index}].id is missing"
+                      f"properties[{index}].propertyId "
+                      "is missing"
                   )
 
               if not property_data.get("sourceUrl"):
                   raise SystemExit(
                       "ERROR: discovered_listings.json "
-                      f"properties[{index}].sourceUrl is missing"
+                      f"properties[{index}].sourceUrl "
+                      "is missing"
                   )
 
-          # -------------------------------------------------
+          # =================================================
           # houses.json
-          # -------------------------------------------------
+          # =================================================
+
           houses_path = Path(
               "data/houses.json"
           )
@@ -189,37 +218,54 @@ jobs:
                       f"properties[{index}] must be an object"
                   )
 
-              if not property_data.get("id"):
+              property_id = get_property_id(
+                  property_data
+              )
+
+              if not property_id:
                   raise SystemExit(
                       "ERROR: houses.json "
-                      f"properties[{index}].id is missing"
+                      f"properties[{index}].propertyId "
+                      "is missing"
                   )
 
               if not property_data.get("sourceUrl"):
                   raise SystemExit(
                       "ERROR: houses.json "
-                      f"properties[{index}].sourceUrl is missing"
+                      f"properties[{index}].sourceUrl "
+                      "is missing"
                   )
 
-          # -------------------------------------------------
+          # =================================================
           # 重複IDチェック
-          # -------------------------------------------------
-          def check_duplicate_ids(properties, label):
+          # =================================================
+
+          def check_duplicate_ids(
+              properties,
+              label
+          ):
               seen = set()
               duplicates = set()
 
               for item in properties:
-                  property_id = item.get("id")
+                  property_id = get_property_id(
+                      item
+                  )
 
                   if property_id in seen:
-                      duplicates.add(property_id)
+                      duplicates.add(
+                          property_id
+                      )
 
-                  seen.add(property_id)
+                  seen.add(
+                      property_id
+                  )
 
               if duplicates:
                   raise SystemExit(
-                      f"ERROR: Duplicate IDs found in "
-                      f"{label}: {sorted(duplicates)}"
+                      "ERROR: Duplicate propertyIds "
+                      f"found in {label}: "
+                      f"{sorted(duplicates)}"
                   )
 
           check_duplicate_ids(
@@ -232,9 +278,54 @@ jobs:
               "houses.json"
           )
 
-          # -------------------------------------------------
-          # サマリー表示
-          # -------------------------------------------------
+          # =================================================
+          # propertyIdの形式確認
+          # =================================================
+
+          def validate_property_id_format(
+              properties,
+              label
+          ):
+              for index, item in enumerate(
+                  properties
+              ):
+                  property_id = get_property_id(
+                      item
+                  )
+
+                  if not isinstance(
+                      property_id,
+                      str
+                  ):
+                      raise SystemExit(
+                          "ERROR: "
+                          f"{label} "
+                          f"properties[{index}].propertyId "
+                          "must be a string"
+                      )
+
+                  if not property_id.strip():
+                      raise SystemExit(
+                          "ERROR: "
+                          f"{label} "
+                          f"properties[{index}].propertyId "
+                          "must not be empty"
+                      )
+
+          validate_property_id_format(
+              discovered["properties"],
+              "discovered_listings.json"
+          )
+
+          validate_property_id_format(
+              houses["properties"],
+              "houses.json"
+          )
+
+          # =================================================
+          # サマリー取得
+          # =================================================
+
           discovered_summary = discovered.get(
               "summary",
               {}
@@ -245,6 +336,22 @@ jobs:
               {}
           )
 
+          if not isinstance(
+              discovered_summary,
+              dict
+          ):
+              discovered_summary = {}
+
+          if not isinstance(
+              houses_summary,
+              dict
+          ):
+              houses_summary = {}
+
+          # =================================================
+          # Validation結果
+          # =================================================
+
           print("")
           print("========================================")
           print("Output validation: OK")
@@ -253,63 +360,153 @@ jobs:
           print("")
           print("discovered_listings.json")
           print(
-              f"  Updated at: {discovered['updatedAt']}"
+              f"  Updated at: "
+              f"{discovered['updatedAt']}"
           )
           print(
-              "  Properties found:",
+              "  Properties:",
               len(discovered["properties"])
           )
 
           print("")
           print("houses.json")
           print(
-              f"  Updated at: {houses['updatedAt']}"
+              f"  Updated at: "
+              f"{houses['updatedAt']}"
           )
           print(
-              "  Properties found:",
+              "  Properties:",
               len(houses["properties"])
           )
 
+          # =================================================
+          # 現行 main.py の summary キーに対応
+          # =================================================
+
           print("")
           print("Summary")
+
           print(
               "  Discovered:",
               discovered_summary.get(
                   "discoveredCount",
-                  len(discovered["properties"])
+                  discovered_summary.get(
+                      "searchCandidateCount",
+                      len(
+                          discovered["properties"]
+                      )
+                  )
               )
           )
+
           print(
-              "  Detail fetched:",
+              "  Market DB:",
               houses_summary.get(
-                  "detailFetchedCount",
-                  0
+                  "marketDbCount",
+                  len(
+                      houses["properties"]
+                  )
               )
           )
+
           print(
-              "  Detail errors:",
+              "  Market History:",
               houses_summary.get(
-                  "detailErrorCount",
-                  0
-              )
-          )
-          print(
-              "  GOOD:",
-              houses_summary.get(
-                  "goodCount",
-                  0
-              )
-          )
-          print(
-              "  PARTIAL:",
-              houses_summary.get(
-                  "partialCount",
+                  "marketHistoryCount",
                   0
               )
           )
 
+          print(
+              "  History Active:",
+              houses_summary.get(
+                  "marketHistoryActiveCount",
+                  0
+              )
+          )
+
+          print(
+              "  History Ended:",
+              houses_summary.get(
+                  "marketHistoryEndedCount",
+                  0
+              )
+          )
+
+          print(
+              "  Criteria Excluded:",
+              houses_summary.get(
+                  "marketHistoryCriteriaExcludedCount",
+                  houses_summary.get(
+                      "criteriaExcludedCount",
+                      0
+                  )
+              )
+          )
+
+          print(
+              "  Criteria Pending:",
+              houses_summary.get(
+                  "marketHistoryCriteriaPendingCount",
+                  houses_summary.get(
+                      "criteriaPendingCount",
+                      0
+                  )
+              )
+          )
+
+          print(
+              "  Detail Pending:",
+              houses_summary.get(
+                  "detailPendingCount",
+                  0
+              )
+          )
+
+          print(
+              "  Detail Success This Run:",
+              houses_summary.get(
+                  "detailSuccessThisRun",
+                  0
+              )
+          )
+
+          print(
+              "  Detail Failure This Run:",
+              houses_summary.get(
+                  "detailFailureThisRun",
+                  0
+              )
+          )
+
+          print(
+              "  Price Reduction:",
+              houses_summary.get(
+                  "priceReductionCount",
+                  0
+              )
+          )
+
+          print(
+              "  Observations:",
+              houses_summary.get(
+                  "observationsCount",
+                  0
+              )
+          )
+
+          print(
+              "  Detail Interrupted:",
+              houses_summary.get(
+                  "detailInterrupted",
+                  False
+              )
+          )
+
           print("")
-          print("Validation completed successfully.")
+          print(
+              "Validation completed successfully."
+          )
           PY
 
       # =====================================================
@@ -334,14 +531,33 @@ jobs:
           )
 
           print(
+              "schemaVersion:",
+              data.get("schemaVersion")
+          )
+
+          print(
+              "parserVersion:",
+              data.get("parserVersion")
+          )
+
+          print(
               "properties:",
-              len(data.get("properties", []))
+              len(
+                  data.get(
+                      "properties",
+                      []
+                  )
+              )
           )
 
           print(
               "summary:",
-              data.get("summary", {})
+              data.get(
+                  "summary",
+                  {}
+              )
           )
+
           PY
 
           echo ""
@@ -362,14 +578,33 @@ jobs:
           )
 
           print(
+              "schemaVersion:",
+              data.get("schemaVersion")
+          )
+
+          print(
+              "parserVersion:",
+              data.get("parserVersion")
+          )
+
+          print(
               "properties:",
-              len(data.get("properties", []))
+              len(
+                  data.get(
+                      "properties",
+                      []
+                  )
+              )
           )
 
           print(
               "summary:",
-              data.get("summary", {})
+              data.get(
+                  "summary",
+                  {}
+              )
           )
+
           PY
 
       # =====================================================
@@ -377,7 +612,11 @@ jobs:
       # =====================================================
       - name: Show changed files
         run: |
+          echo "===== Git status ====="
           git status --short
+
+          echo ""
+          echo "===== Git diff stat ====="
           git diff --stat
 
       # =====================================================
