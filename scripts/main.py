@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-27-v30-lightweight-discovery"
+MAIN_PARSER_VERSION = "2026-09-27-v31-identity-integrity"
 
 # ============================================================
 # Discovery DB retention / schema
@@ -686,6 +686,84 @@ def get_property_id(
     return make_property_id(
         property_data
     )
+
+
+def canonicalize_property_identity(
+    property_data: Dict[str, Any],
+) -> Optional[str]:
+    """
+    propertyId / id / sourceId 等を、
+    identity.py が算出するcanonical identityへ統一する。
+    特に既存DBについて、
+        dictのキーとして使われるpropertyId
+    と
+        レコード内部のpropertyId
+    が不一致になる問題を防ぐ。
+    SUUMOの場合はURL中の nc_ID を最優先する。
+    """
+    if not isinstance(
+        property_data,
+        dict,
+    ):
+        return None
+    property_id = get_property_id(
+        property_data
+    )
+    if not property_id:
+        return None
+    property_data[
+        "propertyId"
+    ] = property_id
+    # 旧スキーマとの互換性
+    property_data[
+        "id"
+    ] = property_id
+    # sourceIdもcanonical source IDへ統一
+    source_id = get_source_id(
+        property_data
+    )
+    if source_id:
+        property_data[
+            "sourceId"
+        ] = source_id
+    # identityKey等も可能なら同期
+    try:
+        identity = make_identity_key(
+            property_data
+        )
+        if isinstance(
+            identity,
+            dict,
+        ):
+            if identity.get(
+                "identityKey"
+            ):
+                property_data[
+                    "identityKey"
+                ] = identity.get(
+                    "identityKey"
+                )
+            if identity.get(
+                "identityType"
+            ):
+                property_data[
+                    "identityType"
+                ] = identity.get(
+                    "identityType"
+                )
+            if identity.get(
+                "identityCompleteness"
+            ) is not None:
+                property_data[
+                    "identityCompleteness"
+                ] = identity.get(
+                    "identityCompleteness"
+                )
+    except Exception:
+        # identity補助情報の更新に失敗しても
+        # canonical propertyId自体は有効なので継続する
+        pass
+    return property_id
 
 
 # ============================================================
@@ -3224,39 +3302,157 @@ def run_pipeline() -> None:
         str,
         Dict[str, Any],
     ] = {}
-    for prop in house_properties:
+    # --------------------------------------------------------
+    # houses.json
+    # --------------------------------------------------------
+    # 既存DBを読み込む際、
+    # URLから再計算したcanonical propertyIdと
+    # レコード内部のpropertyIdを必ず一致させる。
+    #
+    # これにより、
+    #
+    # db["suumo:nc_123"] = {
+    #     "propertyId": "suumo:nc_456"
+    # }
+    #
+    # のような不整合を防止する。
+    # --------------------------------------------------------
+    house_identity_repaired_count = 0
+    house_duplicate_canonical_count = 0
+    for index, prop in enumerate(
+        house_properties
+    ):
         if not isinstance(
             prop,
             dict,
         ):
             continue
-        pid = get_property_id(
+        prop = deepcopy(
+            prop
+        )
+        before_property_id = (
+            prop.get(
+                "propertyId"
+            )
+        )
+        pid = canonicalize_property_identity(
             prop
         )
         if not pid:
+            print(
+                "[WARN] houses.json の "
+                f"properties[{index}] は "
+                "canonical propertyIdを生成できないため "
+                "スキップします。"
+            )
             continue
-        prop = deepcopy(prop)
-        prop["seenThisRun"] = False
-        db[pid] = prop
-    for prop in discovered_properties:
+        after_property_id = (
+            prop.get(
+                "propertyId"
+            )
+        )
+        if (
+            before_property_id
+            != after_property_id
+        ):
+            house_identity_repaired_count += 1
+            print(
+                "[INFO] canonical propertyId修正: "
+                f"{before_property_id} -> "
+                f"{after_property_id}"
+            )
+        prop[
+            "seenThisRun"
+        ] = False
+        if pid in db:
+            house_duplicate_canonical_count += 1
+            existing = db[pid]
+            print(
+                "[WARN] houses.json内で"
+                "canonical propertyIdが重複: "
+                f"{pid}"
+            )
+            print(
+                "       existing sourceUrl="
+                f"{existing.get('sourceUrl')}"
+            )
+            print(
+                "       duplicate sourceUrl="
+                f"{prop.get('sourceUrl')}"
+            )
+            # 既存レコードを優先し、
+            # 欠落している値だけ重複レコードから補完する。
+            for key, value in prop.items():
+                if (
+                    existing.get(key) is None
+                    and value is not None
+                ):
+                    existing[key] = value
+        else:
+            db[pid] = prop
+    print(
+        "houses.json identity正規化: "
+        f"修正={house_identity_repaired_count}, "
+        f"canonical重複={house_duplicate_canonical_count}"
+    )
+
+    # --------------------------------------------------------
+    # discovered_listings.json
+    # --------------------------------------------------------
+    discovered_identity_repaired_count = 0
+    discovered_duplicate_canonical_count = 0
+    for index, prop in enumerate(
+        discovered_properties
+    ):
         if not isinstance(
             prop,
             dict,
         ):
             continue
-        pid = get_property_id(
+        prop = deepcopy(
+            prop
+        )
+        before_property_id = (
+            prop.get(
+                "propertyId"
+            )
+        )
+        pid = canonicalize_property_identity(
             prop
         )
         if not pid:
+            print(
+                "[WARN] discovered_listings.json の "
+                f"properties[{index}] は "
+                "canonical propertyIdを生成できないため "
+                "スキップします。"
+            )
             continue
-        prop = deepcopy(prop)
-        prop["seenThisRun"] = False
+        after_property_id = (
+            prop.get(
+                "propertyId"
+            )
+        )
+        if (
+            before_property_id
+            != after_property_id
+        ):
+            discovered_identity_repaired_count += 1
+            print(
+                "[INFO] discovered canonical "
+                "propertyId修正: "
+                f"{before_property_id} -> "
+                f"{after_property_id}"
+            )
+        prop[
+            "seenThisRun"
+        ] = False
         if pid not in db:
             db[pid] = prop
             continue
+        existing = db[pid]
         # houses側に存在する場合は、
         # discovered側の追跡情報だけ補完する。
-        existing = db[pid]
         for key in [
             "sourceUrl",
             "searchArea",
@@ -3274,6 +3470,12 @@ def run_pipeline() -> None:
                 and prop.get(key) is not None
             ):
                 existing[key] = prop.get(key)
+    print(
+        "discovered identity正規化: "
+        f"修正={discovered_identity_repaired_count}, "
+        f"canonical重複={discovered_duplicate_canonical_count}"
+    )
+
     print(
         f"既存Market DB読み込み完了: "
         f"{len(db)}件 "
@@ -3694,6 +3896,54 @@ def run_pipeline() -> None:
 
             new_count += 1
 
+    # --------------------------------------------------------
+    # Merge Integrity Check
+    # --------------------------------------------------------
+    # dbのキーとレコード内部のpropertyIdが
+    # 完全に一致していることを確認する。
+    # --------------------------------------------------------
+    identity_mismatch = []
+    for db_key, property_data in db.items():
+        actual_id = (
+            property_data.get(
+                "propertyId"
+            )
+            or get_property_id(
+                property_data
+            )
+        )
+        if actual_id != db_key:
+            identity_mismatch.append(
+                {
+                    "dbKey": db_key,
+                    "propertyId": actual_id,
+                    "sourceUrl": property_data.get(
+                        "sourceUrl"
+                    ),
+                }
+            )
+    if identity_mismatch:
+        print(
+            "[ERROR] db key と "
+            "propertyId が不一致です。"
+        )
+        for item in identity_mismatch[:20]:
+            print(
+                "  dbKey="
+                f"{item['dbKey']}, "
+                "propertyId="
+                f"{item['propertyId']}, "
+                "sourceUrl="
+                f"{item['sourceUrl']}"
+            )
+        raise RuntimeError(
+            "Market DB identity integrity check failed"
+        )
+    print(
+        "[OK] Merge identity integrity check: "
+        f"{len(db)}件"
+    )
+
     print(
         f"MERGE完了: "
         f"新規={new_count}, "
@@ -3954,6 +4204,58 @@ def run_pipeline() -> None:
     properties_final = list(
         db.values()
     )
+    # --------------------------------------------------------
+    # Final Property Identity Check
+    # --------------------------------------------------------
+    final_ids = []
+    final_duplicates = set()
+    for item in properties_final:
+        pid = canonicalize_property_identity(
+            item
+        )
+        if not pid:
+            continue
+        if pid in final_ids:
+            final_duplicates.add(
+                pid
+            )
+        final_ids.append(
+            pid
+        )
+    if final_duplicates:
+        print(
+            "[ERROR] properties_finalで"
+            "propertyId重複を検出しました:"
+        )
+        for pid in sorted(
+            final_duplicates
+        ):
+            print(
+                f"  {pid}"
+            )
+            for index, item in enumerate(
+                properties_final
+            ):
+                if (
+                    item.get(
+                        "propertyId"
+                    )
+                    == pid
+                ):
+                    print(
+                        "    index="
+                        f"{index}, "
+                        "sourceUrl="
+                        f"{item.get('sourceUrl')}"
+                    )
+        raise RuntimeError(
+            "properties_final contains duplicate propertyIds"
+        )
+    print(
+        "[OK] properties_final identity check: "
+        f"{len(properties_final)}件 / "
+        f"unique={len(set(final_ids))}"
+    )
 
     # --------------------------------------------------------
     # 8. Observations
@@ -4119,6 +4421,59 @@ def run_pipeline() -> None:
         for item in properties_final
         if is_market_history_property(item)
     ]
+    # --------------------------------------------------------
+    # Market History DB Identity Integrity Check
+    # --------------------------------------------------------
+    market_ids = set()
+    market_duplicates = []
+    for index, item in enumerate(
+        market_houses
+    ):
+        pid = canonicalize_property_identity(
+            item
+        )
+        if not pid:
+            raise RuntimeError(
+                "Market History DB item has no "
+                f"canonical propertyId: index={index}"
+            )
+        if pid in market_ids:
+            market_duplicates.append(
+                {
+                    "index": index,
+                    "propertyId": pid,
+                    "sourceUrl": item.get(
+                        "sourceUrl"
+                    ),
+                }
+            )
+        else:
+            market_ids.add(
+                pid
+            )
+    if market_duplicates:
+        print(
+            "[ERROR] Market History DBで"
+            "propertyId重複を検出しました。"
+        )
+        for duplicate in market_duplicates:
+            print(
+                "  index="
+                f"{duplicate['index']}, "
+                "propertyId="
+                f"{duplicate['propertyId']}, "
+                "sourceUrl="
+                f"{duplicate['sourceUrl']}"
+            )
+        raise RuntimeError(
+            "Market History DB contains duplicate propertyIds"
+        )
+    print(
+        "[OK] Market History DB identity check: "
+        f"{len(market_houses)}件 / "
+        f"unique={len(market_ids)}"
+    )
+
     market_history_active_count = sum(
         1
         for item in market_houses
@@ -4153,6 +4508,45 @@ def run_pipeline() -> None:
             )
         )
     )
+
+    # --------------------------------------------------------
+    # Final pre-save validation
+    # --------------------------------------------------------
+    pre_save_ids = [
+        item.get("propertyId")
+        for item in market_houses
+    ]
+    if len(
+        pre_save_ids
+    ) != len(
+        set(pre_save_ids)
+    ):
+        raise RuntimeError(
+            "Refusing to write houses.json: "
+            "duplicate propertyIds detected"
+        )
+    for index, item in enumerate(
+        market_houses
+    ):
+        if not item.get(
+            "propertyId"
+        ):
+            raise RuntimeError(
+                "Refusing to write houses.json: "
+                f"properties[{index}].propertyId is missing"
+            )
+        if not item.get(
+            "sourceUrl"
+        ):
+            raise RuntimeError(
+                "Refusing to write houses.json: "
+                f"properties[{index}].sourceUrl is missing"
+            )
+    print(
+        "[OK] houses.json pre-save validation: "
+        f"{len(market_houses)}件"
+    )
+
     save_json(
         HOUSES_PATH,
         {
@@ -4344,21 +4738,6 @@ def run_pipeline() -> None:
         "priceReductionCount":
             price_reduction_count,
 
-        "observationsCount":
-            len(observations),
-
-        "searchCandidateCount":
-            len(all_candidates),
-
-        "newPropertyCount":
-            new_count,
-
-        "existingPropertyCandidateCount":
-            existing_count,
-
-        "marketDbCount":
-            len(properties_final),
-
         "searchTargetStats":
             search_target_stats,
     }
@@ -4368,106 +4747,10 @@ def run_pipeline() -> None:
         summary,
     )
 
-    # --------------------------------------------------------
-    # 12. Final Log
-    # --------------------------------------------------------
-
     print(
-        "============================================================"
+        f"サマリー保存完了: {SUMMARY_PATH}"
     )
 
-    print(
-        "=== Pipeline Complete ==="
-    )
-
-    print(
-        f"Search Healthy  : "
-        f"{summary['searchHealthy']}"
-    )
-
-    print(
-        f"Market DB       : "
-        f"{summary['marketDbCount']}"
-    )
-
-    print(
-        f"Market History  : "
-        f"{summary['marketHistoryCount']}"
-    )
-
-    print(
-        f"History Active  : "
-        f"{summary['marketHistoryActiveCount']}"
-    )
-
-    print(
-        f"History Ended   : "
-        f"{summary['marketHistoryEndedCount']}"
-    )
-
-    print(
-        f"History Criteria Excluded : "
-        f"{summary['marketHistoryCriteriaExcludedCount']}"
-    )
-
-    print(
-        f"History Criteria Pending  : "
-        f"{summary['marketHistoryCriteriaPendingCount']}"
-    )
-
-    print(
-        f"Active          : "
-        f"{summary['activeCount']}"
-    )
-
-    print(
-        f"Ended           : "
-        f"{summary['endedCount']}"
-    )
-
-    print(
-        f"Primary Target  : "
-        f"{summary['primaryTargetCount']}"
-    )
-
-    print(
-        f"Sub Target      : "
-        f"{summary['subTargetCount']}"
-    )
-
-    print(
-        f"Detail Pending  : "
-        f"{summary['detailPendingCount']}"
-    )
-
-    print(
-        f"Criteria Excluded : "
-        f"{summary['criteriaExcludedCount']}"
-    )
-
-    print(
-        f"Criteria Pending : "
-        f"{summary['criteriaPendingCount']}"
-    )
-
-    print(
-        f"Price Reduction : "
-        f"{summary['priceReductionCount']}"
-    )
-
-    print(
-        f"Detail Interrupted : "
-        f"{summary['detailInterrupted']}"
-    )
-
-    print(
-        "============================================================"
-    )
-
-
-# ============================================================
-# Entry Point
-# ============================================================
 
 if __name__ == "__main__":
     run_pipeline()
