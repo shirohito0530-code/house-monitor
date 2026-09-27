@@ -47,14 +47,31 @@ jobs:
           pip install -r requirements.txt
 
       # =====================================================
-      # 4. SUUMO検索・物件統合・詳細情報取得
+      # 4. 実行コミット確認
+      # =====================================================
+      - name: Show execution revision
+        run: |
+          echo "========================================"
+          echo "Execution revision"
+          echo "========================================"
+          git rev-parse HEAD
+          git log -1 --oneline
+          echo ""
+          echo "main.py parser version:"
+          grep -n "MAIN_PARSER_VERSION" scripts/main.py
+          echo ""
+          echo "identity.py:"
+          grep -n "def make_property_id" scripts/identity.py
+
+      # =====================================================
+      # 5. SUUMO検索・物件統合・詳細情報取得
       # =====================================================
       - name: Discover and fetch house listings
         run: |
           python scripts/main.py
 
       # =====================================================
-      # 5. 出力ファイルを検証
+      # 6. 出力ファイルを検証
       # =====================================================
       - name: Validate output
         run: |
@@ -244,29 +261,82 @@ jobs:
               properties,
               label
           ):
-              seen = set()
-              duplicates = set()
-
-              for item in properties:
+              seen = {}
+              for index, item in enumerate(
+                  properties
+              ):
                   property_id = get_property_id(
                       item
                   )
-
                   if property_id in seen:
-                      duplicates.add(
+                      first_index = seen[
                           property_id
+                      ]
+                      print("")
+                      print(
+                          "========================================"
                       )
-
-                  seen.add(
+                      print(
+                          "DUPLICATE PROPERTY ID"
+                      )
+                      print(
+                          "========================================"
+                      )
+                      print(
+                          f"File       : {label}"
+                      )
+                      print(
+                          f"propertyId : {property_id}"
+                      )
+                      print(
+                          f"First index: {first_index}"
+                      )
+                      print(
+                          f"Second index: {index}"
+                      )
+                      first_item = properties[
+                          first_index
+                      ]
+                      print(
+                          "First sourceUrl:"
+                      )
+                      print(
+                          first_item.get(
+                              "sourceUrl"
+                          )
+                      )
+                      print(
+                          "Second sourceUrl:"
+                      )
+                      print(
+                          item.get(
+                              "sourceUrl"
+                          )
+                      )
+                      print(
+                          "First name:"
+                      )
+                      print(
+                          first_item.get(
+                              "name"
+                          )
+                      )
+                      print(
+                          "Second name:"
+                      )
+                      print(
+                          item.get(
+                              "name"
+                          )
+                      )
+                      raise SystemExit(
+                          "ERROR: Duplicate propertyId "
+                          f"found in {label}: "
+                          f"{property_id}"
+                      )
+                  seen[
                       property_id
-                  )
-
-              if duplicates:
-                  raise SystemExit(
-                      "ERROR: Duplicate propertyIds "
-                      f"found in {label}: "
-                      f"{sorted(duplicates)}"
-                  )
+                  ] = index
 
           check_duplicate_ids(
               discovered["properties"],
@@ -274,6 +344,70 @@ jobs:
           )
 
           check_duplicate_ids(
+              houses["properties"],
+              "houses.json"
+          )
+
+          # =================================================
+          # 内部IDとURLの整合性チェック
+          # =================================================
+
+          def check_identity_consistency(
+              properties,
+              label
+          ):
+              for index, item in enumerate(
+                  properties
+              ):
+                  property_id = get_property_id(
+                      item
+                  )
+                  source_url = item.get(
+                      "sourceUrl"
+                  )
+                  if not property_id:
+                      continue
+                  if not source_url:
+                      continue
+                  # SUUMO URLからnc_IDを抽出
+                  if "suumo.jp" not in str(
+                      source_url
+                  ):
+                      continue
+                  import re
+                  match = re.search(
+                      r"/(nc_\d+)(?:/|$)",
+                      str(source_url),
+                      re.IGNORECASE,
+                  )
+                  if not match:
+                      continue
+                  expected_source_id = (
+                      match.group(1).lower()
+                  )
+                  expected_property_id = (
+                      "suumo:"
+                      + expected_source_id
+                  )
+                  if (
+                      property_id
+                      != expected_property_id
+                  ):
+                      raise SystemExit(
+                          "ERROR: propertyId/sourceUrl "
+                          "mismatch in "
+                          f"{label} "
+                          f"properties[{index}]: "
+                          f"propertyId={property_id}, "
+                          f"expected={expected_property_id}, "
+                          f"sourceUrl={source_url}"
+                      )
+
+          check_identity_consistency(
+              discovered["properties"],
+              "discovered_listings.json"
+          )
+          check_identity_consistency(
               houses["properties"],
               "houses.json"
           )
@@ -510,7 +644,7 @@ jobs:
           PY
 
       # =====================================================
-      # 6. 生成結果の概要をログに表示
+      # 7. 生成結果の概要をログに表示
       # =====================================================
       - name: Display output summary
         run: |
@@ -608,7 +742,7 @@ jobs:
           PY
 
       # =====================================================
-      # 7. 変更されたJSONを確認
+      # 8. 変更されたJSONを確認
       # =====================================================
       - name: Show changed files
         run: |
@@ -620,7 +754,7 @@ jobs:
           git diff --stat
 
       # =====================================================
-      # 8. 生成データをコミット・プッシュ
+      # 9. 生成データをコミット・プッシュ
       # =====================================================
       - name: Commit and push changes
         run: |
