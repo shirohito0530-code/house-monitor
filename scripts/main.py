@@ -44,7 +44,37 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-25-v29-market-history"
+MAIN_PARSER_VERSION = "2026-09-27-v30-lightweight-discovery"
+
+# ============================================================
+# Discovery DB retention / schema
+# ============================================================
+DISCOVERY_SCHEMA_VERSION = "2.0"
+# discovered_listings.json は長期履歴DBではなく、
+# 詳細取得・再確認のための軽量追跡DBとして扱う。
+#
+# この期間より古く、かつユーザー管理対象でない物件は
+# discovered_listings から削除する。
+DISCOVERY_RETENTION_DAYS = 180
+# discovered_listings に保存するフィールド。
+# 詳細情報や検索出現履歴は保存しない。
+DISCOVERY_FIELDS = (
+    "propertyId",
+    "sourceUrl",
+    "name",
+    "searchArea",
+    "searchPropertyType",
+    "areaClassification",
+    "status",
+    "firstSeenAt",
+    "lastSeenAt",
+    "endedAt",
+    "lastDetailFetchAt",
+    "detailFetchStatus",
+    "detailFetchErrorType",
+    "detailFetchAttempts",
+    "detailFetchSuccess",
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -890,8 +920,134 @@ def apply_url_area_prefilter(
 
 
 # ============================================================
+# Lightweight Discovery DB
+# ============================================================
+
+def build_discovery_record(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+    """
+    discovered_listings.json 用の軽量レコードを作る。
+    詳細情報、検索履歴、HTML由来の大量データ等は保存しない。
+    """
+    record: Dict[str, Any] = {}
+    for field in DISCOVERY_FIELDS:
+        value = property_data.get(field)
+        if value is not None:
+            record[field] = value
+    # propertyId は必須
+    property_id = (
+        property_data.get("propertyId")
+        or get_property_id(property_data)
+    )
+    if property_id:
+        record["propertyId"] = property_id
+    # URLは必ず保持
+    source_url = (
+        property_data.get("sourceUrl")
+        or property_data.get("url")
+    )
+    if source_url:
+        record["sourceUrl"] = source_url
+    return record
+
+
+def parse_iso_datetime(
+    value: Any,
+) -> Optional[datetime]:
+    if not value:
+        return None
+    try:
+        dt = datetime.fromisoformat(
+            str(value).replace(
+                "Z",
+                "+00:00",
+            )
+        )
+        if dt.tzinfo is None:
+            dt = dt.replace(
+                tzinfo=timezone.utc
+            )
+        return dt
+    except Exception:
+        return None
+
+
+def should_keep_discovery(
+    property_data: Dict[str, Any],
+    now: Optional[datetime] = None,
+) -> bool:
+    """
+    discovered_listings に残すべきか判定する。
+    - 最近確認された物件 → 残す
+    - 古い物件 → 原則削除
+    - Active → 残す
+    - ユーザー管理情報が将来追加された場合 → 残せる構造
+    """
+    if now is None:
+        now = datetime.now(timezone.utc)
+    status = property_data.get(
+        "status"
+    )
+    # Activeは必ず残す
+    if status == "active":
+        return True
+    last_seen = parse_iso_datetime(
+        property_data.get("lastSeenAt")
+    )
+    if last_seen is None:
+        return True
+    age_days = (
+        now - last_seen
+    ).days
+    return (
+        age_days <= DISCOVERY_RETENTION_DAYS
+    )
+
+
+def compact_discovery_db(
+    properties: List[Dict[str, Any]],
+) -> List[Dict[str, Any]]:
+    """
+    discovered_listings を軽量化する。
+    1. 180日超の古い追跡データを削除
+    2. 各物件を軽量レコード化
+    3. propertyIdで重複排除
+    """
+    now = datetime.now(timezone.utc)
+    compacted: Dict[
+        str,
+        Dict[str, Any],
+    ] = {}
+    for prop in properties:
+        if not isinstance(
+            prop,
+            dict,
+        ):
+            continue
+        if not should_keep_discovery(
+            prop,
+            now,
+        ):
+            continue
+        record = build_discovery_record(
+            prop
+        )
+        property_id = record.get(
+            "propertyId"
+        )
+        if not property_id:
+            continue
+        compacted[property_id] = record
+    return list(
+        compacted.values()
+    )
+
+
+# ============================================================
 # Market History DB Selection
 # ============================================================
+
 def is_market_history_property(
     property_data: Dict[str, Any],
 ) -> bool:
@@ -2855,152 +3011,39 @@ def merge_search_occurrence(
     existing: Dict[str, Any],
     candidate: Dict[str, Any],
 ) -> None:
-
-    target = candidate.get(
-        "searchTarget"
+    """
+    検索結果由来の最新情報だけを既存物件へ反映する。
+    v30では検索出現履歴を永久保存しない。
+    discovered_listings.json の肥大化を防ぐため、
+    最新検索位置のみ保持する。
+    """
+    target = (
+        candidate.get("searchTarget")
+        or candidate.get("searchTargetArea")
     )
-
-    page_number = candidate.get(
+    search_area = (
+        candidate.get("searchTargetArea")
+        or candidate.get("searchArea")
+    )
+    property_type = (
+        candidate.get("searchTargetPropertyType")
+        or candidate.get("searchPropertyType")
+    )
+    existing["searchTarget"] = target
+    existing["searchTargetArea"] = search_area
+    existing["searchTargetPropertyType"] = property_type
+    existing["searchPageNumber"] = candidate.get(
         "searchPageNumber"
     )
-
-    position = candidate.get(
+    existing["searchPosition"] = candidate.get(
         "searchPosition"
     )
-
-    search_area = normalize_search_area(
-        candidate.get(
-            "searchTargetArea"
-        )
-        or candidate.get(
-            "searchArea"
-        )
-    )
-
-    property_type = normalize_property_type(
-        candidate.get(
-            "searchTargetPropertyType"
-        )
-        or candidate.get(
-            "searchPropertyType"
-        )
-    )
-
-    search_url = candidate.get(
+    existing["searchUrl"] = candidate.get(
         "searchUrl"
     )
-
-    search_page_url = candidate.get(
+    existing["searchPageUrl"] = candidate.get(
         "searchPageUrl"
     )
-
-    existing[
-        "searchTargets"
-    ] = append_unique(
-        existing.get(
-            "searchTargets"
-        ),
-        target,
-    )
-
-    existing[
-        "searchPageNumbers"
-    ] = append_unique(
-        existing.get(
-            "searchPageNumbers"
-        ),
-        page_number,
-    )
-
-    occurrence = {
-        "searchTarget": target,
-        "searchTargetArea": search_area,
-        "searchTargetPropertyType": property_type,
-        "searchUrl": search_url,
-        "searchPageUrl": search_page_url,
-        "searchPageNumber": page_number,
-        "searchPosition": position,
-        "observedAt":
-            candidate.get(
-                "discoveredAt"
-            )
-            or now_iso(),
-    }
-
-    occurrences = existing.get(
-        "searchOccurrences"
-    )
-
-    if not isinstance(
-        occurrences,
-        list,
-    ):
-        occurrences = []
-
-    occurrence_key = (
-        occurrence.get(
-            "searchTarget"
-        ),
-        occurrence.get(
-            "searchTargetArea"
-        ),
-        occurrence.get(
-            "searchTargetPropertyType"
-        ),
-        occurrence.get(
-            "searchUrl"
-        ),
-        occurrence.get(
-            "searchPageUrl"
-        ),
-        occurrence.get(
-            "searchPageNumber"
-        ),
-        occurrence.get(
-            "searchPosition"
-        ),
-    )
-
-    already_exists = any(
-        (
-            item.get(
-                "searchTarget"
-            ),
-            item.get(
-                "searchTargetArea"
-            ),
-            item.get(
-                "searchTargetPropertyType"
-            ),
-            item.get(
-                "searchUrl"
-            ),
-            item.get(
-                "searchPageUrl"
-            ),
-            item.get(
-                "searchPageNumber"
-            ),
-            item.get(
-                "searchPosition"
-            ),
-        )
-        == occurrence_key
-        for item in occurrences
-        if isinstance(
-            item,
-            dict,
-        )
-    )
-
-    if not already_exists:
-        occurrences.append(
-            occurrence
-        )
-
-    existing[
-        "searchOccurrences"
-    ] = occurrences
 
 
 # ============================================================
@@ -3117,68 +3160,125 @@ def run_pipeline() -> None:
     # --------------------------------------------------------
     # 2. Existing Market DB
     # --------------------------------------------------------
-
+    # --------------------------------------------------------
+    # 2-A. houses.json
+    #
+    # houses.json = 詳細を保持する正規のMarket History DB
+    # --------------------------------------------------------
+    houses_raw = load_json(
+        HOUSES_PATH,
+        default={
+            "properties": []
+        },
+    )
+    if isinstance(
+        houses_raw,
+        dict,
+    ):
+        house_properties = houses_raw.get(
+            "properties",
+            [],
+        )
+    elif isinstance(
+        houses_raw,
+        list,
+    ):
+        house_properties = houses_raw
+    else:
+        house_properties = []
+    # --------------------------------------------------------
+    # 2-B. discovered_listings.json
+    #
+    # discovered = 軽量追跡DB
+    # --------------------------------------------------------
     discovered_raw = load_json(
         DISCOVERED_PATH,
         default={
             "properties": []
         },
     )
-
     if isinstance(
         discovered_raw,
         dict,
     ):
-
-        properties_list = (
+        discovered_properties = (
             discovered_raw.get(
                 "properties",
                 [],
             )
         )
-
     elif isinstance(
         discovered_raw,
         list,
     ):
-
-        properties_list = (
-            discovered_raw
-        )
-
+        discovered_properties = discovered_raw
     else:
-
-        properties_list = []
-
+        discovered_properties = []
+    # --------------------------------------------------------
+    # 2-C. Merge
+    #
+    # houses.json を優先。
+    # discovered は不足している物件を補完する。
+    # --------------------------------------------------------
     db: Dict[
         str,
         Dict[str, Any],
     ] = {}
-
-    for prop in properties_list:
-
+    for prop in house_properties:
         if not isinstance(
             prop,
             dict,
         ):
             continue
-
         pid = get_property_id(
             prop
         )
-
         if not pid:
             continue
-
-        prop[
-            "seenThisRun"
-        ] = False
-
+        prop = deepcopy(prop)
+        prop["seenThisRun"] = False
         db[pid] = prop
-
+    for prop in discovered_properties:
+        if not isinstance(
+            prop,
+            dict,
+        ):
+            continue
+        pid = get_property_id(
+            prop
+        )
+        if not pid:
+            continue
+        prop = deepcopy(prop)
+        prop["seenThisRun"] = False
+        if pid not in db:
+            db[pid] = prop
+            continue
+        # houses側に存在する場合は、
+        # discovered側の追跡情報だけ補完する。
+        existing = db[pid]
+        for key in [
+            "sourceUrl",
+            "searchArea",
+            "searchPropertyType",
+            "firstSeenAt",
+            "lastSeenAt",
+            "lastDetailFetchAt",
+            "detailFetchStatus",
+            "detailFetchErrorType",
+            "detailFetchAttempts",
+            "detailFetchSuccess",
+        ]:
+            if (
+                existing.get(key) is None
+                and prop.get(key) is not None
+            ):
+                existing[key] = prop.get(key)
     print(
         f"既存Market DB読み込み完了: "
-        f"{len(db)}件"
+        f"{len(db)}件 "
+        f"(houses={len(house_properties)}, "
+        f"discovered={len(discovered_properties)})"
     )
 
     # --------------------------------------------------------
@@ -3585,18 +3685,6 @@ def run_pipeline() -> None:
                 "status"
             ] = "active"
 
-            candidate[
-                "searchTargets"
-            ] = []
-
-            candidate[
-                "searchPageNumbers"
-            ] = []
-
-            candidate[
-                "searchOccurrences"
-            ] = []
-
             merge_search_occurrence(
                 candidate,
                 candidate,
@@ -3943,21 +4031,50 @@ def run_pipeline() -> None:
     )
 
     # --------------------------------------------------------
-    # 9. Save Market DB
+    # 9. Save Lightweight Discovery DB
     # --------------------------------------------------------
-
+    discovery_properties = (
+        compact_discovery_db(
+            properties_final
+        )
+    )
+    discovery_active_count = sum(
+        1
+        for item in discovery_properties
+        if item.get("status") == "active"
+    )
+    discovery_ended_count = sum(
+        1
+        for item in discovery_properties
+        if item.get("status") == "observed_ended"
+    )
     save_json(
         DISCOVERED_PATH,
         {
             "schemaVersion":
-                "1.0",
+                DISCOVERY_SCHEMA_VERSION,
             "parserVersion":
                 MAIN_PARSER_VERSION,
             "updatedAt":
                 now_iso(),
+            "retentionDays":
+                DISCOVERY_RETENTION_DAYS,
+            "count":
+                len(discovery_properties),
+            "activeCount":
+                discovery_active_count,
+            "endedCount":
+                discovery_ended_count,
             "properties":
-                properties_final,
+                discovery_properties,
         },
+    )
+    print(
+        f"Lightweight Discovery DB保存完了: "
+        f"total={len(discovery_properties)}, "
+        f"active={discovery_active_count}, "
+        f"ended={discovery_ended_count}, "
+        f"retention={DISCOVERY_RETENTION_DAYS}days"
     )
 
     # --------------------------------------------------------
@@ -3983,6 +4100,20 @@ def run_pipeline() -> None:
     # 過去の市場価格・値下げ・掲載期間等を
     # 後から参照できる。
     # --------------------------------------------------------
+    for item in properties_final:
+        item.pop(
+            "searchOccurrences",
+            None,
+        )
+        item.pop(
+            "searchTargets",
+            None,
+        )
+        item.pop(
+            "searchPageNumbers",
+            None,
+        )
+
     market_houses = [
         item
         for item in properties_final
