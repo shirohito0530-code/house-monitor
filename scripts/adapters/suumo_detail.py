@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 # ============================================================
 
 DETAIL_PARSER_VERSION = (
-    "2026-09-24-v20-detail-main-compatible"
+    "2026-09-28-v21-target-station-walk"
 )
 
 
@@ -2264,33 +2264,105 @@ def collect_property_type_candidates(
 # Station / transportation
 # ============================================================
 
+def normalize_target_station(
+    value: Any,
+) -> Optional[str]:
+    text = clean_text(value)
+    if not text:
+        return None
+    text = (
+        text.replace("駅", "")
+        .replace("　", "")
+        .replace(" ", "")
+        .strip()
+    )
+    return text or None
+
+
+def normalize_target_stations(
+    target_stations: Optional[List[str]],
+) -> List[str]:
+    if not isinstance(
+        target_stations,
+        list,
+    ):
+        return []
+    result = []
+    for station in target_stations:
+        normalized = normalize_target_station(
+            station
+        )
+        if normalized:
+            result.append(normalized)
+    return list(
+        dict.fromkeys(result)
+    )
+
+
+def match_target_station(
+    station: Any,
+    target_stations: List[str],
+) -> Optional[str]:
+    normalized_station = (
+        normalize_target_station(station)
+    )
+    if not normalized_station:
+        return None
+    for target in target_stations:
+        if normalized_station == target:
+            return target
+    return None
+
+
 def get_station_walk_minutes_for_sort(
     candidate: Dict[str, Any],
 ) -> float:
     value = candidate.get("value")
-    if not isinstance(value, dict):
+    if not isinstance(
+        value,
+        dict,
+    ):
         return 999.0
-    walk_minutes = value.get("stationWalkMinutes")
+    walk_minutes = value.get(
+        "targetStationWalkMinutes"
+    )
     if walk_minutes is None:
         return 999.0
     try:
-        return float(walk_minutes)
-    except (TypeError, ValueError):
+        return float(
+            walk_minutes
+        )
+    except (
+        TypeError,
+        ValueError,
+    ):
         return 999.0
 
 
 def extract_station_info(
     blocks: List[str],
     page_text: str,
+    target_stations: Optional[List[str]] = None,
 ) -> Tuple[
     Dict[str, Any],
     List[Dict[str, Any]],
 ]:
-
+    normalized_targets = (
+        normalize_target_stations(
+            target_stations
+        )
+    )
     result = {
         "station": None,
+        # 正式な検索用駅情報
+        "targetStation": None,
+        "targetStationWalkMinutes": None,
+        "targetStationWalkAvailable": False,
+        "targetStationWalkSource": None,
+        # 既存互換
         "stationWalkMinutes": None,
         "walkMinutes": None,
+        # 元の交通情報
         "transportRaw": None,
         "stationAccessType": None,
         "busMinutes": None,
@@ -2332,6 +2404,9 @@ def extract_station_info(
 
     # --------------------------------------------------------
     # Bus
+    #
+    # バス情報は取得してよいが、
+    # targetStationWalkMinutes には絶対に使用しない。
     # --------------------------------------------------------
 
     bus_patterns = [
@@ -2395,6 +2470,10 @@ def extract_station_info(
                         ),
                         "stationWalkMinutes": None,
                         "walkMinutes": None,
+                        "targetStation": None,
+                        "targetStationWalkMinutes": None,
+                        "targetStationWalkAvailable": False,
+                        "targetStationWalkSource": None,
                         "transportRaw": clean_text(
                             match.group(0)
                         ),
@@ -2438,6 +2517,10 @@ def extract_station_info(
                         "busStopWalkMinutes": None,
                         "stationWalkMinutes": None,
                         "walkMinutes": None,
+                        "targetStation": None,
+                        "targetStationWalkMinutes": None,
+                        "targetStationWalkAvailable": False,
+                        "targetStationWalkSource": None,
                         "transportRaw": clean_text(
                             match.group(0)
                         ),
@@ -2455,6 +2538,9 @@ def extract_station_info(
 
     # --------------------------------------------------------
     # Walk
+    #
+    # 重要：
+    # 対象駅以外の徒歩情報は候補に採用しない。
     # --------------------------------------------------------
 
     walk_patterns = [
@@ -2499,10 +2585,13 @@ def extract_station_info(
             ):
                 continue
 
-            station = station.replace(
-                "駅",
-                "",
-            ).strip()
+            station = (
+                station.replace(
+                    "駅",
+                    "",
+                )
+                .strip()
+            )
 
             if not (
                 station
@@ -2510,13 +2599,28 @@ def extract_station_info(
             ):
                 continue
 
+            target_station = (
+                match_target_station(
+                    station,
+                    normalized_targets,
+                )
+            )
+
+            # ------------------------------------------------
+            # 対象駅以外は完全に無視
+            # ------------------------------------------------
+            if not target_station:
+                continue
+
             candidate = {
-                "station": clean_text(
-                    station
-                ),
+                "station": target_station,
                 "stationAccessType": "walk",
                 "stationWalkMinutes": walk_min,
                 "walkMinutes": walk_min,
+                "targetStation": target_station,
+                "targetStationWalkMinutes": walk_min,
+                "targetStationWalkAvailable": True,
+                "targetStationWalkSource": "walk",
                 "transportRaw": clean_text(
                     match.group(0)
                 ),
@@ -2533,15 +2637,38 @@ def extract_station_info(
                     source,
                     (
                         0.94
-                        if source == "text_block"
+                        if source
+                        == "text_block"
                         else 0.84
                     ),
+                    metadata={
+                        "targetStationMatched": True,
+                        "targetStation": target_station,
+                        "accessType": "walk",
+                    },
                 )
             )
 
-    if candidates:
+    # --------------------------------------------------------
+    # Target station walk candidate selection
+    # --------------------------------------------------------
 
-        candidates.sort(
+    target_walk_candidates = [
+        candidate
+        for candidate in candidates
+        if isinstance(
+            candidate.get("value"),
+            dict,
+        )
+        and candidate["value"].get(
+            "targetStationWalkAvailable"
+        )
+        is True
+    ]
+
+    if target_walk_candidates:
+
+        target_walk_candidates.sort(
             key=lambda x: (
                 x.get(
                     "confidence",
@@ -2554,13 +2681,41 @@ def extract_station_info(
             reverse=True,
         )
 
-        best = candidates[0]
+        best = (
+            target_walk_candidates[0]
+        )
 
         result.update(
             best["value"]
         )
 
-    return result, candidates
+        return (
+            result,
+            candidates,
+        )
+
+    # --------------------------------------------------------
+    # Target station徒歩が取得できなかった場合
+    #
+    # バス情報や他駅徒歩を walkMinutes に流用しない。
+    # --------------------------------------------------------
+
+    result.update(
+        {
+            "targetStation": None,
+            "targetStationWalkMinutes": None,
+            "targetStationWalkAvailable": False,
+            "targetStationWalkSource": None,
+            "station": None,
+            "stationWalkMinutes": None,
+            "walkMinutes": None,
+        }
+    )
+
+    return (
+        result,
+        candidates,
+    )
 
 
 # ============================================================
@@ -2649,11 +2804,7 @@ def evaluate_detail_quality(
             "constructionMonth"
         )
 
-    important_fields = {
-        "station": detail.get(
-            "station"
-        ),
-    }
+    important_fields = {}
 
     missing_critical = [
         field
@@ -2741,12 +2892,15 @@ def evaluate_detail_quality(
                 "販売価格が異常に低い"
             )
 
-    if not detail.get(
-        "station"
+    target_station_warning = None
+    if (
+        detail.get(
+            "targetStationWalkAvailable"
+        )
+        is not True
     ):
-
-        warnings.append(
-            "駅情報を抽出できない"
+        target_station_warning = (
+            "対象駅の徒歩情報を取得できない"
         )
 
     audit = detail.get(
@@ -2837,6 +2991,7 @@ def evaluate_detail_quality(
         "poorReasonCategory": poor_reason,
         "propertyTypeUsedForEvaluation": p_type,
         "weakExtractionFields": weak_fields,
+        "targetStationWalkWarning": target_station_warning,
     }
 
 
@@ -3040,6 +3195,7 @@ def parse_detail_html(
     request_url: str,
     final_url: str,
     http_status: int,
+    target_stations: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
 
     raw_soup = BeautifulSoup(
@@ -3226,6 +3382,7 @@ def parse_detail_html(
         extract_station_info(
             blocks,
             page_text,
+            target_stations=target_stations,
         )
     )
 
@@ -3379,6 +3536,26 @@ def parse_detail_html(
         "station":
             station_info.get(
                 "station"
+            ),
+
+        "targetStation":
+            station_info.get(
+                "targetStation"
+            ),
+
+        "targetStationWalkMinutes":
+            station_info.get(
+                "targetStationWalkMinutes"
+            ),
+
+        "targetStationWalkAvailable":
+            station_info.get(
+                "targetStationWalkAvailable"
+            ),
+
+        "targetStationWalkSource":
+            station_info.get(
+                "targetStationWalkSource"
             ),
 
         "stationWalkMinutes":
@@ -3570,6 +3747,10 @@ def merge_detail_candidates(
             )
 
             station_related_keys = [
+                "targetStation",
+                "targetStationWalkMinutes",
+                "targetStationWalkAvailable",
+                "targetStationWalkSource",
                 "stationWalkMinutes",
                 "walkMinutes",
                 "transportRaw",
@@ -3689,6 +3870,31 @@ def merge_detail_candidates(
 
             merged[key] = value
 
+    if (
+        merged.get(
+            "targetStationWalkAvailable"
+        )
+        is not True
+    ):
+        merged[
+            "targetStation"
+        ] = None
+        merged[
+            "targetStationWalkMinutes"
+        ] = None
+        merged[
+            "targetStationWalkAvailable"
+        ] = False
+        merged[
+            "targetStationWalkSource"
+        ] = None
+        merged[
+            "stationWalkMinutes"
+        ] = None
+        merged[
+            "walkMinutes"
+        ] = None
+
     merged.update(
         evaluate_detail_quality(
             merged,
@@ -3709,6 +3915,7 @@ def fetch_detail(
     url: str,
     timeout: int = 20,
     retry_desktop_on_partial: bool = True,
+    target_stations: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
 
     original_url = str(
@@ -3875,6 +4082,7 @@ def fetch_detail(
                 or 200
             )
         ),
+        target_stations=target_stations,
     )
 
     # --------------------------------------------------------
@@ -3952,6 +4160,7 @@ def fetch_detail(
                                 or 200
                             )
                         ),
+                        target_stations=target_stations,
                     )
                 )
 
@@ -4103,10 +4312,17 @@ class SuumoDetailAdapter:
         url: str,
     ) -> Dict[str, Any]:
 
+        target_stations = (
+            self.config.get(
+                "targetStations",
+                [],
+            )
+        )
         return fetch_detail(
             url,
             timeout=self.timeout,
             retry_desktop_on_partial=(
                 self.retry_desktop_on_partial
             ),
+            target_stations=target_stations,
         )
