@@ -38,7 +38,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-29-v33-quality-state"
+MAIN_PARSER_VERSION = "2026-09-29-v34-detail-queue-fix"
 
 # ============================================================
 # Discovery DB retention / schema
@@ -3728,7 +3728,6 @@ def run_pipeline() -> None:
     # --------------------------------------------------------
     # 5-a. Queue Audits
     # --------------------------------------------------------
-
     queue_area_counter = Counter(
         normalize_search_area(
             item.get("searchArea")
@@ -3752,40 +3751,71 @@ def run_pipeline() -> None:
         "[DETAIL-QUEUE-AUDIT] "
         f"cityCode={dict(queue_city_counter)}"
     )
-
+    # --------------------------------------------------------
+    # Detail queue area audit
+    #
+    # IMPORTANT:
+    # areaClassification is NOT used to remove items here.
+    #
+    # Before detail fetch, address/land/building/walk may be
+    # unavailable. Therefore an item can temporarily have
+    # areaClassification="outOfTarget" because of:
+    #
+    #   areaExcludedReason="detailPending"
+    #   areaExcludedReason="unknown"
+    #
+    # Such items MUST be allowed to reach the detail parser.
+    #
+    # Actual area exclusion is performed AFTER detail enrichment
+    # and evaluate_property_criteria().
+    # --------------------------------------------------------
     queue_out_of_target = [
         item
         for item in to_fetch
-        if item.get(
-            "areaClassification"
-        ) == "outOfTarget"
+        if item.get("areaClassification") == "outOfTarget"
     ]
-    out_of_target_queue_count = len(queue_out_of_target)
-
-    if queue_out_of_target:
+    queue_pending_area = [
+        item
+        for item in queue_out_of_target
+        if item.get("areaExcludedReason")
+        in {
+            "detailPending",
+            "unknown",
+        }
+    ]
+    queue_confirmed_out_of_target = [
+        item
+        for item in queue_out_of_target
+        if item.get("areaExcludedReason")
+        not in {
+            "detailPending",
+            "unknown",
+        }
+    ]
+    print(
+        "[DETAIL-QUEUE-AUDIT] "
+        f"temporaryOutOfTarget={len(queue_pending_area)}, "
+        f"confirmedOutOfTarget={len(queue_confirmed_out_of_target)}"
+    )
+    if queue_pending_area:
         print(
-            "[WARN] "
-            f"outOfTarget property が {out_of_target_queue_count}件 "
-            "detail queueに混入したため除外します。"
+            "[DETAIL-QUEUE-AUDIT] "
+            f"住所未取得による一時的outOfTarget={len(queue_pending_area)}件 "
+            "→ 詳細取得を継続します。"
         )
-        for item in queue_out_of_target[:20]:
-            print(
-                "  propertyId="
-                f"{item.get('propertyId')}, "
-                "searchArea="
-                f"{item.get('searchArea')}, "
-                "cityCode="
-                f"{extract_city_from_url(item.get('sourceUrl'))}, "
-                "sourceUrl="
-                f"{item.get('sourceUrl')}"
-            )
-        to_fetch = [
-            item
-            for item in to_fetch
-            if item.get(
-                "areaClassification"
-            ) != "outOfTarget"
-        ]
+    if queue_confirmed_out_of_target:
+        print(
+            "[DETAIL-QUEUE-AUDIT] "
+            f"詳細取得前から明確に対象外={len(queue_confirmed_out_of_target)}件"
+        )
+    # --------------------------------------------------------
+    # IMPORTANT:
+    # Do NOT remove outOfTarget items here.
+    #
+    # is_detail_target_property() already performs the URL/city
+    # prefilter. The final address-based area decision must be
+    # made after the detail page has been fetched.
+    # --------------------------------------------------------
 
     # --------------------------------------------------------
     # 5-b. Execute Detail Fetch
@@ -3886,6 +3916,12 @@ def run_pipeline() -> None:
                 )
                 break
 
+    print(
+        "[DETAIL-RESULT-AUDIT] "
+        f"detailSuccess={detail_success_count}, "
+        f"detailError={detail_error_count}"
+    )
+
     # --------------------------------------------------------
     # 6. Save Data Construction & Consistency Checks
     # --------------------------------------------------------
@@ -3984,6 +4020,16 @@ def run_pipeline() -> None:
             f"{item.get('targetStationWalkAvailable')}"
         )
 
+    final_area_counter = Counter(
+        item.get("areaClassification", "UNKNOWN")
+        for item in db.values()
+        if item.get("seenThisRun")
+    )
+    print(
+        "[FINAL-AREA-AUDIT] "
+        f"{dict(final_area_counter)}"
+    )
+
     # --------------------------------------------------------
     # 7. Discovered, Observations, and Summary
     # --------------------------------------------------------
@@ -4027,7 +4073,7 @@ def run_pipeline() -> None:
         "searchCrawlsSuccessful": search_success_count,
         "searchCrawlsFailed": search_failed_count,
         "partialQualityCount": len(partial_items),
-        "detailQueueOutOfTargetCount": out_of_target_queue_count,
+        "detailQueueOutOfTargetCount": len(queue_out_of_target),
     }
 
     # --------------------------------------------------------
