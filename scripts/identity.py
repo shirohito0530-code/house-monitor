@@ -44,26 +44,46 @@ def extract_suumo_listing_id(
     return match.group(1).lower()
 
 
-def get_source_id(
-    property_data: Dict[str, Any],
-) -> Optional[str]:
-    source = str(
-        property_data.get(
-            "source",
-            "",
-        )
+def infer_source(property_data: Dict[str, Any]) -> str:
+    """
+    物件データからsourceを推定する。
+    優先順位:
+    1. 明示されたsource
+    2. sourceUrl / urlからSUUMO IDを検出
+    3. 既存propertyIdが suumo: で始まる
+    4. unknown
+    """
+    source = str(property_data.get("source", "")).strip().lower()
+    if source and source != "unknown":
+        return source
+    url = (
+        property_data.get("sourceUrl")
+        or property_data.get("url")
+        or ""
+    )
+    if extract_suumo_listing_id(url):
+        return "suumo"
+    property_id = str(
+        property_data.get("propertyId") or ""
     ).strip().lower()
+    if property_id.startswith("suumo:"):
+        return "suumo"
+    return "unknown"
 
-    # SUUMOではURL上のnc_IDを最優先
+
+def get_source_id(property_data: Dict[str, Any]) -> Optional[str]:
+    """
+    物件のsource固有IDを取得する。
+    SUUMOはURL上のnc_IDを最優先する。
+    """
+    source = infer_source(property_data)
     if source == "suumo":
         source_id = extract_suumo_listing_id(
             property_data.get("sourceUrl")
             or property_data.get("url")
         )
-
         if source_id:
             return source_id
-
     for key in (
         "sourceId",
         "sourcePropertyId",
@@ -72,51 +92,47 @@ def get_source_id(
         "id",
     ):
         value = property_data.get(key)
-
-        if value is not None and str(value).strip():
-            return str(value).strip()
-
+        if value is None:
+            continue
+        value = str(value).strip()
+        if not value:
+            continue
+        # 既存の完全なSUUMO propertyIdからID部分を取得
+        if source == "suumo" and value.lower().startswith("suumo:"):
+            value = value.split(":", 1)[1].strip()
+        if value:
+            return value
     return None
 
 
-def make_property_id(
-    property_data: Dict[str, Any],
-) -> Optional[str]:
-    source = str(
-        property_data.get(
-            "source",
-            "unknown",
-        )
-    ).strip().lower() or "unknown"
-
-    source_id = get_source_id(
-        property_data
-    )
-
+def make_property_id(property_data: Dict[str, Any]) -> Optional[str]:
+    """
+    source + sourceIdによる正規propertyIdを生成する。
+    """
+    source = infer_source(property_data)
+    source_id = get_source_id(property_data)
     if not source_id:
         return None
-
+    if source == "unknown":
+        return None
     return f"{source}:{source_id}"
+
+
+def get_property_id(property_data: Dict[str, Any]) -> Optional[str]:
+    """
+    物件のpropertyIdを取得する（make_property_idを利用）。
+    """
+    return make_property_id(property_data)
 
 
 def make_identity_key(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
-    source = str(
-        property_data.get(
-            "source",
-            "unknown",
-        )
-    ).strip().lower() or "unknown"
+    source = infer_source(property_data)
+    source_id = get_source_id(property_data)
 
-    source_id = get_source_id(
-        property_data
-    )
-
-    if source_id:
-        property_id = (
-            f"{source}:{source_id}"
-        )
+    if source_id and source != "unknown":
+        property_id = f"{source}:{source_id}"
 
         return {
             "propertyId": property_id,
