@@ -4,10 +4,11 @@ import json
 import re
 import sys
 import time
+from collections import Counter
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urljoin, urlsplit, urlunsplit
 
 
@@ -44,20 +45,13 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-28-v32-target-station-walk"
+MAIN_PARSER_VERSION = "2026-09-29-v33-quality-state"
 
 # ============================================================
 # Discovery DB retention / schema
 # ============================================================
 DISCOVERY_SCHEMA_VERSION = "2.0"
-# discovered_listings.json は長期履歴DBではなく、
-# 詳細取得・再確認のための軽量追跡DBとして扱う。
-#
-# この期間より古く、かつユーザー管理対象でない物件は
-# discovered_listings から削除する。
 DISCOVERY_RETENTION_DAYS = 180
-# discovered_listings に保存するフィールド。
-# 詳細情報や検索出現履歴は保存しない。
 DISCOVERY_FIELDS = (
     "propertyId",
     "sourceUrl",
@@ -90,9 +84,7 @@ HOUSES_PATH = DATA_DIR / "houses.json"
 SUMMARY_PATH = DATA_DIR / "summary.json"
 
 DEFAULT_DETAIL_FETCH_LIMIT = 400
-
 MAX_DETAIL_FETCH_ATTEMPTS = 3
-
 MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS = 3
 
 DETAIL_REFRESH_DAYS_ACTIVE = 2
@@ -110,22 +102,10 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
 # Market History DB
 # ============================================================
 HOUSE_DB_SCHEMA_VERSION = "2.0"
-# houses.json に保存するMarket DB上のライフサイクル状態
-#
-# active:
-#   現在SUUMO検索で確認されている物件
-#
-# observed_ended:
-#   過去には確認されたが、現在の正常な検索では
-#   確認できなくなった物件
 HOUSE_DB_STATUSES = {
     "active",
     "observed_ended",
 }
-# houses.json に保存する対象エリア
-#
-# searchCriteriaMatched はここでは使用しない。
-# 条件外物件も市場履歴として保持する。
 HOUSE_DB_AREA_CLASSIFICATIONS = {
     "primaryTarget",
     "subTarget",
@@ -908,57 +888,11 @@ def apply_url_area_prefilter(
 
         return property_data
 
-    allowed_city_codes = set()
-
-    for target in search_urls:
-
-        target_area = normalize_search_area(
-            target.get("area")
-        )
-
-        if target_area != search_area:
-            continue
-
-        codes = target.get(
-            "allowedCityCodes"
-        )
-
-        if isinstance(codes, list):
-
-            allowed_city_codes.update(
-                str(c)
-                for c in codes
-                if c
-            )
-
-    if not allowed_city_codes:
-
-        area_rules = get_area_rules(
-            search_config
-        )
-
-        if search_area:
-
-            rule = area_rules.get(
-                search_area
-            )
-
-            if isinstance(rule, dict):
-
-                configured_codes = rule.get(
-                    "cityCodes"
-                )
-
-                if isinstance(
-                    configured_codes,
-                    list,
-                ):
-
-                    allowed_city_codes.update(
-                        str(c)
-                        for c in configured_codes
-                        if c
-                    )
+    allowed_city_codes = get_allowed_city_codes_for_area(
+        search_area,
+        search_config,
+        search_urls,
+    )
 
     if not allowed_city_codes:
 
@@ -1162,13 +1096,64 @@ def is_market_history_property(
 # Detail Helpers & Refresh Logic
 # ============================================================
 
+def get_allowed_city_codes_for_area(
+    search_area: Optional[str],
+    search_config: Dict[str, Any],
+    search_urls: List[Dict[str, Any]],
+) -> set[str]:
+
+    normalized_area = normalize_search_area(
+        search_area
+    )
+    codes: set[str] = set()
+
+    for target in search_urls:
+        if not isinstance(target, dict):
+            continue
+        target_area = normalize_search_area(
+            target.get("area")
+        )
+        if target_area != normalized_area:
+            continue
+        configured = target.get(
+            "allowedCityCodes"
+        )
+        if isinstance(configured, list):
+            for code in configured:
+                if code:
+                    codes.add(str(code))
+
+    if codes:
+        return codes
+
+    area_rules = get_area_rules(
+        search_config
+    )
+    rule = area_rules.get(
+        normalized_area
+    )
+    if isinstance(rule, dict):
+        configured = rule.get(
+            "cityCodes"
+        )
+        if isinstance(configured, list):
+            for code in configured:
+                if code:
+                    codes.add(str(code))
+
+    return codes
+
+
 def is_detail_target_property(
     property_data: Dict[str, Any],
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> bool:
 
-    if not isinstance(property_data, dict):
+    if not isinstance(
+        property_data,
+        dict,
+    ):
         return False
 
     if property_data.get(
@@ -1177,50 +1162,44 @@ def is_detail_target_property(
     ):
         return False
 
+    search_area = normalize_search_area(
+        property_data.get(
+            "searchArea"
+        )
+    )
+
     url = (
         property_data.get("sourceUrl")
         or property_data.get("url")
     )
 
-    city_code = extract_city_from_url(url)
+    city_code = extract_city_from_url(
+        url
+    )
 
     if not city_code:
         return True
 
-    allowed_city_codes = set()
-
-    for target in search_urls:
-        codes = target.get(
-            "allowedCityCodes"
+    allowed_city_codes = (
+        get_allowed_city_codes_for_area(
+            search_area,
+            search_config,
+            search_urls,
         )
-        if isinstance(codes, list):
-            allowed_city_codes.update(
-                str(code)
-                for code in codes
-                if code
-            )
+    )
 
     if not allowed_city_codes:
-        area_rules = get_area_rules(
-            search_config
+        print(
+            "[WARN] 詳細取得対象のcity codeルールが"
+            f"未設定: area={search_area}, "
+            f"city_code={city_code}"
         )
-        for rule in area_rules.values():
-            if not isinstance(rule, dict):
-                continue
-            codes = rule.get(
-                "cityCodes"
-            )
-            if isinstance(codes, list):
-                allowed_city_codes.update(
-                    str(code)
-                    for code in codes
-                    if code
-                )
-
-    if not allowed_city_codes:
         return True
 
-    return city_code in allowed_city_codes
+    return (
+        city_code
+        in allowed_city_codes
+    )
 
 
 def get_detail(
@@ -1254,12 +1233,22 @@ def has_successful_detail(
     property_data: Dict[str, Any],
 ) -> bool:
 
-    last_successful = property_data.get(
-        "lastSuccessfulDetail"
+    if property_data.get(
+        "detailFetchSuccess"
+    ) is True:
+        return True
+
+    last_successful = (
+        property_data.get(
+            "lastSuccessfulDetail"
+        )
     )
 
     if (
-        isinstance(last_successful, dict)
+        isinstance(
+            last_successful,
+            dict,
+        )
         and last_successful
     ):
         return True
@@ -1269,8 +1258,13 @@ def has_successful_detail(
     )
 
     if (
-        isinstance(detail, dict)
-        and detail.get("success") is True
+        isinstance(
+            detail,
+            dict,
+        )
+        and detail.get(
+            "success"
+        ) is True
     ):
         return True
 
@@ -1915,135 +1909,91 @@ def evaluate_numeric_criteria(
         "buildingAreaReason": None,
     }
 
-    # --------------------------------------------------------
-    # Price
-    # --------------------------------------------------------
-
     max_price = criteria["maxPriceMan"]
 
     if max_price is None:
-
         result["priceMatched"] = True
         result["priceReason"] = (
             "price_filter_not_configured"
         )
-
     elif price is None:
-
         result["priceReason"] = (
             "price_unavailable"
         )
-
     elif price <= max_price:
-
         result["priceMatched"] = True
         result["priceReason"] = (
             "within_price_limit"
         )
-
     else:
-
         result["priceMatched"] = False
         result["priceReason"] = (
             "price_over_limit"
         )
 
-    # --------------------------------------------------------
-    # Walk
-    # --------------------------------------------------------
-
     max_walk = criteria["maxWalkMinutes"]
 
     if max_walk is None:
-
         result["walkMatched"] = True
         result["walkReason"] = (
             "walk_filter_not_configured"
         )
-
     elif walk is None:
-
         result["walkReason"] = (
             "walk_minutes_unavailable"
         )
-
     elif walk <= max_walk:
-
         result["walkMatched"] = True
         result["walkReason"] = (
             "within_walk_limit"
         )
-
     else:
-
         result["walkMatched"] = False
         result["walkReason"] = (
             "walk_minutes_over_limit"
         )
 
-    # --------------------------------------------------------
-    # Land
-    # --------------------------------------------------------
-
     min_land = criteria["minLandArea"]
 
     if min_land is None:
-
         result["landAreaMatched"] = True
         result["landAreaReason"] = (
             "land_area_filter_not_configured"
         )
-
     elif land is None:
-
         result["landAreaReason"] = (
             "land_area_unavailable"
         )
-
     elif land >= min_land:
-
         result["landAreaMatched"] = True
         result["landAreaReason"] = (
             "within_land_area_limit"
         )
-
     else:
-
         result["landAreaMatched"] = False
         result["landAreaReason"] = (
             "land_area_below_limit"
         )
-
-    # --------------------------------------------------------
-    # Building
-    # --------------------------------------------------------
 
     min_building = criteria[
         "minBuildingArea"
     ]
 
     if min_building is None:
-
         result["buildingAreaMatched"] = True
         result["buildingAreaReason"] = (
             "building_area_filter_not_configured"
         )
-
     elif building is None:
-
         result["buildingAreaReason"] = (
             "building_area_unavailable"
         )
-
     elif building >= min_building:
-
         result["buildingAreaMatched"] = True
         result["buildingAreaReason"] = (
             "within_building_area_limit"
         )
-
     else:
-
         result["buildingAreaMatched"] = False
         result["buildingAreaReason"] = (
             "building_area_below_limit"
@@ -2088,45 +2038,33 @@ def evaluate_area(
     }
 
     if not address:
-
         result[
             "areaValidationReason"
         ] = "address_unavailable"
-
         return result
 
     if detected_area is None:
-
         result["areaMatched"] = False
-
         result[
             "areaValidationReason"
         ] = "address_outside_target_area"
-
         return result
 
     if not search_area:
-
         result["areaMatched"] = True
-
         result[
             "areaValidationReason"
         ] = "area_detected"
-
         return result
 
     if detected_area == search_area:
-
         result["areaMatched"] = True
-
         result[
             "areaValidationReason"
         ] = "address_area_matched"
-
         return result
 
     result["areaMatched"] = False
-
     result[
         "areaValidationReason"
     ] = "search_area_address_mismatch"
@@ -2153,7 +2091,6 @@ def assign_area_excluded_reason(
     )
 
     if area_matched is False:
-
         if area_val_reason in {
             "address_outside_target_area",
             "search_area_address_mismatch",
@@ -2163,7 +2100,6 @@ def assign_area_excluded_reason(
         return "addressMismatch"
 
     if area_matched is None:
-
         if area_val_reason == "address_unavailable":
             return "detailPending"
 
@@ -2336,6 +2272,50 @@ def normalize_search_result(
 # Detail Enrichment
 # ============================================================
 
+def build_detail_quality_reasons(
+    detail: Dict[str, Any],
+) -> List[str]:
+
+    reasons: List[str] = []
+    for field in (
+        detail.get(
+            "missingCriticalFields"
+        )
+        or []
+    ):
+        reasons.append(
+            f"critical_missing:{field}"
+        )
+    for field in (
+        detail.get(
+            "missingImportantFields"
+        )
+        or []
+    ):
+        reasons.append(
+            f"important_missing:{field}"
+        )
+    for field in (
+        detail.get(
+            "weakExtractionFields"
+        )
+        or []
+    ):
+        reasons.append(
+            f"weak_extraction:{field}"
+        )
+    for warning in (
+        detail.get(
+            "validationWarnings"
+        )
+        or []
+    ):
+        reasons.append(
+            f"validation_warning:{warning}"
+        )
+    return reasons
+
+
 def enrich_with_detail(
     property_data: Dict[str, Any],
     detail_res: Dict[str, Any],
@@ -2363,10 +2343,13 @@ def enrich_with_detail(
         "success",
         False,
     ):
-
         property_data[
             "detailFetchStatus"
         ] = "error"
+
+        property_data[
+            "detailFetchSuccess"
+        ] = False
 
         property_data[
             "detailFetchErrorType"
@@ -2380,6 +2363,10 @@ def enrich_with_detail(
     property_data[
         "detailFetchStatus"
     ] = "success"
+
+    property_data[
+        "detailFetchSuccess"
+    ] = True
 
     property_data[
         "detailFetchErrorType"
@@ -2411,6 +2398,29 @@ def enrich_with_detail(
     property_data[
         "lastSuccessfulDetail"
     ] = deepcopy(
+        detail_content
+    )
+
+    quality_fields = [
+        "detailQuality",
+        "detailQualityScore",
+        "missingFields",
+        "missingCriticalFields",
+        "missingImportantFields",
+        "validationWarnings",
+        "weakExtractionFields",
+        "poorReasonCategory",
+        "targetStationWalkWarning",
+    ]
+    for field in quality_fields:
+        if field in detail_content:
+            property_data[field] = deepcopy(
+                detail_content[field]
+            )
+
+    property_data[
+        "detailQualityReasons"
+    ] = build_detail_quality_reasons(
         detail_content
     )
 
@@ -2501,7 +2511,11 @@ def enrich_with_detail(
         ] = detail_content.get(
             "targetStation"
         )
-        # 既存UI・DBとの互換用
+        property_data[
+            "targetStationWalkSource"
+        ] = detail_content.get(
+            "targetStationWalkSource"
+        )
         property_data[
             "walk"
         ] = target_walk
@@ -2515,8 +2529,9 @@ def enrich_with_detail(
         property_data[
             "targetStation"
         ] = None
-        # 重要：
-        # バス・他駅徒歩などをwalkへ流用しない
+        property_data[
+            "targetStationWalkSource"
+        ] = None
         property_data[
             "walk"
         ] = None
@@ -2542,10 +2557,6 @@ def evaluate_property_criteria(
     search_config: Dict[str, Any],
 ) -> Dict[str, Any]:
 
-    # --------------------------------------------------------
-    # Area
-    # --------------------------------------------------------
-
     area_eval = evaluate_area(
         property_data,
         search_config,
@@ -2555,10 +2566,6 @@ def evaluate_property_criteria(
         area_eval
     )
 
-    # --------------------------------------------------------
-    # School district
-    # --------------------------------------------------------
-
     school_eval = evaluate_school_district(
         property_data
     )
@@ -2566,10 +2573,6 @@ def evaluate_property_criteria(
     property_data.update(
         school_eval
     )
-
-    # --------------------------------------------------------
-    # Property type
-    # --------------------------------------------------------
 
     type_eval = evaluate_property_type(
         property_data,
@@ -2580,10 +2583,6 @@ def evaluate_property_criteria(
         type_eval
     )
 
-    # --------------------------------------------------------
-    # Building age
-    # --------------------------------------------------------
-
     age_eval = evaluate_built_age(
         property_data,
         search_config,
@@ -2592,10 +2591,6 @@ def evaluate_property_criteria(
     property_data.update(
         age_eval
     )
-
-    # --------------------------------------------------------
-    # Numeric criteria
-    # --------------------------------------------------------
 
     numeric_eval = evaluate_numeric_criteria(
         property_data,
@@ -2606,10 +2601,6 @@ def evaluate_property_criteria(
         numeric_eval
     )
 
-    # --------------------------------------------------------
-    # Area exclusion reason
-    # --------------------------------------------------------
-
     excluded_reason = (
         assign_area_excluded_reason(
             property_data
@@ -2619,15 +2610,6 @@ def evaluate_property_criteria(
     property_data[
         "areaExcludedReason"
     ] = excluded_reason
-
-    # --------------------------------------------------------
-    # Overall criteria
-    #
-    # None = unknown/pending
-    # False = confirmed failure
-    #
-    # Market DBにはunknownも残す。
-    # --------------------------------------------------------
 
     criteria_flags = [
         property_data.get(
@@ -2665,10 +2647,6 @@ def evaluate_property_criteria(
     property_data[
         "searchResultFilterExcluded"
     ] = not is_criteria_matched
-
-    # --------------------------------------------------------
-    # Price History
-    # --------------------------------------------------------
 
     current_price = to_number(
         property_data.get("price")
@@ -2750,10 +2728,6 @@ def evaluate_property_criteria(
         "priceHistory"
     ] = price_history
 
-    # --------------------------------------------------------
-    # Price Change Summary
-    # --------------------------------------------------------
-
     reductions = [
         item
         for item in price_history
@@ -2818,10 +2792,6 @@ def evaluate_property_criteria(
         property_data[
             "totalPriceReductionRate"
         ] = 0
-
-    # --------------------------------------------------------
-    # Area Classification
-    # --------------------------------------------------------
 
     if excluded_reason:
 
@@ -2934,7 +2904,7 @@ def update_property_lifecycle(
 
 
 # ============================================================
-# Observation
+# Observation & Market House Record
 # ============================================================
 
 def build_listing_observation(
@@ -3068,7 +3038,10 @@ def build_listing_observation(
             ),
 
         "detailQuality":
-            detail.get(
+            property_data.get(
+                "detailQuality"
+            )
+            or detail.get(
                 "detailQuality"
             ),
 
@@ -3101,6 +3074,80 @@ def build_listing_observation(
         "parserVersion":
             MAIN_PARSER_VERSION,
     }
+
+
+def build_market_house_record(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+
+    detail = get_detail(property_data)
+    record = deepcopy(property_data)
+
+    record["detailFetchStatus"] = property_data.get(
+        "detailFetchStatus"
+    )
+    record["detailFetchSuccess"] = property_data.get(
+        "detailFetchSuccess"
+    )
+    record["lastDetailAttemptAt"] = property_data.get(
+        "lastDetailAttemptAt"
+    )
+    record["lastDetailFetchAt"] = property_data.get(
+        "lastDetailFetchAt"
+    )
+    record["lastSuccessfulDetailAt"] = property_data.get(
+        "lastSuccessfulDetailAt"
+    )
+
+    record["detailQuality"] = (
+        property_data.get("detailQuality")
+        or detail.get("detailQuality")
+    )
+    record["detailQualityScore"] = (
+        property_data.get("detailQualityScore")
+        or detail.get("detailQualityScore")
+    )
+    record["detailQualityReasons"] = (
+        property_data.get("detailQualityReasons")
+        or detail.get("detailQualityReasons", [])
+    )
+    record["missingCriticalFields"] = (
+        property_data.get("missingCriticalFields")
+        or detail.get("missingCriticalFields", [])
+    )
+    record["missingImportantFields"] = (
+        property_data.get("missingImportantFields")
+        or detail.get("missingImportantFields", [])
+    )
+    record["validationWarnings"] = (
+        property_data.get("validationWarnings")
+        or detail.get("validationWarnings", [])
+    )
+    record["weakExtractionFields"] = (
+        property_data.get("weakExtractionFields")
+        or detail.get("weakExtractionFields", [])
+    )
+
+    record["targetStation"] = (
+        property_data.get("targetStation")
+        or detail.get("targetStation")
+    )
+    record["targetStationWalkMinutes"] = (
+        property_data.get("targetStationWalkMinutes")
+        if property_data.get("targetStationWalkMinutes") is not None
+        else detail.get("targetStationWalkMinutes")
+    )
+    record["targetStationWalkAvailable"] = (
+        property_data.get("targetStationWalkAvailable")
+        if property_data.get("targetStationWalkAvailable") is not None
+        else detail.get("targetStationWalkAvailable")
+    )
+    record["targetStationWalkSource"] = (
+        property_data.get("targetStationWalkSource")
+        or detail.get("targetStationWalkSource")
+    )
+
+    return record
 
 
 # ============================================================
@@ -3451,1286 +3498,442 @@ def run_pipeline() -> None:
             != after_property_id
         ):
             discovered_identity_repaired_count += 1
-            print(
-                "[INFO] discovered canonical "
-                "propertyId修正: "
-                f"{before_property_id} -> "
-                f"{after_property_id}"
-            )
-
-        prop[
-            "seenThisRun"
-        ] = False
 
         if pid not in db:
+            prop["seenThisRun"] = False
             db[pid] = prop
-            continue
-
-        existing = db[pid]
-
-        for key in [
-            "sourceUrl",
-            "searchArea",
-            "searchPropertyType",
-            "firstSeenAt",
-            "lastSeenAt",
-            "lastDetailFetchAt",
-            "detailFetchStatus",
-            "detailFetchErrorType",
-            "detailFetchAttempts",
-            "detailFetchSuccess",
-        ]:
-            if (
-                existing.get(key) is None
-                and prop.get(key) is not None
-            ):
-                existing[key] = prop.get(key)
 
     print(
-        "discovered identity正規化: "
+        "discovered_listings.json identity正規化: "
         f"修正={discovered_identity_repaired_count}, "
         f"canonical重複={discovered_duplicate_canonical_count}"
     )
 
-    print(
-        f"既存Market DB読み込み完了: "
-        f"{len(db)}件 "
-        f"(houses={len(house_properties)}, "
-        f"discovered={len(discovered_properties)})"
-    )
-
     # --------------------------------------------------------
-    # 3. Search
+    # 3. Search Crawling
     # --------------------------------------------------------
 
-    search_adapter = (
-        SuumoSearchAdapter(
-            search_config,
-            ROOT,
-        )
+    search_adapter = SuumoSearchAdapter(
+        config=search_config
     )
 
-    all_candidates: List[
-        Dict[str, Any]
-    ] = []
+    search_success_count = 0
+    search_failed_count = 0
 
-    search_target_stats = []
-    search_healthy = True
+    run_start_iso = now_iso()
 
     for target in search_urls:
-
-        if target.get(
-            "enabled",
-            True,
-        ) is False:
-            continue
-
-        target_area = normalize_search_area(
-            target.get("area")
-        )
-
-        target_property_type = normalize_property_type(
-            target.get("propertyType")
-        )
-
-        url = target.get(
-            "url"
-        )
+        name = target.get("name", "Unknown")
+        url = target.get("url")
 
         if not url:
-
-            search_healthy = False
-
-            search_target_stats.append(
-                {
-                    "name":
-                        target.get(
-                            "name"
-                        ),
-                    "area":
-                        target_area,
-                    "propertyType":
-                        target_property_type,
-                    "count":
-                        0,
-                    "success":
-                        False,
-                    "reason":
-                        "search_url_missing",
-                }
-            )
-
-            print(
-                "[WARN] 検索URLがありません。"
-            )
-
             continue
 
-        print(
-            "------------------------------------------------------------"
-        )
-
-        print(
-            "検索開始: "
-            f"エリア={target_area}, "
-            f"タイプ={target_property_type}"
-        )
-
-        target_success = True
+        print(f"--- Crawling target: {name} ({url}) ---")
 
         try:
-
-            candidates = fetch_search_target(
+            results = fetch_search_target(
                 search_adapter,
                 url,
                 target,
                 search_config,
             )
 
-            if getattr(
-                search_adapter,
-                "last_search_healthy",
-                True,
-            ) is False:
+            search_success_count += 1
+            print(f"  取得件数: {len(results)}件")
 
-                target_success = False
+            for item in results:
+                normalized = normalize_search_result(item)
+                normalized = apply_url_area_prefilter(
+                    normalized,
+                    search_config,
+                    search_urls,
+                )
+
+                pid = normalized["propertyId"]
+
+                if pid in db:
+                    existing = db[pid]
+                    existing["seenThisRun"] = True
+                    existing["lastSeenAt"] = run_start_iso
+                    existing["status"] = "active"
+
+                    # 検索エリアやタイプの更新・補完
+                    if not existing.get("searchArea"):
+                        existing["searchArea"] = normalized.get("searchArea")
+
+                    search_targets = append_unique(
+                        existing.get("searchTargets", []),
+                        name,
+                    )
+                    existing["searchTargets"] = search_targets
+
+                    occurrences = existing.get("searchOccurrences", [])
+                    merge_search_occurrence(existing, normalized)
+
+                else:
+                    normalized["seenThisRun"] = True
+                    normalized["firstSeenAt"] = run_start_iso
+                    normalized["lastSeenAt"] = run_start_iso
+                    normalized["status"] = "active"
+                    normalized["searchTargets"] = [name]
+                    normalized["detailFetchStatus"] = "pending"
+                    normalized["detailFetchSuccess"] = None
+
+                    db[pid] = normalized
 
         except Exception as exc:
+            search_failed_count += 1
+            print(f"[ERROR] ターゲットクロール失敗 {name}: {exc}")
 
-            print(
-                f"[ERROR] 検索ターゲット失敗 "
-                f"[{target_area} - "
-                f"{target_property_type}]: {exc}"
-            )
-
-            candidates = []
-
-            target_success = False
-
-        if not target_success:
-            search_healthy = False
-
-        target_count = 0
-
-        for pos, candidate in enumerate(
-            candidates,
-            start=1,
-        ):
-
-            if not isinstance(
-                candidate,
-                dict,
-            ):
-                continue
-
-            candidate = dict(
-                candidate
-            )
-
-            candidate[
-                "searchPosition"
-            ] = (
-                candidate.get(
-                    "searchPosition"
-                )
-                or pos
-            )
-
-            candidate[
-                "searchTarget"
-            ] = (
-                candidate.get(
-                    "searchTarget"
-                )
-                or target.get(
-                    "name"
-                )
-                or (
-                    f"{target_area}_"
-                    f"{target_property_type}"
-                )
-            )
-
-            candidate[
-                "searchTargetArea"
-            ] = normalize_search_area(
-                candidate.get(
-                    "searchTargetArea"
-                )
-                or target_area
-            )
-
-            candidate[
-                "searchTargetPropertyType"
-            ] = normalize_property_type(
-                candidate.get(
-                    "searchTargetPropertyType"
-                )
-                or target_property_type
-            )
-
-            candidate[
-                "searchPropertyType"
-            ] = normalize_property_type(
-                candidate.get(
-                    "searchPropertyType"
-                )
-                or target_property_type
-            )
-
-            candidate[
-                "searchUrl"
-            ] = (
-                candidate.get(
-                    "searchUrl"
-                )
-                or url
-            )
-
-            candidate[
-                "searchPageUrl"
-            ] = (
-                candidate.get(
-                    "searchPageUrl"
-                )
-                or url
-            )
-
-            candidate[
-                "discoveredAt"
-            ] = (
-                candidate.get(
-                    "discoveredAt"
-                )
-                or now_iso()
-            )
-
-            normalized = (
-                normalize_search_result(
-                    candidate
-                )
-            )
-
-            if not normalized.get(
-                "propertyId"
-            ):
-                continue
-
-            all_candidates.append(
-                normalized
-            )
-
-            target_count += 1
-
-        search_target_stats.append(
-            {
-                "name":
-                    target.get(
-                        "name"
-                    ),
-                "area":
-                    target_area,
-                "propertyType":
-                    target_property_type,
-                "url":
-                    url,
-                "count":
-                    target_count,
-                "success":
-                    target_success,
-            }
-        )
-
-        print(
-            f"検索候補取得完了: "
-            f"{target_count}件 "
-            f"(Success={target_success})"
-        )
-
-    print(
-        f"全検索候補取得完了: "
-        f"{len(all_candidates)}件 "
-        f"(Overall Search Healthy={search_healthy})"
-    )
+    search_healthy = (search_failed_count == 0)
 
     # --------------------------------------------------------
-    # 4. Merge
+    # 4. Update Lifecycle & Criteria for all DB items
     # --------------------------------------------------------
 
-    now_stamp = now_iso()
-
-    new_count = 0
-    existing_count = 0
-
-    for candidate in all_candidates:
-
-        pid = get_property_id(
-            candidate
+    for pid, prop in db.items():
+        update_property_lifecycle(
+            prop,
+            run_start_iso,
+            search_healthy=search_healthy,
         )
-
-        if not pid:
-            continue
-
-        if pid in db:
-
-            existing = db[pid]
-
-            existing_count += 1
-
-            merge_search_occurrence(
-                existing,
-                candidate,
-            )
-
-            if candidate.get(
-                "name"
-            ):
-                existing[
-                    "name"
-                ] = candidate.get(
-                    "name"
-                )
-
-            if candidate.get(
-                "price"
-            ) is not None:
-
-                existing[
-                    "price"
-                ] = candidate.get(
-                    "price"
-                )
-
-                existing[
-                    "priceMan"
-                ] = candidate.get(
-                    "priceMan"
-                )
-
-            if candidate.get(
-                "sourceUrl"
-            ):
-                existing[
-                    "sourceUrl"
-                ] = candidate.get(
-                    "sourceUrl"
-                )
-
-            if candidate.get(
-                "searchArea"
-            ):
-                existing[
-                    "searchArea"
-                ] = candidate.get(
-                    "searchArea"
-                )
-
-            if candidate.get(
-                "searchPropertyType"
-            ):
-                existing[
-                    "searchPropertyType"
-                ] = candidate.get(
-                    "searchPropertyType"
-                )
-
-            existing[
-                "searchTarget"
-            ] = candidate.get(
-                "searchTarget"
-            )
-
-            existing[
-                "searchPageNumber"
-            ] = candidate.get(
-                "searchPageNumber"
-            )
-
-            existing[
-                "searchPosition"
-            ] = candidate.get(
-                "searchPosition"
-            )
-
-            existing[
-                "searchUrl"
-            ] = candidate.get(
-                "searchUrl"
-            )
-
-            existing[
-                "searchPageUrl"
-            ] = candidate.get(
-                "searchPageUrl"
-            )
-
-            existing[
-                "seenThisRun"
-            ] = True
-
-            existing[
-                "lastSeenAt"
-            ] = now_stamp
-
-        else:
-
-            candidate[
-                "seenThisRun"
-            ] = True
-
-            candidate[
-                "firstSeenAt"
-            ] = (
-                candidate.get(
-                    "discoveredAt"
-                )
-                or now_stamp
-            )
-
-            candidate[
-                "lastSeenAt"
-            ] = now_stamp
-
-            candidate[
-                "status"
-            ] = "active"
-
-            merge_search_occurrence(
-                candidate,
-                candidate,
-            )
-
-            db[pid] = candidate
-
-            new_count += 1
-
-    identity_mismatch = []
-    for db_key, property_data in db.items():
-        actual_id = (
-            property_data.get(
-                "propertyId"
-            )
-            or get_property_id(
-                property_data
-            )
+        evaluate_property_criteria(
+            prop,
+            search_config,
         )
-        if actual_id != db_key:
-            identity_mismatch.append(
-                {
-                    "dbKey": db_key,
-                    "propertyId": actual_id,
-                    "sourceUrl": property_data.get(
-                        "sourceUrl"
-                    ),
-                }
-            )
-
-    if identity_mismatch:
-        print(
-            "[ERROR] db key と "
-            "propertyId が不一致です。"
-        )
-        for item in identity_mismatch[:20]:
-            print(
-                "  dbKey="
-                f"{item['dbKey']}, "
-                "propertyId="
-                f"{item['propertyId']}, "
-                "sourceUrl="
-                f"{item['sourceUrl']}"
-            )
-        raise RuntimeError(
-            "Market DB identity integrity check failed"
-        )
-
-    print(
-        "[OK] Merge identity integrity check: "
-        f"{len(db)}件"
-    )
-
-    print(
-        f"MERGE完了: "
-        f"新規={new_count}, "
-        f"既存候補={existing_count}, "
-        f"Market DB={len(db)}"
-    )
 
     # --------------------------------------------------------
-    # 5. URL area prefilter
+    # 5. Detail Fetch Queue Audit & Processing
     # --------------------------------------------------------
 
-    for prop in db.values():
+    to_fetch: List[Dict[str, Any]] = []
 
-        apply_url_area_prefilter(
+    for pid, prop in db.items():
+        if not is_detail_target_property(
             prop,
             search_config,
             search_urls,
-        )
-
-    # --------------------------------------------------------
-    # 6. Detail Queue
-    # --------------------------------------------------------
-
-    items = list(
-        db.values()
-    )
-
-    items_by_priority = sorted(
-        items,
-        key=lambda item: (
-            detail_fetch_priority(
-                item
-            ),
-            item.get(
-                "firstSeenAt",
-                "",
-            ),
-        ),
-    )
-
-    try:
-
-        fetch_limit = int(
-            search_config.get(
-                "detailFetchLimit",
-                DEFAULT_DETAIL_FETCH_LIMIT,
-            )
-        )
-
-    except (TypeError, ValueError):
-
-        fetch_limit = DEFAULT_DETAIL_FETCH_LIMIT
-
-    try:
-
-        request_interval = float(
-            search_config.get(
-                "detailRequestIntervalSeconds",
-                1.5,
-            )
-        )
-
-    except (TypeError, ValueError):
-
-        request_interval = 1.5
-
-    fetch_limit = max(
-        0,
-        fetch_limit,
-    )
-
-    request_interval = max(
-        0.0,
-        request_interval,
-    )
-
-    detail_queue_excluded_count = 0
-    to_fetch_candidates = []
-    for item in items_by_priority:
-        if detail_fetch_priority(item) >= 999:
-            continue
-        if not is_detail_target_property(
-            item,
-            search_config,
-            search_urls,
         ):
-            detail_queue_excluded_count += 1
             continue
-        to_fetch_candidates.append(item)
-    to_fetch = to_fetch_candidates[:fetch_limit]
+
+        priority = detail_fetch_priority(prop)
+
+        if priority < 999:
+            to_fetch.append(prop)
+
+    detail_fetch_limit = search_config.get(
+        "detailFetchLimit",
+        DEFAULT_DETAIL_FETCH_LIMIT,
+    )
+
+    to_fetch = to_fetch[:detail_fetch_limit]
 
     print(
-        f"詳細取得キュー: {len(to_fetch)}件 "
-        f"(上限={fetch_limit}, "
-        f"対象外除外={detail_queue_excluded_count})"
+        f"[INFO] 詳細取得キュー: {len(to_fetch)}件 "
+        f"(Limit: {detail_fetch_limit})"
     )
 
-    detail_adapter = (
-        SuumoDetailAdapter(
-            search_config,
-            ROOT,
+    # --------------------------------------------------------
+    # 5-a. Queue Audits
+    # --------------------------------------------------------
+
+    queue_area_counter = Counter(
+        normalize_search_area(
+            item.get("searchArea")
         )
+        or "UNKNOWN"
+        for item in to_fetch
+    )
+    queue_city_counter = Counter(
+        extract_city_from_url(
+            item.get("sourceUrl")
+            or item.get("url")
+        )
+        or "UNKNOWN"
+        for item in to_fetch
+    )
+    print(
+        "[DETAIL-QUEUE-AUDIT] "
+        f"area={dict(queue_area_counter)}"
+    )
+    print(
+        "[DETAIL-QUEUE-AUDIT] "
+        f"cityCode={dict(queue_city_counter)}"
+    )
+
+    # Out of Target queue check
+    queue_out_of_target = [
+        item
+        for item in to_fetch
+        if item.get(
+            "areaClassification"
+        ) == "outOfTarget"
+    ]
+    if queue_out_of_target:
+        print(
+            "[ERROR] "
+            "outOfTarget property が"
+            "detail queueに混入しています。"
+        )
+        for item in queue_out_of_target[:20]:
+            print(
+                "  propertyId="
+                f"{item.get('propertyId')}, "
+                "searchArea="
+                f"{item.get('searchArea')}, "
+                "cityCode="
+                f"{extract_city_from_url(item.get('sourceUrl'))}, "
+                "sourceUrl="
+                f"{item.get('sourceUrl')}"
+            )
+        raise RuntimeError(
+            "outOfTarget properties entered detail queue"
+        )
+
+    # --------------------------------------------------------
+    # 5-b. Execute Detail Fetch
+    # --------------------------------------------------------
+
+    detail_adapter = SuumoDetailAdapter(
+        config=search_config
     )
 
     consecutive_errors = 0
 
-    detail_success_count = 0
-    detail_failure_count = 0
-    detail_interrupted = False
+    interval = search_config.get(
+        "detailRequestIntervalSeconds",
+        1.5,
+    )
 
-    for i, item in enumerate(
-        to_fetch,
-        start=1,
-    ):
-
+    for index, prop in enumerate(to_fetch):
         url = (
-            item.get(
-                "sourceUrl"
-            )
-            or item.get(
-                "url"
-            )
+            prop.get("sourceUrl")
+            or prop.get("url")
         )
 
         if not url:
             continue
 
-        display_name = (
-            item.get("name")
-            or item.get("propertyId")
-            or get_property_id(item)
-            or "N/A"
-        )
+        if index > 0 and interval > 0:
+            time.sleep(interval)
+
         print(
-            f"[{i}/{len(to_fetch)}] "
-            f"詳細取得中: {display_name}"
+            f"[{index + 1}/{len(to_fetch)}] 詳細取得試行: "
+            f"{prop.get('propertyId')} ({url})"
         )
 
         try:
+            detail_res = detail_adapter.fetch_detail(url)
 
-            detail_res = (
-                detail_adapter.fetch_detail(
-                    url
-                )
+            enrich_with_detail(prop, detail_res)
+
+            evaluate_property_criteria(
+                prop,
+                search_config,
             )
 
-            if not isinstance(
-                detail_res,
-                dict,
-            ):
-                detail_res = {
-                    "success": False,
-                    "errorType":
-                        "invalid_detail_response",
-                }
-
-        except Exception as exc:
-
-            detail_res = {
-                "success": False,
-                "errorType":
-                    "adapter_exception",
-                "error":
-                    str(exc),
-            }
-
-        enrich_with_detail(
-            item,
-            detail_res,
-        )
-
-        if detail_res.get(
-            "success"
-        ):
-
-            detail_success_count += 1
-            consecutive_errors = 0
-
-        else:
-
-            detail_failure_count += 1
-            error_type = detail_res.get(
-                "errorType"
-            )
-            error_message = detail_res.get(
-                "error"
-            )
-            print(
-                "  -> 取得失敗: "
-                f"{error_type}"
-            )
-            if error_message:
-                print(
-                    f"     error={error_message}"
-                )
-            print(
-                "     propertyId="
-                f"{item.get('propertyId') or get_property_id(item)}"
-            )
-            print(
-                f"     sourceUrl={url}"
-            )
-
-            if (
-                error_type
-                in RETRYABLE_DETAIL_ERROR_TYPES
-            ):
+            if not detail_res.get("success", False):
                 consecutive_errors += 1
+                print(
+                    f"  [FAIL] 詳細取得エラー: "
+                    f"{detail_res.get('errorType')}"
+                )
+                if consecutive_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
+                    print(
+                        f"[WARN] 連続詳細取得エラーが{consecutive_errors}回に達したため"
+                        "本実行の詳細取得処理を途中終了します。"
+                    )
+                    break
             else:
                 consecutive_errors = 0
+                print("  [SUCCESS] 詳細取得成功")
 
-            if (
-                error_type
-                in RETRYABLE_DETAIL_ERROR_TYPES
-                and consecutive_errors
-                >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
-            ):
+        except Exception as exc:
+            consecutive_errors += 1
+            print(
+                f"  [ERROR] 詳細取得例外発生: {exc}"
+            )
+            prop["detailFetchStatus"] = "error"
+            prop["detailFetchSuccess"] = False
+            prop["detailFetchErrorType"] = "exception"
+
+            if consecutive_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
                 print(
-                    "[WARN] 連続した接続系エラーが"
-                    "上限に達したため"
-                    "詳細取得を中断します。"
+                    f"[WARN] 連続詳細取得エラーが{consecutive_errors}回に達したため"
+                    "本実行の詳細取得処理を途中終了します。"
                 )
-                detail_interrupted = True
                 break
 
-        if request_interval > 0:
-            time.sleep(
-                request_interval
-            )
-
-    print(
-        f"詳細取得結果: "
-        f"success={detail_success_count}, "
-        f"failure={detail_failure_count}, "
-        f"interrupted={detail_interrupted}"
-    )
-
     # --------------------------------------------------------
-    # 7. Evaluation & Lifecycle
+    # 6. Save Data Construction & Consistency Checks
     # --------------------------------------------------------
 
-    for item in db.values():
+    properties_final: List[Dict[str, Any]] = []
+    seen_final_pids: Set[str] = set()
 
+    for pid, prop in db.items():
         evaluate_property_criteria(
-            item,
+            prop,
             search_config,
         )
 
-        update_property_lifecycle(
-            item,
-            now_stamp,
-            search_healthy=search_healthy,
-        )
+        if is_market_history_property(prop):
+            record = build_market_house_record(prop)
 
-    properties_final = list(
-        db.values()
-    )
+            # Identity deduplication assertion
+            record_pid = record["propertyId"]
+            if record_pid in seen_final_pids:
+                raise RuntimeError(
+                    f"Duplicate propertyId in properties_final: {record_pid}"
+                )
+            seen_final_pids.add(record_pid)
 
-    final_ids = []
-    final_duplicates = set()
-
-    for item in properties_final:
-        pid = canonicalize_property_identity(
-            item
-        )
-        if not pid:
-            continue
-        if pid in final_ids:
-            final_duplicates.add(
-                pid
-            )
-        final_ids.append(
-            pid
-        )
-
-    if final_duplicates:
-        print(
-            "[ERROR] properties_finalで"
-            "propertyId重複を検出しました:"
-        )
-        for pid in sorted(
-            final_duplicates
-        ):
-            print(
-                f"  {pid}"
-            )
-            for index, item in enumerate(
-                properties_final
-            ):
-                if (
-                    item.get(
-                        "propertyId"
-                    )
-                    == pid
-                ):
-                    print(
-                        "    index="
-                        f"{index}, "
-                        "sourceUrl="
-                        f"{item.get('sourceUrl')}"
-                    )
-        raise RuntimeError(
-            "properties_final contains duplicate propertyIds"
-        )
-
-    print(
-        "[OK] properties_final identity check: "
-        f"{len(properties_final)}件 / "
-        f"unique={len(set(final_ids))}"
-    )
+            properties_final.append(record)
 
     # --------------------------------------------------------
-    # 8. Observations
+    # 6-a. detailFetchSuccess consistency check
     # --------------------------------------------------------
 
-    existing_observations_raw = (
-        load_json(
-            OBSERVATIONS_PATH,
-            default={
-                "observations": []
-            },
-        )
-    )
-
-    if isinstance(
-        existing_observations_raw,
-        dict,
-    ):
-
-        observations = (
-            existing_observations_raw.get(
-                "observations",
-                [],
-            )
-        )
-
-    else:
-
-        observations = []
-
-    if not isinstance(
-        observations,
-        list,
-    ):
-        observations = []
-
-    new_observations_count = 0
-
+    fetch_state_errors = []
     for item in properties_final:
-
-        if not item.get(
-            "seenThisRun",
-            False,
+        status = item.get(
+            "detailFetchStatus"
+        )
+        success = item.get(
+            "detailFetchSuccess"
+        )
+        if (
+            status == "success"
+            and success is not True
         ):
-            continue
-
-        observation = (
-            build_listing_observation(
+            fetch_state_errors.append(
                 item
             )
+        if (
+            status == "error"
+            and success is True
+        ):
+            fetch_state_errors.append(
+                item
+            )
+
+    if fetch_state_errors:
+        print(
+            "[ERROR] detail fetch state inconsistency"
         )
-
-        observations.append(
-            observation
+        for item in fetch_state_errors[:20]:
+            print(
+                f"  {item.get('propertyId')}: "
+                f"status={item.get('detailFetchStatus')}, "
+                f"success={item.get('detailFetchSuccess')}"
+            )
+        raise RuntimeError(
+            "detailFetchStatus/detailFetchSuccess mismatch"
         )
-
-        new_observations_count += 1
-
-    save_json(
-        OBSERVATIONS_PATH,
-        {
-            "schemaVersion":
-                "1.0",
-            "updatedAt":
-                now_iso(),
-            "observations":
-                observations,
-        },
-    )
-
-    print(
-        f"観測履歴保存完了: "
-        f"追加={new_observations_count}, "
-        f"総計={len(observations)}"
-    )
 
     # --------------------------------------------------------
-    # 9. Save Lightweight Discovery DB
-    # --------------------------------------------------------
-    discovery_properties = (
-        compact_discovery_db(
-            properties_final
-        )
-    )
-    discovery_active_count = sum(
-        1
-        for item in discovery_properties
-        if item.get("status") == "active"
-    )
-    discovery_ended_count = sum(
-        1
-        for item in discovery_properties
-        if item.get("status") == "observed_ended"
-    )
-    save_json(
-        DISCOVERED_PATH,
-        {
-            "schemaVersion":
-                DISCOVERY_SCHEMA_VERSION,
-            "parserVersion":
-                MAIN_PARSER_VERSION,
-            "updatedAt":
-                now_iso(),
-            "retentionDays":
-                DISCOVERY_RETENTION_DAYS,
-            "count":
-                len(discovery_properties),
-            "activeCount":
-                discovery_active_count,
-            "endedCount":
-                discovery_ended_count,
-            "properties":
-                discovery_properties,
-        },
-    )
-    print(
-        f"Lightweight Discovery DB保存完了: "
-        f"total={len(discovery_properties)}, "
-        f"active={discovery_active_count}, "
-        f"ended={discovery_ended_count}, "
-        f"retention={DISCOVERY_RETENTION_DAYS}days"
-    )
-
-    # --------------------------------------------------------
-    # 10. Houses Output
+    # 6-b. Quality Audit Logging
     # --------------------------------------------------------
 
-    for item in properties_final:
-        item.pop(
-            "searchOccurrences",
-            None,
-        )
-        item.pop(
-            "searchTargets",
-            None,
-        )
-        item.pop(
-            "searchPageNumbers",
-            None,
-        )
-
-    market_houses = [
+    partial_items = [
         item
         for item in properties_final
-        if is_market_history_property(item)
+        if item.get(
+            "detailQuality"
+        ) == "partial"
     ]
-
-    market_ids = set()
-    market_duplicates = []
-
-    for index, item in enumerate(
-        market_houses
-    ):
-        pid = canonicalize_property_identity(
-            item
-        )
-        if not pid:
-            raise RuntimeError(
-                "Market History DB item has no "
-                f"canonical propertyId: index={index}"
-            )
-        if pid in market_ids:
-            market_duplicates.append(
-                {
-                    "index": index,
-                    "propertyId": pid,
-                    "sourceUrl": item.get(
-                        "sourceUrl"
-                    ),
-                }
-            )
-        else:
-            market_ids.add(
-                pid
-            )
-
-    if market_duplicates:
+    print(
+        "[QUALITY-AUDIT] "
+        f"partial={len(partial_items)}"
+    )
+    for item in partial_items[:20]:
         print(
-            "[ERROR] Market History DBで"
-            "propertyId重複を検出しました。"
-        )
-        for duplicate in market_duplicates:
-            print(
-                "  index="
-                f"{duplicate['index']}, "
-                "propertyId="
-                f"{duplicate['propertyId']}, "
-                "sourceUrl="
-                f"{duplicate['sourceUrl']}"
-            )
-        raise RuntimeError(
-            "Market History DB contains duplicate propertyIds"
+            "[QUALITY-AUDIT]"
+            f" propertyId={item.get('propertyId')}"
+            f" quality={item.get('detailQuality')}"
+            f" missingCritical="
+            f"{item.get('missingCriticalFields', [])}"
+            f" missingImportant="
+            f"{item.get('missingImportantFields', [])}"
+            f" weak="
+            f"{item.get('weakExtractionFields', [])}"
+            f" warnings="
+            f"{item.get('validationWarnings', [])}"
+            f" stationWalk="
+            f"{item.get('targetStationWalkAvailable')}"
         )
 
-    print(
-        "[OK] Market History DB identity check: "
-        f"{len(market_houses)}件 / "
-        f"unique={len(market_ids)}"
+    # --------------------------------------------------------
+    # 7. Discovered, Observations, and Summary
+    # --------------------------------------------------------
+
+    discovered_final = compact_discovery_db(
+        list(db.values())
     )
 
-    market_history_active_count = sum(
-        1
-        for item in market_houses
-        if item.get("status") == "active"
-    )
-    market_history_ended_count = sum(
-        1
-        for item in market_houses
-        if item.get("status") == "observed_ended"
-    )
-    market_history_criteria_excluded_count = sum(
-        1
-        for item in market_houses
-        if item.get("searchCriteriaMatched") is False
-    )
-    market_history_criteria_pending_count = sum(
-        1
-        for item in market_houses
-        if (
-            item.get("searchCriteriaMatched") is True
-            and any(
-                item.get(key) is None
-                for key in [
-                    "areaMatched",
-                    "propertyTypeMatched",
-                    "builtAgeMatched",
-                    "priceMatched",
-                    "walkMatched",
-                    "landAreaMatched",
-                    "buildingAreaMatched",
-                ]
-            )
-        )
+    observations_raw = load_json(
+        OBSERVATIONS_PATH,
+        default=[],
     )
 
-    pre_save_ids = [
-        item.get("propertyId")
-        for item in market_houses
+    if not isinstance(observations_raw, list):
+        observations_raw = []
+
+    current_observations = [
+        build_listing_observation(prop)
+        for prop in db.values()
+        if prop.get("status") == "active"
     ]
 
-    if len(
-        pre_save_ids
-    ) != len(
-        set(pre_save_ids)
-    ):
-        raise RuntimeError(
-            "Refusing to write houses.json: "
-            "duplicate propertyIds detected"
-        )
+    observations_all = observations_raw + current_observations
 
-    for index, item in enumerate(
-        market_houses
-    ):
-        if not item.get(
-            "propertyId"
-        ):
-            raise RuntimeError(
-                "Refusing to write houses.json: "
-                f"properties[{index}].propertyId is missing"
-            )
-        if not item.get(
-            "sourceUrl"
-        ):
-            raise RuntimeError(
-                "Refusing to write houses.json: "
-                f"properties[{index}].sourceUrl is missing"
-            )
+    summary_data = {
+        "updatedAt": now_iso(),
+        "parserVersion": MAIN_PARSER_VERSION,
+        "totalActiveProperties": len(
+            [p for p in properties_final if p.get("status") == "active"]
+        ),
+        "totalMarketProperties": len(properties_final),
+        "totalDiscoveredProperties": len(discovered_final),
+        "searchCrawlsSuccessful": search_success_count,
+        "searchCrawlsFailed": search_failed_count,
+        "partialQualityCount": len(partial_items),
+    }
 
-    print(
-        "[OK] houses.json pre-save validation: "
-        f"{len(market_houses)}件"
-    )
+    # --------------------------------------------------------
+    # 8. Save JSON
+    # --------------------------------------------------------
 
     save_json(
         HOUSES_PATH,
-        {
-            "schemaVersion":
-                HOUSE_DB_SCHEMA_VERSION,
-            "parserVersion":
-                MAIN_PARSER_VERSION,
-            "updatedAt":
-                now_iso(),
-            "count":
-                len(market_houses),
-            "activeCount":
-                market_history_active_count,
-            "endedCount":
-                market_history_ended_count,
-            "criteriaExcludedCount":
-                market_history_criteria_excluded_count,
-            "criteriaPendingCount":
-                market_history_criteria_pending_count,
-            "properties":
-                market_houses,
-        },
+        {"properties": properties_final},
     )
 
-    print(
-        f"Market History DB保存完了: "
-        f"total={len(market_houses)}, "
-        f"active={market_history_active_count}, "
-        f"ended={market_history_ended_count}, "
-        f"criteriaExcluded="
-        f"{market_history_criteria_excluded_count}, "
-        f"criteriaPending="
-        f"{market_history_criteria_pending_count}"
+    save_json(
+        DISCOVERED_PATH,
+        {"properties": discovered_final},
     )
 
-    # --------------------------------------------------------
-    # 11. Summary
-    # --------------------------------------------------------
-
-    active_count = sum(
-        1
-        for p in properties_final
-        if p.get(
-            "status"
-        ) == "active"
+    save_json(
+        OBSERVATIONS_PATH,
+        observations_all,
     )
-
-    primary_count = sum(
-        1
-        for p in properties_final
-        if (
-            p.get(
-                "status"
-            ) == "active"
-            and p.get(
-                "areaClassification"
-            ) == "primaryTarget"
-        )
-    )
-
-    subtarget_count = sum(
-        1
-        for p in properties_final
-        if (
-            p.get(
-                "status"
-            ) == "active"
-            and p.get(
-                "areaClassification"
-            ) == "subTarget"
-        )
-    )
-
-    ended_count = sum(
-        1
-        for p in properties_final
-        if p.get(
-            "status"
-        ) == "observed_ended"
-    )
-
-    detail_pending_count = sum(
-        1
-        for p in properties_final
-        if (
-            not has_successful_detail(p)
-            and p.get(
-                "status"
-            ) == "active"
-        )
-    )
-
-    price_reduction_count = sum(
-        int(
-            p.get(
-                "priceReductionCount",
-                0,
-            )
-            or 0
-        )
-        for p in properties_final
-    )
-
-    criteria_excluded_count = sum(
-        1
-        for p in properties_final
-        if p.get(
-            "searchCriteriaMatched"
-        ) is False
-    )
-
-    criteria_pending_count = sum(
-        1
-        for p in properties_final
-        if (
-            p.get(
-                "searchCriteriaMatched"
-            ) is True
-            and any(
-                p.get(key) is None
-                for key in [
-                    "areaMatched",
-                    "propertyTypeMatched",
-                    "builtAgeMatched",
-                    "priceMatched",
-                    "walkMatched",
-                    "landAreaMatched",
-                    "buildingAreaMatched",
-                ]
-            )
-        )
-    )
-
-    summary = {
-        "updatedAt":
-            now_iso(),
-        "parserVersion":
-            MAIN_PARSER_VERSION,
-
-        "searchHealthy":
-            search_healthy,
-
-        "marketHistoryCount":
-            len(market_houses),
-        "marketHistoryActiveCount":
-            market_history_active_count,
-        "marketHistoryEndedCount":
-            market_history_ended_count,
-        "marketHistoryCriteriaExcludedCount":
-            market_history_criteria_excluded_count,
-        "marketHistoryCriteriaPendingCount":
-            market_history_criteria_pending_count,
-
-        "detailInterrupted":
-            detail_interrupted,
-
-        "totalObserved":
-            len(properties_final),
-
-        "activeCount":
-            active_count,
-
-        "endedCount":
-            ended_count,
-
-        "primaryTargetCount":
-            primary_count,
-
-        "subTargetCount":
-            subtarget_count,
-
-        "detailPendingCount":
-            detail_pending_count,
-
-        "criteriaExcludedCount":
-            criteria_excluded_count,
-
-        "criteriaPendingCount":
-            criteria_pending_count,
-
-        "detailSuccessThisRun":
-            detail_success_count,
-
-        "detailFailureThisRun":
-            detail_failure_count,
-
-        "priceReductionCount":
-            price_reduction_count,
-
-        "searchTargetStats":
-            search_target_stats,
-    }
 
     save_json(
         SUMMARY_PATH,
-        summary,
+        summary_data,
     )
 
     print(
-        f"サマリー保存完了: {SUMMARY_PATH}"
+        "============================================================"
+    )
+    print("=== Scraping Pipeline Completed Successfully ===")
+    print(
+        f"=== houses.json: {len(properties_final)} items ==="
+    )
+    print(
+        "============================================================"
     )
 
 
