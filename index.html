@@ -589,7 +589,7 @@ h2 {
   margin-top: 12px;
   padding: 10px;
   background: #f8fafc;
-  border-radius: 9px;
+  border-radius: 999px;
   border: 1px solid #e2e8f0;
 }
 
@@ -654,6 +654,32 @@ h2 {
 .quality-score {
   font-size: 11px;
   font-weight: 700;
+}
+
+.quality-reasons {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #f1f5f9;
+}
+
+.quality-reasons-title {
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.quality-reasons ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 10px;
+  color: #475569;
+}
+
+.quality-reasons li {
+  margin-bottom: 2px;
 }
 
 /* =========================================================
@@ -1486,15 +1512,23 @@ function getConstruction(property) {
   const detail =
     getDetail(property);
 
-  return (
-    detail.constructionMonth ||
-    detail.buildYear ||
-    detail.constructionText ||
-    property.constructionMonth ||
-    property.buildYear ||
-    property.builtYear ||
-    "-"
-  );
+  if (
+    detail.constructionMonth !== null &&
+    detail.constructionMonth !== undefined &&
+    detail.constructionMonth !== ""
+  ) {
+    return detail.constructionMonth;
+  }
+
+  if (
+    property.constructionMonth !== null &&
+    property.constructionMonth !== undefined &&
+    property.constructionMonth !== ""
+  ) {
+    return property.constructionMonth;
+  }
+
+  return "-";
 }
 
 
@@ -1503,35 +1537,79 @@ function getStation(property) {
   const detail =
     getDetail(property);
 
-  const station =
-    detail.station ||
-    property.station ||
-    "";
+  const targetStation =
+    detail.targetStation ??
+    property.targetStation ??
+    null;
 
-  const walk =
-    detail.walkMinutes ??
-    property.walkMinutes;
+  const walkAvailable =
+    detail.targetStationWalkAvailable === true ||
+    property.targetStationWalkAvailable === true;
+
+  const walkMinutes =
+    detail.targetStationWalkMinutes ??
+    property.targetStationWalkMinutes ??
+    null;
 
   if (
-    station &&
-    walk !== null &&
-    walk !== undefined &&
-    walk !== ""
+    walkAvailable &&
+    targetStation &&
+    walkMinutes !== null &&
+    walkMinutes !== undefined
   ) {
-    return `${station} 徒歩${walk}分`;
+    return `${targetStation} 徒歩${walkMinutes}分`;
+  }
+
+  if (targetStation) {
+    return `${targetStation} 徒歩情報取得不可`;
+  }
+
+  return "目的駅徒歩情報取得不可";
+}
+
+
+function getTargetStationStatus(property) {
+
+  const detail =
+    getDetail(property);
+
+  const station =
+    detail.targetStation ??
+    property.targetStation ??
+    null;
+
+  const available =
+    detail.targetStationWalkAvailable === true ||
+    property.targetStationWalkAvailable === true;
+
+  const minutes =
+    detail.targetStationWalkMinutes ??
+    property.targetStationWalkMinutes ??
+    null;
+
+  if (
+    available &&
+    station &&
+    minutes !== null &&
+    minutes !== undefined
+  ) {
+    return {
+      status: "confirmed",
+      label: `${station} 徒歩${minutes}分`
+    };
   }
 
   if (station) {
-    return station;
+    return {
+      status: "unavailable",
+      label: `${station} 徒歩情報取得不可`
+    };
   }
 
-  return (
-    detail.transportRaw ||
-    property.walking ||
-    property.stationWalk ||
-    property.transportRaw ||
-    "-"
-  );
+  return {
+    status: "unavailable",
+    label: "目的駅徒歩情報取得不可"
+  };
 }
 
 
@@ -1562,16 +1640,168 @@ function getQualityScore(property) {
 }
 
 
+function getQualityReasons(property) {
+
+  const detail =
+    getDetail(property);
+
+  const reasons =
+    property.detailQualityReasons ??
+    detail.detailQualityReasons ??
+    [];
+
+  return Array.isArray(reasons)
+    ? reasons
+    : [];
+}
+
+
+function qualityReasonLabel(reason) {
+
+  if (!reason) {
+    return "";
+  }
+
+  if (
+    reason.startsWith(
+      "critical_missing:"
+    )
+  ) {
+    const field =
+      reason.replace(
+        "critical_missing:",
+        ""
+      );
+
+    const labels = {
+      price: "販売価格",
+      address: "住所",
+      landAreaM2: "土地面積",
+      buildingAreaM2: "建物面積",
+      layout: "間取り",
+      constructionMonth: "築年月"
+    };
+
+    return `必須項目不足：${
+      labels[field] || field
+    }`;
+  }
+
+  if (
+    reason.startsWith(
+      "important_missing:"
+    )
+  ) {
+    return `重要項目不足：${
+      reason.replace(
+        "important_missing:",
+        ""
+      )
+    }`;
+  }
+
+  if (
+    reason.startsWith(
+      "weak_extraction:"
+    )
+  ) {
+    return `低信頼度抽出：${
+      reason.replace(
+        "weak_extraction:",
+        ""
+      )
+    }`;
+  }
+
+  if (
+    reason.startsWith(
+      "validation_warning:"
+    )
+  ) {
+    return reason.replace(
+      "validation_warning:",
+      "検証警告："
+    );
+  }
+
+  return reason;
+}
+
+
+function renderQualityReasons(property) {
+
+  const reasons =
+    getQualityReasons(property);
+
+  if (!reasons.length) {
+    return "";
+  }
+
+  const items =
+    reasons
+      .map(reason => `
+        <li>
+          ${escapeHtml(
+            qualityReasonLabel(reason)
+          )}
+        </li>
+      `)
+      .join("");
+
+  return `
+    <div class="quality-reasons">
+      <div class="quality-reasons-title">
+        品質判定理由
+      </div>
+      <ul>
+        ${items}
+      </ul>
+    </div>
+  `;
+}
+
+
 function isDetailFetched(property) {
 
-  return (
-    property.detailFetched === true ||
-    property.lastSuccessfulDetail !== undefined ||
-    (
-      property.detail &&
-      typeof property.detail === "object"
-    )
-  );
+  if (
+    property.detailFetchSuccess === true
+  ) {
+    return true;
+  }
+
+  if (
+    property.detailFetchStatus ===
+    "success"
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+
+function getDetailFetchStatus(property) {
+
+  if (
+    property.detailFetchSuccess === true ||
+    property.detailFetchStatus === "success"
+  ) {
+    return "成功";
+  }
+
+  if (
+    property.detailFetchStatus === "error"
+  ) {
+    return "取得失敗";
+  }
+
+  if (
+    property.detailFetchStatus === "pending"
+  ) {
+    return "未取得";
+  }
+
+  return "未取得";
 }
 
 
@@ -1854,6 +2084,11 @@ function renderValidation(property) {
       </div>
 
       <div class="validation-info">
+        詳細取得：
+        ${escapeHtml(
+          getDetailFetchStatus(property)
+        )}
+        <br>
         検索エリア：
         ${escapeHtml(searchArea)}
         <br>
@@ -2107,8 +2342,8 @@ function renderPropertyCard(property) {
   const construction =
     getConstruction(property);
 
-  const station =
-    getStation(property);
+  const stationStatus =
+    getTargetStationStatus(property);
 
   const quality =
     getQuality(property);
@@ -2276,9 +2511,11 @@ function renderPropertyCard(property) {
 
         <div class="meta-item">
           <span class="meta-label">
-            駅
+            目的駅
           </span>
-          ${formatValue(station)}
+          ${formatValue(
+            stationStatus.label
+          )}
         </div>
 
       </div>
@@ -2320,6 +2557,8 @@ function renderPropertyCard(property) {
         </div>
 
       </div>
+
+      ${renderQualityReasons(property)}
 
 
       <div class="property-footer">
@@ -2758,6 +2997,8 @@ function initializeFilters() {
       "discoveredArea"
     );
 
+  discoveredAreaSelect.innerHTML = '<option value="">全検索エリア</option>';
+
   discoveredAreas.forEach(
     area => {
 
@@ -2799,6 +3040,8 @@ function initializeFilters() {
     document.getElementById(
       "propertyArea"
     );
+
+  propertyAreaSelect.innerHTML = '<option value="">全エリア</option>';
 
   propertyAreas.forEach(
     area => {
@@ -2873,6 +3116,9 @@ function filterProperties() {
         const detail =
           getDetail(property);
 
+        const stationStatus =
+          getTargetStationStatus(property);
+
         const searchText = [
           property.id,
           property.name,
@@ -2884,6 +3130,8 @@ function filterProperties() {
           detail.title,
           detail.address,
           detail.station,
+          detail.targetStation,
+          stationStatus.label,
           detail.transportRaw,
           detail.layout,
           detail.layoutRaw
@@ -3123,6 +3371,9 @@ function renderDiscoveredListings(
             property
           );
 
+        const stationStatus =
+          getTargetStationStatus(property);
+
 
         let stateLabel =
           "判定不能";
@@ -3302,10 +3553,10 @@ function renderDiscoveredListings(
 
               <div class="meta-item">
                 <span class="meta-label">
-                  駅
+                  目的駅
                 </span>
                 ${formatValue(
-                  getStation(property)
+                  stationStatus.label
                 )}
               </div>
 
@@ -3529,16 +3780,6 @@ async function loadData() {
     }
 
 
-    /*
-     * 新データ構造：
-     *
-     * {
-     *   updatedAt: "...",
-     *   properties: [...],
-     *   summary: {...}
-     * }
-     */
-
     properties =
       Array.isArray(
         housesData.properties
@@ -3712,35 +3953,13 @@ document
   .addEventListener(
     "click",
     () => {
-
-      document.getElementById(
-        "propertySearch"
-      ).value = "";
-
-      document.getElementById(
-        "propertyArea"
-      ).value = "";
-
-      document.getElementById(
-        "propertyQuality"
-      ).value = "";
-
-      document.getElementById(
-        "propertyPrice"
-      ).value = "";
-
-      document.getElementById(
-        "priceDownOnly"
-      ).checked = false;
-
-      document.getElementById(
-        "detailFetchedOnly"
-      ).checked = false;
-
-      document.getElementById(
-        "recentOnly"
-      ).checked = false;
-
+      document.getElementById("propertySearch").value = "";
+      document.getElementById("propertyArea").value = "";
+      document.getElementById("propertyQuality").value = "";
+      document.getElementById("propertyPrice").value = "";
+      document.getElementById("priceDownOnly").checked = false;
+      document.getElementById("detailFetchedOnly").checked = false;
+      document.getElementById("recentOnly").checked = false;
       filterProperties();
     }
   );
@@ -3783,27 +4002,13 @@ document
   .addEventListener(
     "click",
     () => {
-
-      document.getElementById(
-        "discoveredSearch"
-      ).value = "";
-
-      document.getElementById(
-        "discoveredArea"
-      ).value = "";
-
-      document.getElementById(
-        "discoveredValidation"
-      ).value = "";
-
+      document.getElementById("discoveredSearch").value = "";
+      document.getElementById("discoveredArea").value = "";
+      document.getElementById("discoveredValidation").value = "";
       filterDiscoveredListings();
     }
   );
 
-
-/* =========================================================
-   Start
-========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
