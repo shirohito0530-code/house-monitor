@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 # ============================================================
 
 DETAIL_PARSER_VERSION = (
-    "2026-09-28-v21-target-station-walk"
+    "2026-09-29-v33-quality-state"
 )
 
 
@@ -2981,6 +2981,24 @@ def evaluate_detail_quality(
         0,
     )
 
+    quality_reasons = []
+    for field in missing_critical:
+        quality_reasons.append(
+            f"critical_missing:{field}"
+        )
+    for field in missing_important:
+        quality_reasons.append(
+            f"important_missing:{field}"
+        )
+    for field in weak_fields:
+        quality_reasons.append(
+            f"weak_extraction:{field}"
+        )
+    for warning in warnings:
+        quality_reasons.append(
+            f"validation_warning:{warning}"
+        )
+
     return {
         "detailQuality": quality,
         "detailQualityScore": score,
@@ -2988,9 +3006,10 @@ def evaluate_detail_quality(
         "missingCriticalFields": missing_critical,
         "missingImportantFields": missing_important,
         "validationWarnings": warnings,
+        "weakExtractionFields": weak_fields,
+        "detailQualityReasons": quality_reasons,
         "poorReasonCategory": poor_reason,
         "propertyTypeUsedForEvaluation": p_type,
-        "weakExtractionFields": weak_fields,
         "targetStationWalkWarning": target_station_warning,
     }
 
@@ -3426,481 +3445,139 @@ def parse_detail_html(
             building_cands,
             building_area,
         ),
-        "buildingFootprintAreaM2":
-            build_audit_entry(
-                footprint_cands,
-                building_footprint_area,
-            ),
+        "buildingFootprintAreaM2": build_audit_entry(
+            footprint_cands,
+            building_footprint_area,
+        ),
         "layout": build_audit_entry(
             layout_cands,
             layout,
         ),
-        "constructionMonth":
-            build_audit_entry(
-                construction_cands,
-                construction_month,
-            ),
-        "propertyType":
-            build_audit_entry(
-                property_type_cands,
-                property_type,
-            ),
+        "constructionMonth": build_audit_entry(
+            construction_cands,
+            construction_month,
+        ),
+        "propertyType": build_audit_entry(
+            property_type_cands,
+            property_type,
+        ),
         "station": build_audit_entry(
             station_cands,
-            station_info.get(
-                "station"
-            ),
+            station_info.get("station"),
         ),
     }
 
-    # --------------------------------------------------------
-    # Canonical listing URL
-    # --------------------------------------------------------
-
-    normalized_listing_url = (
-        normalize_suumo_url(
-            source_url
-        )
-        or normalize_suumo_url(
-            request_url
-        )
-        or normalize_suumo_url(
-            final_url
-        )
-    )
-
-    # --------------------------------------------------------
-    # Detail
-    # --------------------------------------------------------
-
-    detail: Dict[str, Any] = {
-
-        "parserVersion":
-            DETAIL_PARSER_VERSION,
-
-        "detailParserVersion":
-            DETAIL_PARSER_VERSION,
-
-        "title":
-            title,
-
-        "propertyType":
-            property_type,
-
-        "url":
-            normalized_listing_url,
-
-        "sourceUrl":
-            normalized_listing_url
-            or source_url,
-
-        "requestUrl":
-            request_url,
-
-        "finalUrl":
-            final_url,
-
-        "price":
-            price,
-
-        "address":
-            address,
-
-        "landAreaM2":
-            land_area,
-
-        "buildingAreaM2":
-            building_area,
-
-        "buildingFootprintAreaM2":
-            building_footprint_area,
-
-        "layout":
-            layout,
-
-        "constructionMonth":
-            construction_month,
-
-        "constructionMonthPrecision":
-            construction_precision,
-
-        "constructionYear":
-            construction_year,
-
-        "constructionMonthNumber":
-            construction_month_number,
-
-        "constructionAgeYears":
-            construction_age_years,
-
-        "station":
-            station_info.get(
-                "station"
-            ),
-
-        "targetStation":
-            station_info.get(
-                "targetStation"
-            ),
-
-        "targetStationWalkMinutes":
-            station_info.get(
-                "targetStationWalkMinutes"
-            ),
-
-        "targetStationWalkAvailable":
-            station_info.get(
-                "targetStationWalkAvailable"
-            ),
-
-        "targetStationWalkSource":
-            station_info.get(
-                "targetStationWalkSource"
-            ),
-
-        "stationWalkMinutes":
-            station_info.get(
-                "stationWalkMinutes"
-            ),
-
-        "walkMinutes":
-            station_info.get(
-                "walkMinutes"
-            ),
-
-        "transportRaw":
-            station_info.get(
-                "transportRaw"
-            ),
-
-        "stationAccessType":
-            station_info.get(
-                "stationAccessType"
-            ),
-
-        "busMinutes":
-            station_info.get(
-                "busMinutes"
-            ),
-
-        "busStop":
-            station_info.get(
-                "busStop"
-            ),
-
-        "busStopWalkMinutes":
-            station_info.get(
-                "busStopWalkMinutes"
-            ),
-
-        "informationDate":
-            information_dates.get(
-                "informationDate"
-            ),
-
-        "nextUpdateDate":
-            information_dates.get(
-                "nextUpdateDate"
-            ),
-
-        "extractionAudit":
-            extraction_audit,
-
-        "parserDiagnostics": {
-            "tablePairCount":
-                len(pairs),
-
-            "textBlockCount":
-                len(blocks),
-
-            "jsonLdCount":
-                len(json_ld),
-
-            "metaCount":
-                len(meta),
-
-            "pageTextLength":
-                len(page_text),
-
-            "htmlLength":
-                len(html),
-
-            "httpStatus":
-                http_status,
-        },
+    detail_data = {
+        "success": True,
+        "detailParserVersion": DETAIL_PARSER_VERSION,
+        "fetchedAt": now_iso(),
+        "sourceUrl": source_url,
+        "requestUrl": request_url,
+        "finalUrl": final_url,
+        "httpStatus": http_status,
+        "title": title,
+        "price": price,
+        "address": address,
+        "landAreaM2": land_area,
+        "buildingAreaM2": building_area,
+        "buildingFootprintAreaM2": building_footprint_area,
+        "layout": layout,
+        "constructionMonth": construction_month,
+        "constructionYear": construction_year,
+        "constructionMonthNumber": construction_month_number,
+        "constructionAgeYears": construction_age_years,
+        "constructionPrecision": construction_precision,
+        "propertyType": property_type,
+        "informationDate": information_dates.get("informationDate"),
+        "nextUpdateDate": information_dates.get("nextUpdateDate"),
+        "extractionAudit": extraction_audit,
     }
 
-    detail.update(
-        evaluate_detail_quality(
-            detail,
-            property_type,
-        )
-    )
+    detail_data.update(station_info)
 
-    return detail
+    quality_res = evaluate_detail_quality(
+        detail_data,
+        property_type,
+    )
+    detail_data.update(quality_res)
+
+    return detail_data
 
 
 # ============================================================
-# Candidate comparison between HTML versions
+# Candidate merging
 # ============================================================
 
 def merge_detail_candidates(
     primary: Dict[str, Any],
-    secondary: Dict[str, Any],
+    secondary: Optional[Dict[str, Any]],
 ) -> Dict[str, Any]:
+
+    if not secondary or not secondary.get("success"):
+        return primary
+
+    if not primary.get("success"):
+        return secondary
 
     merged = dict(primary)
 
-    audit_primary = primary.get(
-        "extractionAudit",
-        {},
-    )
+    fields_to_merge = [
+        "price",
+        "address",
+        "landAreaM2",
+        "buildingAreaM2",
+        "buildingFootprintAreaM2",
+        "layout",
+        "constructionMonth",
+        "constructionYear",
+        "constructionMonthNumber",
+        "constructionAgeYears",
+        "constructionPrecision",
+        "propertyType",
+        "informationDate",
+        "nextUpdateDate",
+    ]
 
-    audit_secondary = secondary.get(
-        "extractionAudit",
-        {},
-    )
+    for field in fields_to_merge:
+        if merged.get(field) is None and secondary.get(field) is not None:
+            merged[field] = secondary[field]
 
-    merged_audit = {}
+    if not merged.get("targetStationWalkAvailable") and secondary.get("targetStationWalkAvailable"):
+        station_fields = [
+            "station",
+            "targetStation",
+            "targetStationWalkMinutes",
+            "targetStationWalkAvailable",
+            "targetStationWalkSource",
+            "stationWalkMinutes",
+            "walkMinutes",
+            "transportRaw",
+            "stationAccessType",
+            "busMinutes",
+            "busStop",
+            "busStopWalkMinutes",
+        ]
+        for field in station_fields:
+            merged[field] = secondary.get(field)
 
-    fields = (
-        set(audit_primary.keys())
-        | set(audit_secondary.keys())
-    )
+    prim_audit = merged.get("extractionAudit", {})
+    sec_audit = secondary.get("extractionAudit", {})
+    merged_audit = dict(prim_audit)
+    for k, v in sec_audit.items():
+        if k not in merged_audit or merged_audit[k].get("status") != "found":
+            merged_audit[k] = v
+    merged["extractionAudit"] = merged_audit
 
-    for field in fields:
-
-        candidates = []
-
-        for audit in [
-            audit_primary.get(
-                field,
-                {},
-            ),
-            audit_secondary.get(
-                field,
-                {},
-            ),
-        ]:
-
-            candidates.extend(
-                audit.get(
-                    "candidates",
-                    [],
-                )
-            )
-
-        if field == "station":
-
-            primary_station = (
-                primary.get(
-                    "station"
-                )
-            )
-
-            secondary_station = (
-                secondary.get(
-                    "station"
-                )
-            )
-
-            selected_val, selected_cand = (
-                select_best_candidate(
-                    candidates
-                )
-            )
-
-            station_str = None
-            selected_station_dict = None
-
-            if isinstance(
-                selected_val,
-                dict,
-            ):
-
-                station_str = (
-                    selected_val.get(
-                        "station"
-                    )
-                )
-
-                selected_station_dict = (
-                    selected_val
-                )
-
-            elif isinstance(
-                selected_val,
-                str,
-            ):
-
-                station_str = selected_val
-
-            if not station_str:
-
-                station_str = (
-                    primary_station
-                    or secondary_station
-                )
-
-            merged["station"] = (
-                station_str
-            )
-
-            station_related_keys = [
-                "targetStation",
-                "targetStationWalkMinutes",
-                "targetStationWalkAvailable",
-                "targetStationWalkSource",
-                "stationWalkMinutes",
-                "walkMinutes",
-                "transportRaw",
-                "stationAccessType",
-                "busMinutes",
-                "busStop",
-                "busStopWalkMinutes",
-            ]
-
-            if selected_station_dict:
-
-                for station_key in (
-                    station_related_keys
-                ):
-
-                    if (
-                        selected_station_dict.get(
-                            station_key
-                        )
-                        is not None
-                    ):
-
-                        merged[
-                            station_key
-                        ] = (
-                            selected_station_dict[
-                                station_key
-                            ]
-                        )
-
-            for station_key in (
-                station_related_keys
-            ):
-
-                if (
-                    merged.get(
-                        station_key
-                    )
-                    is None
-                    and secondary.get(
-                        station_key
-                    )
-                    is not None
-                ):
-
-                    merged[
-                        station_key
-                    ] = secondary[
-                        station_key
-                    ]
-
-            merged_audit[
-                field
-            ] = build_audit_entry(
-                candidates,
-                station_str,
-            )
-
-            continue
-
-        selected_primary = (
-            primary.get(field)
-        )
-
-        selected_secondary = (
-            secondary.get(field)
-        )
-
-        selected, selected_candidate = (
-            select_best_candidate(
-                candidates
-            )
-        )
-
-        if selected is None:
-
-            selected = (
-                selected_primary
-                if selected_primary is not None
-                else selected_secondary
-            )
-
-        if selected is not None:
-
-            merged[field] = selected
-
-        merged_audit[
-            field
-        ] = build_audit_entry(
-            candidates,
-            selected,
-        )
-
-    merged[
-        "extractionAudit"
-    ] = merged_audit
-
-    for key, value in secondary.items():
-
-        if key in {
-            "extractionAudit",
-            "detailQuality",
-            "detailQualityScore",
-            "missingFields",
-            "missingCriticalFields",
-            "missingImportantFields",
-            "validationWarnings",
-            "poorReasonCategory",
-            "weakExtractionFields",
-        }:
-            continue
-
-        if (
-            merged.get(key) is None
-            and value is not None
-        ):
-
-            merged[key] = value
-
-    if (
-        merged.get(
-            "targetStationWalkAvailable"
-        )
-        is not True
-    ):
-        merged[
-            "targetStation"
-        ] = None
-        merged[
-            "targetStationWalkMinutes"
-        ] = None
-        merged[
-            "targetStationWalkAvailable"
-        ] = False
-        merged[
-            "targetStationWalkSource"
-        ] = None
-        merged[
-            "stationWalkMinutes"
-        ] = None
-        merged[
-            "walkMinutes"
-        ] = None
+    if not merged.get("targetStationWalkAvailable"):
+        merged["targetStation"] = None
+        merged["targetStationWalkMinutes"] = None
+        merged["targetStationWalkAvailable"] = False
+        merged["walkMinutes"] = None
 
     merged.update(
         evaluate_detail_quality(
             merged,
-            merged.get(
-                "propertyType"
-            ),
+            merged.get("propertyType"),
         )
     )
 
@@ -3908,421 +3585,73 @@ def merge_detail_candidates(
 
 
 # ============================================================
-# Detail Fetcher Core
+# Main entrypoint
 # ============================================================
 
-def fetch_detail(
+def fetch_and_parse_suumo_detail(
     url: str,
+    target_stations: Optional[List[str]] = None,
     timeout: int = 20,
     retry_desktop_on_partial: bool = True,
-    target_stations: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
 
-    original_url = str(
-        url
-    ).strip()
-
-    if not original_url:
-
+    normalized_url = normalize_suumo_url(url)
+    if not normalized_url:
         return {
             "success": False,
-            "fetchedAt": now_iso(),
-            "detail": None,
-            "error": "empty_suumo_url",
-            "errorType": "invalid_suumo_url",
-            "sourceUrl": url,
-            "requestUrl": None,
-            "finalUrl": None,
-            "httpStatus": None,
-        }
-
-    display_url = (
-        preserve_suumo_listing_url(
-            original_url
-        )
-    )
-
-    request_url = (
-        normalize_suumo_url(
-            original_url
-        )
-    )
-
-    if not request_url:
-
-        return {
-            "success": False,
-            "fetchedAt": now_iso(),
-            "detail": None,
             "error": "invalid_suumo_url",
-            "errorType": "invalid_suumo_url",
-            "sourceUrl":
-                display_url
-                or original_url,
-            "requestUrl": None,
-            "finalUrl": None,
-            "httpStatus": None,
+            "errorType": "invalid_url",
+            "detailParserVersion": DETAIL_PARSER_VERSION,
         }
 
-    fetched_at = now_iso()
-
-    # --------------------------------------------------------
-    # First pass: mobile
-    # --------------------------------------------------------
-
-    first = fetch_html(
-        request_url,
-        MOBILE_HEADERS,
-        timeout,
+    res_mobile = fetch_html(
+        normalized_url,
+        headers=MOBILE_HEADERS,
+        timeout=timeout,
     )
 
-    # --------------------------------------------------------
-    # Mobile failure -> desktop fallback
-    # --------------------------------------------------------
-
-    if not first["success"]:
-
-        second = fetch_html(
-            request_url,
-            DESKTOP_HEADERS,
-            timeout,
-        )
-
-        if not second["success"]:
-
-            # Prefer the second attempt's error because
-            # it is the latest/desktop attempt.
-            return {
-                "success": False,
-                "fetchedAt": fetched_at,
-                "detail": None,
-                "error": (
-                    second.get("error")
-                    or first.get("error")
-                    or "detail_fetch_failed"
-                ),
-                "errorType": (
-                    second.get("errorType")
-                    or first.get("errorType")
-                    or "network_error"
-                ),
-                "sourceUrl":
-                    display_url
-                    or original_url,
-                "requestUrl":
-                    request_url,
-                "finalUrl":
-                    second.get("finalUrl")
-                    or first.get("finalUrl"),
-                "httpStatus":
-                    second.get("httpStatus")
-                    or first.get("httpStatus"),
-            }
-
-        first = second
-
-    html = first.get(
-        "html",
-        "",
-    )
-
-    if len(
-        html.strip()
-    ) < 500:
-
+    if not res_mobile["success"]:
         return {
             "success": False,
-            "fetchedAt": fetched_at,
-            "detail": None,
-            "error": "empty_html",
-            "errorType": "empty_html",
-            "sourceUrl":
-                display_url
-                or original_url,
-            "requestUrl":
-                request_url,
-            "finalUrl":
-                first.get("finalUrl")
-                or request_url,
-            "httpStatus":
-                first.get("httpStatus"),
+            "error": res_mobile["error"],
+            "errorType": res_mobile["errorType"],
+            "httpStatus": res_mobile["httpStatus"],
+            "detailParserVersion": DETAIL_PARSER_VERSION,
         }
 
-    final_url = (
-        preserve_suumo_listing_url(
-            first.get(
-                "finalUrl"
-            )
-        )
-        or first.get(
-            "finalUrl"
-        )
-        or request_url
-    )
-
-    response = first.get(
-        "response"
-    )
-
-    primary_detail = parse_detail_html(
-        html=html,
-        source_url=(
-            display_url
-            or original_url
-        ),
-        request_url=request_url,
-        final_url=final_url,
-        http_status=(
-            response.status_code
-            if response
-            else (
-                first.get(
-                    "httpStatus"
-                )
-                or 200
-            )
-        ),
+    parsed_mobile = parse_detail_html(
+        html=res_mobile["html"],
+        source_url=normalized_url,
+        request_url=normalized_url,
+        final_url=res_mobile["finalUrl"],
+        http_status=res_mobile["httpStatus"],
         target_stations=target_stations,
     )
 
-    # --------------------------------------------------------
-    # Deep audit retry
-    # --------------------------------------------------------
+    if parsed_mobile.get("detailQuality") == "good" or not retry_desktop_on_partial:
+        return parsed_mobile
 
-    secondary_detail = None
-    secondary_fetch = None
-
-    should_retry = (
-        retry_desktop_on_partial
-        and primary_detail.get(
-            "detailQuality"
-        ) in {
-            "poor",
-            "partial",
-        }
+    res_desktop = fetch_html(
+        normalized_url,
+        headers=DESKTOP_HEADERS,
+        timeout=timeout,
     )
 
-    if should_retry:
+    if not res_desktop["success"]:
+        return parsed_mobile
 
-        secondary_fetch = fetch_html(
-            request_url,
-            DESKTOP_HEADERS,
-            timeout,
-        )
-
-        if secondary_fetch["success"]:
-
-            second_html = secondary_fetch.get(
-                "html",
-                "",
-            )
-
-            if len(
-                second_html.strip()
-            ) >= 500:
-
-                second_final_url = (
-                    preserve_suumo_listing_url(
-                        secondary_fetch.get(
-                            "finalUrl"
-                        )
-                    )
-                    or secondary_fetch.get(
-                        "finalUrl"
-                    )
-                    or request_url
-                )
-
-                second_response = (
-                    secondary_fetch.get(
-                        "response"
-                    )
-                )
-
-                secondary_detail = (
-                    parse_detail_html(
-                        html=second_html,
-                        source_url=(
-                            display_url
-                            or original_url
-                        ),
-                        request_url=request_url,
-                        final_url=(
-                            second_final_url
-                        ),
-                        http_status=(
-                            second_response.status_code
-                            if second_response
-                            else (
-                                secondary_fetch.get(
-                                    "httpStatus"
-                                )
-                                or 200
-                            )
-                        ),
-                        target_stations=target_stations,
-                    )
-                )
-
-    # --------------------------------------------------------
-    # Merge
-    # --------------------------------------------------------
-
-    if secondary_detail:
-
-        detail = merge_detail_candidates(
-            primary_detail,
-            secondary_detail,
-        )
-
-        detail[
-            "deepAudit"
-        ] = {
-            "performed": True,
-            "primaryQuality":
-                primary_detail.get(
-                    "detailQuality"
-                ),
-            "secondaryQuality":
-                secondary_detail.get(
-                    "detailQuality"
-                ),
-        }
-
-    else:
-
-        detail = primary_detail
-
-        detail[
-            "deepAudit"
-        ] = {
-            "performed": False,
-            "reason": (
-                "primary_detail_quality_good"
-                if primary_detail.get(
-                    "detailQuality"
-                ) == "good"
-                else (
-                    "secondary_fetch_failed_or_disabled"
-                    if should_retry
-                    else
-                    "deep_audit_not_required"
-                )
-            ),
-        }
-
-    detail[
-        "fetchedAt"
-    ] = fetched_at
-
-    detail[
-        "httpStatus"
-    ] = (
-        response.status_code
-        if response
-        else first.get(
-            "httpStatus"
-        )
+    parsed_desktop = parse_detail_html(
+        html=res_desktop["html"],
+        source_url=normalized_url,
+        request_url=normalized_url,
+        final_url=res_desktop["finalUrl"],
+        http_status=res_desktop["httpStatus"],
+        target_stations=target_stations,
     )
 
-    detail[
-        "htmlLength"
-    ] = len(html)
+    merged = merge_detail_candidates(
+        primary=parsed_mobile,
+        secondary=parsed_desktop,
+    )
 
-    return {
-        "success": True,
-        "fetchedAt": fetched_at,
-        "detail": detail,
-        "error": None,
-        "errorType": None,
-        "sourceUrl":
-            display_url
-            or original_url,
-        "requestUrl":
-            request_url,
-        "finalUrl":
-            detail.get(
-                "finalUrl"
-            ),
-        "httpStatus":
-            detail.get(
-                "httpStatus"
-            ),
-    }
-
-
-# ============================================================
-# Adapter Class
-# ============================================================
-
-class SuumoDetailAdapter:
-
-    def __init__(
-        self,
-        config: Optional[
-            Dict[str, Any]
-        ] = None,
-        root_path: Optional[str] = None,
-        **kwargs,
-    ):
-
-        self.config = (
-            config
-            or {}
-        )
-
-        self.root_path = root_path
-
-        self.extra_kwargs = kwargs
-
-        self.interval_seconds = float(
-            self.config.get(
-                "detailRequestIntervalSeconds",
-                1.5,
-            )
-        )
-
-        self.timeout = int(
-            self.config.get(
-                "detailTimeoutSeconds",
-                20,
-            )
-        )
-
-        self.retry_desktop_on_partial = bool(
-            self.config.get(
-                "detailRetryDesktopOnPartial",
-                True,
-            )
-        )
-
-    def wait(self):
-
-        if (
-            self.interval_seconds
-            > 0
-        ):
-
-            time.sleep(
-                self.interval_seconds
-            )
-
-    def fetch_detail(
-        self,
-        url: str,
-    ) -> Dict[str, Any]:
-
-        target_stations = (
-            self.config.get(
-                "targetStations",
-                [],
-            )
-        )
-        return fetch_detail(
-            url,
-            timeout=self.timeout,
-            retry_desktop_on_partial=(
-                self.retry_desktop_on_partial
-            ),
-            target_stations=target_stations,
-        )
+    return merged
