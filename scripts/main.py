@@ -3662,7 +3662,7 @@ def run_pipeline() -> None:
         f"cityCode={dict(queue_city_counter)}"
     )
 
-    # Out of Target queue check
+    # Out of Target queue check (RuntimeErrorではなく除外＋警告に変更)
     queue_out_of_target = [
         item
         for item in to_fetch
@@ -3670,11 +3670,13 @@ def run_pipeline() -> None:
             "areaClassification"
         ) == "outOfTarget"
     ]
+    out_of_target_queue_count = len(queue_out_of_target)
+
     if queue_out_of_target:
         print(
-            "[ERROR] "
-            "outOfTarget property が"
-            "detail queueに混入しています。"
+            "[WARN] "
+            f"outOfTarget property が {out_of_target_queue_count}件 "
+            "detail queueに混入したため除外します。"
         )
         for item in queue_out_of_target[:20]:
             print(
@@ -3687,9 +3689,13 @@ def run_pipeline() -> None:
                 "sourceUrl="
                 f"{item.get('sourceUrl')}"
             )
-        raise RuntimeError(
-            "outOfTarget properties entered detail queue"
-        )
+        to_fetch = [
+            item
+            for item in to_fetch
+            if item.get(
+                "areaClassification"
+            ) != "outOfTarget"
+        ]
 
     # --------------------------------------------------------
     # 5-b. Execute Detail Fetch
@@ -3899,20 +3905,73 @@ def run_pipeline() -> None:
         "searchCrawlsSuccessful": search_success_count,
         "searchCrawlsFailed": search_failed_count,
         "partialQualityCount": len(partial_items),
+        "detailQueueOutOfTargetCount": out_of_target_queue_count,
     }
 
     # --------------------------------------------------------
     # 8. Save JSON
     # --------------------------------------------------------
 
+    updated_at = now_iso()
+
+    houses_output = {
+        "updatedAt": updated_at,
+        "schemaVersion": HOUSE_DB_SCHEMA_VERSION,
+        "parserVersion": MAIN_PARSER_VERSION,
+        "properties": properties_final,
+        "summary": {
+            "marketDbCount": len(
+                properties_final
+            ),
+            "marketHistoryCount": len(
+                properties_final
+            ),
+            "marketHistoryActiveCount": len([
+                p
+                for p in properties_final
+                if p.get("status") == "active"
+            ]),
+            "marketHistoryEndedCount": len([
+                p
+                for p in properties_final
+                if p.get("status") == "observed_ended"
+            ]),
+            "partialQualityCount": len(
+                partial_items
+            ),
+        },
+    }
+
+    discovered_output = {
+        "updatedAt": updated_at,
+        "schemaVersion": DISCOVERY_SCHEMA_VERSION,
+        "parserVersion": MAIN_PARSER_VERSION,
+        "properties": discovered_final,
+        "summary": {
+            "discoveredCount": len(
+                discovered_final
+            ),
+            "activeCount": len([
+                p
+                for p in discovered_final
+                if p.get("status") == "active"
+            ]),
+            "endedCount": len([
+                p
+                for p in discovered_final
+                if p.get("status") == "observed_ended"
+            ]),
+        },
+    }
+
     save_json(
         HOUSES_PATH,
-        {"properties": properties_final},
+        houses_output,
     )
 
     save_json(
         DISCOVERED_PATH,
-        {"properties": discovered_final},
+        discovered_output,
     )
 
     save_json(
