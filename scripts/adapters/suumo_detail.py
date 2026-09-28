@@ -3655,3 +3655,156 @@ def fetch_and_parse_suumo_detail(
     )
 
     return merged
+
+# ============================================================
+# Adapter wrapper
+# ============================================================
+
+class SuumoDetailAdapter:
+    """
+    main.py から利用する SUUMO detail adapter.
+
+    Existing parser entrypoint:
+        fetch_and_parse_suumo_detail()
+
+    main.py expects:
+        adapter.fetch_detail(url)
+
+    Return format:
+        {
+            "success": True,
+            "detail": {
+                ...
+            },
+            ...
+        }
+    """
+
+    def __init__(
+        self,
+        config: Optional[Dict[str, Any]] = None,
+        root_path: Optional[str] = None,
+    ):
+        self.config = config or {}
+        self.root_path = root_path
+
+        self.timeout = self._safe_int(
+            self.config.get(
+                "detailTimeoutSeconds",
+                20,
+            ),
+            default=20,
+            minimum=1,
+        )
+
+        self.retry_desktop_on_partial = bool(
+            self.config.get(
+                "detailRetryDesktopOnPartial",
+                True,
+            )
+        )
+
+        target_stations = self.config.get(
+            "targetStations",
+            [],
+        )
+
+        if isinstance(target_stations, list):
+            self.target_stations = [
+                str(x).strip()
+                for x in target_stations
+                if str(x).strip()
+            ]
+        else:
+            self.target_stations = []
+
+    @staticmethod
+    def _safe_int(
+        value: Any,
+        default: int,
+        minimum: int = 0,
+    ) -> int:
+        try:
+            return max(
+                minimum,
+                int(value),
+            )
+        except (TypeError, ValueError):
+            return default
+
+    def fetch_detail(
+        self,
+        url: str,
+    ) -> Dict[str, Any]:
+        """
+        Fetch and parse one SUUMO property detail page.
+
+        The underlying parser returns the parsed detail object
+        directly. main.py expects that object to be wrapped
+        under the "detail" key.
+        """
+
+        try:
+            result = fetch_and_parse_suumo_detail(
+                url=url,
+                target_stations=self.target_stations,
+                timeout=self.timeout,
+                retry_desktop_on_partial=(
+                    self.retry_desktop_on_partial
+                ),
+            )
+
+        except Exception as exc:
+            return {
+                "success": False,
+                "error": str(exc),
+                "errorType": "exception",
+                "detailParserVersion": (
+                    DETAIL_PARSER_VERSION
+                ),
+            }
+
+        if not isinstance(result, dict):
+            return {
+                "success": False,
+                "error": (
+                    "detail parser returned "
+                    "non-dict result"
+                ),
+                "errorType": "parser_error",
+                "detailParserVersion": (
+                    DETAIL_PARSER_VERSION
+                ),
+            }
+
+        if not result.get(
+            "success",
+            False,
+        ):
+            return {
+                "success": False,
+                "error": result.get(
+                    "error",
+                    "detail fetch failed",
+                ),
+                "errorType": result.get(
+                    "errorType",
+                    "unknown_error",
+                ),
+                "httpStatus": result.get(
+                    "httpStatus"
+                ),
+                "detailParserVersion": result.get(
+                    "detailParserVersion",
+                    DETAIL_PARSER_VERSION,
+                ),
+            }
+
+        return {
+            "success": True,
+            "detail": result,
+            "detailParserVersion": result.get(
+                "detailParserVersion",
+                DETAIL_PARSER_VERSION,
+            ),
+        }
