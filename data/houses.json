@@ -1,0 +1,13 @@
+{
+  "updatedAt": "2026-09-28T18:50:50.349308+00:00",
+  "schemaVersion": "2.0",
+  "parserVersion": "2026-09-29-v33-quality-state",
+  "properties": [],
+  "summary": {
+    "marketDbCount": 0,
+    "marketHistoryCount": 0,
+    "marketHistoryActiveCount": 0,
+    "marketHistoryEndedCount": 0,
+    "partialQualityCount": 0
+  }
+}
