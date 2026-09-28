@@ -2016,6 +2016,30 @@ def evaluate_area(
         )
     )
 
+    # ⑨ city code 判定用ルールを取得
+    source_url = (
+        property_data.get("sourceUrl")
+        or property_data.get("url")
+    )
+    url_city_code = extract_city_from_url(
+        source_url
+    )
+    area_rules = get_area_rules(
+        search_config
+    )
+    rule = area_rules.get(
+        search_area,
+        {}
+    )
+    allowed_city_codes = set(
+        rule.get(
+            "cityCodes",
+            []
+        )
+        if isinstance(rule, dict)
+        else []
+    )
+
     detected_area = detect_area_from_address(
         address,
         search_config,
@@ -2026,6 +2050,12 @@ def evaluate_area(
         "areaDetected": detected_area,
         "areaAddress": address,
         "areaValidationReason": None,
+        "areaCityCode": url_city_code,
+        "areaCityMatched": (
+            url_city_code in allowed_city_codes
+            if url_city_code and allowed_city_codes
+            else None
+        ),
     }
 
     if not address:
@@ -2034,7 +2064,20 @@ def evaluate_area(
         ] = "address_unavailable"
         return result
 
+    # ⑦ ⑩ 「検索対象」と「住所対象」を分離
     if detected_area is None:
+        if (
+            url_city_code
+            and allowed_city_codes
+            and url_city_code in allowed_city_codes
+        ):
+            result["areaMatched"] = None
+            result[
+                "areaValidationReason"
+            ] = (
+                "city_matched_strict_address_pattern_unmatched"
+            )
+            return result
         result["areaMatched"] = False
         result[
             "areaValidationReason"
@@ -2230,10 +2273,28 @@ def normalize_search_result(
         }
     )
 
+    # ② タイトル保持の処理修正
+    result["listingTitle"] = (
+        clean_text(
+            result.get("listingTitle")
+        )
+        or clean_text(
+            result.get("searchTitle")
+        )
+        or None
+    )
+    result["searchTitle"] = (
+        clean_text(
+            result.get("searchTitle")
+        )
+        or result.get("listingTitle")
+        or None
+    )
     result["name"] = (
         clean_text(
             result.get("name")
         )
+        or result.get("listingTitle")
         or ""
     )
 
@@ -2330,6 +2391,7 @@ def enrich_with_detail(
         "detailFetchAttempts"
     ] = attempts
 
+    # ④ 詳細取得状態の厳密化
     if not detail_res.get(
         "success",
         False,
@@ -2348,6 +2410,28 @@ def enrich_with_detail(
             "errorType",
             "unknown_error",
         )
+
+        return property_data
+
+    detail_content = detail_res.get(
+        "detail"
+    )
+
+    if not isinstance(
+        detail_content,
+        dict,
+    ):
+        property_data[
+            "detailFetchStatus"
+        ] = "error"
+
+        property_data[
+            "detailFetchSuccess"
+        ] = False
+
+        property_data[
+            "detailFetchErrorType"
+        ] = "parser_error"
 
         return property_data
 
@@ -2371,16 +2455,19 @@ def enrich_with_detail(
         "lastSuccessfulDetailAt"
     ] = attempt_at
 
-    detail_content = detail_res.get(
-        "detail",
-        {}
+    # ③ Canonical listing name（詳細のtitleを反映）
+    detail_title = clean_text(
+        detail_content.get("title")
     )
-
-    if not isinstance(
-        detail_content,
-        dict,
-    ):
-        detail_content = {}
+    if detail_title:
+        property_data["name"] = detail_title
+        property_data["listingTitle"] = detail_title
+    else:
+        # ⑰ タイトル未取得時の警告ログ
+        print(
+            "[WARN] 詳細ページからtitleを取得できません: "
+            f"{property_data.get('propertyId')}"
+        )
 
     property_data[
         "detail"
@@ -3511,6 +3598,11 @@ def run_pipeline() -> None:
     search_success_count = 0
     search_failed_count = 0
 
+    # ⑬ パイプライン監査用カウンター
+    search_total_candidates = 0
+    search_total_new = 0
+    search_total_existing = 0
+
     run_start_iso = now_iso()
 
     for target in search_urls:
@@ -3531,6 +3623,7 @@ def run_pipeline() -> None:
             )
 
             search_success_count += 1
+            search_total_candidates += len(results)
             print(f"  取得件数: {len(results)}件")
 
             for item in results:
@@ -3544,6 +3637,7 @@ def run_pipeline() -> None:
                 pid = normalized["propertyId"]
 
                 if pid in db:
+                    search_total_existing += 1
                     existing = db[pid]
                     existing["seenThisRun"] = True
                     existing["lastSeenAt"] = run_start_iso
@@ -3563,6 +3657,7 @@ def run_pipeline() -> None:
                     merge_search_occurrence(existing, normalized)
 
                 else:
+                    search_total_new += 1
                     normalized["seenThisRun"] = True
                     normalized["firstSeenAt"] = run_start_iso
                     normalized["lastSeenAt"] = run_start_iso
@@ -3625,6 +3720,16 @@ def run_pipeline() -> None:
         f"(Limit: {detail_fetch_limit})"
     )
 
+    # ⑭ 詳細取得前 監査ログ
+    print(
+        "[PIPELINE-AUDIT] "
+        f"searchCandidates={search_total_candidates}, "
+        f"new={search_total_new}, "
+        f"existing={search_total_existing}, "
+        f"dbTotal={len(db)}, "
+        f"detailQueue={len(to_fetch)}"
+    )
+
     # --------------------------------------------------------
     # 5-a. Queue Audits
     # --------------------------------------------------------
@@ -3653,7 +3758,7 @@ def run_pipeline() -> None:
         f"cityCode={dict(queue_city_counter)}"
     )
 
-    # Out of Target queue check (RuntimeErrorではなく除外＋警告に変更)
+    # Out of Target queue check
     queue_out_of_target = [
         item
         for item in to_fetch
@@ -3697,6 +3802,9 @@ def run_pipeline() -> None:
     )
 
     consecutive_errors = 0
+    # ⑮ 詳細取得成功・失敗数のカウント
+    detail_success_count = 0
+    detail_error_count = 0
 
     interval = search_config.get(
         "detailRequestIntervalSeconds",
@@ -3730,9 +3838,10 @@ def run_pipeline() -> None:
                 search_config,
             )
 
-            if not detail_res.get("success", False):
-                error_type = detail_res.get(
-                    "errorType",
+            if prop.get("detailFetchStatus") == "error":
+                detail_error_count += 1
+                error_type = prop.get(
+                    "detailFetchErrorType",
                     "unknown_error",
                 )
                 print(
@@ -3756,16 +3865,16 @@ def run_pipeline() -> None:
                         )
                         break
                 else:
-                    # parser error / invalid URL / data errorなどは
-                    # Circuit Breakerを発動させない
                     consecutive_errors = 0
             else:
+                detail_success_count += 1
                 consecutive_errors = 0
                 print(
                     "  [SUCCESS] 詳細取得成功"
                 )
 
         except Exception as exc:
+            detail_error_count += 1
             print(
                 f"  [ERROR] 詳細取得例外発生: {exc}"
             )
@@ -3889,6 +3998,15 @@ def run_pipeline() -> None:
 
     discovered_final = compact_discovery_db(
         list(db.values())
+    )
+
+    # ⑮ 保存直前のパイプライン監査ログ
+    print(
+        "[PIPELINE-AUDIT] "
+        f"detailSuccess={detail_success_count}, "
+        f"detailError={detail_error_count}, "
+        f"marketProperties={len(properties_final)}, "
+        f"discoveredProperties={len(discovered_final)}"
     )
 
     observations_raw = load_json(
