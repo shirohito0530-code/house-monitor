@@ -16,17 +16,8 @@ from urllib.parse import urljoin, urlsplit, urlunsplit
 # Imports
 # ============================================================
 
-try:
-    from adapters.suumo_search import SuumoSearchAdapter
-    from adapters.suumo_detail import SuumoDetailAdapter
-except ImportError:
-    try:
-        from scripts.adapters.suumo_search import SuumoSearchAdapter
-        from scripts.adapters.suumo_detail import SuumoDetailAdapter
-    except ImportError:
-        from suumo_search import SuumoSearchAdapter
-        from suumo_detail import SuumoDetailAdapter
-
+from adapters.suumo_search import SuumoSearchAdapter
+from adapters.suumo_detail import SuumoDetailAdapter
 try:
     from identity import (
         get_source_id,
@@ -3740,33 +3731,55 @@ def run_pipeline() -> None:
             )
 
             if not detail_res.get("success", False):
-                consecutive_errors += 1
+                error_type = detail_res.get(
+                    "errorType",
+                    "unknown_error",
+                )
                 print(
                     f"  [FAIL] 詳細取得エラー: "
-                    f"{detail_res.get('errorType')}"
+                    f"{error_type}"
                 )
-                if consecutive_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
+                if error_type in RETRYABLE_DETAIL_ERROR_TYPES:
+                    consecutive_errors += 1
                     print(
-                        f"[WARN] 連続詳細取得エラーが{consecutive_errors}回に達したため"
-                        "本実行の詳細取得処理を途中終了します。"
+                        f"  [CONNECTIVITY] "
+                        f"連続接続系エラー={consecutive_errors}"
                     )
-                    break
+                    if (
+                        consecutive_errors
+                        >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
+                    ):
+                        print(
+                            f"[WARN] 接続系エラーが"
+                            f"{consecutive_errors}回連続したため"
+                            "本実行の詳細取得処理を途中終了します。"
+                        )
+                        break
+                else:
+                    # parser error / invalid URL / data errorなどは
+                    # Circuit Breakerを発動させない
+                    consecutive_errors = 0
             else:
                 consecutive_errors = 0
-                print("  [SUCCESS] 詳細取得成功")
+                print(
+                    "  [SUCCESS] 詳細取得成功"
+                )
 
         except Exception as exc:
-            consecutive_errors += 1
             print(
                 f"  [ERROR] 詳細取得例外発生: {exc}"
             )
             prop["detailFetchStatus"] = "error"
             prop["detailFetchSuccess"] = False
             prop["detailFetchErrorType"] = "exception"
-
-            if consecutive_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
+            consecutive_errors += 1
+            if (
+                consecutive_errors
+                >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
+            ):
                 print(
-                    f"[WARN] 連続詳細取得エラーが{consecutive_errors}回に達したため"
+                    f"[WARN] 詳細取得例外が"
+                    f"{consecutive_errors}回連続したため"
                     "本実行の詳細取得処理を途中終了します。"
                 )
                 break
