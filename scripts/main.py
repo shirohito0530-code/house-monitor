@@ -20,12 +20,14 @@ from adapters.suumo_search import SuumoSearchAdapter
 from adapters.suumo_detail import SuumoDetailAdapter
 try:
     from identity import (
+        infer_source,
         get_source_id,
         make_property_id,
         make_identity_key,
     )
 except ImportError:
     from scripts.identity import (
+        infer_source,
         get_source_id,
         make_property_id,
         make_identity_key,
@@ -45,8 +47,12 @@ DISCOVERY_SCHEMA_VERSION = "2.0"
 DISCOVERY_RETENTION_DAYS = 180
 DISCOVERY_FIELDS = (
     "propertyId",
+    "source",
+    "sourceId",
     "sourceUrl",
     "name",
+    "listingTitle",
+    "searchTitle",
     "searchArea",
     "searchPropertyType",
     "areaClassification",
@@ -683,6 +689,10 @@ def canonicalize_property_identity(
     property_data[
         "id"
     ] = property_id
+
+    source = infer_source(property_data)
+    if source and source != "unknown":
+        property_data["source"] = source
 
     source_id = get_source_id(
         property_data
@@ -2016,7 +2026,6 @@ def evaluate_area(
         )
     )
 
-    # ⑨ city code 判定用ルールを取得
     source_url = (
         property_data.get("sourceUrl")
         or property_data.get("url")
@@ -2064,7 +2073,6 @@ def evaluate_area(
         ] = "address_unavailable"
         return result
 
-    # ⑦ ⑩ 「検索対象」と「住所対象」を分離
     if detected_area is None:
         if (
             url_city_code
@@ -2245,12 +2253,7 @@ def normalize_search_result(
         or ""
     )
 
-    result["source"] = str(
-        result.get(
-            "source",
-            "suumo",
-        )
-    ).strip().lower()
+    result["source"] = infer_source(result)
 
     identity = make_identity_key(
         result
@@ -2273,7 +2276,6 @@ def normalize_search_result(
         }
     )
 
-    # ② タイトル保持の処理修正
     result["listingTitle"] = (
         clean_text(
             result.get("listingTitle")
@@ -2391,7 +2393,6 @@ def enrich_with_detail(
         "detailFetchAttempts"
     ] = attempts
 
-    # ④ 詳細取得状態の厳密化
     if not detail_res.get(
         "success",
         False,
@@ -2455,7 +2456,6 @@ def enrich_with_detail(
         "lastSuccessfulDetailAt"
     ] = attempt_at
 
-    # ③ Canonical listing name（詳細のtitleを反映）
     detail_title = clean_text(
         detail_content.get("title")
     )
@@ -2463,7 +2463,6 @@ def enrich_with_detail(
         property_data["name"] = detail_title
         property_data["listingTitle"] = detail_title
     else:
-        # ⑰ タイトル未取得時の警告ログ
         print(
             "[WARN] 詳細ページからtitleを取得できません: "
             f"{property_data.get('propertyId')}"
@@ -3598,7 +3597,6 @@ def run_pipeline() -> None:
     search_success_count = 0
     search_failed_count = 0
 
-    # ⑬ パイプライン監査用カウンター
     search_total_candidates = 0
     search_total_new = 0
     search_total_existing = 0
@@ -3643,7 +3641,6 @@ def run_pipeline() -> None:
                     existing["lastSeenAt"] = run_start_iso
                     existing["status"] = "active"
 
-                    # 検索エリアやタイプの更新・補完
                     if not existing.get("searchArea"):
                         existing["searchArea"] = normalized.get("searchArea")
 
@@ -3653,7 +3650,6 @@ def run_pipeline() -> None:
                     )
                     existing["searchTargets"] = search_targets
 
-                    occurrences = existing.get("searchOccurrences", [])
                     merge_search_occurrence(existing, normalized)
 
                 else:
@@ -3720,7 +3716,6 @@ def run_pipeline() -> None:
         f"(Limit: {detail_fetch_limit})"
     )
 
-    # ⑭ 詳細取得前 監査ログ
     print(
         "[PIPELINE-AUDIT] "
         f"searchCandidates={search_total_candidates}, "
@@ -3758,7 +3753,6 @@ def run_pipeline() -> None:
         f"cityCode={dict(queue_city_counter)}"
     )
 
-    # Out of Target queue check
     queue_out_of_target = [
         item
         for item in to_fetch
@@ -3802,7 +3796,6 @@ def run_pipeline() -> None:
     )
 
     consecutive_errors = 0
-    # ⑮ 詳細取得成功・失敗数のカウント
     detail_success_count = 0
     detail_error_count = 0
 
@@ -3909,7 +3902,6 @@ def run_pipeline() -> None:
         if is_market_history_property(prop):
             record = build_market_house_record(prop)
 
-            # Identity deduplication assertion
             record_pid = record["propertyId"]
             if record_pid in seen_final_pids:
                 raise RuntimeError(
@@ -4000,7 +3992,6 @@ def run_pipeline() -> None:
         list(db.values())
     )
 
-    # ⑮ 保存直前のパイプライン監査ログ
     print(
         "[PIPELINE-AUDIT] "
         f"detailSuccess={detail_success_count}, "
