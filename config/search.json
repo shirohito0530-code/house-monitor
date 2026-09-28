@@ -11,11 +11,13 @@
     "柏の葉キャンパス",
     "流山おおたかの森"
   ],
+
   "maxPriceMan": 15000,
   "maxWalkMinutes": 20,
   "minLandArea": 100,
   "minBuildingArea": 80,
   "maxBuiltAgeYears": 20,
+
   "onlyFlatLand": false,
   "excludeRetainingWall": false,
 
@@ -25,14 +27,24 @@
 
   "detailFetchLimit": 400,
   "detailRequestIntervalSeconds": 1.5,
-
   "detailRefreshDaysActive": 2,
   "detailRefreshDaysEnded": 14,
+
+  "detailTimeoutSeconds": 20,
+  "detailRetryDesktopOnPartial": true,
+
+  "quality": {
+    "weakExtractionConfidenceThreshold": 0.70,
+    "stationWalkAffectsDetailQuality": false
+  },
 
   "areaRules": {
     "柏の葉キャンパス": {
       "cities": [
         "柏市"
+      ],
+      "cityCodes": [
+        "sc_kashiwa"
       ],
       "addressPatterns": [
         "柏の葉",
@@ -42,9 +54,13 @@
         "十余二"
       ]
     },
+
     "流山おおたかの森": {
       "cities": [
         "流山市"
+      ],
+      "cityCodes": [
+        "sc_nagareyama"
       ],
       "addressPatterns": [
         "おおたかの森北",
