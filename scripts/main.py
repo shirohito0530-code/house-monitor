@@ -44,7 +44,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-27-v31-identity-integrity"
+MAIN_PARSER_VERSION = "2026-09-28-v32-target-station-walk"
 
 # ============================================================
 # Discovery DB retention / schema
@@ -691,46 +691,42 @@ def get_property_id(
 def canonicalize_property_identity(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
-    """
-    propertyId / id / sourceId 等を、
-    identity.py が算出するcanonical identityへ統一する。
-    特に既存DBについて、
-        dictのキーとして使われるpropertyId
-    と
-        レコード内部のpropertyId
-    が不一致になる問題を防ぐ。
-    SUUMOの場合はURL中の nc_ID を最優先する。
-    """
+
     if not isinstance(
         property_data,
         dict,
     ):
         return None
+
     property_id = get_property_id(
         property_data
     )
+
     if not property_id:
         return None
+
     property_data[
         "propertyId"
     ] = property_id
-    # 旧スキーマとの互換性
+
     property_data[
         "id"
     ] = property_id
-    # sourceIdもcanonical source IDへ統一
+
     source_id = get_source_id(
         property_data
     )
+
     if source_id:
         property_data[
             "sourceId"
         ] = source_id
-    # identityKey等も可能なら同期
+
     try:
         identity = make_identity_key(
             property_data
         )
+
         if isinstance(
             identity,
             dict,
@@ -743,6 +739,7 @@ def canonicalize_property_identity(
                 ] = identity.get(
                     "identityKey"
                 )
+
             if identity.get(
                 "identityType"
             ):
@@ -751,6 +748,7 @@ def canonicalize_property_identity(
                 ] = identity.get(
                     "identityType"
                 )
+
             if identity.get(
                 "identityCompleteness"
             ) is not None:
@@ -759,10 +757,10 @@ def canonicalize_property_identity(
                 ] = identity.get(
                     "identityCompleteness"
                 )
+
     except Exception:
-        # identity補助情報の更新に失敗しても
-        # canonical propertyId自体は有効なので継続する
         pass
+
     return property_id
 
 
@@ -1004,37 +1002,40 @@ def apply_url_area_prefilter(
 def build_discovery_record(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
-    """
-    discovered_listings.json 用の軽量レコードを作る。
-    詳細情報、検索履歴、HTML由来の大量データ等は保存しない。
-    """
+
     record: Dict[str, Any] = {}
+
     for field in DISCOVERY_FIELDS:
         value = property_data.get(field)
         if value is not None:
             record[field] = value
-    # propertyId は必須
+
     property_id = (
         property_data.get("propertyId")
         or get_property_id(property_data)
     )
+
     if property_id:
         record["propertyId"] = property_id
-    # URLは必ず保持
+
     source_url = (
         property_data.get("sourceUrl")
         or property_data.get("url")
     )
+
     if source_url:
         record["sourceUrl"] = source_url
+
     return record
 
 
 def parse_iso_datetime(
     value: Any,
 ) -> Optional[datetime]:
+
     if not value:
         return None
+
     try:
         dt = datetime.fromisoformat(
             str(value).replace(
@@ -1042,11 +1043,14 @@ def parse_iso_datetime(
                 "+00:00",
             )
         )
+
         if dt.tzinfo is None:
             dt = dt.replace(
                 tzinfo=timezone.utc
             )
+
         return dt
+
     except Exception:
         return None
 
@@ -1055,29 +1059,28 @@ def should_keep_discovery(
     property_data: Dict[str, Any],
     now: Optional[datetime] = None,
 ) -> bool:
-    """
-    discovered_listings に残すべきか判定する。
-    - 最近確認された物件 → 残す
-    - 古い物件 → 原則削除
-    - Active → 残す
-    - ユーザー管理情報が将来追加された場合 → 残せる構造
-    """
+
     if now is None:
         now = datetime.now(timezone.utc)
+
     status = property_data.get(
         "status"
     )
-    # Activeは必ず残す
+
     if status == "active":
         return True
+
     last_seen = parse_iso_datetime(
         property_data.get("lastSeenAt")
     )
+
     if last_seen is None:
         return True
+
     age_days = (
         now - last_seen
     ).days
+
     return (
         age_days <= DISCOVERY_RETENTION_DAYS
     )
@@ -1086,37 +1089,41 @@ def should_keep_discovery(
 def compact_discovery_db(
     properties: List[Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
-    """
-    discovered_listings を軽量化する。
-    1. 180日超の古い追跡データを削除
-    2. 各物件を軽量レコード化
-    3. propertyIdで重複排除
-    """
+
     now = datetime.now(timezone.utc)
+
     compacted: Dict[
         str,
         Dict[str, Any],
     ] = {}
+
     for prop in properties:
+
         if not isinstance(
             prop,
             dict,
         ):
             continue
+
         if not should_keep_discovery(
             prop,
             now,
         ):
             continue
+
         record = build_discovery_record(
             prop
         )
+
         property_id = record.get(
             "propertyId"
         )
+
         if not property_id:
             continue
+
         compacted[property_id] = record
+
     return list(
         compacted.values()
     )
@@ -1129,38 +1136,25 @@ def compact_discovery_db(
 def is_market_history_property(
     property_data: Dict[str, Any],
 ) -> bool:
-    """
-    houses.json に保存するMarket History DB対象か判定する。
-    保存対象:
-      - active
-      - observed_ended
-    かつ:
-      - primaryTarget
-      - subTarget
-    重要:
-      searchCriteriaMatched は判定しない。
-    したがって、
-      ・価格上限超過
-      ・土地面積不足
-      ・徒歩分数超過
-      ・築年数超過
-      ・その他検索条件外
-    の物件でも、対象エリアに存在した物件なら
-    市場履歴としてhouses.jsonに保持する。
-    """
+
     if not isinstance(property_data, dict):
         return False
+
     status = property_data.get("status")
+
     if status not in HOUSE_DB_STATUSES:
         return False
+
     area_classification = property_data.get(
         "areaClassification"
     )
+
     if (
         area_classification
         not in HOUSE_DB_AREA_CLASSIFICATIONS
     ):
         return False
+
     return True
 
 
@@ -1173,30 +1167,28 @@ def is_detail_target_property(
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> bool:
-    """
-    詳細取得対象エリアの物件か判定する。
-    明確に対象外と判定できる市区町村コードは除外する。
-    city_code が取得できない場合は、従来互換性のため
-    True として扱う。
-    """
+
     if not isinstance(property_data, dict):
         return False
+
     if property_data.get(
         "areaPrefilterExcluded",
         False,
     ):
         return False
+
     url = (
         property_data.get("sourceUrl")
         or property_data.get("url")
     )
+
     city_code = extract_city_from_url(url)
-    # 市区町村コードが取得できない場合は、
-    # ここでは安全側に「対象候補」とする
+
     if not city_code:
         return True
+
     allowed_city_codes = set()
-    # search_urls の設定を優先
+
     for target in search_urls:
         codes = target.get(
             "allowedCityCodes"
@@ -1207,7 +1199,7 @@ def is_detail_target_property(
                 for code in codes
                 if code
             )
-    # search_urls に無ければ search.json / fallback を利用
+
     if not allowed_city_codes:
         area_rules = get_area_rules(
             search_config
@@ -1224,9 +1216,10 @@ def is_detail_target_property(
                     for code in codes
                     if code
                 )
-    # ルールが取得できない場合は従来互換
+
     if not allowed_city_codes:
         return True
+
     return city_code in allowed_city_codes
 
 
@@ -1826,7 +1819,7 @@ def get_building_area(
     return to_number(value)
 
 
-def get_walk_minutes(
+def get_target_station_walk_minutes(
     property_data: Dict[str, Any],
 ) -> Optional[float]:
 
@@ -1834,27 +1827,42 @@ def get_walk_minutes(
         property_data
     )
 
-    for key in [
-        "walkMinutes",
-        "stationWalkMinutes",
-    ]:
+    available = detail.get(
+        "targetStationWalkAvailable"
+    )
 
-        value = detail.get(key)
-
+    if available is True:
+        value = detail.get(
+            "targetStationWalkMinutes"
+        )
         if value is not None:
-            return to_number(value)
+            return to_number(
+                value
+            )
 
-    for key in [
-        "walk",
-        "stationWalkMinutes",
-    ]:
+    value = property_data.get(
+        "targetStationWalkMinutes"
+    )
 
-        value = property_data.get(key)
-
-        if value is not None:
-            return to_number(value)
+    if value is not None:
+        available = property_data.get(
+            "targetStationWalkAvailable"
+        )
+        if available is True:
+            return to_number(
+                value
+            )
 
     return None
+
+
+def get_walk_minutes(
+    property_data: Dict[str, Any],
+) -> Optional[float]:
+
+    return get_target_station_walk_minutes(
+        property_data
+    )
 
 
 # ============================================================
@@ -2467,17 +2475,51 @@ def enrich_with_detail(
             )
         )
 
-    if detail_content.get(
-        "walkMinutes"
-    ) is not None:
-
-        property_data[
-            "walk"
-        ] = to_number(
+    if (
+        detail_content.get(
+            "targetStationWalkAvailable"
+        )
+        is True
+        and detail_content.get(
+            "targetStationWalkMinutes"
+        )
+        is not None
+    ):
+        target_walk = to_number(
             detail_content.get(
-                "walkMinutes"
+                "targetStationWalkMinutes"
             )
         )
+        property_data[
+            "targetStationWalkMinutes"
+        ] = target_walk
+        property_data[
+            "targetStationWalkAvailable"
+        ] = True
+        property_data[
+            "targetStation"
+        ] = detail_content.get(
+            "targetStation"
+        )
+        # 既存UI・DBとの互換用
+        property_data[
+            "walk"
+        ] = target_walk
+    else:
+        property_data[
+            "targetStationWalkMinutes"
+        ] = None
+        property_data[
+            "targetStationWalkAvailable"
+        ] = False
+        property_data[
+            "targetStation"
+        ] = None
+        # 重要：
+        # バス・他駅徒歩などをwalkへ流用しない
+        property_data[
+            "walk"
+        ] = None
 
     p_type = detect_property_type(
         property_data
@@ -3089,12 +3131,7 @@ def merge_search_occurrence(
     existing: Dict[str, Any],
     candidate: Dict[str, Any],
 ) -> None:
-    """
-    検索結果由来の最新情報だけを既存物件へ反映する。
-    v30では検索出現履歴を永久保存しない。
-    discovered_listings.json の肥大化を防ぐため、
-    最新検索位置のみ保持する。
-    """
+
     target = (
         candidate.get("searchTarget")
         or candidate.get("searchTargetArea")
@@ -3107,6 +3144,7 @@ def merge_search_occurrence(
         candidate.get("searchTargetPropertyType")
         or candidate.get("searchPropertyType")
     )
+
     existing["searchTarget"] = target
     existing["searchTargetArea"] = search_area
     existing["searchTargetPropertyType"] = property_type
@@ -3134,19 +3172,6 @@ def fetch_search_target(
     target: Dict[str, Any],
     config: Dict[str, Any],
 ) -> List[Dict[str, Any]]:
-
-    """
-    現行search adapterとのインターフェースを一本化する。
-
-    優先:
-      fetch_search_results()
-
-    後方互換:
-      crawl_search_target()
-
-    search adapter側では、価格・面積・築年数等の
-    最終条件による除外を行わない。
-    """
 
     if hasattr(
         search_adapter,
@@ -3238,17 +3263,14 @@ def run_pipeline() -> None:
     # --------------------------------------------------------
     # 2. Existing Market DB
     # --------------------------------------------------------
-    # --------------------------------------------------------
-    # 2-A. houses.json
-    #
-    # houses.json = 詳細を保持する正規のMarket History DB
-    # --------------------------------------------------------
+
     houses_raw = load_json(
         HOUSES_PATH,
         default={
             "properties": []
         },
     )
+
     if isinstance(
         houses_raw,
         dict,
@@ -3264,17 +3286,14 @@ def run_pipeline() -> None:
         house_properties = houses_raw
     else:
         house_properties = []
-    # --------------------------------------------------------
-    # 2-B. discovered_listings.json
-    #
-    # discovered = 軽量追跡DB
-    # --------------------------------------------------------
+
     discovered_raw = load_json(
         DISCOVERED_PATH,
         default={
             "properties": []
         },
     )
+
     if isinstance(
         discovered_raw,
         dict,
@@ -3292,33 +3311,15 @@ def run_pipeline() -> None:
         discovered_properties = discovered_raw
     else:
         discovered_properties = []
-    # --------------------------------------------------------
-    # 2-C. Merge
-    #
-    # houses.json を優先。
-    # discovered は不足している物件を補完する。
-    # --------------------------------------------------------
+
     db: Dict[
         str,
         Dict[str, Any],
     ] = {}
-    # --------------------------------------------------------
-    # houses.json
-    # --------------------------------------------------------
-    # 既存DBを読み込む際、
-    # URLから再計算したcanonical propertyIdと
-    # レコード内部のpropertyIdを必ず一致させる。
-    #
-    # これにより、
-    #
-    # db["suumo:nc_123"] = {
-    #     "propertyId": "suumo:nc_456"
-    # }
-    #
-    # のような不整合を防止する。
-    # --------------------------------------------------------
+
     house_identity_repaired_count = 0
     house_duplicate_canonical_count = 0
+
     for index, prop in enumerate(
         house_properties
     ):
@@ -3327,17 +3328,21 @@ def run_pipeline() -> None:
             dict,
         ):
             continue
+
         prop = deepcopy(
             prop
         )
+
         before_property_id = (
             prop.get(
                 "propertyId"
             )
         )
+
         pid = canonicalize_property_identity(
             prop
         )
+
         if not pid:
             print(
                 "[WARN] houses.json の "
@@ -3346,11 +3351,13 @@ def run_pipeline() -> None:
                 "スキップします。"
             )
             continue
+
         after_property_id = (
             prop.get(
                 "propertyId"
             )
         )
+
         if (
             before_property_id
             != after_property_id
@@ -3361,9 +3368,11 @@ def run_pipeline() -> None:
                 f"{before_property_id} -> "
                 f"{after_property_id}"
             )
+
         prop[
             "seenThisRun"
         ] = False
+
         if pid in db:
             house_duplicate_canonical_count += 1
             existing = db[pid]
@@ -3380,8 +3389,7 @@ def run_pipeline() -> None:
                 "       duplicate sourceUrl="
                 f"{prop.get('sourceUrl')}"
             )
-            # 既存レコードを優先し、
-            # 欠落している値だけ重複レコードから補完する。
+
             for key, value in prop.items():
                 if (
                     existing.get(key) is None
@@ -3390,17 +3398,16 @@ def run_pipeline() -> None:
                     existing[key] = value
         else:
             db[pid] = prop
+
     print(
         "houses.json identity正規化: "
         f"修正={house_identity_repaired_count}, "
         f"canonical重複={house_duplicate_canonical_count}"
     )
 
-    # --------------------------------------------------------
-    # discovered_listings.json
-    # --------------------------------------------------------
     discovered_identity_repaired_count = 0
     discovered_duplicate_canonical_count = 0
+
     for index, prop in enumerate(
         discovered_properties
     ):
@@ -3409,17 +3416,21 @@ def run_pipeline() -> None:
             dict,
         ):
             continue
+
         prop = deepcopy(
             prop
         )
+
         before_property_id = (
             prop.get(
                 "propertyId"
             )
         )
+
         pid = canonicalize_property_identity(
             prop
         )
+
         if not pid:
             print(
                 "[WARN] discovered_listings.json の "
@@ -3428,11 +3439,13 @@ def run_pipeline() -> None:
                 "スキップします。"
             )
             continue
+
         after_property_id = (
             prop.get(
                 "propertyId"
             )
         )
+
         if (
             before_property_id
             != after_property_id
@@ -3444,15 +3457,17 @@ def run_pipeline() -> None:
                 f"{before_property_id} -> "
                 f"{after_property_id}"
             )
+
         prop[
             "seenThisRun"
         ] = False
+
         if pid not in db:
             db[pid] = prop
             continue
+
         existing = db[pid]
-        # houses側に存在する場合は、
-        # discovered側の追跡情報だけ補完する。
+
         for key in [
             "sourceUrl",
             "searchArea",
@@ -3470,6 +3485,7 @@ def run_pipeline() -> None:
                 and prop.get(key) is not None
             ):
                 existing[key] = prop.get(key)
+
     print(
         "discovered identity正規化: "
         f"修正={discovered_identity_repaired_count}, "
@@ -3610,13 +3626,6 @@ def run_pipeline() -> None:
             candidate = dict(
                 candidate
             )
-
-            # ------------------------------------------------
-            # Search provenance
-            #
-            # Search adapter側で既に付いている値を優先。
-            # 無い場合のみmainで補完する。
-            # ------------------------------------------------
 
             candidate[
                 "searchPosition"
@@ -3825,7 +3834,6 @@ def run_pipeline() -> None:
                     "searchPropertyType"
                 )
 
-            # 最新検索位置は互換性のため保持
             existing[
                 "searchTarget"
             ] = candidate.get(
@@ -3896,12 +3904,6 @@ def run_pipeline() -> None:
 
             new_count += 1
 
-    # --------------------------------------------------------
-    # Merge Integrity Check
-    # --------------------------------------------------------
-    # dbのキーとレコード内部のpropertyIdが
-    # 完全に一致していることを確認する。
-    # --------------------------------------------------------
     identity_mismatch = []
     for db_key, property_data in db.items():
         actual_id = (
@@ -3922,6 +3924,7 @@ def run_pipeline() -> None:
                     ),
                 }
             )
+
     if identity_mismatch:
         print(
             "[ERROR] db key と "
@@ -3939,6 +3942,7 @@ def run_pipeline() -> None:
         raise RuntimeError(
             "Market DB identity integrity check failed"
         )
+
     print(
         "[OK] Merge identity integrity check: "
         f"{len(db)}件"
@@ -4146,16 +4150,13 @@ def run_pipeline() -> None:
             print(
                 f"     sourceUrl={url}"
             )
-            # 接続系エラーだけを
-            # circuit breaker の対象とする
+
             if (
                 error_type
                 in RETRYABLE_DETAIL_ERROR_TYPES
             ):
                 consecutive_errors += 1
             else:
-                # Parserエラー等の場合は
-                # 接続エラー連続数をリセット
                 consecutive_errors = 0
 
             if (
@@ -4204,11 +4205,10 @@ def run_pipeline() -> None:
     properties_final = list(
         db.values()
     )
-    # --------------------------------------------------------
-    # Final Property Identity Check
-    # --------------------------------------------------------
+
     final_ids = []
     final_duplicates = set()
+
     for item in properties_final:
         pid = canonicalize_property_identity(
             item
@@ -4222,6 +4222,7 @@ def run_pipeline() -> None:
         final_ids.append(
             pid
         )
+
     if final_duplicates:
         print(
             "[ERROR] properties_finalで"
@@ -4251,6 +4252,7 @@ def run_pipeline() -> None:
         raise RuntimeError(
             "properties_final contains duplicate propertyIds"
         )
+
     print(
         "[OK] properties_final identity check: "
         f"{len(properties_final)}件 / "
@@ -4382,26 +4384,7 @@ def run_pipeline() -> None:
     # --------------------------------------------------------
     # 10. Houses Output
     # --------------------------------------------------------
-    #
-    # houses.json は「現在の採用物件」ではなく、
-    # 対象エリアのMarket History DBとして扱う。
-    #
-    # 保存対象:
-    #   - active
-    #   - observed_ended
-    #
-    # 対象エリア:
-    #   - primaryTarget
-    #   - subTarget
-    #
-    # 重要:
-    #   searchCriteriaMatched == False
-    #   でも保存する。
-    #
-    # これにより、現在の検索条件から外れた物件でも、
-    # 過去の市場価格・値下げ・掲載期間等を
-    # 後から参照できる。
-    # --------------------------------------------------------
+
     for item in properties_final:
         item.pop(
             "searchOccurrences",
@@ -4421,11 +4404,10 @@ def run_pipeline() -> None:
         for item in properties_final
         if is_market_history_property(item)
     ]
-    # --------------------------------------------------------
-    # Market History DB Identity Integrity Check
-    # --------------------------------------------------------
+
     market_ids = set()
     market_duplicates = []
+
     for index, item in enumerate(
         market_houses
     ):
@@ -4451,6 +4433,7 @@ def run_pipeline() -> None:
             market_ids.add(
                 pid
             )
+
     if market_duplicates:
         print(
             "[ERROR] Market History DBで"
@@ -4468,6 +4451,7 @@ def run_pipeline() -> None:
         raise RuntimeError(
             "Market History DB contains duplicate propertyIds"
         )
+
     print(
         "[OK] Market History DB identity check: "
         f"{len(market_houses)}件 / "
@@ -4509,13 +4493,11 @@ def run_pipeline() -> None:
         )
     )
 
-    # --------------------------------------------------------
-    # Final pre-save validation
-    # --------------------------------------------------------
     pre_save_ids = [
         item.get("propertyId")
         for item in market_houses
     ]
+
     if len(
         pre_save_ids
     ) != len(
@@ -4525,6 +4507,7 @@ def run_pipeline() -> None:
             "Refusing to write houses.json: "
             "duplicate propertyIds detected"
         )
+
     for index, item in enumerate(
         market_houses
     ):
@@ -4542,6 +4525,7 @@ def run_pipeline() -> None:
                 "Refusing to write houses.json: "
                 f"properties[{index}].sourceUrl is missing"
             )
+
     print(
         "[OK] houses.json pre-save validation: "
         f"{len(market_houses)}件"
@@ -4570,6 +4554,7 @@ def run_pipeline() -> None:
                 market_houses,
         },
     )
+
     print(
         f"Market History DB保存完了: "
         f"total={len(market_houses)}, "
@@ -4688,9 +4673,6 @@ def run_pipeline() -> None:
         "searchHealthy":
             search_healthy,
 
-        # ----------------------------------------------------
-        # Market History DB
-        # ----------------------------------------------------
         "marketHistoryCount":
             len(market_houses),
         "marketHistoryActiveCount":
