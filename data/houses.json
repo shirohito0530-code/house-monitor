@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-28T23:09:23.245862+00:00",
+  "updatedAt": "2026-09-28T23:20:44.861075+00:00",
   "schemaVersion": "2.0",
   "parserVersion": "2026-09-29-v35-price-extraction-and-history-fix",
   "properties": [
@@ -14,7 +14,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21108615",
       "identityKey": "suumo:nc_21108615",
@@ -1531,7 +1531,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21036169",
       "identityKey": "suumo:nc_21036169",
@@ -3002,7 +3002,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21371407",
       "identityKey": "suumo:nc_21371407",
@@ -3016,10 +3016,10 @@
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
-      "searchPageNumber": 2,
-      "searchPosition": 3,
+      "searchPageNumber": 1,
+      "searchPosition": 21,
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
-      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
+      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "daysListed": 0,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
@@ -4615,7 +4615,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21661043",
       "identityKey": "suumo:nc_21661043",
@@ -6100,7 +6100,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21542883",
       "identityKey": "suumo:nc_21542883",
@@ -7613,7 +7613,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21542234",
       "identityKey": "suumo:nc_21542234",
@@ -9126,7 +9126,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20173694",
       "identityKey": "suumo:nc_20173694",
@@ -10622,7 +10622,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20468209",
       "identityKey": "suumo:nc_20468209",
@@ -12240,7 +12240,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20469848",
       "identityKey": "suumo:nc_20469848",
@@ -13692,7 +13692,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20448861",
       "identityKey": "suumo:nc_20448861",
@@ -14756,7 +14756,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建て",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
       "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
       "detailFetchStatus": "success",
@@ -14764,7 +14764,7 @@
       "identityKey": "suumo:nc_21640435",
       "identityType": "source_id",
       "identityCompleteness": 1.0,
-      "seenThisRun": true,
+      "seenThisRun": false,
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -16259,7 +16259,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20912649",
       "identityKey": "suumo:nc_20912649",
@@ -18152,7 +18152,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20812753",
       "identityKey": "suumo:nc_20812753",
@@ -20408,7 +20408,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21649107",
       "identityKey": "suumo:nc_21649107",
@@ -21815,7 +21815,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_78403260",
       "identityKey": "suumo:nc_78403260",
@@ -23762,7 +23762,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_78789102",
       "identityKey": "suumo:nc_78789102",
@@ -25369,7 +25369,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_78403290",
       "identityKey": "suumo:nc_78403290",
@@ -27316,7 +27316,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20944633",
       "identityKey": "suumo:nc_20944633",
@@ -28814,7 +28814,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21057868",
       "identityKey": "suumo:nc_21057868",
@@ -30456,7 +30456,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21312860",
       "identityKey": "suumo:nc_21312860",
@@ -32203,7 +32203,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21677333",
       "identityKey": "suumo:nc_21677333",
@@ -33708,7 +33708,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_78794833",
       "identityKey": "suumo:nc_78794833",
@@ -35311,7 +35311,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21532809",
       "identityKey": "suumo:nc_21532809",
@@ -36891,7 +36891,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21098293",
       "identityKey": "suumo:nc_21098293",
@@ -38603,7 +38603,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_21336488",
       "identityKey": "suumo:nc_21336488",
@@ -40155,7 +40155,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20683324",
       "identityKey": "suumo:nc_20683324",
@@ -41691,7 +41691,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T18:49:35.433922+00:00",
-      "lastSeenAt": "2026-09-28T23:07:59.124028+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
       "detailFetchStatus": "success",
       "id": "suumo:nc_20960507",
       "identityKey": "suumo:nc_20960507",
@@ -47883,13 +47883,1603 @@
       "firstPrice": 1000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0
+    },
+    {
+      "source": "suumo",
+      "sourceId": "nc_78346110",
+      "listingId": "nc_78346110",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+      "url": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+      "detailUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+      "listingTitle": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+      "searchTitle": "柏の葉キャンパス4998万円・5298万円・…",
+      "builtYear": null,
+      "cardText": "流山セントラルパーク3390万円・3LDK 柏の葉キャンパス4998万円・5298万円・… 北小金5880万円・4LDK 新松戸5380万円・4LDK 新着",
+      "propertyType": "新築戸建",
+      "propertyTypeSource": "search_url",
+      "propertyTypeConfidence": "high",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
+      "searchPageNumber": 3,
+      "searchPosition": 21,
+      "searchTarget": "柏の葉キャンパス新築戸建て",
+      "searchTargetArea": "柏の葉キャンパス",
+      "searchTargetPropertyType": "新築戸建て",
+      "discoveredAt": "2026-09-28T23:19:36.050866+00:00",
+      "detailFetched": false,
+      "detailFetchSuccess": true,
+      "detailFetchStatus": "success",
+      "detailFetchError": null,
+      "detailFetchErrorType": null,
+      "propertyId": "suumo:nc_78346110",
+      "identityKey": "suumo:nc_78346110",
+      "identityType": "source_id",
+      "identityCompleteness": 1.0,
+      "id": "suumo:nc_78346110",
+      "name": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+      "price": 49980000,
+      "area": "柏の葉キャンパス",
+      "urlCityCode": "sc_kashiwa",
+      "areaPrefilterExcluded": false,
+      "areaPrefilterReason": "accepted_target_city",
+      "seenThisRun": true,
+      "firstSeenAt": "2026-09-28T23:18:59.368612+00:00",
+      "lastSeenAt": "2026-09-28T23:18:59.368612+00:00",
+      "status": "active",
+      "searchTargets": [
+        "柏の葉キャンパス新築戸建て"
+      ],
+      "daysListed": 0,
+      "areaMatched": true,
+      "areaDetected": "柏の葉キャンパス",
+      "areaAddress": "千葉県柏市柏の葉５",
+      "areaValidationReason": "address_area_matched",
+      "areaCityCode": "sc_kashiwa",
+      "areaCityMatched": true,
+      "schoolDistrictStatus": "candidate",
+      "schoolDistrictConfidence": "address_based",
+      "schoolDistrictPolicy": "station_area_candidate",
+      "schoolDistrictVerification": "required_for_final_decision",
+      "schoolDistrictNote": "柏の葉キャンパス対象住所から柏の葉小学校区候補として扱う。正式な学区は番地で確認が必要。",
+      "propertyTypeMatched": true,
+      "propertyTypeReason": "property_type_allowed",
+      "builtAgeMatched": true,
+      "builtAgeYears": 0.0,
+      "builtAgeStatus": "confirmed",
+      "builtAgeReason": "new_house_exempt_from_age_limit",
+      "priceMan": 4998,
+      "walkMinutes": 33.0,
+      "landAreaM2": 150.01,
+      "buildingAreaM2": 105.52,
+      "priceMatched": true,
+      "walkMatched": false,
+      "landAreaMatched": true,
+      "buildingAreaMatched": true,
+      "priceReason": "within_price_limit",
+      "walkReason": "walk_minutes_over_limit",
+      "landAreaReason": "within_land_area_limit",
+      "buildingAreaReason": "within_building_area_limit",
+      "areaExcludedReason": null,
+      "searchCriteriaMatched": false,
+      "searchResultFilterExcluded": true,
+      "areaClassification": "primaryTarget",
+      "lastDetailAttemptAt": "2026-09-28T23:20:28.482097+00:00",
+      "detailFetchAttempts": 1,
+      "lastDetailFetchAt": "2026-09-28T23:20:28.482097+00:00",
+      "lastSuccessfulDetailAt": "2026-09-28T23:20:28.482097+00:00",
+      "detail": {
+        "success": true,
+        "detailParserVersion": "2026-09-29-v35-price-audit-merge",
+        "fetchedAt": "2026-09-28T23:20:27.069619+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "httpStatus": 200,
+        "title": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+        "price": 49980000,
+        "priceYen": 49980000,
+        "priceRaw": "物件価格 4998万円 5298万円",
+        "priceConfidence": "high",
+        "priceWarning": null,
+        "priceSource": "price_label",
+        "priceCandidateCount": 3,
+        "priceCandidates": [
+          {
+            "price": 49980000,
+            "raw": "物件価格 4998万円 5298万円",
+            "source": "price_label",
+            "confidence": "high",
+            "status": "normal",
+            "selectionScore": 1.0,
+            "matchCount": 2
+          },
+          {
+            "price": 49980000,
+            "raw": "物件価格 4998万円",
+            "source": "page_text",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 51680,
+            "raw": "価格5.168万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "very_low",
+            "selectionScore": 0.05,
+            "matchCount": 1
+          }
+        ],
+        "address": "千葉県柏市柏の葉５",
+        "landAreaM2": 150.01,
+        "buildingAreaM2": 105.52,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2025-11",
+        "constructionYear": 2025,
+        "constructionMonthNumber": 11,
+        "constructionAgeYears": 0.83,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "informationDate": "2026-09-28",
+        "nextUpdateDate": "2026-10-06",
+        "extractionAudit": {
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2025-11",
+                "raw": "2025年11月",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期 (築年月)"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2025-11",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.68,
+            "candidate_count": 13,
+            "candidate_sources": [
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "他の新築一戸建ても見てみませんか？",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マイ機能 お気に入り 保存した検索条件 閲覧履歴 検索履歴 プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "他の新築一戸建ても見てみませんか？ 柏市の一覧を見る",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 本日ご内覧可能です！45坪越えの敷地！広々LDKが魅力のデザイナーズ邸宅♪",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "この物件もありかも！ プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO[不動産/住宅] > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "アカウント 新規会員登録 ログイン マイ機能 お気に入り 保存した検索条件 閲覧履歴 検索履歴 プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン スーモカウンター 家づくりの悩みを無料相談 購入か賃貸か、予算や進め方まで、専属アドバイザーが徹底サポート！ 便利機能 支払額シミュレーション 購入可能額シミュレーション サクサク探すなら SUUMOアプリが便利！ AIが好みを学習して物件をおすすめ 新着物件をすぐにお知らせ 無料 ダウンロードする",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 105.52,
+                "raw": "105.52m²・113.36m²（31.91坪・34.29坪）（登記）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 105.52,
+                "raw": "建物面積 105.52m²",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 3,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "150.01m²・150.02m²（45.37坪・45.38坪）（登記）",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "土地面積 150.01m²",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 10,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.91,
+            "candidate_count": 14,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５",
+                "raw": "千葉県柏市柏の葉５",
+                "source": "dl_dt_dd",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "raw": "所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５",
+                "raw": "千葉県柏市柏の葉５",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "もっと見る 最近見た物件と比較する 閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "この物件にお問い合わせ 物件の見学をしたい、資金計画の相談をしたいなど お名前 （1/6） 次へ メールアドレス （2/6） 戻る 次へ 電話番号 （3/6） 電話番号に紐づくLINEにお問い合わせ完了通知が届きます。 戻る 次へ 郵便番号 （4/6） 戻る 次へ 住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ その他のご要望 任意 （6/6） 物件を実際に見てみたい 物件探しや資金計画などアドバイスがほしい 0 /200 SUUMOお役立ちメールを受け取る あなたにぴったりの物件情報などをお届けします 戻る 確認画面へ進む",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "お名前 （1/6） 次へ メールアドレス （2/6） 戻る 次へ 電話番号 （3/6） 電話番号に紐づくLINEにお問い合わせ完了通知が届きます。 戻る 次へ 郵便番号 （4/6） 戻る 次へ 住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ その他のご要望 任意 （6/6） 物件を実際に見てみたい 物件探しや資金計画などアドバイスがほしい 0 /200 SUUMOお役立ちメールを受け取る あなたにぴったりの物件情報などをお届けします 戻る 確認画面へ進む",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "最近見た物件と比較しませんか？ 閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "raw": "SUUMO[不動産/住宅] > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.9,
+            "priceConfidence": "high",
+            "candidate_count": 3,
+            "candidates": [
+              {
+                "price": 49980000,
+                "raw": "物件価格 4998万円 5298万円",
+                "source": "price_label",
+                "confidence": "high",
+                "status": "normal",
+                "selectionScore": 1.0,
+                "matchCount": 2
+              },
+              {
+                "price": 49980000,
+                "raw": "物件価格 4998万円",
+                "source": "page_text",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 51680,
+                "raw": "価格5.168万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "very_low",
+                "selectionScore": 0.05,
+                "matchCount": 1
+              }
+            ]
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 33,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 33,
+        "walkMinutes": 33,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "低信頼度抽出項目: propertyType"
+        ],
+        "weakExtractionFields": [
+          "propertyType"
+        ],
+        "detailQualityReasons": [
+          "weak_extraction:propertyType",
+          "validation_warning:低信頼度抽出項目: propertyType"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "mobileFetchAttempt": {
+          "success": true,
+          "httpStatus": 200,
+          "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/"
+        },
+        "desktopFetchAttempt": {
+          "success": true,
+          "httpStatus": 200,
+          "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/"
+        }
+      },
+      "lastSuccessfulDetail": {
+        "success": true,
+        "detailParserVersion": "2026-09-29-v35-price-audit-merge",
+        "fetchedAt": "2026-09-28T23:20:27.069619+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+        "httpStatus": 200,
+        "title": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+        "price": 49980000,
+        "priceYen": 49980000,
+        "priceRaw": "物件価格 4998万円 5298万円",
+        "priceConfidence": "high",
+        "priceWarning": null,
+        "priceSource": "price_label",
+        "priceCandidateCount": 3,
+        "priceCandidates": [
+          {
+            "price": 49980000,
+            "raw": "物件価格 4998万円 5298万円",
+            "source": "price_label",
+            "confidence": "high",
+            "status": "normal",
+            "selectionScore": 1.0,
+            "matchCount": 2
+          },
+          {
+            "price": 49980000,
+            "raw": "物件価格 4998万円",
+            "source": "page_text",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 51680,
+            "raw": "価格5.168万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "very_low",
+            "selectionScore": 0.05,
+            "matchCount": 1
+          }
+        ],
+        "address": "千葉県柏市柏の葉５",
+        "landAreaM2": 150.01,
+        "buildingAreaM2": 105.52,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2025-11",
+        "constructionYear": 2025,
+        "constructionMonthNumber": 11,
+        "constructionAgeYears": 0.83,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "informationDate": "2026-09-28",
+        "nextUpdateDate": "2026-10-06",
+        "extractionAudit": {
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2025-11",
+                "raw": "2025年11月",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期 (築年月)"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2025-11",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.68,
+            "candidate_count": 13,
+            "candidate_sources": [
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "他の新築一戸建ても見てみませんか？",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マイ機能 お気に入り 保存した検索条件 閲覧履歴 検索履歴 プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "他の新築一戸建ても見てみませんか？ 柏市の一覧を見る",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 本日ご内覧可能です！45坪越えの敷地！広々LDKが魅力のデザイナーズ邸宅♪",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "この物件もありかも！ プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO[不動産/住宅] > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "アカウント 新規会員登録 ログイン マイ機能 お気に入り 保存した検索条件 閲覧履歴 検索履歴 プロフィール プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です 登録済みの方はこちらからログイン スーモカウンター 家づくりの悩みを無料相談 購入か賃貸か、予算や進め方まで、専属アドバイザーが徹底サポート！ 便利機能 支払額シミュレーション 購入可能額シミュレーション サクサク探すなら SUUMOアプリが便利！ AIが好みを学習して物件をおすすめ 新着物件をすぐにお知らせ 無料 ダウンロードする",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "プロフィールを登録して おすすめ物件の精度を上げよう！ ※賃貸物件・新築マンションは対象外です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 105.52,
+                "raw": "105.52m²・113.36m²（31.91坪・34.29坪）（登記）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 105.52,
+                "raw": "建物面積 105.52m²",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 3,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "150.01m²・150.02m²（45.37坪・45.38坪）（登記）",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "土地面積 150.01m²",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 150.01,
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 10,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 33,
+                  "walkMinutes": 33,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 33,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.91,
+            "candidate_count": 14,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５",
+                "raw": "千葉県柏市柏の葉５",
+                "source": "dl_dt_dd",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "raw": "所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５",
+                "raw": "千葉県柏市柏の葉５",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "もっと見る 最近見た物件と比較する 閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "この物件にお問い合わせ 物件の見学をしたい、資金計画の相談をしたいなど お名前 （1/6） 次へ メールアドレス （2/6） 戻る 次へ 電話番号 （3/6） 電話番号に紐づくLINEにお問い合わせ完了通知が届きます。 戻る 次へ 郵便番号 （4/6） 戻る 次へ 住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ その他のご要望 任意 （6/6） 物件を実際に見てみたい 物件探しや資金計画などアドバイスがほしい 0 /200 SUUMOお役立ちメールを受け取る あなたにぴったりの物件情報などをお届けします 戻る 確認画面へ進む",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "お名前 （1/6） 次へ メールアドレス （2/6） 戻る 次へ 電話番号 （3/6） 電話番号に紐づくLINEにお問い合わせ完了通知が届きます。 戻る 次へ 郵便番号 （4/6） 戻る 次へ 住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ その他のご要望 任意 （6/6） 物件を実際に見てみたい 物件探しや資金計画などアドバイスがほしい 0 /200 SUUMOお役立ちメールを受け取る あなたにぴったりの物件情報などをお届けします 戻る 確認画面へ進む",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "住所 （5/6） 都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。 戻る 次へ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区町村 都道府県/市区町村が選択されていません。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳",
+                "raw": "都道府県 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 東京都 神奈川県 埼玉県 千葉県 茨城県 群馬県 栃木県 山梨県 新潟県 長野県 富山県 石川県 福井県 愛知県 岐阜県 静岡県 三重県 大阪府 兵庫県 京都府 滋賀県 奈良県 和歌山県 徳島県 香川県 愛媛県 高知県 鳥取県 島根県 岡山県 広島県 山口県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "raw": "最近見た物件と比較しませんか？ 閲覧中の物件 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円 4998万円・5298万円 4LDK 土地 150.01m²・150.02m² 建物 105.52m²・113.36m² 引渡 即引渡可 千葉県柏市柏の葉５ つくばエクスプレス「柏の葉キャンパス」歩33分 他 見学予約する",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "raw": "SUUMO[不動産/住宅] > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.9,
+            "priceConfidence": "high",
+            "candidate_count": 3,
+            "candidates": [
+              {
+                "price": 49980000,
+                "raw": "物件価格 4998万円 5298万円",
+                "source": "price_label",
+                "confidence": "high",
+                "status": "normal",
+                "selectionScore": 1.0,
+                "matchCount": 2
+              },
+              {
+                "price": 49980000,
+                "raw": "物件価格 4998万円",
+                "source": "page_text",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 51680,
+                "raw": "価格5.168万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "very_low",
+                "selectionScore": 0.05,
+                "matchCount": 1
+              }
+            ]
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "dl_dt_dd",
+            "selected_confidence": 0.97,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4998万円・5298万円 月々支払い目安（-） -万円 ・ -万円 試算の内訳 条件変更へ 試算の内訳 最低価格時 最高価格時 物件価格 4998万円 5298万円 元金 -万円/月 -万円/月 利子 -万円/月 -万円/月 （金利：-%、返済期間：-年、頭金：-万円、ボーナス：-万円/月を設定） ※ 支払い目安/月は、都市銀行の変動金利（下限）の平均値を金利として試算したものです ※ 都市銀行：りそな銀行、三井住友銀行、三菱UFJ銀行、みずほ銀行とする ※ 月々の支払額は目安であり、お借入れ金額を保証するものではありません 2026/09/07 現在 閉じる 間取り 4LDK 土地面積 150.01m²・150.02m²（45.37坪・45.38坪）（登記） 建物面積 105.52m²・113.36m²（31.91坪・34.29坪）（登記） 所在地 千葉県柏市柏の葉５ 交通 つくばエクスプレス「柏の葉キャンパス」歩33分 つくばエクスプレス「柏たなか」歩37分 東武野田線「江戸川台」歩34分 土地の 権利形態 所有権 完成時期 (築年月) 2025年11月 POINT 即引渡可、駐車場２台可 の物件です",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 33,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 33,
+        "walkMinutes": 33,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩33分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "低信頼度抽出項目: propertyType"
+        ],
+        "weakExtractionFields": [
+          "propertyType"
+        ],
+        "detailQualityReasons": [
+          "weak_extraction:propertyType",
+          "validation_warning:低信頼度抽出項目: propertyType"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "mobileFetchAttempt": {
+          "success": true,
+          "httpStatus": 200,
+          "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/"
+        },
+        "desktopFetchAttempt": {
+          "success": true,
+          "httpStatus": 200,
+          "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/"
+        }
+      },
+      "priceRaw": "物件価格 4998万円 5298万円",
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceSource": "price_label",
+      "priceYen": 49980000,
+      "priceStatus": "normal",
+      "currentPrice": 49980000,
+      "currentPriceMan": 4998,
+      "detailQuality": "partial",
+      "detailQualityScore": 75,
+      "missingFields": [],
+      "missingCriticalFields": [],
+      "missingImportantFields": [],
+      "validationWarnings": [
+        "低信頼度抽出項目: propertyType"
+      ],
+      "weakExtractionFields": [
+        "propertyType"
+      ],
+      "poorReasonCategory": null,
+      "targetStationWalkWarning": null,
+      "detailQualityReasons": [
+        "weak_extraction:propertyType",
+        "validation_warning:低信頼度抽出項目: propertyType"
+      ],
+      "address": "千葉県柏市柏の葉５",
+      "land": 150.01,
+      "building": 105.52,
+      "targetStationWalkMinutes": 33.0,
+      "targetStationWalkAvailable": true,
+      "targetStation": "柏の葉キャンパス",
+      "targetStationWalkSource": "walk",
+      "walk": 33.0,
+      "firstPrice": 49980000,
+      "priceHistory": [],
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0
     }
   ],
   "summary": {
-    "marketDbCount": 30,
-    "marketHistoryCount": 30,
+    "marketDbCount": 31,
+    "marketHistoryCount": 31,
     "marketHistoryActiveCount": 27,
-    "marketHistoryEndedCount": 3,
-    "partialQualityCount": 26
+    "marketHistoryEndedCount": 4,
+    "partialQualityCount": 27
   }
 }
