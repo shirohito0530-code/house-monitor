@@ -26,62 +26,10 @@ class SuumoSearchAdapter(PropertyAdapter):
     - Extract individual detached-house listing URLs
     - Normalize listing URLs
     - Extract SUUMO listing ID (nc_xxxxx)
-    - Detect property type from URL
+    - Detect property type from URL with high confidence
     - Extract lightweight search-result metadata
     - Preserve search provenance
     - Report search health
-
-    Important design rule
-    ---------------------
-    This adapter is a DISCOVERY layer.
-
-    It must NOT perform final property screening such as:
-      - actual address / area qualification
-      - school district
-      - exact building age
-      - land area
-      - building area
-      - station walking time
-      - price
-      - flat land
-      - retaining wall
-
-    Those decisions belong to main.py after detail acquisition.
-
-    Identity
-    --------
-    SUUMO listing identity is based on:
-
-        suumo:nc_xxxxx
-
-    Cross-target duplicate handling
-    -------------------------------
-    IMPORTANT:
-
-    A listing appearing in multiple search targets must NOT be
-    removed at this adapter level.
-
-    Example:
-
-        target A -> nc_123
-        target B -> nc_123
-
-    Both occurrences are returned.
-
-    main.py then performs identity-based merging and records:
-
-        searchTargets
-        searchOccurrences
-        searchPageNumbers
-
-    Therefore:
-
-        same target + same listing
-            -> deduplicate here
-
-        different target + same listing
-            -> preserve here
-            -> merge in main.py
     """
 
     # ============================================================
@@ -951,6 +899,8 @@ class SuumoSearchAdapter(PropertyAdapter):
                     "builtYear": built_year,
                     "cardText": card_text,
                     "propertyType": property_type,
+                    "propertyTypeSource": "search_url" if property_type else None,
+                    "propertyTypeConfidence": "high" if property_type else "low",
                 }
             )
 
