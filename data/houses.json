@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-28T23:53:09.878484+00:00",
+  "updatedAt": "2026-09-29T21:04:37.299866+00:00",
   "schemaVersion": "2.0",
   "parserVersion": "2026-09-29-v35-price-extraction-and-history-fix",
   "properties": [
@@ -45,7 +45,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -1756,7 +1756,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -3481,7 +3481,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -5158,7 +5158,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -6795,7 +6795,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -8445,7 +8445,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 19,
+      "searchPosition": 20,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -8468,7 +8468,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -10117,7 +10117,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -11984,7 +11984,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageNumber": 1,
-      "searchPosition": 13,
+      "searchPosition": 12,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -12007,7 +12007,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -13528,7 +13528,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageNumber": 1,
-      "searchPosition": 14,
+      "searchPosition": 13,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -13551,7 +13551,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -15084,7 +15084,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageNumber": 1,
-      "searchPosition": 20,
+      "searchPosition": 19,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -15107,7 +15107,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -16365,10 +16365,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -18045,7 +18045,8 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-09-29T21:02:32.668572+00:00"
     },
     {
       "source": "suumo",
@@ -18066,7 +18067,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 10,
+      "searchPosition": 8,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -18089,7 +18090,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -19601,7 +19602,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 8,
+      "searchPosition": 7,
       "searchTarget": "流山おおたかの森新築戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "新築戸建て",
@@ -19624,7 +19625,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
@@ -22390,7 +22391,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 9,
+      "searchPosition": 8,
       "searchTarget": "流山おおたかの森新築戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "新築戸建て",
@@ -22413,7 +22414,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
@@ -23759,7 +23760,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 15,
+      "searchPosition": 13,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -23782,7 +23783,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -25907,7 +25908,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 16,
+      "searchPosition": 14,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -25930,7 +25931,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -27937,7 +27938,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 17,
+      "searchPosition": 15,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -27960,7 +27961,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -29972,7 +29973,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 19,
+      "searchPosition": 17,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -29995,7 +29996,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -31562,9 +31563,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
-      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
-      "searchPageNumber": 3,
-      "searchPosition": 20,
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageNumber": 1,
+      "searchPosition": 23,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -31587,7 +31588,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -32943,7 +32944,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -34720,7 +34721,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 9,
+      "searchPosition": 10,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -34743,7 +34744,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -36749,7 +36750,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 10,
+      "searchPosition": 11,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -36772,7 +36773,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -38554,7 +38555,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 15,
+      "searchPosition": 16,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -38577,7 +38578,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -40515,7 +40516,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 17,
+      "searchPosition": 18,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -40538,7 +40539,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新着中古戸建て"
@@ -42191,7 +42192,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 18,
+      "searchPosition": 19,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -42214,7 +42215,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新着中古戸建て"
@@ -44001,7 +44002,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 19,
+      "searchPosition": 20,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -44024,7 +44025,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新着中古戸建て"
@@ -45762,10 +45763,10 @@
       "urlCityCode": "sc_nagareyama",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "流山おおたかの森新着中古戸建て"
       ],
@@ -47556,7 +47557,8 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-09-29T21:02:32.668572+00:00"
     },
     {
       "source": "suumo",
@@ -47577,7 +47579,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/?page=2&rn=0495",
       "searchPageNumber": 2,
-      "searchPosition": 11,
+      "searchPosition": 10,
       "searchTarget": "流山おおたかの森新築戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "新築戸建て",
@@ -47600,7 +47602,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新築戸建て"
@@ -49196,8 +49198,8 @@
   "summary": {
     "marketDbCount": 28,
     "marketHistoryCount": 28,
-    "marketHistoryActiveCount": 28,
-    "marketHistoryEndedCount": 0,
+    "marketHistoryActiveCount": 26,
+    "marketHistoryEndedCount": 2,
     "partialQualityCount": 23
   }
 }
