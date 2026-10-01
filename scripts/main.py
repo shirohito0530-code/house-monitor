@@ -1415,41 +1415,55 @@ def detail_fetch_priority(
 # Property Type & Construction Age
 # ============================================================
 
+def resolve_property_type(
+    property_data: Dict[str, Any],
+) -> Tuple[Optional[str], str, float]:
+    """
+    propertyTypeの最終確定（優先順位に基づく）。
+    1. sourceUrl / searchUrl などのURLパス (/chukoikkodate/, /ikkodate/) -> 信頼度 1.00
+    2. searchPropertyType / searchDetectedPropertyType -> 信頼度 0.95
+    3. 詳細ページ由来 propertyType -> 信頼度 0.80
+    """
+    url = (
+        property_data.get("sourceUrl")
+        or property_data.get("url")
+        or property_data.get("searchUrl")
+    )
+    if url:
+        path = urlsplit(str(url)).path.lower()
+        if "/chukoikkodate/" in path:
+            return "中古戸建", "url", 1.00
+        if "/ikkodate/" in path:
+            return "新築戸建", "url", 1.00
+
+    for key in [
+        "searchPropertyType",
+        "searchDetectedPropertyType",
+    ]:
+        val = normalize_property_type(property_data.get(key))
+        if val:
+            return val, key, 0.95
+
+    detail = get_detail(property_data)
+    if isinstance(detail, dict):
+        for key in ["propertyType", "propertyTypeText", "type"]:
+            val = normalize_property_type(detail.get(key))
+            if val:
+                return val, "detail", 0.80
+
+    val = normalize_property_type(property_data.get("propertyType"))
+    if val:
+        return val, "property_data", 0.70
+
+    return None, "unknown", 0.0
+
+
 def detect_property_type(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
 
-    url = normalize_suumo_listing_url(
-        property_data.get("sourceUrl")
-        or property_data.get("url")
-    )
-
-    candidates = [
-        property_data.get("propertyType"),
-        property_data.get("searchPropertyType"),
-        property_data.get("searchDetectedPropertyType"),
-    ]
-
-    detail = get_detail(property_data)
-
-    if isinstance(detail, dict):
-        candidates.insert(0, detail.get("propertyType"))
-        candidates.insert(1, detail.get("propertyTypeText"))
-        candidates.insert(2, detail.get("type"))
-
-    for value in candidates:
-        normalized = normalize_property_type(value)
-        if normalized:
-            return normalized
-
-    if url:
-        path = urlsplit(url).path.lower()
-        if "/chukoikkodate/" in path:
-            return "中古戸建"
-        if "/ikkodate/" in path:
-            return "新築戸建"
-
-    return None
+    p_type, _, _ = resolve_property_type(property_data)
+    return p_type
 
 
 def evaluate_property_type(
@@ -2320,45 +2334,37 @@ def normalize_search_result(
 
 def build_detail_quality_reasons(
     detail: Dict[str, Any],
+    has_valid_price: bool = False,
+    has_valid_property_type: bool = False,
 ) -> List[str]:
 
     reasons: List[str] = []
-    for field in (
-        detail.get(
-            "missingCriticalFields"
-        )
-        or []
-    ):
-        reasons.append(
-            f"critical_missing:{field}"
-        )
-    for field in (
-        detail.get(
-            "missingImportantFields"
-        )
-        or []
-    ):
-        reasons.append(
-            f"important_missing:{field}"
-        )
-    for field in (
-        detail.get(
-            "weakExtractionFields"
-        )
-        or []
-    ):
-        reasons.append(
-            f"weak_extraction:{field}"
-        )
-    for warning in (
-        detail.get(
-            "validationWarnings"
-        )
-        or []
-    ):
-        reasons.append(
-            f"validation_warning:{warning}"
-        )
+    
+    missing_critical = detail.get("missingCriticalFields") or []
+    missing_important = detail.get("missingImportantFields") or []
+    weak_extraction = detail.get("weakExtractionFields") or []
+    warnings = detail.get("validationWarnings") or []
+
+    for field in missing_critical:
+        if has_valid_price and field in ("price", "priceYen"):
+            continue
+        if has_valid_property_type and field == "propertyType":
+            continue
+        reasons.append(f"critical_missing:{field}")
+
+    for field in missing_important:
+        reasons.append(f"important_missing:{field}")
+
+    for field in weak_extraction:
+        if has_valid_property_type and field == "propertyType":
+            continue
+        reasons.append(f"weak_extraction:{field}")
+
+    for warning in warnings:
+        if has_valid_price and ("価格" in str(warning) or "price" in str(warning).lower()):
+            continue
+        reasons.append(f"validation_warning:{warning}")
+
     return reasons
 
 
@@ -2466,7 +2472,7 @@ def enrich_with_detail(
     )
 
     # --------------------------------------------------------
-    # 価格情報の連携 & バリデーション
+    # 価格情報の連携 & バリデーション＆不整合排除
     # --------------------------------------------------------
     raw_price = detail_content.get("priceYen") or detail_content.get("price")
     property_data["priceRaw"] = detail_content.get("priceRaw")
@@ -2487,6 +2493,31 @@ def enrich_with_detail(
         property_data["priceMan"] = int(validated_price / 10_000)
         property_data["currentPrice"] = validated_price
         property_data["currentPriceMan"] = int(validated_price / 10_000)
+        
+        # 抽出成功時に価格欠損系メッセージ・警告をクリア
+        if "missingCriticalFields" in detail_content:
+            detail_content["missingCriticalFields"] = [
+                f for f in detail_content.get("missingCriticalFields", [])
+                if f not in ("price", "priceYen")
+            ]
+        if "validationWarnings" in detail_content:
+            detail_content["validationWarnings"] = [
+                w for w in detail_content.get("validationWarnings", [])
+                if "価格" not in str(w) and "price" not in str(w).lower()
+            ]
+
+    # 物件種別の判定・確定
+    resolved_pt, pt_source, pt_confidence = resolve_property_type(property_data)
+    if resolved_pt:
+        property_data["propertyType"] = resolved_pt
+        property_data["propertyTypeSource"] = pt_source
+        property_data["propertyTypeConfidence"] = pt_confidence
+        # propertyTypeがURLや検索から確定している場合、弱抽出の警告を除外
+        if "weakExtractionFields" in detail_content:
+            detail_content["weakExtractionFields"] = [
+                f for f in detail_content.get("weakExtractionFields", [])
+                if f != "propertyType"
+            ]
 
     # 価格監査ログ出力
     p_id = property_data.get("propertyId")
@@ -2518,7 +2549,9 @@ def enrich_with_detail(
     property_data[
         "detailQualityReasons"
     ] = build_detail_quality_reasons(
-        detail_content
+        detail_content,
+        has_valid_price=(validated_price is not None),
+        has_valid_property_type=(resolved_pt is not None),
     )
 
     if detail_content.get(
@@ -2604,15 +2637,6 @@ def enrich_with_detail(
         property_data[
             "walk"
         ] = None
-
-    p_type = detect_property_type(
-        property_data
-    )
-
-    if p_type:
-        property_data[
-            "propertyType"
-        ] = p_type
 
     return property_data
 
@@ -3043,28 +3067,23 @@ def build_market_house_record(
         "lastSuccessfulDetailAt"
     )
 
-    record["detailQuality"] = (
-        property_data.get("detailQuality")
-        or detail.get("detailQuality")
-    )
-    record["detailQualityScore"] = (
-        property_data.get("detailQualityScore")
-        or detail.get("detailQualityScore")
-    )
-    record["detailQualityReasons"] = (
-        property_data.get("detailQualityReasons")
-        or detail.get("detailQualityReasons", [])
-    )
-    record["missingCriticalFields"] = (
+    # 必須欠損項目のクリーンアップ（価格取得成功時の除外）
+    missing_crit = list(
         property_data.get("missingCriticalFields")
         or detail.get("missingCriticalFields", [])
     )
-    record["missingImportantFields"] = (
+    if property_data.get("priceYen") is not None:
+        missing_crit = [f for f in missing_crit if f not in ("price", "priceYen")]
+
+    missing_imp = list(
         property_data.get("missingImportantFields")
         or detail.get("missingImportantFields", [])
     )
-    
-    # 新仕様：品質判定と警告処理の統合
+
+    record["missingCriticalFields"] = missing_crit
+    record["missingImportantFields"] = missing_imp
+
+    # 警告処理および弱抽出の再構築
     warnings = list(
         property_data.get("validationWarnings")
         or detail.get("validationWarnings", [])
@@ -3074,6 +3093,10 @@ def build_market_house_record(
         or detail.get("weakExtractionFields", [])
     )
 
+    # 価格取得成功時は「価格が抽出できない」系の警告を除外
+    if property_data.get("priceYen") is not None:
+        warnings = [w for w in warnings if "価格" not in str(w) and "price" not in str(w).lower()]
+
     price_warning = property_data.get("priceWarning")
     if price_warning and price_warning not in warnings:
         warnings.append(price_warning)
@@ -3082,8 +3105,30 @@ def build_market_house_record(
     if price_confidence == "low" and "price" not in weak_fields:
         weak_fields.append("price")
 
+    # propertyTypeが確定している場合はweakExtractionFieldsから除外
+    p_type = property_data.get("propertyType")
+    if p_type and "propertyType" in weak_fields:
+        weak_fields.remove("propertyType")
+
     record["validationWarnings"] = warnings
     record["weakExtractionFields"] = weak_fields
+
+    # 品質評価（detailQuality）の再計算・更新
+    if missing_crit:
+        record["detailQuality"] = "partial"
+    elif property_data.get("detailQuality") or detail.get("detailQuality"):
+        # クリティカル欠損がない場合は、更新された品質を採用
+        record["detailQuality"] = property_data.get("detailQuality") or detail.get("detailQuality")
+
+    record["detailQualityScore"] = (
+        property_data.get("detailQualityScore")
+        or detail.get("detailQualityScore")
+    )
+    record["detailQualityReasons"] = build_detail_quality_reasons(
+        record,
+        has_valid_price=(property_data.get("priceYen") is not None),
+        has_valid_property_type=(p_type is not None),
+    )
 
     record["targetStation"] = (
         property_data.get("targetStation")
