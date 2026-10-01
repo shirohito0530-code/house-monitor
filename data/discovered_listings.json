@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-30T21:04:15.268437+00:00",
+  "updatedAt": "2026-10-01T23:23:49.445893+00:00",
   "schemaVersion": "2.0",
   "parserVersion": "2026-09-29-v35-price-extraction-and-history-fix",
   "properties": [
@@ -16,10 +16,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:36.148387+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:15.376247+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -35,7 +35,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:36:40.871012+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -54,7 +54,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:37:47.694181+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -73,7 +73,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:38:11.248611+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -92,7 +92,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:38:21.636606+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -109,7 +109,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:40:46.198554+00:00",
@@ -130,10 +130,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:16.868761+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:18.878545+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -149,7 +149,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:41:58.403577+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -168,7 +168,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:42:02.848085+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -187,10 +187,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:35.062761+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:22.488020+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -204,7 +204,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:44:28.354737+00:00",
@@ -225,10 +225,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:14.841070+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:25.890044+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -244,10 +244,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:25.399237+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:29.072232+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -263,7 +263,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:45:30.478199+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -282,10 +282,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:40.930132+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:32.448909+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -301,7 +301,7 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-28T23:45:46.143030+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -320,10 +320,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:49.272404+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:35.584672+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -339,10 +339,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:59.086746+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:38.822869+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -356,12 +356,12 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "primaryTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:03.737709+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:41.554188+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -377,10 +377,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:42.639950+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:44.404390+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -396,10 +396,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:56.499348+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:47.328361+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -415,10 +415,10 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:00.658196+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:49.877007+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -432,7 +432,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:49:27.060869+00:00",
@@ -451,7 +451,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:49:40.132880+00:00",
@@ -470,7 +470,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "primaryTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:49:44.533655+00:00",
@@ -529,8 +529,46 @@
       "areaClassification": "primaryTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:53.465011+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 2,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_78346110",
+      "source": "suumo",
+      "sourceId": "nc_78346110",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
+      "name": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+      "listingTitle": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
+      "searchTitle": "柏の葉キャンパス4998万円・5298万円・…",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "primaryTarget",
+      "status": "observed_ended",
+      "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:55.278633+00:00",
+      "lastDetailFetchAt": "2026-09-30T21:03:45.197596+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_78986148",
+      "source": "suumo",
+      "sourceId": "nc_78986148",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78986148/",
+      "name": "柏の葉５ 4998万円～5298万円",
+      "listingTitle": "柏の葉５ 4998万円～5298万円",
+      "searchTitle": "柏の葉キャンパス4998万円～5298万円・…",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "primaryTarget",
+      "status": "active",
+      "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-09-30T21:04:00.171354+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
       "detailFetchSuccess": true
@@ -548,10 +586,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:13.090052+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:56.518979+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -567,10 +605,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:16.527249+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:14:59.442436+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -586,10 +624,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:21.566238+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:02.247822+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -605,10 +643,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:26.566525+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:04.970579+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -624,10 +662,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:31.283813+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:07.712589+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -643,10 +681,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:45.427336+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:10.214641+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -654,18 +692,18 @@
       "source": "suumo",
       "sourceId": "nc_21415222",
       "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21415222/",
-      "name": "花野井 1980万円",
-      "listingTitle": "花野井 1980万円",
+      "name": "花野井 1780万円",
+      "listingTitle": "花野井 1780万円",
       "searchTitle": "角地◆高台に佇む、開放感溢れる4LDK＋S◆約20帖の広々広々LDK",
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:49.852657+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:12.966830+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -681,10 +719,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:54.813362+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:16.019768+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -700,10 +738,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:36:59.306156+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:18.886219+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -719,10 +757,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:04.342716+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:21.766052+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -738,10 +776,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:08.991388+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:24.629255+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -757,10 +795,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:13.830871+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:27.373691+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -776,10 +814,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:18.568143+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:30.073495+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -795,10 +833,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:22.961567+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:32.718288+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -814,10 +852,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:28.557583+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:35.867565+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -833,10 +871,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:33.522923+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:38.521727+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -852,10 +890,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:38.135252+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:41.168476+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -871,10 +909,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:42.790042+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:43.974501+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -890,7 +928,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -906,10 +944,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:52.428344+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:46.700438+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -925,10 +963,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:37:56.756016+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:49.271332+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -942,7 +980,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -960,10 +998,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:01.584995+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:51.946700+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -979,10 +1017,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:06.675781+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:54.784467+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -998,10 +1036,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:17.022549+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:15:57.464737+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1017,10 +1055,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:26.313252+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:00.197294+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1036,10 +1074,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:30.842876+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:02.753218+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1055,10 +1093,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:35.757887+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:05.467278+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1074,10 +1112,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:40.516577+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:08.286222+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1093,10 +1131,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:45.608094+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:10.926983+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1112,10 +1150,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:50.051834+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:13.529354+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1131,10 +1169,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:55.010161+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:16.334938+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1150,10 +1188,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:38:59.697788+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:19.185328+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1169,10 +1207,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:04.896680+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:22.036304+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1188,10 +1226,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:09.301120+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:24.719782+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1207,10 +1245,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:14.236985+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:27.430604+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1226,10 +1264,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:19.396893+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:30.240643+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1245,10 +1283,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:23.859006+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:32.915445+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1264,7 +1302,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1296,7 +1334,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1312,10 +1350,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:28.221305+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:35.532936+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1331,10 +1369,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:32.686271+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:38.271103+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1350,10 +1388,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:37.699266+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:40.954102+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1369,10 +1407,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:42.382293+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:43.618260+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1388,10 +1426,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:46.808443+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:46.273917+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1407,10 +1445,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:51.072829+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:48.834352+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1426,10 +1464,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:39:55.672682+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:51.393558+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1445,7 +1483,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1461,7 +1499,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1477,10 +1515,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:00.515015+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:54.161562+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1515,10 +1553,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:09.343311+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:57.001311+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1534,10 +1572,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:14.286629+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:16:59.786568+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1553,10 +1591,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:18.714829+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:02.564459+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1572,10 +1610,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:23.423949+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:05.279775+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1591,10 +1629,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:28.027043+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:08.101277+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1610,10 +1648,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:32.467255+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:10.740391+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1629,10 +1667,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:37.224055+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:13.497934+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1648,10 +1686,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:41.708837+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:16.309109+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1667,7 +1705,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1683,7 +1721,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1697,9 +1735,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1715,7 +1753,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1731,7 +1769,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1747,7 +1785,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1761,7 +1799,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:40:50.559772+00:00",
@@ -1782,7 +1820,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -1798,10 +1836,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:40:56.407148+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:19.984497+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1817,10 +1855,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:01.480135+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:23.315227+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1836,10 +1874,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:06.352011+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:26.560754+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1855,10 +1893,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:11.600096+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:29.938273+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1874,10 +1912,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:21.977840+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:33.208220+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1893,10 +1931,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:26.921813+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:36.541726+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1912,10 +1950,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:32.486878+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:40.153128+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1931,10 +1969,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:37.723770+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:43.677375+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1950,10 +1988,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:43.218973+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:47.310575+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -1969,10 +2007,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:41:47.839771+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:50.341473+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2007,10 +2045,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:08.329833+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:53.931927+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2026,10 +2064,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:13.705635+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:17:57.511803+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2045,10 +2083,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:17.027325+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:00.850260+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2064,10 +2102,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:23.221228+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:04.415523+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2083,10 +2121,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:29.138486+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:08.142728+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2100,7 +2138,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -2116,7 +2154,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:42:40.094705+00:00",
@@ -2154,7 +2192,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:42:49.230898+00:00",
@@ -2175,7 +2213,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -2205,9 +2243,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -2239,10 +2277,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:42:55.021914+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:11.670290+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2258,10 +2296,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:00.814121+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:15.267490+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2277,10 +2315,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:06.424596+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:19.044773+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2296,10 +2334,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:12.170524+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:22.369969+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2315,10 +2353,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:18.064178+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:25.945075+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2334,10 +2372,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:23.625246+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:29.509547+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2353,10 +2391,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:29.060410+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:33.360466+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2372,7 +2410,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -2388,10 +2426,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:34.076859+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:36.747046+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2407,10 +2445,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:39.577923+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:40.265413+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2426,10 +2464,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:45.142497+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:43.750756+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2445,10 +2483,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:50.660589+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:47.051576+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2464,7 +2502,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -2480,10 +2518,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:55.937916+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:50.613371+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2499,10 +2537,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:43:58.988815+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:53.487995+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2518,10 +2556,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:04.799866+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:18:57.155480+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2537,10 +2575,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:09.807176+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:00.485039+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2556,10 +2594,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:14.872650+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:03.733411+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2573,12 +2611,12 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:19.366608+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:06.485513+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2643,7 +2681,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -2693,10 +2731,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:33.565242+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:09.724310+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2712,10 +2750,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:38.672835+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:12.976546+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2731,10 +2769,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:43.845989+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:16.597441+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2769,7 +2807,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -2783,7 +2821,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:44:53.820996+00:00",
@@ -2804,10 +2842,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:44:59.140190+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:19.999038+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2823,10 +2861,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:04.488974+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:23.370496+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2842,10 +2880,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:09.622426+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:26.484629+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2861,10 +2899,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:19.819649+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:29.479193+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2880,10 +2918,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:35.648260+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:33.052836+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2899,10 +2937,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:45:54.237555+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:36.088477+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2916,7 +2954,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -2932,12 +2970,12 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:08.257239+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:38.770300+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -2967,7 +3005,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -2983,7 +3021,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:46:13.975913+00:00",
@@ -3004,10 +3042,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:19.075615+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:41.536306+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3015,18 +3053,18 @@
       "source": "suumo",
       "sourceId": "nc_79053933",
       "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_79053933/",
-      "name": "流山市野々下五丁目",
-      "listingTitle": "流山市野々下五丁目",
+      "name": "野々下５（豊四季駅） 2480万円",
+      "listingTitle": "野々下５（豊四季駅） 2480万円",
       "searchTitle": "■「豊四季」駅まで徒歩約7分■家事導線の良い間取■LDK約18帖",
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:24.257940+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:44.315092+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3042,10 +3080,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:29.446559+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:47.150940+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3061,7 +3099,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3077,7 +3115,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3093,10 +3131,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:34.594975+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:49.878647+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3112,10 +3150,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:39.653935+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:52.852056+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3131,10 +3169,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:47.699349+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:55.684281+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3150,10 +3188,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:52.153170+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:19:58.282672+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3169,10 +3207,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:46:57.355771+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:01.011714+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3188,10 +3226,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:01.841804+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:03.635423+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3207,10 +3245,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:06.732207+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:06.328686+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3226,7 +3264,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3242,7 +3280,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3290,7 +3328,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3304,9 +3342,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3336,7 +3374,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -3368,7 +3406,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -3386,10 +3424,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:11.336814+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:08.970229+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3405,10 +3443,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:16.154552+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:11.679939+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3424,10 +3462,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:21.182723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:14.348674+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3443,10 +3481,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:25.522559+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:16.943735+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3462,10 +3500,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:30.025710+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:19.693099+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3481,10 +3519,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:34.699218+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:22.325687+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3500,10 +3538,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:39.202636+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:25.070834+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3519,10 +3557,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:43.899283+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:27.625689+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3538,7 +3576,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3554,10 +3592,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:48.226400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:30.168705+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3573,10 +3611,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:53.489233+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:32.774866+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3592,10 +3630,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:47:57.904691+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:35.367475+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3611,7 +3649,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3627,10 +3665,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:02.623395+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:38.166412+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3646,10 +3684,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:07.042221+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:40.817313+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3665,7 +3703,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3681,10 +3719,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:11.137747+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:43.346443+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3700,10 +3738,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:15.955641+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:46.138104+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3719,10 +3757,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:20.202613+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:48.693074+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3738,7 +3776,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3851,9 +3889,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3869,10 +3907,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:29.677293+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:51.359479+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3888,7 +3926,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3904,7 +3942,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3920,7 +3958,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3936,10 +3974,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:34.335114+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:53.997784+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3955,7 +3993,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -3971,10 +4009,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:39.023716+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:56.646624+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -3990,10 +4028,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:43.466880+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:20:59.197203+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4009,10 +4047,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:47.677817+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:01.810695+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4028,7 +4066,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4044,10 +4082,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:48:52.170040+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:04.530514+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4063,10 +4101,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:05.285874+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:07.178057+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4082,10 +4120,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:09.561925+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:09.845188+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4101,10 +4139,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:13.976120+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:12.449427+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4120,10 +4158,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:18.318689+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:15.155930+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4139,10 +4177,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:22.737313+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:17.916011+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4156,7 +4194,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:49:31.482261+00:00",
@@ -4175,7 +4213,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4223,7 +4261,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4255,9 +4293,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4319,7 +4357,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4335,9 +4373,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4353,7 +4391,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4431,7 +4469,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4447,9 +4485,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4498,7 +4536,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4514,7 +4552,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4532,7 +4570,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4548,7 +4586,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4562,12 +4600,12 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:49:57.516620+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:20.467608+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4583,7 +4621,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4599,7 +4637,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4613,7 +4651,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -4631,10 +4669,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:02.594350+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:23.837392+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4650,7 +4688,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4666,10 +4704,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:08.466409+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:27.439352+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4685,7 +4723,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4701,10 +4739,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:14.221338+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:30.955900+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4720,10 +4758,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:19.896790+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:34.552668+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4739,10 +4777,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:25.808573+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:38.127320+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4758,10 +4796,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:31.181400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:41.339911+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4777,10 +4815,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:37.243071+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:44.505978+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4796,10 +4834,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:43.358771+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:48.030412+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4815,10 +4853,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:49.652411+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:51.888758+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4834,10 +4872,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:50:55.482809+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:55.314037+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4853,7 +4891,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4869,10 +4907,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:00.409888+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:21:58.292500+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4888,10 +4926,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:05.416484+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:01.245952+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -4907,7 +4945,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4923,7 +4961,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -4939,10 +4977,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:10.606917+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:04.222225+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5023,7 +5061,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -5089,10 +5127,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:20.919240+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:07.613300+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5108,7 +5146,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5124,10 +5162,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:25.862887+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:10.594627+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5143,10 +5181,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:31.079175+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:13.859894+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5162,10 +5200,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:35.808982+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:16.919661+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5181,10 +5219,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:39.109562+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:20.352701+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5216,10 +5254,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:43.857960+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:23.527699+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5235,10 +5273,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:51:49.402637+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:27.060979+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5254,7 +5292,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5270,10 +5308,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:00.825962+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:30.644629+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5289,10 +5327,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:06.206906+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:33.873951+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5308,10 +5346,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:11.546962+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:37.526234+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5327,7 +5365,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5343,7 +5381,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5359,7 +5397,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5375,10 +5413,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:16.123608+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:40.499805+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5488,9 +5526,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5525,7 +5563,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5541,7 +5579,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5557,7 +5595,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5573,7 +5611,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5589,7 +5627,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5605,10 +5643,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:23.419971+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:43.546024+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5622,7 +5660,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-28T23:52:28.482403+00:00",
@@ -5643,10 +5681,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:33.256438+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:46.634882+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5662,10 +5700,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:36.471099+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:49.725294+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5681,10 +5719,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:41.760333+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:52.941272+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5700,10 +5738,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:44.834915+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:55.953003+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5719,10 +5757,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:50.165952+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:22:59.218518+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5738,10 +5776,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:52:55.096492+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:02.204185+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5757,10 +5795,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:53:00.032277+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:05.398665+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5776,10 +5814,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:53:05.411524+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:08.312911+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5857,9 +5895,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -5899,18 +5937,18 @@
       "source": "suumo",
       "sourceId": "nc_21332251",
       "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21332251/",
-      "name": "江戸川台東４（江戸川台駅） 5390万円～5490万円",
-      "listingTitle": "江戸川台東４（江戸川台駅） 5390万円～5490万円",
+      "name": "江戸川台東４（江戸川台駅） 5290万円～5390万円",
+      "listingTitle": "江戸川台東４（江戸川台駅） 5290万円～5390万円",
       "searchTitle": "江戸川台5390万円～5490万円・4LDK",
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastDetailFetchAt": "2026-09-28T23:53:09.822188+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:11.024141+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5918,18 +5956,18 @@
       "source": "suumo",
       "sourceId": "nc_21190590",
       "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21190590/",
-      "name": "大室（柏の葉キャンパス駅） 2348万円",
-      "listingTitle": "大室（柏の葉キャンパス駅） 2348万円",
+      "name": "大室（柏の葉キャンパス駅） 2298万円",
+      "listingTitle": "大室（柏の葉キャンパス駅） 2298万円",
       "searchTitle": "“ちょっとだけ見たい”もOK。北小金駅すぐ・駐車場有！売却も購入も一括対応",
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-29T21:03:48.980552+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:13.838138+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -5959,7 +5997,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-29T21:03:54.486551+00:00",
@@ -5978,7 +6016,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-29T21:03:58.745992+00:00",
@@ -6016,9 +6054,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6032,13 +6070,14 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-29T21:04:07.806663+00:00",
-      "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
-      "detailFetchSuccess": true
+      "detailFetchStatus": "error",
+      "detailFetchErrorType": "network_error",
+      "detailFetchAttempts": 2,
+      "detailFetchSuccess": false
     },
     {
       "propertyId": "suumo:nc_20669977",
@@ -6115,7 +6154,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-29T21:04:11.787126+00:00",
@@ -6134,9 +6173,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6150,9 +6189,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6168,10 +6207,10 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-29T21:04:15.896739+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:19.355836+00:00",
       "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
+      "detailFetchAttempts": 2,
       "detailFetchSuccess": true
     },
     {
@@ -6185,9 +6224,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6217,7 +6256,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6233,7 +6272,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6267,7 +6306,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6281,7 +6320,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6364,7 +6403,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6380,9 +6419,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6417,7 +6456,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6449,7 +6488,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6463,7 +6502,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6495,9 +6534,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6527,7 +6566,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6575,9 +6614,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6591,7 +6630,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6623,7 +6662,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6676,7 +6715,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6708,7 +6747,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6786,7 +6825,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-29T21:04:33.437854+00:00",
@@ -6821,7 +6860,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -6936,9 +6975,9 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "observed_ended",
+      "status": "active",
       "firstSeenAt": "2026-09-29T21:02:32.668572+00:00",
-      "lastSeenAt": "2026-09-29T21:02:32.668572+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6952,7 +6991,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-30T21:03:39.797937+00:00",
@@ -6973,7 +7012,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -6987,7 +7026,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7003,29 +7042,10 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
-    },
-    {
-      "propertyId": "suumo:nc_78346110",
-      "source": "suumo",
-      "sourceId": "nc_78346110",
-      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78346110/",
-      "name": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
-      "listingTitle": "柏の葉５（柏の葉キャンパス駅） 4998万円・5298万円",
-      "searchTitle": "柏の葉キャンパス4998万円・5298万円・…",
-      "searchArea": "柏の葉キャンパス",
-      "searchPropertyType": "新築戸建",
-      "areaClassification": "primaryTarget",
-      "status": "active",
-      "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-30T21:03:45.197596+00:00",
-      "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
-      "detailFetchSuccess": true
     },
     {
       "propertyId": "suumo:nc_21633986",
@@ -7038,7 +7058,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-30T21:03:50.408608+00:00",
@@ -7057,29 +7077,10 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-30T21:03:55.659289+00:00",
-      "detailFetchStatus": "success",
-      "detailFetchAttempts": 1,
-      "detailFetchSuccess": true
-    },
-    {
-      "propertyId": "suumo:nc_78986148",
-      "source": "suumo",
-      "sourceId": "nc_78986148",
-      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_78986148/",
-      "name": "柏の葉５ 4998万円～5298万円",
-      "listingTitle": "柏の葉５ 4998万円～5298万円",
-      "searchTitle": "柏の葉キャンパス4998万円～5298万円・…",
-      "searchArea": "柏の葉キャンパス",
-      "searchPropertyType": "新築戸建",
-      "areaClassification": "primaryTarget",
-      "status": "active",
-      "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastDetailFetchAt": "2026-09-30T21:04:00.171354+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
       "detailFetchSuccess": true
@@ -7095,7 +7096,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7111,7 +7112,7 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7129,7 +7130,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "lastDetailFetchAt": "2026-09-30T21:04:05.414994+00:00",
       "detailFetchStatus": "success",
       "detailFetchAttempts": 1,
@@ -7148,7 +7149,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -7162,7 +7163,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7178,7 +7179,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7194,7 +7195,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7210,7 +7211,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7228,7 +7229,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -7242,7 +7243,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7258,7 +7259,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7274,7 +7275,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7292,7 +7293,7 @@
       "areaClassification": "outOfTarget",
       "status": "active",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     },
     {
@@ -7306,7 +7307,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7322,7 +7323,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7338,7 +7339,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7354,7 +7355,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "中古戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7370,7 +7371,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-30T21:04:10.749440+00:00",
@@ -7389,7 +7390,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7405,7 +7406,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7421,7 +7422,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7437,7 +7438,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7453,7 +7454,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7469,7 +7470,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7485,7 +7486,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7501,7 +7502,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7517,7 +7518,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7533,7 +7534,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastDetailFetchAt": "2026-09-30T21:04:15.211896+00:00",
@@ -7552,7 +7553,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7568,7 +7569,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7584,7 +7585,7 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "detailFetchStatus": "pending"
@@ -7600,15 +7601,864 @@
       "searchArea": "流山おおたかの森",
       "searchPropertyType": "新築戸建",
       "areaClassification": "outOfTarget",
-      "status": "active",
+      "status": "observed_ended",
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21235392",
+      "source": "suumo",
+      "sourceId": "nc_21235392",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21235392/",
+      "name": "江戸川台5390万円・5490万円・4LDK",
+      "listingTitle": "江戸川台5390万円・5490万円・4LDK",
+      "searchTitle": "江戸川台5390万円・5490万円・4LDK",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20706739",
+      "source": "suumo",
+      "sourceId": "nc_20706739",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20706739/",
+      "name": "花野井 2498万円～2898万円",
+      "listingTitle": "花野井 2498万円～2898万円",
+      "searchTitle": "北柏2498万円～2898万円・2LDK+2S（納…",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:22.315484+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21461422",
+      "source": "suumo",
+      "sourceId": "nc_21461422",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21461422/",
+      "name": "松葉町６（柏の葉キャンパス駅） 4690万円・4990万円",
+      "listingTitle": "松葉町６（柏の葉キャンパス駅） 4690万円・4990万円",
+      "searchTitle": "柏の葉キャンパス4690万円・4990万円・…",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:25.076669+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21224665",
+      "source": "suumo",
+      "sourceId": "nc_21224665",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21224665/",
+      "name": "柏の葉２（柏の葉キャンパス駅） 4798万円",
+      "listingTitle": "柏の葉２（柏の葉キャンパス駅） 4798万円",
+      "searchTitle": "柏の葉キャンパス4798万円・3LDK+S（納…",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "primaryTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:27.743122+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21640509",
+      "source": "suumo",
+      "sourceId": "nc_21640509",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21640509/",
+      "name": "十余二（柏の葉キャンパス駅） 4498万円",
+      "listingTitle": "十余二（柏の葉キャンパス駅） 4498万円",
+      "searchTitle": "柏の葉キャンパス4498万円・4LDK",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "primaryTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:30.333713+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21743190",
+      "source": "suumo",
+      "sourceId": "nc_21743190",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21743190/",
+      "name": "篠籠田（豊四季駅） 4699万円",
+      "listingTitle": "篠籠田（豊四季駅） 4699万円",
+      "searchTitle": "豊四季4699万円・3LDK",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:33.314911+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21533092",
+      "source": "suumo",
+      "sourceId": "nc_21533092",
+      "sourceUrl": "https://suumo.jp/ikkodate/saitama/sc_misato/nc_21533092/",
+      "name": "三郷中央5599万円・3LDK 価格更新",
+      "listingTitle": "三郷中央5599万円・3LDK 価格更新",
+      "searchTitle": "三郷中央5599万円・3LDK 価格更新",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21681462",
+      "source": "suumo",
+      "sourceId": "nc_21681462",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21681462/",
+      "name": "南流山7490万円・3LDK 新着",
+      "listingTitle": "南流山7490万円・3LDK 新着",
+      "searchTitle": "南流山7490万円・3LDK 新着",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21124726",
+      "source": "suumo",
+      "sourceId": "nc_21124726",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_21124726/",
+      "name": "新松戸5590万円・4LDK",
+      "listingTitle": "新松戸5590万円・4LDK",
+      "searchTitle": "新松戸5590万円・4LDK",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21321365",
+      "source": "suumo",
+      "sourceId": "nc_21321365",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_21321365/",
+      "name": "新松戸3990万円～4390万円・4LDK 価格更新",
+      "listingTitle": "新松戸3990万円～4390万円・4LDK 価格更新",
+      "searchTitle": "新松戸3990万円～4390万円・4LDK 価格更新",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21814086",
+      "source": "suumo",
+      "sourceId": "nc_21814086",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21814086/",
+      "name": "Asobi+ 流山市おおたかの森北3丁目",
+      "listingTitle": "Asobi+ 流山市おおたかの森北3丁目",
+      "searchTitle": "◆フルリフォーム予定◆「流山おおたかの森駅」徒歩約15分◆LDK21帖超",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "primaryTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:36.050447+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21006859",
+      "source": "suumo",
+      "sourceId": "nc_21006859",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/ibaraki/sc_bando/nc_21006859/",
+      "name": "愛宕2500万円・4LDK",
+      "listingTitle": "愛宕2500万円・4LDK",
+      "searchTitle": "愛宕2500万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21143896",
+      "source": "suumo",
+      "sourceId": "nc_21143896",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21143896/",
+      "name": "塚田3450万円・4LDK",
+      "listingTitle": "塚田3450万円・4LDK",
+      "searchTitle": "塚田3450万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21785161",
+      "source": "suumo",
+      "sourceId": "nc_21785161",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21785161/",
+      "name": "船橋法典2148万円・4DK",
+      "listingTitle": "船橋法典2148万円・4DK",
+      "searchTitle": "船橋法典2148万円・4DK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20199833",
+      "source": "suumo",
+      "sourceId": "nc_20199833",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20199833/",
+      "name": "新船橋3380万円・4DK",
+      "listingTitle": "新船橋3380万円・4DK",
+      "searchTitle": "新船橋3380万円・4DK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21502251",
+      "source": "suumo",
+      "sourceId": "nc_21502251",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21502251/",
+      "name": "六実3450万円・4LDK",
+      "listingTitle": "六実3450万円・4LDK",
+      "searchTitle": "六実3450万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21666250",
+      "source": "suumo",
+      "sourceId": "nc_21666250",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21666250/",
+      "name": "柏2180万円・2LDK",
+      "listingTitle": "柏2180万円・2LDK",
+      "searchTitle": "柏2180万円・2LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21803864",
+      "source": "suumo",
+      "sourceId": "nc_21803864",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21803864/",
+      "name": "美田（初石駅） 4680万円",
+      "listingTitle": "美田（初石駅） 4680万円",
+      "searchTitle": "美田（初石駅） 4680万円",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:38.578779+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21722388",
+      "source": "suumo",
+      "sourceId": "nc_21722388",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21722388/",
+      "name": "名都借（南柏駅） 3199万円",
+      "listingTitle": "名都借（南柏駅） 3199万円",
+      "searchTitle": "南柏3199万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:41.191929+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21131995",
+      "source": "suumo",
+      "sourceId": "nc_21131995",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21131995/",
+      "name": "船橋4500万円・5LDK",
+      "listingTitle": "船橋4500万円・5LDK",
+      "searchTitle": "船橋4500万円・5LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21471910",
+      "source": "suumo",
+      "sourceId": "nc_21471910",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21471910/",
+      "name": "南柏1280万円・3LDK",
+      "listingTitle": "南柏1280万円・3LDK",
+      "searchTitle": "南柏1280万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20824081",
+      "source": "suumo",
+      "sourceId": "nc_20824081",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_20824081/",
+      "name": "鎌ケ谷3199万円・4LDK 価格更新",
+      "listingTitle": "鎌ケ谷3199万円・4LDK 価格更新",
+      "searchTitle": "鎌ケ谷3199万円・4LDK 価格更新",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_78774230",
+      "source": "suumo",
+      "sourceId": "nc_78774230",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_78774230/",
+      "name": "南桜井1390万円・4LDK",
+      "listingTitle": "南桜井1390万円・4LDK",
+      "searchTitle": "南桜井1390万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21389313",
+      "source": "suumo",
+      "sourceId": "nc_21389313",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_shiroi/nc_21389313/",
+      "name": "西白井2000万円・4LDK",
+      "listingTitle": "西白井2000万円・4LDK",
+      "searchTitle": "西白井2000万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21813931",
+      "source": "suumo",
+      "sourceId": "nc_21813931",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_21813931/",
+      "name": "南桜井2280万円・3LDK+S（納戸） 新着",
+      "listingTitle": "南桜井2280万円・3LDK+S（納戸） 新着",
+      "searchTitle": "南桜井2280万円・3LDK+S（納戸） 新着",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21704890",
+      "source": "suumo",
+      "sourceId": "nc_21704890",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21704890/",
+      "name": "船橋法典3399万円・4LDK",
+      "listingTitle": "船橋法典3399万円・4LDK",
+      "searchTitle": "船橋法典3399万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20554202",
+      "source": "suumo",
+      "sourceId": "nc_20554202",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20554202/",
+      "name": "新柏3380万円・4LDK+S（納戸） 価格更新",
+      "listingTitle": "新柏3380万円・4LDK+S（納戸） 価格更新",
+      "searchTitle": "新柏3380万円・4LDK+S（納戸） 価格更新",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21269591",
+      "source": "suumo",
+      "sourceId": "nc_21269591",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_ichikawa/nc_21269591/",
+      "name": "船橋法典2680万円・4LDK",
+      "listingTitle": "船橋法典2680万円・4LDK",
+      "searchTitle": "船橋法典2680万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_79106948",
+      "source": "suumo",
+      "sourceId": "nc_79106948",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_noda/nc_79106948/",
+      "name": "梅郷1980万円・4LDK+S（納戸）",
+      "listingTitle": "梅郷1980万円・4LDK+S（納戸）",
+      "searchTitle": "梅郷1980万円・4LDK+S（納戸）",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20407637",
+      "source": "suumo",
+      "sourceId": "nc_20407637",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_20407637/",
+      "name": "六実3080万円・3LDK",
+      "listingTitle": "六実3080万円・3LDK",
+      "searchTitle": "六実3080万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21118617",
+      "source": "suumo",
+      "sourceId": "nc_21118617",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21118617/",
+      "name": "南柏1280万円・3LDK",
+      "listingTitle": "南柏1280万円・3LDK",
+      "searchTitle": "南柏1280万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "中古戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21731952",
+      "source": "suumo",
+      "sourceId": "nc_21731952",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21731952/",
+      "name": "鎌ケ谷3980万円・3LDK",
+      "listingTitle": "鎌ケ谷3980万円・3LDK",
+      "searchTitle": "鎌ケ谷3980万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21314580",
+      "source": "suumo",
+      "sourceId": "nc_21314580",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21314580/",
+      "name": "船橋4380万円・2LDK+S（納戸）",
+      "listingTitle": "船橋4380万円・2LDK+S（納戸）",
+      "searchTitle": "船橋4380万円・2LDK+S（納戸）",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21628136",
+      "source": "suumo",
+      "sourceId": "nc_21628136",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21628136/",
+      "name": "新柏4280万円・5LDK",
+      "listingTitle": "新柏4280万円・5LDK",
+      "searchTitle": "新柏4280万円・5LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21259440",
+      "source": "suumo",
+      "sourceId": "nc_21259440",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21259440/",
+      "name": "江戸川台4998万円・4LDK",
+      "listingTitle": "江戸川台4998万円・4LDK",
+      "searchTitle": "江戸川台4998万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21277892",
+      "source": "suumo",
+      "sourceId": "nc_21277892",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21277892/",
+      "name": "逆井3499万円・3LDK・4LDK 価格更新",
+      "listingTitle": "逆井3499万円・3LDK・4LDK 価格更新",
+      "searchTitle": "逆井3499万円・3LDK・4LDK 価格更新",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21602742",
+      "source": "suumo",
+      "sourceId": "nc_21602742",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21602742/",
+      "name": "塚田4088万円・4488万円・4LDK・4LDK+S…",
+      "listingTitle": "塚田4088万円・4488万円・4LDK・4LDK+S…",
+      "searchTitle": "塚田4088万円・4488万円・4LDK・4LDK+S…",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21638306",
+      "source": "suumo",
+      "sourceId": "nc_21638306",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21638306/",
+      "name": "松ケ丘６（南柏駅） 5499万円",
+      "listingTitle": "松ケ丘６（南柏駅） 5499万円",
+      "searchTitle": "南柏5499万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:43.888925+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21797013",
+      "source": "suumo",
+      "sourceId": "nc_21797013",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21797013/",
+      "name": "駒木（豊四季駅） 4280万円",
+      "listingTitle": "駒木（豊四季駅） 4280万円",
+      "searchTitle": "豊四季4280万円・4LDK 新着",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:46.672244+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21684779",
+      "source": "suumo",
+      "sourceId": "nc_21684779",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21684779/",
+      "name": "大字東深井（運河駅） 4499万円",
+      "listingTitle": "大字東深井（運河駅） 4499万円",
+      "searchTitle": "運河4499万円・3LDK 価格更新",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastDetailFetchAt": "2026-10-01T23:23:49.308939+00:00",
+      "detailFetchStatus": "success",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true
+    },
+    {
+      "propertyId": "suumo:nc_21050336",
+      "source": "suumo",
+      "sourceId": "nc_21050336",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21050336/",
+      "name": "馬込沢4248万円・4LDK",
+      "listingTitle": "馬込沢4248万円・4LDK",
+      "searchTitle": "馬込沢4248万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20901259",
+      "source": "suumo",
+      "sourceId": "nc_20901259",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_20901259/",
+      "name": "愛宕3090万円・4LDK",
+      "listingTitle": "愛宕3090万円・4LDK",
+      "searchTitle": "愛宕3090万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21690605",
+      "source": "suumo",
+      "sourceId": "nc_21690605",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_21690605/",
+      "name": "川間2680万円・4LDK",
+      "listingTitle": "川間2680万円・4LDK",
+      "searchTitle": "川間2680万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21094805",
+      "source": "suumo",
+      "sourceId": "nc_21094805",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21094805/",
+      "name": "柏4298万円～4498万円・3LDK+S（納戸）…",
+      "listingTitle": "柏4298万円～4498万円・3LDK+S（納戸）…",
+      "searchTitle": "柏4298万円～4498万円・3LDK+S（納戸）…",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20751476",
+      "source": "suumo",
+      "sourceId": "nc_20751476",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20751476/",
+      "name": "やり取りなし2分で見学予約完了◆ご新居応援フェア◆頭金0円月98187円",
+      "listingTitle": "やり取りなし2分で見学予約完了◆ご新居応援フェア◆頭金0円月98187円",
+      "searchTitle": "やり取りなし2分で見学予約完了◆ご新居応援フェア◆頭金0円月98187円",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21822652",
+      "source": "suumo",
+      "sourceId": "nc_21822652",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21822652/",
+      "name": "逆井2188万円・2LDK 新着",
+      "listingTitle": "逆井2188万円・2LDK 新着",
+      "searchTitle": "逆井2188万円・2LDK 新着",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_20710760",
+      "source": "suumo",
+      "sourceId": "nc_20710760",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20710760/",
+      "name": "柏の葉キャンパス3899万円～3999万円・…",
+      "listingTitle": "柏の葉キャンパス3899万円～3999万円・…",
+      "searchTitle": "柏の葉キャンパス3899万円～3999万円・…",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21068189",
+      "source": "suumo",
+      "sourceId": "nc_21068189",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21068189/",
+      "name": "逆井3499万円・4LDK 価格更新",
+      "listingTitle": "逆井3499万円・4LDK 価格更新",
+      "searchTitle": "逆井3499万円・4LDK 価格更新",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21225607",
+      "source": "suumo",
+      "sourceId": "nc_21225607",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21225607/",
+      "name": "新鎌ケ谷4480万円・3LDK",
+      "listingTitle": "新鎌ケ谷4480万円・3LDK",
+      "searchTitle": "新鎌ケ谷4480万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21637855",
+      "source": "suumo",
+      "sourceId": "nc_21637855",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_21637855/",
+      "name": "野田市2790万円・3LDK",
+      "listingTitle": "野田市2790万円・3LDK",
+      "searchTitle": "野田市2790万円・3LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "detailFetchStatus": "pending"
+    },
+    {
+      "propertyId": "suumo:nc_21482319",
+      "source": "suumo",
+      "sourceId": "nc_21482319",
+      "sourceUrl": "https://suumo.jp/ikkodate/saitama/sc_kasukabe/nc_21482319/",
+      "name": "南桜井3780万円・4LDK",
+      "listingTitle": "南桜井3780万円・4LDK",
+      "searchTitle": "南桜井3780万円・4LDK",
+      "searchArea": "流山おおたかの森",
+      "searchPropertyType": "新築戸建",
+      "areaClassification": "outOfTarget",
+      "status": "active",
+      "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
+      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
       "detailFetchStatus": "pending"
     }
   ],
   "summary": {
-    "discoveredCount": 432,
+    "discoveredCount": 483,
     "activeCount": 318,
-    "endedCount": 114
+    "endedCount": 165
   }
 }
