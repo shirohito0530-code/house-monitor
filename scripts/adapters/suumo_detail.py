@@ -1776,7 +1776,7 @@ def parse_detail_html(
         construction_best["metadata"].get("precision") if construction_best else None
     )
 
-    # ②② propertyType 候補取得 (URL由来情報含む)
+    # ② propertyType 候補取得 (URL由来情報含む)
     property_type_cands = collect_property_type_candidates(
         pairs, blocks, title, page_text, url=source_url or final_url
     )
@@ -1920,3 +1920,154 @@ def merge_detail_results(
             merged[field] = fallback[field]
 
     return merged
+
+
+# ============================================================
+# Adapter interface
+# ============================================================
+
+class SuumoDetailAdapter:
+    """
+    main.py から利用するSUUMO詳細取得アダプター。
+    main.py とのインターフェース:
+        adapter = SuumoDetailAdapter(config=search_config)
+        result = adapter.fetch_detail(url)
+    戻り値:
+        {
+            "success": True/False,
+            "detail": {...},
+            "errorType": ...,
+            ...
+        }
+    """
+
+    def __init__(
+        self,
+        config: Optional[Dict[str, Any]] = None,
+    ) -> None:
+        self.config = config if isinstance(config, dict) else {}
+        self.timeout = int(
+            self.config.get(
+                "detailRequestTimeoutSeconds",
+                self.config.get("detailTimeoutSeconds", 20),
+            )
+            or 20
+        )
+        self.target_stations = (
+            self.config.get("targetStations")
+            or self.config.get("target_stations")
+            or [
+                "柏の葉キャンパス",
+                "流山おおたかの森",
+            ]
+        )
+        if not isinstance(self.target_stations, list):
+            self.target_stations = [
+                "柏の葉キャンパス",
+                "流山おおたかの森",
+            ]
+
+    def fetch_detail(
+        self,
+        url: str,
+    ) -> Dict[str, Any]:
+        """
+        SUUMO詳細ページを取得して解析する。
+        main.py の enrich_with_detail() が期待する
+        {"success": ..., "detail": ...} 形式で返す。
+        """
+        if not url:
+            return {
+                "success": False,
+                "detail": None,
+                "error": "URLが空です",
+                "errorType": "network_error",
+            }
+        request_url = str(url).strip()
+
+        # ----------------------------------------------------
+        # 1. Desktop -> Mobile の順で取得
+        # ----------------------------------------------------
+        fetch_result = fetch_html(
+            request_url,
+            DESKTOP_HEADERS,
+            self.timeout,
+        )
+
+        # Desktop取得失敗時のみMobileを試す
+        if not fetch_result.get("success"):
+            first_error = fetch_result.get("errorType")
+            mobile_result = fetch_html(
+                request_url,
+                MOBILE_HEADERS,
+                self.timeout,
+            )
+            if mobile_result.get("success"):
+                fetch_result = mobile_result
+            else:
+                return {
+                    "success": False,
+                    "detail": None,
+                    "error": mobile_result.get("error") or fetch_result.get("error"),
+                    "errorType": mobile_result.get("errorType") or first_error or "network_error",
+                    "httpStatus": mobile_result.get("httpStatus") or fetch_result.get("httpStatus"),
+                    "finalUrl": mobile_result.get("finalUrl") or fetch_result.get("finalUrl"),
+                }
+
+        html = fetch_result.get("html", "")
+        final_url = fetch_result.get("finalUrl") or request_url
+        http_status = fetch_result.get("httpStatus") or 200
+
+        if not html:
+            return {
+                "success": False,
+                "detail": None,
+                "error": "詳細ページHTMLが空です",
+                "errorType": "parser_error",
+                "httpStatus": http_status,
+                "finalUrl": final_url,
+            }
+
+        # ----------------------------------------------------
+        # 2. HTML解析
+        # ----------------------------------------------------
+        try:
+            detail = parse_detail_html(
+                html=html,
+                source_url=request_url,
+                request_url=request_url,
+                final_url=final_url,
+                http_status=http_status,
+                target_stations=self.target_stations,
+            )
+        except Exception as exc:
+            return {
+                "success": False,
+                "detail": None,
+                "error": str(exc),
+                "errorType": "parser_error",
+                "httpStatus": http_status,
+                "finalUrl": final_url,
+            }
+
+        if not isinstance(detail, dict):
+            return {
+                "success": False,
+                "detail": None,
+                "error": "詳細解析結果がdictではありません",
+                "errorType": "parser_error",
+                "httpStatus": http_status,
+                "finalUrl": final_url,
+            }
+
+        # ----------------------------------------------------
+        # 3. 成功結果
+        # ----------------------------------------------------
+        return {
+            "success": True,
+            "detail": detail,
+            "error": None,
+            "errorType": None,
+            "httpStatus": http_status,
+            "finalUrl": final_url,
+        }
