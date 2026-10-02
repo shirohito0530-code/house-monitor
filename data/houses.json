@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T23:35:10.582717+00:00",
+  "updatedAt": "2026-10-02T21:05:02.599881+00:00",
   "schemaVersion": "2.0",
   "parserVersion": "2026-09-29-v35-price-extraction-and-history-fix",
   "properties": [
@@ -22,7 +22,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageNumber": 1,
-      "searchPosition": 5,
+      "searchPosition": 6,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -45,13 +45,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市若柴",
@@ -2429,7 +2429,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageNumber": 1,
-      "searchPosition": 6,
+      "searchPosition": 7,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -2452,13 +2452,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市若柴",
@@ -4150,7 +4150,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
       "searchPageNumber": 2,
-      "searchPosition": 3,
+      "searchPosition": 2,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -4173,13 +4173,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市若柴",
@@ -5822,9 +5822,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
-      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
-      "searchPageNumber": 2,
-      "searchPosition": 5,
+      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
+      "searchPageNumber": 1,
+      "searchPosition": 23,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -5847,13 +5847,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市若柴280番地23中央176街区15",
@@ -7458,7 +7458,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
       "searchPageNumber": 2,
-      "searchPosition": 7,
+      "searchPosition": 6,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -7481,13 +7481,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二",
@@ -9128,7 +9128,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 18,
+      "searchPosition": 20,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -9149,15 +9149,15 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": false,
+      "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "status": "observed_ended",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
+      "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
         "柏の葉キャンパス新着中古戸建て"
       ],
-      "daysListed": 1,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二",
@@ -10796,12 +10796,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市正連寺",
@@ -13805,12 +13805,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二",
@@ -15345,12 +15345,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二",
@@ -16875,7 +16875,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageNumber": 1,
-      "searchPosition": 19,
+      "searchPosition": 20,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -16898,12 +16898,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二254-551",
@@ -20585,7 +20585,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 7,
+      "searchPosition": 5,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -20608,12 +20608,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市十余二",
@@ -22795,13 +22795,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
         "流山おおたかの森新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市柏の葉２",
@@ -26199,10 +26199,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
       "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
         "流山おおたかの森新築戸建て"
@@ -27523,7 +27523,8 @@
       "targetStationWalkAvailable": true,
       "targetStation": "流山おおたかの森",
       "targetStationWalkSource": "walk",
-      "walk": 36.0
+      "walk": 36.0,
+      "endedObservedAt": "2026-10-02T21:02:59.876531+00:00"
     },
     {
       "source": "suumo",
@@ -27544,7 +27545,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 12,
+      "searchPosition": 9,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -27567,12 +27568,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市柏の葉５",
@@ -30125,7 +30126,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 13,
+      "searchPosition": 10,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -30148,12 +30149,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市柏の葉５",
@@ -32152,7 +32153,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 14,
+      "searchPosition": 11,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -32175,12 +32176,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市柏の葉５",
@@ -34637,7 +34638,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 16,
+      "searchPosition": 13,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -34660,12 +34661,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市正連寺",
@@ -38717,13 +38718,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
         "流山おおたかの森新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "流山おおたかの森",
       "areaAddress": "千葉県流山市おおたかの森南３",
@@ -41187,7 +41188,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 14,
+      "searchPosition": 15,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -41210,13 +41211,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
         "流山おおたかの森新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "流山おおたかの森",
       "areaAddress": "千葉県流山市おおたかの森北２",
@@ -43673,7 +43674,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76125/nj_167/?page=3&rn=0495",
       "searchPageNumber": 3,
-      "searchPosition": 15,
+      "searchPosition": 16,
       "searchTarget": "流山おおたかの森新着中古戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "中古戸建て",
@@ -43696,13 +43697,13 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
         "流山おおたかの森新着中古戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "流山おおたかの森",
       "areaAddress": "千葉県流山市おおたかの森北３",
@@ -55058,7 +55059,7 @@
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/",
       "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76125/?page=2&rn=0495",
       "searchPageNumber": 2,
-      "searchPosition": 10,
+      "searchPosition": 11,
       "searchTarget": "流山おおたかの森新築戸建て",
       "searchTargetArea": "流山おおたかの森",
       "searchTargetPropertyType": "新築戸建て",
@@ -55081,12 +55082,12 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-09-28T23:34:55.607576+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新築戸建て"
       ],
-      "daysListed": 2,
+      "daysListed": 3,
       "areaMatched": true,
       "areaDetected": "流山おおたかの森",
       "areaAddress": "千葉県流山市おおたかの森北３-26-4",
@@ -57984,10 +57985,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
       "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -59549,9 +59550,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
-      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
-      "searchPageNumber": 3,
-      "searchPosition": 19,
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageNumber": 1,
+      "searchPosition": 24,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -59572,15 +59573,15 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": false,
+      "seenThisRun": true,
       "firstSeenAt": "2026-09-30T21:02:21.579723+00:00",
-      "lastSeenAt": "2026-10-01T23:13:01.295400+00:00",
-      "status": "observed_ended",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
+      "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
         "流山おおたかの森新築戸建て"
       ],
-      "daysListed": 1,
+      "daysListed": 2,
       "areaMatched": true,
       "areaDetected": "柏の葉キャンパス",
       "areaAddress": "千葉県柏市柏の葉５",
@@ -65631,7 +65632,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-01T23:13:01.295400+00:00",
-      "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -67969,10 +67970,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-10-01T23:33:32.609071+00:00",
       "lastSeenAt": "2026-10-01T23:33:32.609071+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -70394,14 +70395,2584 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-10-02T21:02:59.876531+00:00"
+    },
+    {
+      "source": "suumo",
+      "sourceId": "nc_21740264",
+      "listingId": "nc_21740264",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+      "url": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+      "detailUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+      "listingTitle": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+      "searchTitle": "◆本日、ご見学出来ます！◆徒歩圏内に商業施設多数！WIC等、収納充実！",
+      "builtYear": null,
+      "cardText": "◆本日、ご見学出来ます！◆徒歩圏内に商業施設多数！WIC等、収納充実！",
+      "propertyType": "新築戸建",
+      "propertyTypeSource": "url",
+      "propertyTypeConfidence": 1.0,
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageNumber": 1,
+      "searchPosition": 18,
+      "searchTarget": "柏の葉キャンパス新築戸建て",
+      "searchTargetArea": "柏の葉キャンパス",
+      "searchTargetPropertyType": "新築戸建て",
+      "discoveredAt": "2026-10-02T21:03:25.736008+00:00",
+      "detailFetched": false,
+      "detailFetchSuccess": true,
+      "detailFetchStatus": "success",
+      "detailFetchError": null,
+      "detailFetchErrorType": null,
+      "propertyId": "suumo:nc_21740264",
+      "identityKey": "suumo:nc_21740264",
+      "identityType": "source_id",
+      "identityCompleteness": 1.0,
+      "id": "suumo:nc_21740264",
+      "name": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+      "price": 41900000,
+      "area": "柏の葉キャンパス",
+      "urlCityCode": "sc_kashiwa",
+      "areaPrefilterExcluded": false,
+      "areaPrefilterReason": "accepted_target_city",
+      "seenThisRun": true,
+      "firstSeenAt": "2026-10-02T21:02:59.876531+00:00",
+      "lastSeenAt": "2026-10-02T21:02:59.876531+00:00",
+      "status": "active",
+      "searchTargets": [
+        "柏の葉キャンパス新築戸建て"
+      ],
+      "daysListed": 0,
+      "areaMatched": true,
+      "areaDetected": "柏の葉キャンパス",
+      "areaAddress": "千葉県柏市十余二",
+      "areaValidationReason": "address_area_matched",
+      "areaCityCode": "sc_kashiwa",
+      "areaCityMatched": true,
+      "schoolDistrictStatus": "none",
+      "schoolDistrictConfidence": "not_applicable",
+      "schoolDistrictPolicy": "none",
+      "schoolDistrictVerification": "not_required",
+      "schoolDistrictNote": null,
+      "propertyTypeMatched": true,
+      "propertyTypeReason": "property_type_allowed",
+      "builtAgeMatched": true,
+      "builtAgeYears": 0.0,
+      "builtAgeStatus": "confirmed",
+      "builtAgeReason": "new_house_exempt_from_age_limit",
+      "priceMan": 4190,
+      "walkMinutes": null,
+      "landAreaM2": 139.46,
+      "buildingAreaM2": 101.43,
+      "priceMatched": true,
+      "walkMatched": null,
+      "landAreaMatched": true,
+      "buildingAreaMatched": true,
+      "priceReason": "within_price_limit",
+      "walkReason": "walk_minutes_unavailable",
+      "landAreaReason": "within_land_area_limit",
+      "buildingAreaReason": "within_building_area_limit",
+      "areaExcludedReason": null,
+      "searchCriteriaMatched": true,
+      "searchResultFilterExcluded": false,
+      "areaClassification": "primaryTarget",
+      "lastDetailAttemptAt": "2026-10-02T21:04:36.029208+00:00",
+      "detailFetchAttempts": 1,
+      "lastDetailFetchAt": "2026-10-02T21:04:36.029208+00:00",
+      "lastSuccessfulDetailAt": "2026-10-02T21:04:36.029208+00:00",
+      "detail": {
+        "success": true,
+        "detailParserVersion": "2026-10-01-v36-url-property-type-fix",
+        "fetchedAt": "2026-10-02T21:04:36.028857+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "httpStatus": 200,
+        "title": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+        "price": 41900000,
+        "priceYen": 41900000,
+        "priceRaw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+        "priceConfidence": "medium",
+        "priceWarning": null,
+        "priceStatus": "normal",
+        "priceSource": "price_label",
+        "priceCandidateCount": 4,
+        "priceCandidates": [
+          {
+            "price": 41900000,
+            "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 44900000,
+            "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 41900000,
+            "raw": "価格4190万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          },
+          {
+            "price": 44900000,
+            "raw": "価格4490万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          }
+        ],
+        "address": "千葉県柏市十余二",
+        "landAreaM2": 139.46,
+        "buildingAreaM2": 101.43,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2026-12",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 12,
+        "constructionAgeYears": null,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-02",
+        "nextUpdateDate": "2026-10-10",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 4,
+            "candidates": [
+              {
+                "price": 41900000,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 44900000,
+                "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 41900000,
+                "raw": "価格4190万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              },
+              {
+                "price": 44900000,
+                "raw": "価格4490万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 22,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "住所 千葉県柏市十余二 ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二 [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "I.D.S工法 耐震性能実験 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "○住宅性能評価取得物件○ 安心の第三者機関による検査済み！地震に強い家！ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "構造・工法・仕様 [ 閉じる ] ≪ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "≪ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "構造の特徴 ベタ基礎は「鉄筋コンクリート造」 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 防湿措置「基礎パッキン」 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。 オリジナル柱脚・柱頭固定金物「TロックII」 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 「オリジナル耐力壁パネル」で特許を取得 壁倍率5.0倍は国土交通省が定める数値内の最高値で、通常の合板による壁倍率2.5倍の2倍の強度となっています。 水に強い成形型断熱材「ポリスチレンフォーム」 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 I.D.S工法 耐震性能実験 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 32,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "： 139.46m 2",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "： 171.14m 2",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "土地面積171.14m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "永住するに相応しい魅力がここにはある♪お問い合わせは・・・フリーダイヤル：0120-875-988 2026年12月完成予定！ 平日・お仕事帰りなど、いつでもご案内致します！ お気軽にお問い合わせ下さい♪フリーダイヤル：0120-875-988 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "2026年12月完成予定！ 平日・お仕事帰りなど、いつでもご案内致します！ お気軽にお問い合わせ下さい♪フリーダイヤル：0120-875-988 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "始発駅利用 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "[ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "[ 閉じる ] ≪ (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "≪ (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "区画・住戸情報 区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 101.43,
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 7,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.67,
+                "raw": "102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.67,
+                "raw": "： 102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "： 101.43m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "建物面積101.43m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 20,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "： 4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "： 4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "区画・住戸情報 区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 35,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-875988 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-875988 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "売主コメント 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "前面道路含む現地写真 [ 閉じる ] ≪ 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "≪ 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏駅 | 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す ＪＲ常磐線 | 東武野田線",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          }
+        },
+        "station": null,
+        "targetStation": null,
+        "targetStationWalkMinutes": null,
+        "targetStationWalkAvailable": false,
+        "targetStationWalkSource": null,
+        "stationWalkMinutes": null,
+        "walkMinutes": null,
+        "transportRaw": null,
+        "stationAccessType": null,
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "対象駅の徒歩情報を取得できない"
+        ],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "detailQualityReasons": [
+          "weak_extraction:price",
+          "validation_warning:対象駅の徒歩情報を取得できない",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": "対象駅の徒歩情報を取得できない"
+      },
+      "lastSuccessfulDetail": {
+        "success": true,
+        "detailParserVersion": "2026-10-01-v36-url-property-type-fix",
+        "fetchedAt": "2026-10-02T21:04:36.028857+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+        "httpStatus": 200,
+        "title": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+        "price": 41900000,
+        "priceYen": 41900000,
+        "priceRaw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+        "priceConfidence": "medium",
+        "priceWarning": null,
+        "priceStatus": "normal",
+        "priceSource": "price_label",
+        "priceCandidateCount": 4,
+        "priceCandidates": [
+          {
+            "price": 41900000,
+            "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 44900000,
+            "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 41900000,
+            "raw": "価格4190万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          },
+          {
+            "price": 44900000,
+            "raw": "価格4490万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          }
+        ],
+        "address": "千葉県柏市十余二",
+        "landAreaM2": 139.46,
+        "buildingAreaM2": 101.43,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2026-12",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 12,
+        "constructionAgeYears": null,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-02",
+        "nextUpdateDate": "2026-10-10",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 4,
+            "candidates": [
+              {
+                "price": 41900000,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 44900000,
+                "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 41900000,
+                "raw": "価格4190万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              },
+              {
+                "price": 44900000,
+                "raw": "価格4490万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 22,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "住所 千葉県柏市十余二 ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二 [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "I.D.S工法 耐震性能実験 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "○住宅性能評価取得物件○ 安心の第三者機関による検査済み！地震に強い家！ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "構造・工法・仕様 [ 閉じる ] ≪ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "≪ 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。 ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された",
+                "raw": "構造の特徴 ベタ基礎は「鉄筋コンクリート造」 耐震性を発揮する鉄筋入りスラブー体基礎を採用。地面から基礎上端までの高さを400ｍｍ以上確保。地面からの湿気を防ぎ、不等沈下や地震時のねじれを防ぐ効果があり、白蟻に対する予防策としても有効です。 防湿措置「基礎パッキン」 基礎と土台の間に基礎パッキン（20ｍｍ厚）を入れることにより分離させ、土台からの湿気を基礎へ浸透するのを防ぎます。また、床下換気が可能です。 オリジナル柱脚・柱頭固定金物「TロックII」 「TロックII」は、ホールダウン金物の約2倍の強度があり、接合部の強度を増加させ、地震や風圧がかかった場合の柱の抜けを防ぎます。 「オリジナル耐力壁パネル」で特許を取得 壁倍率5.0倍は国土交通省が定める数値内の最高値で、通常の合板による壁倍率2.5倍の2倍の強度となっています。 水に強い成形型断熱材「ポリスチレンフォーム」 屋外からの湿気の影響を受けやすい外壁と１階床に”水に強い成形型断熱材”ポリスチレンフォームを採用。壁パネルに45ｍｍ厚、床に60ｍｍ厚を使用することにより断熱材の隙間を解消し、断熱性能、気密性能を高めます。 I.D.S工法 耐震性能実験 異なる4種類の大地震（阪神大震災・新潟県中越地震・ロサンゼルス地震・想定関東地震）で続けて揺らしても、倒壊はおろか損傷もしない耐震性能がある事が確認された。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 32,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "： 139.46m 2",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "： 171.14m 2",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "土地面積171.14m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "(B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "永住するに相応しい魅力がここにはある♪お問い合わせは・・・フリーダイヤル：0120-875-988 2026年12月完成予定！ 平日・お仕事帰りなど、いつでもご案内致します！ お気軽にお問い合わせ下さい♪フリーダイヤル：0120-875-988 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "2026年12月完成予定！ 平日・お仕事帰りなど、いつでもご案内致します！ お気軽にお問い合わせ下さい♪フリーダイヤル：0120-875-988 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ 嬉しい仕様がたくさん！ 南向き、全洋室、ファミリークローゼット、WIC、SIC、リビング収納、洗面室可動棚、ホール物入、南面ワイドバルコニー、駐車2～3台可能等！ ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "始発駅利用 「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "「雷神前」バス停まで徒歩1分、JR常磐線・東武野田線「柏」駅までバス乗車13分！ 住宅性能評価取得物件！耐震性などで最高等級を取得♪地震に強い家！ 確かな品質が暮らしの未来を支える、長期優良住宅！ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "[ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "[ 閉じる ] ≪ (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "≪ (B号棟)、価格4490万円、4LDK、土地面積139.46m 2 、建物面積102.67m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "区画・住戸情報 区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 101.43,
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 7,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.67,
+                "raw": "102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.67,
+                "raw": "： 102.67m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "： 101.43m 2",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "建物面積101.43m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 20,
+            "candidate_sources": [
+              "dl_dt_dd",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "： 4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "： 4LDK",
+                "source": "dl_dt_dd",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "区画・住戸情報 区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "区画図 ≪全体区画図≫ 駐車2～3台可能！（号棟・車種による） 急な来客時や、ご家族の自転車スペースとしても大活躍♪ 間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料) A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 価格 ： 4490万円 間取り ： 4LDK 土地面積 ： 139.46m 2 建物面積 ： 102.67m 2 A号棟 価格 ： 4190万円 間取り ： 4LDK 土地面積 ： 171.14m 2 建物面積 ： 101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "B号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 B号棟 ≫ 価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "価格 4490万円 間取り 4LDK 土地面積 139.46m 2 建物面積 102.67m 2 間取り補足 家族で使える、便利なファミリークローゼット付プラン！ 主寝室にはWIC・玄関にはSICもあります！収納充実！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "A号棟 [ 閉じる ] 資料請求する (無料) その場で確定！ 見学予約する (無料) ≪ 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 A号棟 ≫ 価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください 資料請求する (無料) その場で確定！ 見学予約する (無料)",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "価格 4190万円 間取り 4LDK 土地面積 171.14m 2 建物面積 101.43m 2 間取り補足 明るい全居室南向き♪お掃除ラクラク全居室フローリングプラン！ 主寝室には、収納力のあるWIC付き！ お問い合わせ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 免許番号： 国土交通大臣（4）第008044号 取引態様： ＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 「SUUMO(スーモ)を見た」と問い合わせください",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-875988 物件名 飯田グループホールディングス ハートフルタウン 柏市十余二248番31 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 建物面積 ヒント 101.43m 2 ・102.67m 2 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年12月予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 飯田グループホールディングスの唯一の販売専門会社、ホームトレードセンター（株）のHPはこちらです 飯田グループホールディングス株式会社のHPはこちらです 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 飯田グループホールディングス 担当者より 担当者 新井 裕介 年齢：30代 業界経験：2年 誠心誠意お客様へのバックアップとご提案をさせていただきます！家族の皆様が好きになれるお住まいを一緒に探しましょう！ 【この物件について】 ◇◆本日、ご見学出来ます！◆◇ 「柏」駅まで自転車で約10分、「柏の葉キャンパス」駅まで自転車で約11分！周辺に商業施設多数、生活しやすい住環境です！ お問い合せ先 飯田グループホールディングス ホームトレードセンター(株)柏店 TEL：0120-875988 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：国土交通大臣（4）第008044号 取引態様：＜仲介＞ 営業時間：10:00～19:00 ／ 定休日：水曜日",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 【一戸建て】 販売スケジュール - イベント情報 - 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス15分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」バス17分雷神前歩2分 [ 乗り換え案内 ] 東武野田線「柏」歩33分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 土地面積 ヒント 139.46m 2 ・171.14m 2 建ぺい率・容積率 ヒント 建ぺい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月予定 引渡可能時期 ヒント 2026年12月予定 土地の権利形態 ヒント 所有権 構造・工法 ヒント 木造2階建て エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント 株式会社飯田産業 リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 景観法による規制有、高さ最高限度有、絶対高さ制限10m その他概要・特記事項 担当者：新井 裕介、設備：東京電力、公営水道、都市ガス、公共下水、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 35,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21740264/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 飯田グループホールディングス ハートフルタウン 柏市十余二248番31",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-875988 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-875988 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 購入サポート情報 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス15分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 飯田グループホールディングス ホームトレードセンター(株)柏店",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "売主コメント 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "前面道路含む現地写真 [ 閉じる ] ≪ 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "≪ 【安心の住宅性能評価取得物件！】 耐震性などで最高等級を取得♪地震に強い家！ 国土交通大臣認定の第三者機関による厳重なチェックを行い安心・安全な新築一戸建てを提供します ≫",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏駅 | 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す ＪＲ常磐線 | 東武野田線",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "飯田グループホールディングス ハートフルタウン 柏市十余二248番31の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          }
+        },
+        "station": null,
+        "targetStation": null,
+        "targetStationWalkMinutes": null,
+        "targetStationWalkAvailable": false,
+        "targetStationWalkSource": null,
+        "stationWalkMinutes": null,
+        "walkMinutes": null,
+        "transportRaw": null,
+        "stationAccessType": null,
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "対象駅の徒歩情報を取得できない",
+          "低信頼度抽出項目: price"
+        ],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "detailQualityReasons": [
+          "weak_extraction:price",
+          "validation_warning:対象駅の徒歩情報を取得できない",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": "対象駅の徒歩情報を取得できない"
+      },
+      "priceRaw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+      "priceConfidence": "medium",
+      "priceWarning": null,
+      "priceSource": "price_label",
+      "priceYen": 41900000,
+      "priceStatus": "normal",
+      "currentPrice": 41900000,
+      "currentPriceMan": 4190,
+      "detailQuality": "partial",
+      "detailQualityScore": 75,
+      "missingFields": [],
+      "missingCriticalFields": [],
+      "missingImportantFields": [],
+      "validationWarnings": [
+        "対象駅の徒歩情報を取得できない"
+      ],
+      "weakExtractionFields": [
+        "price"
+      ],
+      "poorReasonCategory": null,
+      "targetStationWalkWarning": "対象駅の徒歩情報を取得できない",
+      "detailQualityReasons": [
+        "weak_extraction:price",
+        "validation_warning:対象駅の徒歩情報を取得できない"
+      ],
+      "address": "千葉県柏市十余二",
+      "land": 139.46,
+      "building": 101.43,
+      "targetStationWalkMinutes": null,
+      "targetStationWalkAvailable": false,
+      "targetStation": null,
+      "targetStationWalkSource": null,
+      "walk": null,
+      "firstPrice": 41900000,
+      "priceHistory": [],
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
       "priceReductionCount": 0
     }
   ],
   "summary": {
-    "marketDbCount": 34,
-    "marketHistoryCount": 34,
+    "marketDbCount": 35,
+    "marketHistoryCount": 35,
     "marketHistoryActiveCount": 23,
-    "marketHistoryEndedCount": 11,
-    "partialQualityCount": 34
+    "marketHistoryEndedCount": 12,
+    "partialQualityCount": 35
   }
 }
