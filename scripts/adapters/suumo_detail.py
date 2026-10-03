@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-10-03-v38-price-fallback"
+DETAIL_PARSER_VERSION = "2026-10-03-v39-price-and-quality-unification"
 
 
 # ============================================================
@@ -391,8 +391,9 @@ def extract_sale_price(
         return {
             "price": None,
             "priceYen": None,
+            "currentPrice": None,
             "priceRaw": None,
-            "priceConfidence": None,
+            "priceConfidence": PRICE_CONFIDENCE_LOW,
             "priceWarning": "販売価格を抽出できない",
             "priceStatus": "missing",
             "priceSource": None,
@@ -477,10 +478,11 @@ def extract_sale_price(
     return {
         "price": price,
         "priceYen": price,
+        "currentPrice": price,
         "priceRaw": selected["raw"],
         "priceConfidence": selected["confidence"],
         "priceWarning": warning,
-        "priceStatus": status,
+        "priceStatus": "normal" if price else "missing",
         "priceSource": selected["source"],
         "priceCandidateCount": len(scored_candidates),
         "priceCandidates": scored_candidates,
@@ -1291,7 +1293,6 @@ def collect_property_type_candidates(
 ) -> List[Dict[str, Any]]:
     candidates = []
 
-    # ① URL由来の優先判定を追加
     url_prop = infer_property_type_from_url(url)
     if url_prop:
         candidates.append(
@@ -1520,34 +1521,15 @@ def evaluate_detail_quality(
 ) -> Dict[str, Any]:
     """
     詳細データの品質を評価する。
-    品質分類:
-        good
-            Critical項目が揃っており、
-            重要項目にも重大な欠損・低信頼がない。
-        partial
-            Critical項目は揃っているが、
-            Important項目の欠損・低信頼、または
-            Critical項目の低信頼抽出がある。
-        poor
-            Critical項目の欠損、または
-            明確な不正データがある。
-    重要方針:
-        - 駅徒歩未取得だけではpoor/partialにしない (Important項目から除外)
-        - 築年月未取得だけではpoorにしない
-        - URL由来のpropertyTypeは高信頼として扱う
-        - warningだけではpartialにしない
-        - Critical項目の欠損はpoor
-        - Important項目の欠損はpartial
+    propertyTypeは品質判定用の必須項目にしない。
     """
     p_type = (
         property_type
         or detail.get("propertyType")
     )
+    
     # --------------------------------------------------------
-    # ① Critical
-    #
-    # 物件を識別・比較するうえで最低限必要な項目。
-    # 築年月は重要だが、未取得だけで物件全体をpoorにはしない。
+    # ① Critical (欠損時に poor と判定)
     # --------------------------------------------------------
     critical_fields = {
         "price": (
@@ -1560,18 +1542,15 @@ def evaluate_detail_quality(
         "buildingAreaM2": detail.get("buildingAreaM2"),
         "layout": detail.get("layout"),
     }
+    
     # --------------------------------------------------------
-    # ② Important
-    #
-    # 重要だが、未取得だけでpoorにはしない項目。
-    # 駅徒歩は品質判定のImportant項目から外す。
+    # ② Important (欠損時に partial と判定)
+    # propertyTypeは判定対象から除外
     # --------------------------------------------------------
     important_fields = {
-        "constructionMonth":
-            detail.get("constructionMonth"),
-        "propertyType":
-            p_type,
+        "constructionMonth": detail.get("constructionMonth"),
     }
+
     # --------------------------------------------------------
     # ③ Missing fields
     # --------------------------------------------------------
@@ -1585,277 +1564,107 @@ def evaluate_detail_quality(
         for field, value in important_fields.items()
         if value is None or value == ""
     ]
+
     # --------------------------------------------------------
     # ④ Validation warnings
-    #
-    # warning自体は品質をpartialへ落とさない。
     # --------------------------------------------------------
     warnings: List[str] = []
     address = detail.get("address")
     if address:
         if is_company_address(str(address)):
-            warnings.append(
-                "会社・店舗住所の可能性がある"
-            )
-        if not re.search(
-            PREFECTURES_PATTERN,
-            str(address),
-        ):
-            warnings.append(
-                "所在地が都道府県住所形式ではない"
-            )
+            warnings.append("会社・店舗住所の可能性がある")
+        if not re.search(PREFECTURES_PATTERN, str(address)):
+            warnings.append("所在地が都道府県住所形式ではない")
+            
     land = detail.get("landAreaM2")
     building = detail.get("buildingAreaM2")
-    if (
-        land is not None
-        and building is not None
-        and building > land * 3
-    ):
-        warnings.append(
-            "建物面積が土地面積に対して異常に大きい"
-        )
+    if land is not None and building is not None and building > land * 3:
+        warnings.append("建物面積が土地面積に対して異常に大きい")
     if land is not None and land < 20:
-        warnings.append(
-            "土地面積が異常に小さい"
-        )
+        warnings.append("土地面積が異常に小さい")
     if building is not None and building < 20:
-        warnings.append(
-            "建物面積が異常に小さい"
-        )
-    # --------------------------------------------------------
-    # ⑤ Price warning
-    #
-    # 価格そのものが欠損している場合はCritical欠損。
-    # 価格が取得済みで通常レンジ外などの場合はwarning。
-    # --------------------------------------------------------
+        warnings.append("建物面積が異常に小さい")
+
     price_warning = detail.get("priceWarning")
     if price_warning:
-        warnings.append(
-            str(price_warning)
-        )
-    # --------------------------------------------------------
-    # ⑥ 駅徒歩
-    #
-    # 駅徒歩はImportant項目から除外。
-    # 取得できなくてもwarningとして記録するが、
-    # それだけで品質をpartialにしない。
-    # --------------------------------------------------------
+        warnings.append(str(price_warning))
+
     target_station_warning = None
-    if (
-        detail.get(
-            "targetStationWalkAvailable"
-        )
-        is not True
-    ):
-        target_station_warning = (
-            "対象駅の徒歩情報を取得できない"
-        )
-        warnings.append(
-            target_station_warning
-        )
+    if detail.get("targetStationWalkAvailable") is not True:
+        target_station_warning = "対象駅の徒歩情報を取得できない"
+        warnings.append(target_station_warning)
+
     # --------------------------------------------------------
-    # ⑦ Extraction audit
+    # ⑤ Extraction audit
     # --------------------------------------------------------
-    audit = detail.get(
-        "extractionAudit",
-        {},
-    )
+    audit = detail.get("extractionAudit", {})
     weak_fields: List[str] = []
-    # propertyTypeについては、
-    # URL/search由来で確定している場合は低信頼扱いしない。
-    resolved_type = (
-        detail.get("propertyType")
-        or p_type
-    )
-    resolved_source = (
-        detail.get("propertyTypeSource")
-        or audit.get(
-            "propertyType",
-            {},
-        ).get(
-            "selected_method"
-        )
-    )
+    
     for field, entry in audit.items():
-        if not isinstance(
-            entry,
-            dict,
-        ):
+        if not isinstance(entry, dict) or entry.get("status") != "found":
             continue
-        if entry.get("status") != "found":
-            continue
-        # URL/search由来のpropertyTypeは高信頼。
         if field == "propertyType":
-            if (
-                resolved_type
-                in {
-                    "中古戸建",
-                    "新築戸建",
-                }
-                and resolved_source
-                in {
-                    "search_url",
-                    "searchPropertyType",
-                    "searchDetectedPropertyType",
-                    "listing_url",
-                }
-            ):
-                continue
-        confidence = entry.get(
-            "selected_confidence"
-        )
-        if (
-            isinstance(
-                confidence,
-                (int, float),
-            )
-            and confidence < 0.70
-        ):
-            weak_fields.append(
-                field
-            )
-    # 価格confidenceがlowの場合も
-    # priceをweak fieldとして記録。
-    if (
-        detail.get("priceConfidence")
-        == PRICE_CONFIDENCE_LOW
-        and "price" not in weak_fields
-    ):
-        weak_fields.append(
-            "price"
-        )
-    weak_fields = sorted(
-        set(weak_fields)
-    )
+            continue  # propertyTypeの抽出精度低下は判定から除外
+            
+        confidence = entry.get("selected_confidence")
+        if isinstance(confidence, (int, float)) and confidence < 0.70:
+            weak_fields.append(field)
+
+    if detail.get("priceConfidence") == PRICE_CONFIDENCE_LOW and "price" not in weak_fields:
+        weak_fields.append("price")
+
+    weak_fields = sorted(set(weak_fields))
     if weak_fields:
-        warnings.append(
-            "低信頼度抽出項目: "
-            + ",".join(
-                weak_fields
-            )
-        )
+        warnings.append("低信頼度抽出項目: " + ",".join(weak_fields))
+
+    has_invalid = any("会社・店舗住所" in warning for warning in warnings)
+
     # --------------------------------------------------------
-    # ⑧ Invalid data
-    #
-    # 会社住所は明確な異常値なのでpoor。
+    # ⑥ Critical / Important の低信頼度分類
     # --------------------------------------------------------
-    has_invalid = any(
-        "会社・店舗住所" in warning
-        for warning in warnings
-    )
+    critical_field_names = set(critical_fields.keys())
+    important_field_names = set(important_fields.keys())
+    
+    weak_critical = sorted(field for field in weak_fields if field in critical_field_names)
+    weak_important = sorted(field for field in weak_fields if field in important_field_names)
+
     # --------------------------------------------------------
-    # ⑨ Critical / Important の低信頼度分類
+    # ⑦ Final quality
     # --------------------------------------------------------
-    critical_field_names = set(
-        critical_fields.keys()
-    )
-    important_field_names = set(
-        important_fields.keys()
-    )
-    weak_critical = sorted(
-        field
-        for field in weak_fields
-        if field in critical_field_names
-    )
-    weak_important = sorted(
-        field
-        for field in weak_fields
-        if field in important_field_names
-    )
-    # --------------------------------------------------------
-    # ⑩ Final quality
-    # --------------------------------------------------------
-    if (
-        missing_critical
-        or has_invalid
-    ):
+    if missing_critical or has_invalid:
         quality = "poor"
-        if missing_critical:
-            poor_reason = (
-                "critical_missing"
-            )
-        else:
-            poor_reason = "invalid"
-    elif (
-        missing_important
-        or weak_critical
-        or weak_important
-    ):
+        poor_reason = "critical_missing" if missing_critical else "invalid"
+    elif missing_important or weak_critical or weak_important:
         quality = "partial"
         poor_reason = None
     else:
         quality = "good"
         poor_reason = None
-    # --------------------------------------------------------
-    # ⑪ Score
-    # --------------------------------------------------------
-    score = {
-        "good": 100,
-        "partial": 75,
-        "poor": 30,
-    }.get(
-        quality,
-        0,
-    )
-    # --------------------------------------------------------
-    # ⑫ Quality reasons
-    # --------------------------------------------------------
+
+    score = {"good": 100, "partial": 75, "poor": 30}.get(quality, 0)
+
     quality_reasons = []
-    quality_reasons.extend(
-        f"critical_missing:{field}"
-        for field in missing_critical
-    )
-    quality_reasons.extend(
-        f"important_missing:{field}"
-        for field in missing_important
-    )
-    quality_reasons.extend(
-        f"weak_critical_extraction:{field}"
-        for field in weak_critical
-    )
-    quality_reasons.extend(
-        f"weak_important_extraction:{field}"
-        for field in weak_important
-    )
-    quality_reasons.extend(
-        f"validation_warning:{warning}"
-        for warning in warnings
-    )
-    # --------------------------------------------------------
-    # ⑬ Return
-    # --------------------------------------------------------
+    quality_reasons.extend(f"critical_missing:{field}" for field in missing_critical)
+    quality_reasons.extend(f"important_missing:{field}" for field in missing_important)
+    quality_reasons.extend(f"weak_critical_extraction:{field}" for field in weak_critical)
+    quality_reasons.extend(f"weak_important_extraction:{field}" for field in weak_important)
+    quality_reasons.extend(f"validation_warning:{warning}" for warning in warnings)
+
     return {
-        "detailQuality":
-            quality,
-        "detailQualityScore":
-            score,
-        "missingFields":
-            (
-                missing_critical
-                + missing_important
-            ),
-        "missingCriticalFields":
-            missing_critical,
-        "missingImportantFields":
-            missing_important,
-        "validationWarnings":
-            warnings,
-        "weakExtractionFields":
-            weak_fields,
-        "weakCriticalExtractionFields":
-            weak_critical,
-        "weakImportantExtractionFields":
-            weak_important,
-        "detailQualityReasons":
-            quality_reasons,
-        "poorReasonCategory":
-            poor_reason,
-        "propertyTypeUsedForEvaluation":
-            p_type,
-        "targetStationWalkWarning":
-            target_station_warning,
-        "qualityModelVersion":
-            "v38-critical-price-fallback",
+        "detailQuality": quality,
+        "detailQualityScore": score,
+        "missingFields": missing_critical + missing_important,
+        "missingCriticalFields": missing_critical,
+        "missingImportantFields": missing_important,
+        "validationWarnings": warnings,
+        "weakExtractionFields": weak_fields,
+        "weakCriticalExtractionFields": weak_critical,
+        "weakImportantExtractionFields": weak_important,
+        "detailQualityReasons": quality_reasons,
+        "poorReasonCategory": poor_reason,
+        "propertyTypeUsedForEvaluation": p_type,
+        "targetStationWalkWarning": target_station_warning,
+        "qualityModelVersion": "v39-price-and-quality-unification",
     }
 
 
@@ -1895,7 +1704,7 @@ def classify_http_error(
         return "rate_limited"
     if status_code and 500 <= status_code <= 599:
         return "server_error"
-    if isinstance(requests.exceptions.Timeout):
+    if isinstance(exception, requests.exceptions.Timeout):
         return "timeout"
     return "network_error"
 
@@ -1967,7 +1776,7 @@ def parse_detail_html(
     page_text = clean_text(clean_soup.get_text(" ", strip=True)) or ""
 
     price_info = extract_sale_price(clean_soup, page_text=page_text)
-    price = price_info["priceYen"]
+    price_yen = price_info["priceYen"]
 
     pairs = collect_label_value_pairs(clean_soup)
     blocks = extract_text_blocks(clean_soup)
@@ -2000,13 +1809,11 @@ def parse_detail_html(
         construction_best["metadata"].get("precision") if construction_best else None
     )
 
-    # ② propertyType 候補取得 (URL由来情報含む)
     property_type_cands = collect_property_type_candidates(
         pairs, blocks, title, page_text, url=source_url or final_url
     )
     property_type, property_type_best = select_best_candidate(property_type_cands)
 
-    # ③ 不一致の警告チェック (保存用)
     url_prop_info = infer_property_type_from_url(source_url or final_url)
     consistency_warning = None
     if url_prop_info:
@@ -2025,7 +1832,7 @@ def parse_detail_html(
 
     extraction_audit = {
         "price": {
-            "status": "found" if price is not None else "missing",
+            "status": "found" if price_yen is not None else "missing",
             "selected_method": price_info["priceSource"],
             "selected_confidence": _price_confidence_to_score(price_info["priceConfidence"]),
             "priceConfidence": price_info["priceConfidence"],
@@ -2042,6 +1849,7 @@ def parse_detail_html(
         "station": build_audit_entry(station_cands, station_info.get("station")),
     }
 
+    # 価格項目の統一適用
     detail_data = {
         "success": True,
         "detailParserVersion": DETAIL_PARSER_VERSION,
@@ -2051,12 +1859,13 @@ def parse_detail_html(
         "finalUrl": final_url,
         "httpStatus": http_status,
         "title": title,
-        "price": price,
-        "priceYen": price,
-        "priceRaw": price_info["priceRaw"],
+        "price": price_yen,
+        "priceYen": price_yen,
+        "currentPrice": price_yen,
         "priceConfidence": price_info["priceConfidence"],
+        "priceStatus": price_info["priceStatus"],
+        "priceRaw": price_info["priceRaw"],
         "priceWarning": price_info["priceWarning"],
-        "priceStatus": price_info.get("priceStatus"),  # ④ priceStatusを追加
         "priceSource": price_info["priceSource"],
         "priceCandidateCount": price_info.get("priceCandidateCount", 0),
         "priceCandidates": price_info.get("priceCandidates", []),
@@ -2134,7 +1943,7 @@ def merge_detail_results(
     merged = dict(best)
 
     for field in [
-        "price", "priceYen", "priceRaw", "priceConfidence", "priceWarning", "priceStatus",
+        "price", "priceYen", "currentPrice", "priceRaw", "priceConfidence", "priceWarning", "priceStatus",
         "priceSource", "address", "landAreaM2", "buildingAreaM2", "buildingFootprintAreaM2",
         "layout", "constructionMonth", "constructionYear", "constructionMonthNumber",
         "constructionAgeYears", "constructionPrecision", "propertyType", "station",
@@ -2153,16 +1962,6 @@ def merge_detail_results(
 class SuumoDetailAdapter:
     """
     main.py から利用するSUUMO詳細取得アダプター。
-    main.py とのインターフェース:
-        adapter = SuumoDetailAdapter(config=search_config)
-        result = adapter.fetch_detail(url)
-    戻り値:
-        {
-            "success": True/False,
-            "detail": {...},
-            "errorType": ...,
-            ...
-        }
     """
 
     def __init__(
@@ -2195,11 +1994,6 @@ class SuumoDetailAdapter:
         self,
         url: str,
     ) -> Dict[str, Any]:
-        """
-        SUUMO詳細ページを取得して解析する。
-        main.py の enrich_with_detail() が期待する
-        {"success": ..., "detail": ...} 形式で返す。
-        """
         if not url:
             return {
                 "success": False,
@@ -2209,16 +2003,12 @@ class SuumoDetailAdapter:
             }
         request_url = str(url).strip()
 
-        # ----------------------------------------------------
-        # 1. Desktop -> Mobile の順で取得
-        # ----------------------------------------------------
         fetch_result = fetch_html(
             request_url,
             DESKTOP_HEADERS,
             self.timeout,
         )
 
-        # Desktop取得失敗時のみMobileを試す
         if not fetch_result.get("success"):
             first_error = fetch_result.get("errorType")
             mobile_result = fetch_html(
@@ -2252,9 +2042,6 @@ class SuumoDetailAdapter:
                 "finalUrl": final_url,
             }
 
-        # ----------------------------------------------------
-        # 2. HTML解析
-        # ----------------------------------------------------
         try:
             detail = parse_detail_html(
                 html=html,
@@ -2284,9 +2071,6 @@ class SuumoDetailAdapter:
                 "finalUrl": final_url,
             }
 
-        # ----------------------------------------------------
-        # 3. 成功結果
-        # ----------------------------------------------------
         return {
             "success": True,
             "detail": detail,
