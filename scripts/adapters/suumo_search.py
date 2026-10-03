@@ -27,7 +27,7 @@ class SuumoSearchAdapter(PropertyAdapter):
     - Normalize listing URLs
     - Extract SUUMO listing ID (nc_xxxxx)
     - Detect property type from URL with high confidence
-    - Extract lightweight search-result metadata
+    - Extract lightweight search-result metadata (including sales price fallback)
     - Preserve search provenance
     - Report search health
     """
@@ -35,6 +35,10 @@ class SuumoSearchAdapter(PropertyAdapter):
     # ============================================================
     # Constants
     # ============================================================
+
+    SEARCH_PARSER_VERSION = (
+        "2026-10-03-v38-price-fallback"
+    )
 
     SUUMO_HOST = "suumo.jp"
 
@@ -801,6 +805,110 @@ class SuumoSearchAdapter(PropertyAdapter):
         )
 
     # ============================================================
+    # Search price extraction
+    # ============================================================
+
+    def extract_search_price(
+        self,
+        text: Any,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        SUUMO検索結果カードから販売価格を抽出する。
+        detailページより信頼度は一段低くするが、
+        detail価格取得失敗時のfallbackとして利用する。
+        """
+        if not text:
+            return None
+
+        normalized = re.sub(
+            r"\s+",
+            " ",
+            str(text),
+        ).strip()
+
+        if not normalized:
+            return None
+
+        patterns = [
+            # 4,480万円
+            (
+                r"(?<![\d])"
+                r"([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+(?:\.[0-9]+)?)"
+                r"\s*万円",
+                "search_card_man",
+                0.92,
+            ),
+            # 4480万円
+            (
+                r"(?<![\d])"
+                r"([0-9]+(?:\.[0-9]+)?)"
+                r"\s*万円",
+                "search_card_man",
+                0.90,
+            ),
+            # 44,800,000円
+            (
+                r"[¥￥]?\s*"
+                r"([0-9]{1,3}(?:,[0-9]{3})+)"
+                r"\s*円",
+                "search_card_yen",
+                0.88,
+            ),
+            # 44800000円
+            (
+                r"[¥￥]?\s*"
+                r"([0-9]{7,9})"
+                r"\s*円",
+                "search_card_yen",
+                0.85,
+            ),
+        ]
+
+        for pattern, source, confidence in patterns:
+            match = re.search(
+                pattern,
+                normalized,
+            )
+
+            if not match:
+                continue
+
+            raw_number = match.group(1)
+
+            try:
+                if source == "search_card_man":
+                    price_yen = int(
+                        round(
+                            float(
+                                raw_number.replace(",", "")
+                            ) * 10_000
+                        )
+                    )
+                else:
+                    price_yen = int(
+                        raw_number.replace(",", "")
+                    )
+
+            except (TypeError, ValueError):
+                continue
+
+            if not (
+                5_000_000
+                <= price_yen
+                <= 500_000_000
+            ):
+                continue
+
+            return {
+                "searchPriceYen": price_yen,
+                "searchPriceRaw": match.group(0),
+                "searchPriceConfidence": confidence,
+                "searchPriceSource": source,
+            }
+
+        return None
+
+    # ============================================================
     # Listing candidate extraction
     # ============================================================
 
@@ -880,29 +988,48 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
             )
 
+            search_price = (
+                self.extract_search_price(
+                    card_text
+                )
+            )
+
             link_text = link.get_text(
                 " ",
                 strip=True,
             )
 
-            results.append(
-                {
-                    "source": "suumo",
-                    "sourceId": listing_id,
-                    "listingId": listing_id,
-                    "sourceUrl": normalized_url,
-                    "url": normalized_url,
-                    "detailUrl": normalized_url,
-                    # Search-result metadata
-                    "listingTitle": link_text or None,
-                    "searchTitle": link_text or None,
-                    "builtYear": built_year,
-                    "cardText": card_text,
-                    "propertyType": property_type,
-                    "propertyTypeSource": "search_url" if property_type else None,
-                    "propertyTypeConfidence": "high" if property_type else "low",
-                }
-            )
+            candidate = {
+                "source": "suumo",
+                "sourceId": listing_id,
+                "listingId": listing_id,
+                "sourceUrl": normalized_url,
+                "url": normalized_url,
+                "detailUrl": normalized_url,
+                # Search-result metadata
+                "listingTitle": link_text or None,
+                "searchTitle": link_text or None,
+                "builtYear": built_year,
+                "cardText": card_text,
+                "propertyType": property_type,
+                "propertyTypeSource": (
+                    "search_url"
+                    if property_type
+                    else None
+                ),
+                "propertyTypeConfidence": (
+                    "high"
+                    if property_type
+                    else "low"
+                ),
+            }
+
+            if search_price:
+                candidate.update(
+                    search_price
+                )
+
+            results.append(candidate)
 
         return results
 
