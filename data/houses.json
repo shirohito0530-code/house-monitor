@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-03T04:13:33.869518+00:00",
+  "updatedAt": "2026-10-03T05:28:47.854495+00:00",
   "schemaVersion": "2.0",
-  "parserVersion": "2026-09-29-v35-price-extraction-and-history-fix",
+  "parserVersion": "2026-10-03-v37-quality-classification-fix",
   "properties": [
     {
       "source": "suumo",
@@ -45,7 +45,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -2452,7 +2452,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -4841,7 +4841,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -6884,7 +6884,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -9473,7 +9473,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -11758,7 +11758,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -14043,7 +14043,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -17059,7 +17059,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -18959,7 +18959,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -20995,7 +20995,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -23571,7 +23571,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -25559,10 +25559,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
       "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -27731,7 +27731,8 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-10-03T05:26:53.648513+00:00"
     },
     {
       "source": "suumo",
@@ -27775,7 +27776,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -29969,7 +29970,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
@@ -33382,7 +33383,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -35970,7 +35971,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -38856,7 +38857,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -41348,7 +41349,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -43632,7 +43633,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -45979,7 +45980,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -48472,7 +48473,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -50965,7 +50966,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -53348,7 +53349,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T04:02:43.391157+00:00",
-      "lastSeenAt": "2026-10-03T04:02:43.391157+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新築戸建て"
@@ -56217,13 +56218,1801 @@
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0
+    },
+    {
+      "source": "suumo",
+      "sourceId": "nc_21509999",
+      "listingId": "nc_21509999",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+      "url": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+      "detailUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+      "listingTitle": "柏の葉２ 4798万円",
+      "searchTitle": "柏の葉キャンパス4798万円・3LDK",
+      "builtYear": null,
+      "cardText": "柏の葉キャンパス4798万円・3LDK 流山おおたかの森5899万円・6848万円・… 流山おおたかの森4890万円・3LDK 柏の葉キャンパス4690万円・4990万円・…",
+      "propertyType": "新築戸建",
+      "propertyTypeSource": "url",
+      "propertyTypeConfidence": 1.0,
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=2&rn=0760",
+      "searchPageNumber": 2,
+      "searchPosition": 23,
+      "searchTarget": "柏の葉キャンパス新築戸建て",
+      "searchTargetArea": "柏の葉キャンパス",
+      "searchTargetPropertyType": "新築戸建て",
+      "discoveredAt": "2026-10-03T05:27:25.440717+00:00",
+      "detailFetched": false,
+      "detailFetchSuccess": true,
+      "detailFetchStatus": "success",
+      "detailFetchError": null,
+      "detailFetchErrorType": null,
+      "propertyId": "suumo:nc_21509999",
+      "identityKey": "suumo:nc_21509999",
+      "identityType": "source_id",
+      "identityCompleteness": 1.0,
+      "id": "suumo:nc_21509999",
+      "name": "柏の葉２ 4798万円",
+      "price": 47980000,
+      "area": "柏の葉キャンパス",
+      "urlCityCode": "sc_kashiwa",
+      "areaPrefilterExcluded": false,
+      "areaPrefilterReason": "accepted_target_city",
+      "seenThisRun": true,
+      "firstSeenAt": "2026-10-03T05:26:53.648513+00:00",
+      "lastSeenAt": "2026-10-03T05:26:53.648513+00:00",
+      "status": "active",
+      "searchTargets": [
+        "柏の葉キャンパス新築戸建て"
+      ],
+      "daysListed": 0,
+      "areaMatched": true,
+      "areaDetected": "柏の葉キャンパス",
+      "areaAddress": "千葉県柏市柏の葉２",
+      "areaValidationReason": "address_area_matched",
+      "areaCityCode": "sc_kashiwa",
+      "areaCityMatched": true,
+      "schoolDistrictSchemaVersion": "1.0",
+      "schoolDistrictStatus": "candidate",
+      "schoolDistrictCandidate": true,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "schoolDistrictCandidateReason": "候補住所パターンに合致",
+      "schoolDistrictCandidateConfidence": "address_based",
+      "schoolDistrictDecision": "unconfirmed",
+      "schoolDistrictDecisionLabel": "未確認",
+      "schoolDistrictVerification": "manual",
+      "schoolDistrictPolicy": "ui_manual_candidate",
+      "schoolDistrictAddress": "千葉県柏市柏の葉２",
+      "schoolDistrictNote": "学区は番地等による正式確認が必要です。本項目は候補抽出のみで、自動的な学区合否判定には使用しません。",
+      "propertyTypeMatched": true,
+      "propertyTypeReason": "property_type_allowed",
+      "builtAgeMatched": true,
+      "builtAgeYears": 0.0,
+      "builtAgeStatus": "confirmed",
+      "builtAgeReason": "new_house_exempt_from_age_limit",
+      "priceMan": 4798,
+      "walkMinutes": 18.0,
+      "landAreaM2": 102.93,
+      "buildingAreaM2": 102.84,
+      "priceMatched": true,
+      "walkMatched": true,
+      "landAreaMatched": true,
+      "buildingAreaMatched": true,
+      "priceReason": "within_price_limit",
+      "walkReason": "within_walk_limit",
+      "landAreaReason": "within_land_area_limit",
+      "buildingAreaReason": "within_building_area_limit",
+      "areaExcludedReason": null,
+      "searchCriteriaMatched": true,
+      "searchResultFilterExcluded": false,
+      "areaClassification": "primaryTarget",
+      "lastDetailAttemptAt": "2026-10-03T05:28:25.851364+00:00",
+      "detailFetchAttempts": 1,
+      "lastDetailFetchAt": "2026-10-03T05:28:25.851364+00:00",
+      "lastSuccessfulDetailAt": "2026-10-03T05:28:25.851364+00:00",
+      "detail": {
+        "success": true,
+        "detailParserVersion": "2026-10-03-v37-quality-classification-fix",
+        "fetchedAt": "2026-10-03T05:28:25.851090+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "httpStatus": 200,
+        "title": "柏の葉２ 4798万円",
+        "price": 47980000,
+        "priceYen": 47980000,
+        "priceRaw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+        "priceConfidence": "medium",
+        "priceWarning": null,
+        "priceStatus": "normal",
+        "priceSource": "price_label",
+        "priceCandidateCount": 2,
+        "priceCandidates": [
+          {
+            "price": 47980000,
+            "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.73,
+            "matchCount": 1
+          },
+          {
+            "price": 49980000,
+            "raw": "価格4998万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.38,
+            "matchCount": 1
+          }
+        ],
+        "address": "千葉県柏市柏の葉２",
+        "landAreaM2": 102.93,
+        "buildingAreaM2": 102.84,
+        "buildingFootprintAreaM2": null,
+        "layout": "3LDK",
+        "constructionMonth": "2026-04",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 4,
+        "constructionAgeYears": 0.5,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-03",
+        "nextUpdateDate": "2026-10-11",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 2,
+            "candidates": [
+              {
+                "price": 47980000,
+                "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.73,
+                "matchCount": 1
+              },
+              {
+                "price": 49980000,
+                "raw": "価格4998万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.38,
+                "matchCount": 1
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 15,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "住所 千葉県柏市柏の葉２ ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２ [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県知事（2）第017847号",
+                "raw": "千葉県知事（2）第017847号",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "102.93m 2 （31.13坪）（実測）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "102.93m 2 （31.13坪）（実測）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.84,
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 102.84,
+                "raw": "102.84m 2 （31.10坪）（実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.84,
+                "raw": "102.84m 2 （31.10坪）（実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "3LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "3LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "2026年4月",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "2026年4月",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 31,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、柏の葉２ 4798万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、柏の葉２ 4798万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-000973 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-000973 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株)",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す つくばエクスプレス",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 18,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 18,
+        "walkMinutes": 18,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "weakCriticalExtractionFields": [
+          "price"
+        ],
+        "weakImportantExtractionFields": [],
+        "detailQualityReasons": [
+          "weak_critical_extraction:price",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "qualityModelVersion": "v37-critical-important-warning"
+      },
+      "lastSuccessfulDetail": {
+        "success": true,
+        "detailParserVersion": "2026-10-03-v37-quality-classification-fix",
+        "fetchedAt": "2026-10-03T05:28:25.851090+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+        "httpStatus": 200,
+        "title": "柏の葉２ 4798万円",
+        "price": 47980000,
+        "priceYen": 47980000,
+        "priceRaw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+        "priceConfidence": "medium",
+        "priceWarning": null,
+        "priceStatus": "normal",
+        "priceSource": "price_label",
+        "priceCandidateCount": 2,
+        "priceCandidates": [
+          {
+            "price": 47980000,
+            "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.73,
+            "matchCount": 1
+          },
+          {
+            "price": 49980000,
+            "raw": "価格4998万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.38,
+            "matchCount": 1
+          }
+        ],
+        "address": "千葉県柏市柏の葉２",
+        "landAreaM2": 102.93,
+        "buildingAreaM2": 102.84,
+        "buildingFootprintAreaM2": null,
+        "layout": "3LDK",
+        "constructionMonth": "2026-04",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 4,
+        "constructionAgeYears": 0.5,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-03",
+        "nextUpdateDate": "2026-10-11",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 2,
+            "candidates": [
+              {
+                "price": 47980000,
+                "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.73,
+                "matchCount": 1
+              },
+              {
+                "price": 49980000,
+                "raw": "価格4998万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.38,
+                "matchCount": 1
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 15,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "住所 千葉県柏市柏の葉２ ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２",
+                "raw": "千葉県柏市柏の葉２ [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県知事（2）第017847号",
+                "raw": "千葉県知事（2）第017847号",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "102.93m 2 （31.13坪）（実測）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "102.93m 2 （31.13坪）（実測）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.93,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 102.84,
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 2,
+            "candidate_sources": [
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 102.84,
+                "raw": "102.84m 2 （31.10坪）（実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 102.84,
+                "raw": "102.84m 2 （31.10坪）（実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "3LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "3LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "3LDK",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "2026年4月",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "2026年4月",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-000973 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 間取り ヒント 3LDK 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 完成時期（築年月） ヒント 2026年4月 住所 千葉県柏市柏の葉２ [ ■ 周辺環境 ] 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 MEマイホーム計画京葉ホームページ 首都圏に広がるＭＥグループ 情熱経営者YouTube 創業者Instagram カンニング竹山TV・TVCM・３つのリッチサービス・その他制限事項について 担当者より 担当者 木下 夏実 年齢：30代 お客様がワクワクするお家選びができるよう最善のご提案をいたします。大切な住まいに関するパートナーとして理想の生活を叶えるお手伝いをさせてください。 【この物件について】 ●You Tube【情熱経営者】一日8回吠える男！佐々木康充 大絶賛中！●テレビCM放映開始●2003年創業 2人で創めた会社現在7事業18店舗 社員数500人●2025年グループ成約2271件の実績 【得意エリア】 東京・千葉・埼玉 お問い合せ先 ME Group/MEマイホーム計画京葉(株) TEL：0120-000973 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（2）第017847号 取引態様：＜仲介＞ 営業時間：8:30～ ／ 定休日：年中無休 SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます 「不動産購入ガイドブック」「３つのリッチサービス」をご来店、ご見学のお客様へプレゼント ・持ち家のメリットって？ ・物件見学の準備と流れ ・希望条件メモシート ・ローン不安解決 等",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-04",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ず予約してください） 日程／公開中 千葉エリアの不動産のことならMEマイホーム計画京葉にお任せください！ 不動産の購入はもちろんのこと、住宅ローン相談やライフプランのご相談も承っております♪ ■初めてのマイホーム探しでもご安心ください■ ◇自己資金無しＯＫ ◇不動産購入時にかかる諸費用の説明 ◇住宅ローンで無理をしない組み方・繰上げ返済の仕方 ～当社提携金融機関～ 変動金利0.78％～ ※金融機関諸条件の適用と要審査（諸条件あり） ■無料送迎サービス実施中■ 小さいお子様がいる方や、電車の乗り継ぎが大変などの理由でご来店が難しいお客様のために、 ご自宅まで無料で送迎いたします！お子様連れのお客様には、チャイルドシートもご用意いたしますので、 安心して私たちに運転をお任せください。 ■お子様がいるお客様へ■ お子様が退屈しないように大型キッズスペースあり 赤ちゃんがいるご家族も安心なベビーベット、おむつ交換台には無料おむつや個室の授乳室も完備！ おもちゃ・ＤＶＤ・ヒーローグッズ・ぬりえなどご用意してますので安心してご利用下さい♪ ■選べるメニュー■ ・現地/物件見学(1件１５分～)見学だけでもＯＫ ・資金計画・住宅ローン相談（約３０分～） ・ご希望条件の相談（約３０分～） ～～～オンライン見学も実施中です～～～ テレビ電話でご説明するサービスも実施中 最新の価格変更や写真更新がわかる「お気に入りに追加」機能が便利です ぜひご活用ください 【スマホのお客様へ】 ◇見学予約は青ボタン「電話で問い合わせ」からお気軽にどうぞ ◇当日・明日以降でネットから見学希望のお客様は、赤ボタン「見学予約（無料）」からどうぞ ◇資料請求のお客様はオレンジボタン「資料請求（無料）」からどうぞ 所在地 千葉県柏市柏の葉２ 交通 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩18分 [ 乗り換え案内 ] 東武野田線「初石」歩35分 [ 乗り換え案内 ] 販売戸数 ヒント 1戸 総戸数 ヒント 2戸 価格 ヒント 4798万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：6ｍ、アスファルト舗装 諸費用 ヒント - 間取り ヒント 3LDK 建物面積 ヒント 102.84m 2 （31.10坪）（実測） 土地面積 ヒント 102.93m 2 （31.13坪）（実測） 建ぺい率・容積率 ヒント 建蔽率50％ 容積率100％ 完成時期(築年月) ヒント 2026年4月 引渡可能時期 ヒント 即引渡可 土地の権利形態 ヒント 所有権 構造・工法 ヒント 地上2階 木造 エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント 宅地 その他制限事項 - その他概要・特記事項 担当者：木下 夏実、設備：公営水道 下水 都市ガス、建築確認番号：第25UDI1W建12570号、法第22条区域 日影規制：4h-2.5h/1.5m 高さ10m 宅地造成等工事規制区域",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 31,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21509999/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、柏の葉２ 4798万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、柏の葉２ 4798万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏の葉キャンパス駅 > 4798万円（3LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-000973 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-000973 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 即引渡可 4798万円 千葉県柏市 つくばエクスプレス「柏の葉キャンパス」バス8分三井住宅前歩4分 情報提供日: 26/10/3 次回更新予定日: 26/10/11 取引条件有効期限: 26/10/17 ME Group/MEマイホーム計画京葉(株)",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す つくばエクスプレス",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "柏の葉２ 4798万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 18,
+                  "walkMinutes": 18,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 18,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 18,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 18,
+        "walkMinutes": 18,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩18分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "低信頼度抽出項目: price"
+        ],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "weakCriticalExtractionFields": [
+          "price"
+        ],
+        "weakImportantExtractionFields": [],
+        "detailQualityReasons": [
+          "weak_critical_extraction:price",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "qualityModelVersion": "v37-critical-important-warning"
+      },
+      "priceRaw": "柏の葉２ 4798万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+      "priceConfidence": "medium",
+      "priceWarning": null,
+      "priceSource": "price_label",
+      "priceYen": 47980000,
+      "priceStatus": "normal",
+      "currentPrice": 47980000,
+      "currentPriceMan": 4798,
+      "detailQuality": "partial",
+      "detailQualityScore": 75,
+      "missingFields": [],
+      "missingCriticalFields": [],
+      "missingImportantFields": [],
+      "validationWarnings": [],
+      "weakExtractionFields": [
+        "price"
+      ],
+      "poorReasonCategory": null,
+      "targetStationWalkWarning": null,
+      "detailQualityReasons": [
+        "weak_extraction:price"
+      ],
+      "address": "千葉県柏市柏の葉２",
+      "land": 102.93,
+      "building": 102.84,
+      "targetStationWalkMinutes": 18.0,
+      "targetStationWalkAvailable": true,
+      "targetStation": "柏の葉キャンパス",
+      "targetStationWalkSource": "walk",
+      "walk": 18.0,
+      "firstPrice": 47980000,
+      "priceHistory": [],
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0
     }
   ],
   "summary": {
-    "marketDbCount": 23,
-    "marketHistoryCount": 23,
+    "marketDbCount": 24,
+    "marketHistoryCount": 24,
     "marketHistoryActiveCount": 23,
-    "marketHistoryEndedCount": 0,
-    "partialQualityCount": 23
+    "marketHistoryEndedCount": 1,
+    "partialQualityCount": 24
   }
 }
