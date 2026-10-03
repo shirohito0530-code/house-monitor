@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-10-03-v37-quality-classification-fix"
+DETAIL_PARSER_VERSION = "2026-10-03-v38-price-fallback"
 
 
 # ============================================================
@@ -1532,7 +1532,7 @@ def evaluate_detail_quality(
             Critical項目の欠損、または
             明確な不正データがある。
     重要方針:
-        - 駅徒歩未取得だけではpoorにしない
+        - 駅徒歩未取得だけではpoor/partialにしない (Important項目から除外)
         - 築年月未取得だけではpoorにしない
         - URL由来のpropertyTypeは高信頼として扱う
         - warningだけではpartialにしない
@@ -1564,20 +1564,13 @@ def evaluate_detail_quality(
     # ② Important
     #
     # 重要だが、未取得だけでpoorにはしない項目。
+    # 駅徒歩は品質判定のImportant項目から外す。
     # --------------------------------------------------------
     important_fields = {
         "constructionMonth":
             detail.get("constructionMonth"),
         "propertyType":
             p_type,
-        "targetStationWalkMinutes":
-            (
-                detail.get("targetStationWalkMinutes")
-                if detail.get(
-                    "targetStationWalkAvailable"
-                ) is True
-                else None
-            ),
     }
     # --------------------------------------------------------
     # ③ Missing fields
@@ -1643,7 +1636,7 @@ def evaluate_detail_quality(
     # --------------------------------------------------------
     # ⑥ 駅徒歩
     #
-    # 駅徒歩はImportant。
+    # 駅徒歩はImportant項目から除外。
     # 取得できなくてもwarningとして記録するが、
     # それだけで品質をpartialにしない。
     # --------------------------------------------------------
@@ -1862,7 +1855,7 @@ def evaluate_detail_quality(
         "targetStationWalkWarning":
             target_station_warning,
         "qualityModelVersion":
-            "v37-critical-important-warning",
+            "v38-critical-price-fallback",
     }
 
 
