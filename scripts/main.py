@@ -2541,9 +2541,18 @@ def enrich_with_detail(
         validated_price, price_status = validate_sale_price(search_price)
         if validated_price is not None:
             price_source = "search_fallback"
-            price_confidence = "medium"
-            price_warning = "詳細ページ価格未取得のため検索結果価格を採用"
-            price_raw_str = str(search_price)
+            price_confidence = (
+                property_data.get("searchPriceConfidence")
+                or "medium"
+            )
+            price_warning = (
+                property_data.get("searchPriceWarning")
+                or "詳細ページ価格未取得のため検索結果価格を採用"
+            )
+            price_raw_str = (
+                property_data.get("searchPriceRaw")
+                or str(search_price)
+            )
         else:
             price_source = "none"
             price_confidence = "missing"
@@ -3024,6 +3033,7 @@ def build_market_house_record(
         detail.get("priceYen")
         or detail.get("currentPrice")
         or detail.get("price")
+        or property_data.get("searchPriceYen")
         or property_data.get("priceYen")
         or property_data.get("currentPrice")
         or property_data.get("price")
@@ -3318,6 +3328,16 @@ def run_pipeline() -> None:
                     if normalized.get("searchPriceYen") is not None:
                         existing["searchPriceYen"] = normalized.get("searchPriceYen")
                         existing["searchPriceMan"] = normalized.get("searchPriceMan")
+                        if normalized.get("searchPriceRaw") is not None:
+                            existing["searchPriceRaw"] = normalized.get("searchPriceRaw")
+                        if normalized.get("searchPriceConfidence") is not None:
+                            existing["searchPriceConfidence"] = normalized.get("searchPriceConfidence")
+                        if normalized.get("searchPriceWarning") is not None:
+                            existing["searchPriceWarning"] = normalized.get("searchPriceWarning")
+                        if normalized.get("searchPriceCandidates") is not None:
+                            existing["searchPriceCandidates"] = normalized.get("searchPriceCandidates")
+                        if normalized.get("searchPriceCandidateCount") is not None:
+                            existing["searchPriceCandidateCount"] = normalized.get("searchPriceCandidateCount")
 
                     if not existing.get("searchArea"):
                         existing["searchArea"] = normalized.get("searchArea")
@@ -3428,6 +3448,32 @@ def run_pipeline() -> None:
     }
 
     save_json(SUMMARY_PATH, summary_data)
+
+    # 価格監査ログ（PRICE-AUDIT）の出力
+    detail_price_count = sum(
+        1 for p in market_houses
+        if p.get("priceSource") == "detail" or (p.get("priceSource") is None and get_detail(p).get("priceYen") is not None)
+    )
+    search_fallback_count = sum(
+        1 for p in market_houses
+        if p.get("priceSource") == "search_fallback" or (p.get("priceSource") is None and p.get("priceYen") is not None and not get_detail(p).get("priceYen"))
+    )
+    price_missing_count = sum(
+        1 for p in market_houses
+        if p.get("priceYen") is None or p.get("priceSource") == "none"
+    )
+    multi_price_count = sum(
+        1 for p in market_houses
+        if (p.get("searchPriceCandidateCount") or 0) > 1 or (p.get("searchPriceWarning") and "複数" in str(p.get("searchPriceWarning")))
+    )
+
+    print(
+        "[PRICE-AUDIT]",
+        f"detail={detail_price_count}",
+        f"search_fallback={search_fallback_count}",
+        f"missing={price_missing_count}",
+        f"multi_candidate={multi_price_count}",
+    )
 
     print("============================================================")
     print(f"=== Pipeline completed successfully. Total market houses: {len(market_houses)} ===")
