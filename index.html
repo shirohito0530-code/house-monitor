@@ -63,7 +63,8 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -499,6 +500,104 @@ h2 {
 }
 
 /* =========================================================
+   User Selection
+========================================================= */
+.user-selection-box {
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px solid #dbeafe;
+  border-radius: 10px;
+  background: #f8fbff;
+}
+.user-selection-title {
+  font-size: 10px;
+  font-weight: 750;
+  color: #475569;
+  margin-bottom: 8px;
+}
+.user-selection-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(150px, 1fr);
+  gap: 7px;
+}
+.user-selection-box select,
+.user-selection-box textarea {
+  width: 100%;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: white;
+  color: var(--text);
+  font-size: 11px;
+}
+.user-selection-box textarea {
+  min-height: 52px;
+  resize: vertical;
+  margin-top: 7px;
+}
+.user-selection-status {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 9px;
+}
+.user-selection-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 21px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-size: 9px;
+  font-weight: 700;
+}
+.user-selection-badge-candidate {
+  background: #eff6ff;
+  color: #2563eb;
+}
+.user-selection-badge-favorite {
+  background: #fef3c7;
+  color: #92400e;
+}
+.user-selection-badge-excluded {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+.school-candidate-box {
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+}
+.school-candidate-title {
+  font-size: 10px;
+  font-weight: 750;
+  color: #9a3412;
+  margin-bottom: 4px;
+}
+.user-save-panel {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 9px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+}
+.user-save-panel-title {
+  font-size: 11px;
+  font-weight: 700;
+}
+.user-save-panel-note {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 10px;
+}
+.user-save-button {
+  margin-top: 8px;
+}
+
+/* =========================================================
    Property Details
 ========================================================= */
 
@@ -808,6 +907,10 @@ h2 {
   .price-box {
     text-align: left;
   }
+
+  .user-selection-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -988,6 +1091,42 @@ h2 {
 
       </div>
 
+      <div class="filters" style="margin-top:8px;">
+        <select id="propertyUserStatus">
+          <option value="">ユーザー評価：すべて</option>
+          <option value="unreviewed">未確認</option>
+          <option value="candidate">候補</option>
+          <option value="favorite">本命</option>
+          <option value="viewed">内見済</option>
+          <option value="excluded">除外</option>
+          <option value="archived">保留・アーカイブ</option>
+        </select>
+        <select id="propertySchoolDecision">
+          <option value="">柏の葉学区：すべて</option>
+          <option value="unconfirmed">学区未確認</option>
+          <option value="candidate">学区候補</option>
+          <option value="confirmed">学区確認済</option>
+          <option value="excluded">学区対象外</option>
+        </select>
+      </div>
+
+      <div class="user-save-panel">
+        <div class="user-save-panel-title">
+          ユーザー判断データ
+        </div>
+        <div class="user-save-panel-note">
+          物件自動データとは分離して管理します。
+          ブラウザではローカル保存され、JSONとして出力できます。
+        </div>
+        <button
+          id="exportUserSelections"
+          class="button user-save-button"
+          type="button"
+        >
+          user_selections.jsonを出力
+        </button>
+      </div>
+
       <div id="propertyFilterSummary" class="filter-summary">
         読み込み中...
       </div>
@@ -1079,6 +1218,19 @@ let discoveredProperties = [];
 let housesUpdatedAt = null;
 let discoveredUpdatedAt = null;
 
+/* =========================================================
+   User Selection State
+========================================================= */
+
+let userSelections = {
+  schemaVersion: "1.0",
+  updatedAt: null,
+  properties: {}
+};
+
+const USER_SELECTION_STORAGE_KEY =
+  "houseMonitorUserSelectionsV1";
+
 
 /* =========================================================
    Utility
@@ -1118,6 +1270,411 @@ function safeExternalUrl(value) {
   } catch (error) {
     return "";
   }
+}
+
+
+/* =========================================================
+   User Selection
+========================================================= */
+
+const USER_STATUS_LABELS = {
+  unreviewed: "未確認",
+  candidate: "候補",
+  favorite: "本命",
+  viewed: "内見済",
+  excluded: "除外",
+  archived: "保留・アーカイブ"
+};
+
+const SCHOOL_DECISION_LABELS = {
+  unconfirmed: "学区未確認",
+  candidate: "学区候補",
+  confirmed: "学区確認済",
+  excluded: "学区対象外"
+};
+
+function getPropertyId(property) {
+  if (!property || typeof property !== "object") {
+    return null;
+  }
+
+  return (
+    property.propertyId ||
+    property.id ||
+    null
+  );
+}
+
+function getUserSelection(property) {
+  const propertyId =
+    getPropertyId(property);
+
+  if (!propertyId) {
+    return {
+      status: "unreviewed",
+      schoolDecision: "unconfirmed",
+      memo: ""
+    };
+  }
+
+  const selection =
+    userSelections.properties?.[propertyId];
+
+  if (!selection || typeof selection !== "object") {
+    return {
+      status: "unreviewed",
+      schoolDecision: "unconfirmed",
+      memo: ""
+    };
+  }
+
+  return {
+    status:
+      selection.status ||
+      "unreviewed",
+    schoolDecision:
+      selection.schoolDecision ||
+      "unconfirmed",
+    memo:
+      selection.memo ||
+      ""
+  };
+}
+
+function isKashiwaNoHa(property) {
+  return (
+    getSearchArea(property) ===
+    "柏の葉キャンパス"
+  );
+}
+
+function hasSchoolCandidate(property) {
+  return (
+    isKashiwaNoHa(property) &&
+    property.schoolDistrictCandidate === true
+  );
+}
+
+function getUserStatusLabel(status) {
+  return (
+    USER_STATUS_LABELS[status] ||
+    "未確認"
+  );
+}
+
+function getSchoolDecisionLabel(decision) {
+  return (
+    SCHOOL_DECISION_LABELS[decision] ||
+    "学区未確認"
+  );
+}
+
+function createDefaultUserSelection() {
+  const now =
+    new Date().toISOString();
+
+  return {
+    status: "unreviewed",
+    schoolDecision: "unconfirmed",
+    memo: "",
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+function mergeUserSelections(
+  jsonData,
+  localData
+) {
+  const base =
+    jsonData &&
+    typeof jsonData === "object"
+      ? jsonData
+      : {};
+
+  const local =
+    localData &&
+    typeof localData === "object"
+      ? localData
+      : {};
+
+  return {
+    schemaVersion:
+      local.schemaVersion ||
+      base.schemaVersion ||
+      "1.0",
+    updatedAt:
+      local.updatedAt ||
+      base.updatedAt ||
+      null,
+    properties: {
+      ...(base.properties || {}),
+      ...(local.properties || {})
+    }
+  };
+}
+
+function loadLocalUserSelections() {
+  try {
+    const raw =
+      localStorage.getItem(
+        USER_SELECTION_STORAGE_KEY
+      );
+
+    if (!raw) {
+      return null;
+    }
+
+    const parsed =
+      JSON.parse(raw);
+
+    if (
+      !parsed ||
+      typeof parsed !== "object"
+    ) {
+      return null;
+    }
+
+    return parsed;
+
+  } catch (error) {
+    console.warn(
+      "ユーザー判断のlocalStorage読み込みに失敗しました。",
+      error
+    );
+    return null;
+  }
+}
+
+function saveLocalUserSelections() {
+  try {
+    localStorage.setItem(
+      USER_SELECTION_STORAGE_KEY,
+      JSON.stringify(
+        userSelections
+      )
+    );
+    return true;
+
+  } catch (error) {
+    console.error(
+      "ユーザー判断の保存に失敗しました。",
+      error
+    );
+    return false;
+  }
+}
+
+function updateUserSelection(
+  property,
+  changes
+) {
+  const propertyId =
+    getPropertyId(property);
+
+  if (!propertyId) {
+    return;
+  }
+
+  const existing =
+    userSelections.properties[propertyId] ||
+    createDefaultUserSelection();
+
+  const now =
+    new Date().toISOString();
+
+  userSelections.properties[propertyId] = {
+    ...existing,
+    ...changes,
+    updatedAt: now
+  };
+
+  if (!existing.createdAt) {
+    userSelections.properties[propertyId].createdAt =
+      now;
+  }
+
+  userSelections.updatedAt =
+    now;
+
+  saveLocalUserSelections();
+  filterProperties();
+}
+
+function exportUserSelections() {
+  const payload = {
+    ...userSelections,
+    updatedAt:
+      new Date().toISOString()
+  };
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          payload,
+          null,
+          2
+        )
+      ],
+      {
+        type: "application/json;charset=utf-8"
+      }
+    );
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const link =
+    document.createElement("a");
+
+  link.href = url;
+
+  link.download =
+    "user_selections.json";
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function renderUserSelection(
+  property
+) {
+  const propertyId =
+    getPropertyId(property);
+
+  if (!propertyId) {
+    return "";
+  }
+
+  const selection =
+    getUserSelection(property);
+
+  const isKashiwa =
+    isKashiwaNoHa(property);
+
+  const schoolCandidate =
+    hasSchoolCandidate(property);
+
+  const schoolHtml =
+    isKashiwa
+      ? `
+        <div class="school-candidate-box">
+          <div class="school-candidate-title">
+            柏の葉小学校区
+          </div>
+          ${
+            schoolCandidate
+              ? `
+                <div class="user-selection-status">
+                  自動判定：
+                  <strong>
+                    学区候補
+                  </strong>
+                  （正式な学区判定ではありません）
+                </div>
+              `
+              : `
+                <div class="user-selection-status">
+                  自動判定：
+                  学区候補パターンには該当しません
+                </div>
+              `
+          }
+          <select
+            data-user-school="${escapeHtml(propertyId)}"
+          >
+            <option
+              value="unconfirmed"
+              ${
+                selection.schoolDecision ===
+                "unconfirmed"
+                  ? "selected"
+                  : ""
+              }
+            >
+              学区未確認
+            </option>
+            <option
+              value="candidate"
+              ${
+                selection.schoolDecision ===
+                "candidate"
+                  ? "selected"
+                  : ""
+              }
+            >
+              学区候補
+            </option>
+            <option
+              value="confirmed"
+              ${
+                selection.schoolDecision ===
+                "confirmed"
+                  ? "selected"
+                  : ""
+              }
+            >
+              学区確認済
+            </option>
+            <option
+              value="excluded"
+              ${
+                selection.schoolDecision ===
+                "excluded"
+                  ? "selected"
+                  : ""
+              }
+            >
+              学区対象外
+            </option>
+          </select>
+        </div>
+      `
+      : "";
+
+  return `
+    <div class="user-selection-box">
+      <div class="user-selection-title">ユーザー判断・メモ</div>
+      <div class="user-selection-row">
+        <div>
+          <select data-user-status="${escapeHtml(propertyId)}">
+            <option value="unreviewed" ${selection.status === "unreviewed" ? "selected" : ""}>未確認</option>
+            <option value="candidate" ${selection.status === "candidate" ? "selected" : ""}>候補</option>
+            <option value="favorite" ${selection.status === "favorite" ? "selected" : ""}>本命</option>
+            <option value="viewed" ${selection.status === "viewed" ? "selected" : ""}>内見済</option>
+            <option value="excluded" ${selection.status === "excluded" ? "selected" : ""}>除外</option>
+            <option value="archived" ${selection.status === "archived" ? "selected" : ""}>保留・アーカイブ</option>
+          </select>
+        </div>
+      </div>
+      ${schoolHtml}
+      <textarea
+        data-user-memo="${escapeHtml(propertyId)}"
+        placeholder="メモを入力..."
+      >${escapeHtml(selection.memo)}</textarea>
+    </div>
+  `;
+}
+
+function renderUserSelectionBadge(property) {
+  const selection = getUserSelection(property);
+  if (!selection.status || selection.status === "unreviewed") {
+    return "";
+  }
+
+  let badgeClass = "user-selection-badge";
+  if (selection.status === "candidate") badgeClass += " user-selection-badge-candidate";
+  if (selection.status === "favorite") badgeClass += " user-selection-badge-favorite";
+  if (selection.status === "excluded") badgeClass += " user-selection-badge-excluded";
+
+  return `
+    <span class="${badgeClass}">
+      ${escapeHtml(getUserStatusLabel(selection.status))}
+    </span>
+  `;
 }
 
 
@@ -2372,7 +2929,7 @@ function renderPropertyCard(property) {
     getLatestDate(property);
 
   const propertyId =
-    property.id || "-";
+    getPropertyId(property) || "-";
 
   const missingFields =
     Array.isArray(
@@ -2410,6 +2967,8 @@ function renderPropertyCard(property) {
 
 
       <div class="flags">
+
+        ${renderUserSelectionBadge(property)}
 
         ${renderQualityFlag(property)}
 
@@ -2559,6 +3118,8 @@ function renderPropertyCard(property) {
       </div>
 
       ${renderQualityReasons(property)}
+
+      ${renderUserSelection(property)}
 
 
       <div class="property-footer">
@@ -3108,6 +3669,16 @@ function filterProperties() {
       "recentOnly"
     ).checked;
 
+  const userStatus =
+    document.getElementById(
+      "propertyUserStatus"
+    ).value;
+
+  const schoolDecision =
+    document.getElementById(
+      "propertySchoolDecision"
+    ).value;
+
 
   const filtered =
     properties.filter(
@@ -3119,8 +3690,12 @@ function filterProperties() {
         const stationStatus =
           getTargetStationStatus(property);
 
+        const selection =
+          getUserSelection(property);
+
         const searchText = [
           property.id,
+          property.propertyId,
           property.name,
           property.title,
           property.address,
@@ -3134,7 +3709,8 @@ function filterProperties() {
           stationStatus.label,
           detail.transportRaw,
           detail.layout,
-          detail.layoutRaw
+          detail.layoutRaw,
+          selection.memo
         ]
           .filter(Boolean)
           .join(" ")
@@ -3208,6 +3784,14 @@ function filterProperties() {
           !recentOnly ||
           isRecent(property);
 
+        const matchesUserStatus =
+          !userStatus ||
+          selection.status === userStatus;
+
+        const matchesSchoolDecision =
+          !schoolDecision ||
+          selection.schoolDecision === schoolDecision;
+
         return (
           matchesSearch &&
           matchesArea &&
@@ -3215,7 +3799,9 @@ function filterProperties() {
           matchesPrice &&
           matchesPriceDown &&
           matchesFetched &&
-          matchesRecent
+          matchesRecent &&
+          matchesUserStatus &&
+          matchesSchoolDecision
         );
       }
     );
@@ -3419,7 +4005,7 @@ function renderDiscoveredListings(
                 <div class="property-id">
                   ID:
                   ${escapeHtml(
-                    property.id || "-"
+                    getPropertyId(property) || property.id || "-"
                   )}
                 </div>
 
@@ -3661,6 +4247,7 @@ function filterDiscoveredListings() {
 
         const text = [
           property.id,
+          property.propertyId,
           property.searchArea,
           property.areaDetected,
           property.detectedArea,
@@ -3724,7 +4311,8 @@ async function loadData() {
 
     const [
       housesResponse,
-      discoveredResponse
+      discoveredResponse,
+      userSelectionsResponse
     ] =
       await Promise.all([
 
@@ -3742,7 +4330,15 @@ async function loadData() {
           {
             cache: "no-store"
           }
-        )
+        ),
+
+        fetch(
+          "data/user_selections.json?" +
+          timestamp,
+          {
+            cache: "no-store"
+          }
+        ).catch(() => null)
 
       ]);
 
@@ -3766,6 +4362,7 @@ async function loadData() {
 
 
     if (
+      discoveredResponse &&
       discoveredResponse.ok
     ) {
 
@@ -3778,6 +4375,24 @@ async function loadData() {
         "discovered_listings.jsonが取得できませんでした。"
       );
     }
+
+    let serverUserSelections = null;
+    if (
+      userSelectionsResponse &&
+      userSelectionsResponse.ok
+    ) {
+      try {
+        serverUserSelections = await userSelectionsResponse.json();
+      } catch (e) {
+        console.warn("user_selections.jsonの解析に失敗しました。", e);
+      }
+    }
+
+    const localSelections = loadLocalUserSelections();
+    userSelections = mergeUserSelections(
+      serverUserSelections,
+      localSelections
+    );
 
 
     properties =
@@ -3948,6 +4563,36 @@ document
 
 document
   .getElementById(
+    "propertyUserStatus"
+  )
+  .addEventListener(
+    "change",
+    filterProperties
+  );
+
+
+document
+  .getElementById(
+    "propertySchoolDecision"
+  )
+  .addEventListener(
+    "change",
+    filterProperties
+  );
+
+
+document
+  .getElementById(
+    "exportUserSelections"
+  )
+  .addEventListener(
+    "click",
+    exportUserSelections
+  );
+
+
+document
+  .getElementById(
     "clearPropertyFilter"
   )
   .addEventListener(
@@ -3960,6 +4605,8 @@ document
       document.getElementById("priceDownOnly").checked = false;
       document.getElementById("detailFetchedOnly").checked = false;
       document.getElementById("recentOnly").checked = false;
+      document.getElementById("propertyUserStatus").value = "";
+      document.getElementById("propertySchoolDecision").value = "";
       filterProperties();
     }
   );
@@ -4008,6 +4655,43 @@ document
       filterDiscoveredListings();
     }
   );
+
+
+/* Event Delegation for User Selection inputs */
+const propertiesContainer = document.getElementById("properties");
+
+propertiesContainer.addEventListener("change", (e) => {
+  const statusSelect = e.target.closest("[data-user-status]");
+  if (statusSelect) {
+    const propertyId = statusSelect.getAttribute("data-user-status");
+    const property = properties.find(p => getPropertyId(p) === propertyId);
+    if (property) {
+      updateUserSelection(property, { status: statusSelect.value });
+    }
+    return;
+  }
+
+  const schoolSelect = e.target.closest("[data-user-school]");
+  if (schoolSelect) {
+    const propertyId = schoolSelect.getAttribute("data-user-school");
+    const property = properties.find(p => getPropertyId(p) === propertyId);
+    if (property) {
+      updateUserSelection(property, { schoolDecision: schoolSelect.value });
+    }
+    return;
+  }
+});
+
+propertiesContainer.addEventListener("change", (e) => {
+  const memoTextarea = e.target.closest("[data-user-memo]");
+  if (memoTextarea) {
+    const propertyId = memoTextarea.getAttribute("data-user-memo");
+    const property = properties.find(p => getPropertyId(p) === propertyId);
+    if (property) {
+      updateUserSelection(property, { memo: memoTextarea.value });
+    }
+  }
+});
 
 
 document.addEventListener(
