@@ -1964,15 +1964,31 @@ function getDetail(property) {
 
 
 function getPrice(property) {
-
-  const detail =
-    getDetail(property);
-
-  return (
+  const detail = getDetail(property);
+  // 1. 現行データの価格
+  const directPrice =
     parsePriceToYen(property.price) ??
     parsePriceToYen(detail.price) ??
-    parsePriceToYen(property.priceValue)
-  );
+    parsePriceToYen(property.priceValue) ??
+    parsePriceToYen(property.currentPrice) ??
+    parsePriceToYen(detail.currentPrice);
+  if (directPrice !== null) {
+    return directPrice;
+  }
+  // 2. 価格履歴から最新価格をフォールバック
+  const history =
+    getPriceHistory(property);
+  if (Array.isArray(history) && history.length > 0) {
+    for (let i = history.length - 1; i >= 0; i--) {
+      const historyPrice =
+        parsePriceToYen(history[i]?.price);
+      if (historyPrice !== null) {
+        return historyPrice;
+      }
+    }
+  }
+  // 3. 最終フォールバック
+  return null;
 }
 
 
@@ -4492,209 +4508,114 @@ function showError(message) {
 ========================================================= */
 
 document
-  .getElementById(
-    "propertySearch"
-  )
-  .addEventListener(
-    "input",
-    filterProperties
-  );
-
+  .getElementById("propertySearch")
+  .addEventListener("input", filterProperties);
 
 document
-  .getElementById(
-    "propertyArea"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("propertyArea")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "propertyQuality"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("propertyQuality")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "propertyPrice"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("propertyPrice")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "priceDownOnly"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("priceDownOnly")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "detailFetchedOnly"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("detailFetchedOnly")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "recentOnly"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("recentOnly")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "propertyUserStatus"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("propertyUserStatus")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "propertySchoolDecision"
-  )
-  .addEventListener(
-    "change",
-    filterProperties
-  );
-
+  .getElementById("propertySchoolDecision")
+  .addEventListener("change", filterProperties);
 
 document
-  .getElementById(
-    "exportUserSelections"
-  )
-  .addEventListener(
-    "click",
-    exportUserSelections
-  );
-
-
-document
-  .getElementById(
-    "clearPropertyFilter"
-  )
-  .addEventListener(
-    "click",
-    () => {
-      document.getElementById("propertySearch").value = "";
-      document.getElementById("propertyArea").value = "";
-      document.getElementById("propertyQuality").value = "";
-      document.getElementById("propertyPrice").value = "";
-      document.getElementById("priceDownOnly").checked = false;
-      document.getElementById("detailFetchedOnly").checked = false;
-      document.getElementById("recentOnly").checked = false;
-      document.getElementById("propertyUserStatus").value = "";
-      document.getElementById("propertySchoolDecision").value = "";
-      filterProperties();
-    }
-  );
-
+  .getElementById("clearPropertyFilter")
+  .addEventListener("click", () => {
+    document.getElementById("propertySearch").value = "";
+    document.getElementById("propertyArea").value = "";
+    document.getElementById("propertyQuality").value = "";
+    document.getElementById("propertyPrice").value = "";
+    document.getElementById("priceDownOnly").checked = false;
+    document.getElementById("detailFetchedOnly").checked = false;
+    document.getElementById("recentOnly").checked = false;
+    document.getElementById("propertyUserStatus").value = "";
+    document.getElementById("propertySchoolDecision").value = "";
+    filterProperties();
+  });
 
 document
-  .getElementById(
-    "discoveredSearch"
-  )
-  .addEventListener(
-    "input",
-    filterDiscoveredListings
-  );
-
+  .getElementById("exportUserSelections")
+  .addEventListener("click", exportUserSelections);
 
 document
-  .getElementById(
-    "discoveredArea"
-  )
-  .addEventListener(
-    "change",
-    filterDiscoveredListings
-  );
-
+  .getElementById("discoveredSearch")
+  .addEventListener("input", filterDiscoveredListings);
 
 document
-  .getElementById(
-    "discoveredValidation"
-  )
-  .addEventListener(
-    "change",
-    filterDiscoveredListings
-  );
-
+  .getElementById("discoveredArea")
+  .addEventListener("change", filterDiscoveredListings);
 
 document
-  .getElementById(
-    "clearDiscoveredFilter"
-  )
-  .addEventListener(
-    "click",
-    () => {
-      document.getElementById("discoveredSearch").value = "";
-      document.getElementById("discoveredArea").value = "";
-      document.getElementById("discoveredValidation").value = "";
-      filterDiscoveredListings();
-    }
-  );
+  .getElementById("discoveredValidation")
+  .addEventListener("change", filterDiscoveredListings);
 
+document
+  .getElementById("clearDiscoveredFilter")
+  .addEventListener("click", () => {
+    document.getElementById("discoveredSearch").value = "";
+    document.getElementById("discoveredArea").value = "";
+    document.getElementById("discoveredValidation").value = "";
+    filterDiscoveredListings();
+  });
 
-/* Event Delegation for User Selection inputs */
-const propertiesContainer = document.getElementById("properties");
-
-propertiesContainer.addEventListener("change", (e) => {
-  const statusSelect = e.target.closest("[data-user-status]");
-  if (statusSelect) {
-    const propertyId = statusSelect.getAttribute("data-user-status");
-    const property = properties.find(p => getPropertyId(p) === propertyId);
-    if (property) {
-      updateUserSelection(property, { status: statusSelect.value });
-    }
+// User Selection Events
+document.addEventListener("change", (e) => {
+  const statusEl = e.target.closest("[data-user-status]");
+  if (statusEl) {
+    const propertyId = statusEl.getAttribute("data-user-status");
+    updateUserSelection({ propertyId }, { status: statusEl.value });
     return;
   }
 
-  const schoolSelect = e.target.closest("[data-user-school]");
-  if (schoolSelect) {
-    const propertyId = schoolSelect.getAttribute("data-user-school");
-    const property = properties.find(p => getPropertyId(p) === propertyId);
-    if (property) {
-      updateUserSelection(property, { schoolDecision: schoolSelect.value });
-    }
-    return;
-  }
-
-  const memoTextarea = e.target.closest("[data-user-memo]");
-  if (memoTextarea) {
-    const propertyId = memoTextarea.getAttribute("data-user-memo");
-    const property = properties.find(p => getPropertyId(p) === propertyId);
-    if (property) {
-      updateUserSelection(property, { memo: memoTextarea.value });
-    }
+  const schoolEl = e.target.closest("[data-user-school]");
+  if (schoolEl) {
+    const propertyId = schoolEl.getAttribute("data-user-school");
+    updateUserSelection({ propertyId }, { schoolDecision: schoolEl.value });
     return;
   }
 });
 
-/* Initialize Data */
-document.addEventListener("DOMContentLoaded", loadData);
+document.addEventListener("input", (e) => {
+  const memoEl = e.target.closest("[data-user-memo]");
+  if (memoEl) {
+    const propertyId = memoEl.getAttribute("data-user-memo");
+    updateUserSelection({ propertyId }, { memo: memoEl.value });
+  }
+});
+
+
+/* =========================================================
+   Initialization
+========================================================= */
+
+window.addEventListener("DOMContentLoaded", loadData);
 
 </script>
+
 </body>
 </html>
