@@ -14,6 +14,151 @@ from bs4 import BeautifulSoup
 from adapters.base import PropertyAdapter
 
 
+# ============================================================
+# Search price extraction helper functions
+# ============================================================
+
+def _parse_search_price_candidates(text: Any) -> List[Dict[str, Any]]:
+    """
+    SUUMO検索結果カードから価格候補をすべて抽出する。
+    """
+    if text is None:
+        return []
+    s = str(text)
+    s = re.sub(r"\s+", " ", s).strip()
+    candidates: List[Dict[str, Any]] = []
+    # --------------------------------------------------------
+    # 1億2,800万円 / 1億2800万円
+    # --------------------------------------------------------
+    pattern_oku = re.compile(
+        r"(?P<raw>"
+        r"\d+(?:\.\d+)?\s*億"
+        r"(?:\s*\d{1,4}(?:,\d{3})*|\s*\d+)?\s*万円"
+        r")"
+    )
+    for m in pattern_oku.finditer(s):
+        raw = m.group("raw")
+        oku_match = re.search(
+            r"(\d+(?:\.\d+)?)\s*億",
+            raw
+        )
+        man_match = re.search(
+            r"億\s*([\d,]+)\s*万円",
+            raw
+        )
+        if not oku_match:
+            continue
+        value = float(oku_match.group(1)) * 100_000_000
+        if man_match:
+            value += int(man_match.group(1).replace(",", "")) * 10_000
+        yen = int(value)
+        if 5_000_000 <= yen <= 500_000_000:
+            candidates.append({
+                "priceYen": yen,
+                "raw": raw,
+                "start": m.start(),
+                "end": m.end(),
+            })
+    # --------------------------------------------------------
+    # 4480万円 / 4,480万円
+    # --------------------------------------------------------
+    pattern_man = re.compile(
+        r"(?P<raw>\d{1,6}(?:,\d{3})?\s*万円)"
+    )
+    for m in pattern_man.finditer(s):
+        raw = m.group("raw")
+        number = re.sub(r"[^\d]", "", raw)
+        if not number:
+            continue
+        yen = int(number) * 10_000
+        if 5_000_000 <= yen <= 500_000_000:
+            candidates.append({
+                "priceYen": yen,
+                "raw": raw,
+                "start": m.start(),
+                "end": m.end(),
+            })
+    # --------------------------------------------------------
+    # 44,800,000円 / ¥44,800,000
+    # --------------------------------------------------------
+    pattern_yen = re.compile(
+        r"(?P<raw>¥?\s*\d{1,3}(?:,\d{3})+\s*円?)"
+    )
+    for m in pattern_yen.finditer(s):
+        raw = m.group("raw")
+        number = re.sub(r"[^\d]", "", raw)
+        if not number:
+            continue
+        yen = int(number)
+        if 5_000_000 <= yen <= 500_000_000:
+            candidates.append({
+                "priceYen": yen,
+                "raw": raw,
+                "start": m.start(),
+                "end": m.end(),
+            })
+    # --------------------------------------------------------
+    # 重複除去
+    # --------------------------------------------------------
+    unique = {}
+    for candidate in candidates:
+        key = (
+            candidate["priceYen"],
+            candidate["raw"],
+        )
+        if key not in unique:
+            unique[key] = candidate
+    return list(unique.values())
+
+
+def extract_search_price(text: Any) -> Optional[Dict[str, Any]]:
+    """
+    SUUMO検索結果カードの価格を抽出する。
+    複数価格が存在する場合は候補を保持し、警告を付ける。
+    """
+    candidates = _parse_search_price_candidates(text)
+    if not candidates:
+        return None
+    # 同一価格の重複を除いた価格一覧
+    unique_prices = []
+    for candidate in candidates:
+        price = candidate["priceYen"]
+        if price not in unique_prices:
+            unique_prices.append(price)
+    # --------------------------------------------------------
+    # 単一価格
+    # --------------------------------------------------------
+    if len(unique_prices) == 1:
+        selected = next(
+            c for c in candidates
+            if c["priceYen"] == unique_prices[0]
+        )
+        return {
+            "searchPriceYen": selected["priceYen"],
+            "searchPriceMan": selected["priceYen"] // 10_000,
+            "searchPriceRaw": selected["raw"],
+            "searchPriceConfidence": "high",
+            "searchPriceSource": "search_card",
+            "searchPriceCandidateCount": 1,
+            "searchPriceCandidates": candidates,
+            "searchPriceWarning": None,
+        }
+    # --------------------------------------------------------
+    # 複数価格
+    # --------------------------------------------------------
+    selected = candidates[0]
+    return {
+        "searchPriceYen": selected["priceYen"],
+        "searchPriceMan": selected["priceYen"] // 10_000,
+        "searchPriceRaw": selected["raw"],
+        "searchPriceConfidence": "low",
+        "searchPriceSource": "search_card",
+        "searchPriceCandidateCount": len(unique_prices),
+        "searchPriceCandidates": candidates,
+        "searchPriceWarning": "検索結果に複数の価格候補あり",
+    }
+
+
 class SuumoSearchAdapter(PropertyAdapter):
     """
     SUUMO search result adapter.
@@ -813,100 +958,10 @@ class SuumoSearchAdapter(PropertyAdapter):
         text: Any,
     ) -> Optional[Dict[str, Any]]:
         """
-        SUUMO検索結果カードから販売価格を抽出する。
-        detailページより信頼度は一段低くするが、
-        detail価格取得失敗時のfallbackとして利用する。
+        SUUMO検索結果カードの価格を抽出する。
+        モジュール関数 extract_search_price を呼び出す。
         """
-        if not text:
-            return None
-
-        normalized = re.sub(
-            r"\s+",
-            " ",
-            str(text),
-        ).strip()
-
-        if not normalized:
-            return None
-
-        patterns = [
-            # 4,480万円
-            (
-                r"(?<![\d])"
-                r"([0-9]{1,3}(?:,[0-9]{3})*|[0-9]+(?:\.[0-9]+)?)"
-                r"\s*万円",
-                "search_card_man",
-                0.92,
-            ),
-            # 4480万円
-            (
-                r"(?<![\d])"
-                r"([0-9]+(?:\.[0-9]+)?)"
-                r"\s*万円",
-                "search_card_man",
-                0.90,
-            ),
-            # 44,800,000円
-            (
-                r"[¥￥]?\s*"
-                r"([0-9]{1,3}(?:,[0-9]{3})+)"
-                r"\s*円",
-                "search_card_yen",
-                0.88,
-            ),
-            # 44800000円
-            (
-                r"[¥￥]?\s*"
-                r"([0-9]{7,9})"
-                r"\s*円",
-                "search_card_yen",
-                0.85,
-            ),
-        ]
-
-        for pattern, source, confidence in patterns:
-            match = re.search(
-                pattern,
-                normalized,
-            )
-
-            if not match:
-                continue
-
-            raw_number = match.group(1)
-
-            try:
-                if source == "search_card_man":
-                    price_yen = int(
-                        round(
-                            float(
-                                raw_number.replace(",", "")
-                            ) * 10_000
-                        )
-                    )
-                else:
-                    price_yen = int(
-                        raw_number.replace(",", "")
-                    )
-
-            except (TypeError, ValueError):
-                continue
-
-            if not (
-                5_000_000
-                <= price_yen
-                <= 500_000_000
-            ):
-                continue
-
-            return {
-                "searchPriceYen": price_yen,
-                "searchPriceRaw": match.group(0),
-                "searchPriceConfidence": confidence,
-                "searchPriceSource": source,
-            }
-
-        return None
+        return extract_search_price(text)
 
     # ============================================================
     # Listing candidate extraction
@@ -982,14 +1037,10 @@ class SuumoSearchAdapter(PropertyAdapter):
                 )
             )
 
+            search_price_info = extract_search_price(card_text)
+
             built_year = (
                 self.extract_built_year(
-                    card_text
-                )
-            )
-
-            search_price = (
-                self.extract_search_price(
                     card_text
                 )
             )
@@ -1024,10 +1075,17 @@ class SuumoSearchAdapter(PropertyAdapter):
                 ),
             }
 
-            if search_price:
-                candidate.update(
-                    search_price
-                )
+            if search_price_info:
+                candidate.update(search_price_info)
+            else:
+                candidate["searchPriceYen"] = None
+                candidate["searchPriceMan"] = None
+                candidate["searchPriceRaw"] = None
+                candidate["searchPriceConfidence"] = "missing"
+                candidate["searchPriceSource"] = "search_card"
+                candidate["searchPriceCandidateCount"] = 0
+                candidate["searchPriceCandidates"] = []
+                candidate["searchPriceWarning"] = "検索結果から価格を取得できませんでした"
 
             results.append(candidate)
 
