@@ -2146,82 +2146,138 @@ def assign_area_excluded_reason(
 
 
 # ============================================================
-# School District
+# School District Candidate
 # ============================================================
+
+SCHOOL_DISTRICT_SCHEMA_VERSION = "1.0"
+
+# 「柏の葉小学校区の可能性がある住所」
+# 注意:
+# これは正式な学区判定ではない。
+# UI上で候補物件を拾うための住所候補判定として使用する。
+KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS = [
+    "柏の葉",
+    "若柴",
+    "正連寺",
+    "中十余二",
+]
+
 
 def evaluate_school_district(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
-
+    """
+    学区を厳密判定せず、
+    「柏の葉小学校区の候補になり得るか」を判定する。
+    方針:
+      - 自動判定で OK / NG を出さない
+      - 住所が取得できれば候補性を表示
+      - 最終判断はUI側でユーザーが行う
+      - 学区判定は検索条件の合否に影響させない
+    """
     search_area = normalize_search_area(
-        property_data.get(
-            "searchArea"
-        )
+        property_data.get("searchArea")
     )
 
-    detail = get_detail(
-        property_data
-    )
+    detail = get_detail(property_data)
 
     address = (
-        clean_text(
-            detail.get("address")
-        )
+        clean_text(detail.get("address"))
+        or clean_text(property_data.get("address"))
         or ""
     )
 
     normalized_address = (
-        normalize_address_for_area(
-            address
-        )
+        normalize_address_for_area(address)
         or ""
     )
 
-    kashiwa_address_candidate = any(
+    # --------------------------------------------------------
+    # デフォルト
+    # --------------------------------------------------------
+    result = {
+        "schoolDistrictSchemaVersion": SCHOOL_DISTRICT_SCHEMA_VERSION,
+        # 旧UI互換用
+        "schoolDistrictStatus": "unknown",
+        # 候補性
+        "schoolDistrictCandidate": False,
+        "schoolDistrictCandidateArea": None,
+        "schoolDistrictCandidateReason": None,
+        "schoolDistrictCandidateConfidence": "none",
+        # 正式判定ではないことを明示
+        "schoolDistrictDecision": "unconfirmed",
+        "schoolDistrictDecisionLabel": "未確認",
+        "schoolDistrictVerification": "manual",
+        "schoolDistrictPolicy": "ui_manual_candidate",
+        "schoolDistrictAddress": address or None,
+        "schoolDistrictNote": (
+            "学区は番地等による正式確認が必要です。"
+            "本項目は候補抽出のみで、自動的な学区合否判定には使用しません。"
+        ),
+    }
+
+    # --------------------------------------------------------
+    # 対象エリア以外
+    # --------------------------------------------------------
+    if search_area != "柏の葉キャンパス":
+        result.update(
+            {
+                "schoolDistrictStatus": "not_target_area",
+                "schoolDistrictCandidate": False,
+                "schoolDistrictCandidateArea": None,
+                "schoolDistrictCandidateReason": "柏の葉キャンパス検索対象ではない",
+                "schoolDistrictCandidateConfidence": "none",
+                "schoolDistrictDecision": "not_applicable",
+                "schoolDistrictDecisionLabel": "対象外",
+            }
+        )
+        return result
+
+    # --------------------------------------------------------
+    # 住所未取得
+    # --------------------------------------------------------
+    if not normalized_address:
+        result.update(
+            {
+                "schoolDistrictStatus": "unknown",
+                "schoolDistrictCandidate": False,
+                "schoolDistrictCandidateArea": "柏の葉小学校区",
+                "schoolDistrictCandidateReason": "住所情報なし",
+                "schoolDistrictCandidateConfidence": "none",
+            }
+        )
+        return result
+
+    # --------------------------------------------------------
+    # 候補住所判定
+    # --------------------------------------------------------
+    is_candidate = any(
         pattern in normalized_address
-        for pattern in [
-            "柏の葉",
-            "若柴",
-            "正連寺",
-            "中十余二",
-        ]
+        for pattern in KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS
     )
 
-    if (
-        search_area
-        == "柏の葉キャンパス"
-        and kashiwa_address_candidate
-    ):
+    if is_candidate:
+        result.update(
+            {
+                "schoolDistrictStatus": "candidate",
+                "schoolDistrictCandidate": True,
+                "schoolDistrictCandidateArea": "柏の葉小学校区",
+                "schoolDistrictCandidateReason": "候補住所パターンに合致",
+                "schoolDistrictCandidateConfidence": "address_based",
+            }
+        )
+    else:
+        result.update(
+            {
+                "schoolDistrictStatus": "unmatched",
+                "schoolDistrictCandidate": False,
+                "schoolDistrictCandidateArea": "柏の葉小学校区",
+                "schoolDistrictCandidateReason": "候補住所パターン不一致",
+                "schoolDistrictCandidateConfidence": "none",
+            }
+        )
 
-        return {
-            "schoolDistrictStatus":
-                "candidate",
-            "schoolDistrictConfidence":
-                "address_based",
-            "schoolDistrictPolicy":
-                "station_area_candidate",
-            "schoolDistrictVerification":
-                "required_for_final_decision",
-            "schoolDistrictNote":
-                (
-                    "柏の葉キャンパス対象住所から"
-                    "柏の葉小学校区候補として扱う。"
-                    "正式な学区は番地で確認が必要。"
-                ),
-        }
-
-    return {
-        "schoolDistrictStatus":
-            "none",
-        "schoolDistrictConfidence":
-            "not_applicable",
-        "schoolDistrictPolicy":
-            "none",
-        "schoolDistrictVerification":
-            "not_required",
-        "schoolDistrictNote":
-            None,
-    }
+    return result
 
 
 # ============================================================
