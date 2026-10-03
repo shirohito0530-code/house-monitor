@@ -38,7 +38,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-09-29-v35-price-extraction-and-history-fix"
+MAIN_PARSER_VERSION = "2026-10-03-v37-quality-classification-fix"
 
 # ============================================================
 # Discovery DB retention / schema
@@ -2151,10 +2151,6 @@ def assign_area_excluded_reason(
 
 SCHOOL_DISTRICT_SCHEMA_VERSION = "1.0"
 
-# 「柏の葉小学校区の可能性がある住所」
-# 注意:
-# これは正式な学区判定ではない。
-# UI上で候補物件を拾うための住所候補判定として使用する。
 KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS = [
     "柏の葉",
     "若柴",
@@ -2166,15 +2162,7 @@ KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS = [
 def evaluate_school_district(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
-    """
-    学区を厳密判定せず、
-    「柏の葉小学校区の候補になり得るか」を判定する。
-    方針:
-      - 自動判定で OK / NG を出さない
-      - 住所が取得できれば候補性を表示
-      - 最終判断はUI側でユーザーが行う
-      - 学区判定は検索条件の合否に影響させない
-    """
+
     search_area = normalize_search_area(
         property_data.get("searchArea")
     )
@@ -2192,19 +2180,13 @@ def evaluate_school_district(
         or ""
     )
 
-    # --------------------------------------------------------
-    # デフォルト
-    # --------------------------------------------------------
     result = {
         "schoolDistrictSchemaVersion": SCHOOL_DISTRICT_SCHEMA_VERSION,
-        # 旧UI互換用
         "schoolDistrictStatus": "unknown",
-        # 候補性
         "schoolDistrictCandidate": False,
         "schoolDistrictCandidateArea": None,
         "schoolDistrictCandidateReason": None,
         "schoolDistrictCandidateConfidence": "none",
-        # 正式判定ではないことを明示
         "schoolDistrictDecision": "unconfirmed",
         "schoolDistrictDecisionLabel": "未確認",
         "schoolDistrictVerification": "manual",
@@ -2216,9 +2198,6 @@ def evaluate_school_district(
         ),
     }
 
-    # --------------------------------------------------------
-    # 対象エリア以外
-    # --------------------------------------------------------
     if search_area != "柏の葉キャンパス":
         result.update(
             {
@@ -2233,9 +2212,6 @@ def evaluate_school_district(
         )
         return result
 
-    # --------------------------------------------------------
-    # 住所未取得
-    # --------------------------------------------------------
     if not normalized_address:
         result.update(
             {
@@ -2248,9 +2224,6 @@ def evaluate_school_district(
         )
         return result
 
-    # --------------------------------------------------------
-    # 候補住所判定
-    # --------------------------------------------------------
     is_candidate = any(
         pattern in normalized_address
         for pattern in KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS
@@ -2568,7 +2541,12 @@ def enrich_with_detail(
         property_data["propertyType"] = resolved_pt
         property_data["propertyTypeSource"] = pt_source
         property_data["propertyTypeConfidence"] = pt_confidence
-        # propertyTypeがURLや検索から確定している場合、弱抽出の警告を除外
+        # propertyTypeがURLや検索から確定している場合、欠損・弱抽出の警告を除外
+        if "missingCriticalFields" in detail_content:
+            detail_content["missingCriticalFields"] = [
+                f for f in detail_content.get("missingCriticalFields", [])
+                if f != "propertyType"
+            ]
         if "weakExtractionFields" in detail_content:
             detail_content["weakExtractionFields"] = [
                 f for f in detail_content.get("weakExtractionFields", [])
@@ -3123,13 +3101,17 @@ def build_market_house_record(
         "lastSuccessfulDetailAt"
     )
 
-    # 必須欠損項目のクリーンアップ（価格取得成功時の除外）
+    # 必須欠損項目のクリーンアップ（価格・物件種別取得成功時の除外）
     missing_crit = list(
         property_data.get("missingCriticalFields")
         or detail.get("missingCriticalFields", [])
     )
     if property_data.get("priceYen") is not None:
         missing_crit = [f for f in missing_crit if f not in ("price", "priceYen")]
+
+    p_type = property_data.get("propertyType")
+    if p_type:
+        missing_crit = [f for f in missing_crit if f != "propertyType"]
 
     missing_imp = list(
         property_data.get("missingImportantFields")
@@ -3162,19 +3144,22 @@ def build_market_house_record(
         weak_fields.append("price")
 
     # propertyTypeが確定している場合はweakExtractionFieldsから除外
-    p_type = property_data.get("propertyType")
     if p_type and "propertyType" in weak_fields:
         weak_fields.remove("propertyType")
 
     record["validationWarnings"] = warnings
     record["weakExtractionFields"] = weak_fields
 
-    # 品質評価（detailQuality）の再計算・更新
+    # 品質評価（detailQuality）の採用・更新（詳細パーサーの判定を基準にする）
     if missing_crit:
         record["detailQuality"] = "partial"
-    elif property_data.get("detailQuality") or detail.get("detailQuality"):
-        # クリティカル欠損がない場合は、更新された品質を採用
-        record["detailQuality"] = property_data.get("detailQuality") or detail.get("detailQuality")
+    else:
+        # クリティカル欠損がない場合は詳細パーサー側の品質判定を採用
+        record["detailQuality"] = (
+            property_data.get("detailQuality")
+            or detail.get("detailQuality")
+            or "complete"
+        )
 
     record["detailQualityScore"] = (
         property_data.get("detailQualityScore")
