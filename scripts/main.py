@@ -38,7 +38,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-03-v37-quality-classification-fix"
+MAIN_PARSER_VERSION = "2026-10-03-v38-effective-price-integration"
 
 # ============================================================
 # Discovery DB retention / schema
@@ -1758,17 +1758,37 @@ def evaluate_built_age(
 def get_price(
     property_data: Dict[str, Any],
 ) -> Optional[float]:
+    """
+    価格情報の統合取得 (Effective Price Integration)
+    優先度:
+    1. Detailページの価格 (priceYen / price)
+    2. property_data直下の価格 (priceYen)
+    3. SUUMO検索結果由来の価格 (searchPriceYen / searchPrice)
+    4. その他の現在価格・提示価格 (price / currentPrice)
+    """
+    detail = get_detail(property_data)
+    
+    # 1. Detail page price
+    detail_price = detail.get("priceYen") or detail.get("price")
+    if detail_price is not None:
+        num = to_number(detail_price)
+        if num is not None:
+            return num
 
+    # 2. Directly saved priceYen
     val = property_data.get("priceYen")
     if val is not None:
         return float(val)
 
-    detail = get_detail(property_data)
-    value = detail.get("priceYen") or detail.get("price")
+    # 3. Search result price
+    search_price = property_data.get("searchPriceYen") or property_data.get("searchPrice")
+    if search_price is not None:
+        num = to_number(search_price)
+        if num is not None:
+            return num
 
-    if value is None:
-        value = property_data.get("price")
-
+    # 4. Property data price / currentPrice
+    value = property_data.get("price")
     if value is None:
         value = property_data.get("currentPrice")
 
@@ -2335,14 +2355,31 @@ def normalize_search_result(
         or ""
     )
 
-    result["price"] = to_number(
-        result.get("price")
+    # --------------------------------------------------------
+    # 検索結果カード由来の価格を保持 (複線化対応)
+    # --------------------------------------------------------
+    raw_price = (
+        result.get("searchPriceYen")
+        or result.get("searchPrice")
+        or result.get("priceYen")
+        or result.get("price")
     )
+    search_price_num = to_number(raw_price)
+    if search_price_num is not None:
+        search_price_val = int(search_price_num)
+        result["searchPriceYen"] = search_price_val
+        result["searchPriceMan"] = int(search_price_val / 10_000)
+    else:
+        result["searchPriceYen"] = None
+        result["searchPriceMan"] = None
 
-    if result["price"] is not None:
-        result["priceMan"] = int(
-            result["price"] / 10_000
-        )
+    # 有効価格フォールバック初期値
+    effective_price = result["searchPriceYen"]
+    result["price"] = effective_price
+    if effective_price is not None:
+        result["priceMan"] = int(effective_price / 10_000)
+        result["currentPrice"] = effective_price
+        result["currentPriceMan"] = int(effective_price / 10_000)
 
     result["area"] = normalize_search_area(
         result.get("area")
@@ -2374,23 +2411,34 @@ def build_detail_quality_reasons(
     weak_extraction = detail.get("weakExtractionFields") or []
     warnings = detail.get("validationWarnings") or []
 
+    # 駅徒歩・交通関連フィールドは品質判定（欠損・警告）の対象外とする
+    walk_fields = {"targetStationWalkMinutes", "walkMinutes", "targetStation", "walk"}
+
     for field in missing_critical:
         if has_valid_price and field in ("price", "priceYen"):
             continue
         if has_valid_property_type and field == "propertyType":
             continue
+        if field in walk_fields:
+            continue
         reasons.append(f"critical_missing:{field}")
 
     for field in missing_important:
+        if field in walk_fields:
+            continue
         reasons.append(f"important_missing:{field}")
 
     for field in weak_extraction:
         if has_valid_property_type and field == "propertyType":
             continue
+        if field in walk_fields:
+            continue
         reasons.append(f"weak_extraction:{field}")
 
     for warning in warnings:
         if has_valid_price and ("価格" in str(warning) or "price" in str(warning).lower()):
+            continue
+        if "徒歩" in str(warning) or "walk" in str(warning).lower() or "駅" in str(warning):
             continue
         reasons.append(f"validation_warning:{warning}")
 
@@ -2501,17 +2549,42 @@ def enrich_with_detail(
     )
 
     # --------------------------------------------------------
-    # 価格情報の連携 & バリデーション＆不整合排除
+    # 価格情報の連携 & バリデーション＆不整合排除 (Effective Price Flow)
     # --------------------------------------------------------
     raw_price = detail_content.get("priceYen") or detail_content.get("price")
-    property_data["priceRaw"] = detail_content.get("priceRaw")
-    property_data["priceConfidence"] = detail_content.get("priceConfidence")
-    property_data["priceWarning"] = detail_content.get("priceWarning")
-    property_data["priceSource"] = detail_content.get("priceSource")
-
     validated_price, price_status = validate_sale_price(raw_price)
+
+    if validated_price is not None:
+        price_source = detail_content.get("priceSource") or "detail"
+        price_confidence = detail_content.get("priceConfidence") or "high"
+        price_warning = detail_content.get("priceWarning")
+        price_raw_str = detail_content.get("priceRaw")
+    else:
+        # 詳細ページで価格未取得の場合、検索結果カード価格にフォールバック
+        search_price = (
+            property_data.get("searchPriceYen")
+            or property_data.get("searchPrice")
+            or property_data.get("priceYen")
+            or property_data.get("price")
+        )
+        validated_price, price_status = validate_sale_price(search_price)
+        if validated_price is not None:
+            price_source = "search_fallback"
+            price_confidence = "medium"
+            price_warning = "詳細ページ価格未取得のため検索結果価格を採用"
+            price_raw_str = str(search_price)
+        else:
+            price_source = "none"
+            price_confidence = "missing"
+            price_warning = "価格情報取得不可"
+            price_raw_str = None
+
     property_data["priceYen"] = validated_price
     property_data["priceStatus"] = price_status
+    property_data["priceRaw"] = price_raw_str
+    property_data["priceConfidence"] = price_confidence
+    property_data["priceWarning"] = price_warning
+    property_data["priceSource"] = price_source
 
     if price_status in ("very_low", "very_high"):
         property_data["priceConfidence"] = "low"
@@ -2523,7 +2596,7 @@ def enrich_with_detail(
         property_data["currentPrice"] = validated_price
         property_data["currentPriceMan"] = int(validated_price / 10_000)
         
-        # 抽出成功時に価格欠損系メッセージ・警告をクリア
+        # 抽出成功（またはフォールバック成功）時に価格欠損系メッセージ・警告をクリア
         if "missingCriticalFields" in detail_content:
             detail_content["missingCriticalFields"] = [
                 f for f in detail_content.get("missingCriticalFields", [])
@@ -2559,8 +2632,9 @@ def enrich_with_detail(
     p_raw = property_data.get("priceRaw") or ""
     p_conf = property_data.get("priceConfidence") or "missing"
     p_stat = property_data.get("priceStatus") or "unknown"
+    p_src = property_data.get("priceSource") or "unknown"
     print(
-        f"[PRICE-AUDIT] propertyId={p_id} price={p_yen} raw=\"{p_raw}\" confidence={p_conf} status={p_stat}"
+        f"[PRICE-AUDIT] propertyId={p_id} price={p_yen} raw=\"{p_raw}\" confidence={p_conf} source={p_src} status={p_stat}"
     )
 
     quality_fields = [
@@ -2780,9 +2854,14 @@ def evaluate_property_criteria(
     # --------------------------------------------------------
     current_price = property_data.get("priceYen")
     if current_price is None:
-        p_num = to_number(property_data.get("price"))
+        p_num = get_price(property_data)
         if p_num is not None:
             current_price = int(p_num)
+            property_data["priceYen"] = current_price
+            property_data["price"] = current_price
+            property_data["priceMan"] = int(current_price / 10_000)
+            property_data["currentPrice"] = current_price
+            property_data["currentPriceMan"] = int(current_price / 10_000)
 
     observed_at = (
         property_data.get("lastSeenAt")
@@ -2970,6 +3049,7 @@ def build_listing_observation(
 
         "priceConfidence": property_data.get("priceConfidence"),
         "priceStatus": property_data.get("priceStatus"),
+        "priceSource": property_data.get("priceSource"),
 
         "searchTargets":
             property_data.get(
@@ -3101,7 +3181,9 @@ def build_market_house_record(
         "lastSuccessfulDetailAt"
     )
 
-    # 必須欠損項目のクリーンアップ（価格・物件種別取得成功時の除外）
+    walk_fields = {"targetStationWalkMinutes", "walkMinutes", "targetStation", "walk"}
+
+    # 必須欠損項目のクリーンアップ（価格・物件種別・駅徒歩除外）
     missing_crit = list(
         property_data.get("missingCriticalFields")
         or detail.get("missingCriticalFields", [])
@@ -3113,10 +3195,14 @@ def build_market_house_record(
     if p_type:
         missing_crit = [f for f in missing_crit if f != "propertyType"]
 
+    # 駅徒歩を欠損評価から除外
+    missing_crit = [f for f in missing_crit if f not in walk_fields]
+
     missing_imp = list(
         property_data.get("missingImportantFields")
         or detail.get("missingImportantFields", [])
     )
+    missing_imp = [f for f in missing_imp if f not in walk_fields]
 
     record["missingCriticalFields"] = missing_crit
     record["missingImportantFields"] = missing_imp
@@ -3135,6 +3221,10 @@ def build_market_house_record(
     if property_data.get("priceYen") is not None:
         warnings = [w for w in warnings if "価格" not in str(w) and "price" not in str(w).lower()]
 
+    # 駅徒歩関連の警告・弱抽出を除外
+    warnings = [w for w in warnings if not ("徒歩" in str(w) or "walk" in str(w).lower() or "駅" in str(w))]
+    weak_fields = [f for f in weak_fields if f not in walk_fields]
+
     price_warning = property_data.get("priceWarning")
     if price_warning and price_warning not in warnings:
         warnings.append(price_warning)
@@ -3143,23 +3233,21 @@ def build_market_house_record(
     if price_confidence == "low" and "price" not in weak_fields:
         weak_fields.append("price")
 
-    # propertyTypeが確定している場合はweakExtractionFieldsから除外
     if p_type and "propertyType" in weak_fields:
         weak_fields.remove("propertyType")
 
     record["validationWarnings"] = warnings
     record["weakExtractionFields"] = weak_fields
 
-    # 品質評価（detailQuality）の採用・更新（詳細パーサーの判定を基準にする）
+    # 品質評価（detailQuality）の採用・更新（駅徒歩欠損でのpartial判定を防止）
     if missing_crit:
         record["detailQuality"] = "partial"
     else:
-        # クリティカル欠損がない場合は詳細パーサー側の品質判定を採用
-        record["detailQuality"] = (
-            property_data.get("detailQuality")
-            or detail.get("detailQuality")
-            or "complete"
-        )
+        raw_quality = property_data.get("detailQuality") or detail.get("detailQuality")
+        if raw_quality == "partial" and not missing_crit:
+            record["detailQuality"] = "complete"
+        else:
+            record["detailQuality"] = raw_quality or "complete"
 
     record["detailQualityScore"] = (
         property_data.get("detailQualityScore")
@@ -3542,6 +3630,11 @@ def run_pipeline() -> None:
                     existing["seenThisRun"] = True
                     existing["lastSeenAt"] = run_start_iso
                     existing["status"] = "active"
+
+                    # 検索カードの価格情報を既存情報に反映・統合
+                    if normalized.get("searchPriceYen") is not None:
+                        existing["searchPriceYen"] = normalized.get("searchPriceYen")
+                        existing["searchPriceMan"] = normalized.get("searchPriceMan")
 
                     if not existing.get("searchArea"):
                         existing["searchArea"] = normalized.get("searchArea")
