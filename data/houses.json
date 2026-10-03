@@ -1,7 +1,7 @@
 {
-  "updatedAt": "2026-10-03T05:52:22.733325+00:00",
+  "updatedAt": "2026-10-03T08:03:49.589087+00:00",
   "schemaVersion": "2.0",
-  "parserVersion": "2026-10-03-v37-quality-classification-fix",
+  "parserVersion": "2026-10-03-v38-effective-price-integration",
   "properties": [
     {
       "source": "suumo",
@@ -45,7 +45,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -2458,7 +2458,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -4830,7 +4830,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
       "searchPageNumber": 2,
-      "searchPosition": 2,
+      "searchPosition": 1,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -4853,7 +4853,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -6836,7 +6836,7 @@
       "priceStatus": "normal",
       "currentPrice": 43800000,
       "currentPriceMan": 4380,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -6881,9 +6881,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
-      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
-      "searchPageNumber": 1,
-      "searchPosition": 22,
+      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
+      "searchPageNumber": 2,
+      "searchPosition": 3,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -6906,7 +6906,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -9435,7 +9435,7 @@
       "priceStatus": "normal",
       "currentPrice": 178000000,
       "currentPriceMan": 17800,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -9482,7 +9482,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
       "searchPageNumber": 2,
-      "searchPosition": 6,
+      "searchPosition": 5,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -9505,7 +9505,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -11730,7 +11730,7 @@
       "priceStatus": "normal",
       "currentPrice": 13300000,
       "currentPriceMan": 1330,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -11777,7 +11777,7 @@
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
       "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=3&rn=0760",
       "searchPageNumber": 3,
-      "searchPosition": 20,
+      "searchPosition": 18,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -11800,7 +11800,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -14025,7 +14025,7 @@
       "priceStatus": "normal",
       "currentPrice": 26500000,
       "currentPriceMan": 2650,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -14095,7 +14095,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -17117,7 +17117,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -19023,7 +19023,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -21065,7 +21065,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -23588,27 +23588,21 @@
       "priceStatus": "normal",
       "currentPrice": 41900000,
       "currentPriceMan": 4190,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [
         "targetStationWalkMinutes"
       ],
       "missingCriticalFields": [],
-      "missingImportantFields": [
-        "targetStationWalkMinutes"
-      ],
-      "validationWarnings": [
-        "対象駅の徒歩情報を取得できない"
-      ],
+      "missingImportantFields": [],
+      "validationWarnings": [],
       "weakExtractionFields": [
         "price"
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": "対象駅の徒歩情報を取得できない",
       "detailQualityReasons": [
-        "important_missing:targetStationWalkMinutes",
-        "weak_extraction:price",
-        "validation_warning:対象駅の徒歩情報を取得できない"
+        "weak_extraction:price"
       ],
       "address": "千葉県柏市十余二",
       "land": 139.46,
@@ -23666,7 +23660,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -25660,10 +25654,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
       "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -27414,7 +27408,7 @@
       "priceStatus": "normal",
       "currentPrice": 49980000,
       "currentPriceMan": 4998,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -27440,7 +27434,8 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00"
     },
     {
       "source": "suumo",
@@ -27484,7 +27479,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -29625,27 +29620,21 @@
       "priceStatus": "normal",
       "currentPrice": 43980000,
       "currentPriceMan": 4398,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [
         "targetStationWalkMinutes"
       ],
       "missingCriticalFields": [],
-      "missingImportantFields": [
-        "targetStationWalkMinutes"
-      ],
-      "validationWarnings": [
-        "対象駅の徒歩情報を取得できない"
-      ],
+      "missingImportantFields": [],
+      "validationWarnings": [],
       "weakExtractionFields": [
         "price"
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": "対象駅の徒歩情報を取得できない",
       "detailQualityReasons": [
-        "important_missing:targetStationWalkMinutes",
-        "weak_extraction:price",
-        "validation_warning:対象駅の徒歩情報を取得できない"
+        "weak_extraction:price"
       ],
       "address": "千葉県柏市十余二",
       "land": 107.78,
@@ -29703,7 +29692,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
@@ -33056,7 +33045,7 @@
       "priceStatus": "normal",
       "currentPrice": 47980000,
       "currentPriceMan": 4798,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -33126,7 +33115,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -35654,7 +35643,7 @@
       "priceStatus": "normal",
       "currentPrice": 49980000,
       "currentPriceMan": 4998,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -35724,7 +35713,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -38550,7 +38539,7 @@
       "priceStatus": "normal",
       "currentPrice": 49980000,
       "currentPriceMan": 4998,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -38620,7 +38609,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -41052,7 +41041,7 @@
       "priceStatus": "normal",
       "currentPrice": 54680000,
       "currentPriceMan": 5468,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -41122,7 +41111,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -43410,10 +43399,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": true,
+      "seenThisRun": false,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
       "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "status": "active",
+      "status": "observed_ended",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -45826,7 +45815,7 @@
       "priceStatus": "normal",
       "currentPrice": 47980000,
       "currentPriceMan": 4798,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -45852,7 +45841,8 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00"
     },
     {
       "source": "suumo",
@@ -45896,7 +45886,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -48249,7 +48239,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -50874,7 +50864,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -53307,7 +53297,7 @@
       "priceStatus": "normal",
       "currentPrice": 74600000,
       "currentPriceMan": 7460,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -53377,7 +53367,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -55700,7 +55690,7 @@
       "priceStatus": "normal",
       "currentPrice": 74800000,
       "currentPriceMan": 7480,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -55726,7 +55716,9 @@
       "priceHistory": [],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "searchPriceYen": 74800000,
+      "searchPriceMan": 7480
     },
     {
       "source": "suumo",
@@ -55770,7 +55762,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
+      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新築戸建て"
@@ -58622,7 +58614,7 @@
       "priceStatus": "normal",
       "currentPrice": 79800000,
       "currentPriceMan": 7980,
-      "detailQuality": "partial",
+      "detailQuality": "complete",
       "detailQualityScore": 75,
       "missingFields": [],
       "missingCriticalFields": [],
@@ -58654,8 +58646,8 @@
   "summary": {
     "marketDbCount": 24,
     "marketHistoryCount": 24,
-    "marketHistoryActiveCount": 24,
-    "marketHistoryEndedCount": 0,
-    "partialQualityCount": 24
+    "marketHistoryActiveCount": 22,
+    "marketHistoryEndedCount": 2,
+    "partialQualityCount": 9
   }
 }
