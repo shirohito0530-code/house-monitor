@@ -1,7 +1,6 @@
 {
-  "updatedAt": "2026-10-03T08:03:49.589087+00:00",
-  "schemaVersion": "2.0",
-  "parserVersion": "2026-10-03-v38-effective-price-integration",
+  "version": "2.0",
+  "updatedAt": "2026-10-03T08:26:00.032548+00:00",
   "properties": [
     {
       "source": "suumo",
@@ -45,7 +44,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -2404,8 +2403,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市若柴",
       "land": 120.0,
@@ -2414,7 +2412,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 20.0
+      "walk": 20.0,
+      "currentPrice": null,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -2458,7 +2458,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -4799,8 +4799,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市若柴",
       "land": 119.01,
@@ -4809,7 +4808,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 10.0
+      "walk": 10.0,
+      "currentPrice": null,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -4828,9 +4829,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "中古戸建",
       "searchUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
-      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/?page=2&rn=0760",
-      "searchPageNumber": 2,
-      "searchPosition": 1,
+      "searchPageUrl": "https://suumo.jp/chukoikkodate/chiba/ek_76130/nj_167/",
+      "searchPageNumber": 1,
+      "searchPosition": 23,
       "searchTarget": "柏の葉キャンパス新着中古戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "中古戸建て",
@@ -4853,7 +4854,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -6847,9 +6848,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市若柴",
       "land": 120.81,
       "building": 109.71,
@@ -6859,10 +6858,18 @@
       "targetStationWalkSource": "walk",
       "walk": 20.0,
       "firstPrice": 43800000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 43800000,
+          "observedAt": "2026-10-03T08:27:33.731618+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "searchPriceYen": 25800000,
+      "searchPriceMan": 2580,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -6906,7 +6913,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -9446,9 +9453,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市若柴280番地23中央176街区15",
       "land": 181.82,
       "building": 151.02,
@@ -9458,10 +9463,16 @@
       "targetStationWalkSource": "walk",
       "walk": 7.0,
       "firstPrice": 178000000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 178000000,
+          "observedAt": "2026-10-03T08:27:33.732930+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -9505,7 +9516,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -11741,9 +11752,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市十余二",
       "land": 80.3,
       "building": 67.33,
@@ -11753,10 +11762,16 @@
       "targetStationWalkSource": "walk",
       "walk": 24.0,
       "firstPrice": 13300000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 13300000,
+          "observedAt": "2026-10-03T08:27:33.734097+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "3DK"
     },
     {
       "source": "suumo",
@@ -11800,7 +11815,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス中古戸建て",
@@ -14036,9 +14051,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市十余二",
       "land": 81.42,
       "building": 85.08,
@@ -14048,10 +14061,16 @@
       "targetStationWalkSource": "walk",
       "walk": 24.0,
       "firstPrice": 26500000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 26500000,
+          "observedAt": "2026-10-03T08:27:33.735247+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "1LDK"
     },
     {
       "source": "suumo",
@@ -14095,7 +14114,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -17063,8 +17082,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市正連寺",
       "land": 176.08,
@@ -17073,7 +17091,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 13.0
+      "walk": 13.0,
+      "currentPrice": null,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -17117,7 +17137,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -18969,8 +18989,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市十余二",
       "land": 76.72,
@@ -18979,7 +18998,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 24.0
+      "walk": 24.0,
+      "currentPrice": null,
+      "layout": "1LDK+2S"
     },
     {
       "source": "suumo",
@@ -19023,7 +19044,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -21011,8 +21032,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市十余二",
       "land": 76.72,
@@ -21021,7 +21041,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 25.0
+      "walk": 25.0,
+      "currentPrice": null,
+      "layout": "1LDK+2S"
     },
     {
       "source": "suumo",
@@ -21065,7 +21087,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -23601,9 +23623,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": "対象駅の徒歩情報を取得できない",
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市十余二",
       "land": 139.46,
       "building": 101.43,
@@ -23613,10 +23633,16 @@
       "targetStationWalkSource": null,
       "walk": null,
       "firstPrice": 41900000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 41900000,
+          "observedAt": "2026-10-03T08:27:33.740037+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -23660,7 +23686,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -25602,8 +25628,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市十余二254-551",
       "land": 101.15,
@@ -25612,7 +25637,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 20.0
+      "walk": 20.0,
+      "currentPrice": null,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -25631,9 +25658,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
-      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
-      "searchPageNumber": 1,
-      "searchPosition": 24,
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=2&rn=0760",
+      "searchPageNumber": 2,
+      "searchPosition": 26,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -25654,10 +25681,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": false,
+      "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "status": "observed_ended",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
+      "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -27419,9 +27446,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉５",
       "land": 150.01,
       "building": 105.52,
@@ -27431,11 +27456,19 @@
       "targetStationWalkSource": "walk",
       "walk": 33.0,
       "firstPrice": 49980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 49980000,
+          "observedAt": "2026-10-03T08:27:33.742665+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
-      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00"
+      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00",
+      "searchPriceYen": 47990000,
+      "searchPriceMan": 4799,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -27479,7 +27512,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -29633,9 +29666,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": "対象駅の徒歩情報を取得できない",
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市十余二",
       "land": 107.78,
       "building": 112.23,
@@ -29645,10 +29676,16 @@
       "targetStationWalkSource": null,
       "walk": null,
       "firstPrice": 43980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 43980000,
+          "observedAt": "2026-10-03T08:27:33.743770+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -29692,7 +29729,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て",
@@ -33056,9 +33093,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉２",
       "land": 102.93,
       "building": 102.84,
@@ -33068,10 +33103,16 @@
       "targetStationWalkSource": "walk",
       "walk": 18.0,
       "firstPrice": 47980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 47980000,
+          "observedAt": "2026-10-03T08:27:33.745481+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -33115,7 +33156,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -35654,9 +35695,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉５",
       "land": 150.01,
       "building": 105.52,
@@ -35666,10 +35705,16 @@
       "targetStationWalkSource": "walk",
       "walk": 33.0,
       "firstPrice": 49980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 49980000,
+          "observedAt": "2026-10-03T08:27:33.746778+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -35713,7 +35758,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -38550,9 +38595,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉５",
       "land": 150.01,
       "building": 105.52,
@@ -38562,10 +38605,16 @@
       "targetStationWalkSource": "walk",
       "walk": 33.0,
       "firstPrice": 49980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 49980000,
+          "observedAt": "2026-10-03T08:27:33.748235+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -38609,7 +38658,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -41052,9 +41101,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉５",
       "land": 150.02,
       "building": 113.36,
@@ -41064,10 +41111,16 @@
       "targetStationWalkSource": "walk",
       "walk": 33.0,
       "firstPrice": 54680000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 54680000,
+          "observedAt": "2026-10-03T08:27:33.749491+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -41111,7 +41164,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
@@ -43347,8 +43400,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県柏市正連寺",
       "land": 149.29,
@@ -43357,7 +43409,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "柏の葉キャンパス",
       "targetStationWalkSource": "walk",
-      "walk": 18.0
+      "walk": 18.0,
+      "currentPrice": null,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -43376,9 +43430,9 @@
       "searchArea": "柏の葉キャンパス",
       "searchPropertyType": "新築戸建",
       "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
-      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/?page=3&rn=0760",
-      "searchPageNumber": 3,
-      "searchPosition": 19,
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageNumber": 1,
+      "searchPosition": 22,
       "searchTarget": "柏の葉キャンパス新築戸建て",
       "searchTargetArea": "柏の葉キャンパス",
       "searchTargetPropertyType": "新築戸建て",
@@ -43399,10 +43453,10 @@
       "urlCityCode": "sc_kashiwa",
       "areaPrefilterExcluded": false,
       "areaPrefilterReason": "accepted_target_city",
-      "seenThisRun": false,
+      "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "status": "observed_ended",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
+      "status": "active",
       "searchTargets": [
         "柏の葉キャンパス新築戸建て"
       ],
@@ -45826,9 +45880,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県柏市柏の葉２",
       "land": 102.93,
       "building": 102.84,
@@ -45838,11 +45890,19 @@
       "targetStationWalkSource": "walk",
       "walk": 18.0,
       "firstPrice": 47980000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 47980000,
+          "observedAt": "2026-10-03T08:27:33.751874+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
-      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00"
+      "endedObservedAt": "2026-10-03T08:02:11.019855+00:00",
+      "searchPriceYen": 49900000,
+      "searchPriceMan": 4990,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -45886,7 +45946,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -48185,8 +48245,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県流山市おおたかの森北３",
       "land": 135.38,
@@ -48195,7 +48254,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "流山おおたかの森",
       "targetStationWalkSource": "walk",
-      "walk": 15.0
+      "walk": 15.0,
+      "currentPrice": null,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -48239,7 +48300,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -50810,8 +50871,7 @@
       "poorReasonCategory": "critical_missing",
       "targetStationWalkWarning": null,
       "detailQualityReasons": [
-        "critical_missing:price",
-        "validation_warning:販売価格を抽出できない"
+        "missing:priceYen"
       ],
       "address": "千葉県流山市おおたかの森南３",
       "land": 158.7,
@@ -50820,7 +50880,9 @@
       "targetStationWalkAvailable": true,
       "targetStation": "流山おおたかの森",
       "targetStationWalkSource": "walk",
-      "walk": 11.0
+      "walk": 11.0,
+      "currentPrice": null,
+      "layout": "3LDK"
     },
     {
       "source": "suumo",
@@ -50864,7 +50926,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -53308,9 +53370,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県流山市おおたかの森北２",
       "land": 135.1,
       "building": 105.15,
@@ -53320,10 +53380,16 @@
       "targetStationWalkSource": "walk",
       "walk": 15.0,
       "firstPrice": 74600000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 74600000,
+          "observedAt": "2026-10-03T08:27:33.755613+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "4LDK"
     },
     {
       "source": "suumo",
@@ -53367,7 +53433,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森中古戸建て",
@@ -55701,9 +55767,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県流山市おおたかの森北３",
       "land": 141.14,
       "building": 101.43,
@@ -55713,12 +55777,18 @@
       "targetStationWalkSource": "walk",
       "walk": 18.0,
       "firstPrice": 74800000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 74800000,
+          "observedAt": "2026-10-03T08:27:33.756807+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
       "searchPriceYen": 74800000,
-      "searchPriceMan": 7480
+      "searchPriceMan": 7480,
+      "layout": "5LDK"
     },
     {
       "source": "suumo",
@@ -55762,7 +55832,7 @@
       "areaPrefilterReason": "accepted_target_city",
       "seenThisRun": true,
       "firstSeenAt": "2026-10-03T05:41:33.265181+00:00",
-      "lastSeenAt": "2026-10-03T08:02:11.019855+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
       "status": "active",
       "searchTargets": [
         "流山おおたかの森新築戸建て"
@@ -58625,9 +58695,7 @@
       ],
       "poorReasonCategory": null,
       "targetStationWalkWarning": null,
-      "detailQualityReasons": [
-        "weak_extraction:price"
-      ],
+      "detailQualityReasons": [],
       "address": "千葉県流山市おおたかの森北３-26-4",
       "land": 153.39,
       "building": 106.82,
@@ -58637,17 +58705,1892 @@
       "targetStationWalkSource": "walk",
       "walk": 19.0,
       "firstPrice": 79800000,
-      "priceHistory": [],
+      "priceHistory": [
+        {
+          "price": 79800000,
+          "observedAt": "2026-10-03T08:27:33.758318+00:00"
+        }
+      ],
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
-      "priceReductionCount": 0
+      "priceReductionCount": 0,
+      "layout": "3LDK"
+    },
+    {
+      "source": "suumo",
+      "sourceId": "nc_21746498",
+      "listingId": "nc_21746498",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+      "url": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+      "detailUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+      "listingTitle": "十余二 4190万円・4490万円",
+      "searchTitle": "柏4190万円・4490万円・4LDK 新着",
+      "builtYear": null,
+      "cardText": "北小金3290万円・4LDK 柏の葉キャンパス4799万円・3LDK 流山おおたかの森4998万円・3LDK+S（納… 柏4190万円・4490万円・4LDK 新着",
+      "propertyType": "新築戸建",
+      "propertyTypeSource": "url",
+      "propertyTypeConfidence": 1.0,
+      "searchPriceYen": 32900000,
+      "searchPriceRaw": "3290万円",
+      "searchPriceConfidence": 0.92,
+      "searchPriceSource": "search_card_man",
+      "searchArea": "柏の葉キャンパス",
+      "searchPropertyType": "新築戸建",
+      "searchUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageUrl": "https://suumo.jp/ikkodate/chiba/ek_76130/",
+      "searchPageNumber": 1,
+      "searchPosition": 28,
+      "searchTarget": "柏の葉キャンパス新築戸建て",
+      "searchTargetArea": "柏の葉キャンパス",
+      "searchTargetPropertyType": "新築戸建て",
+      "discoveredAt": "2026-10-03T08:26:26.057673+00:00",
+      "detailFetched": false,
+      "detailFetchSuccess": true,
+      "detailFetchStatus": "success",
+      "detailFetchError": null,
+      "detailFetchErrorType": null,
+      "propertyId": "suumo:nc_21746498",
+      "identityKey": "suumo:nc_21746498",
+      "identityType": "source_id",
+      "identityCompleteness": 1.0,
+      "id": "suumo:nc_21746498",
+      "name": "十余二 4190万円・4490万円",
+      "searchPriceMan": 3290,
+      "priceYen": 41900000,
+      "currentPrice": 41900000,
+      "price": 41900000,
+      "priceMan": 4190,
+      "currentPriceMan": 4190,
+      "area": "柏の葉キャンパス",
+      "urlCityCode": "sc_kashiwa",
+      "areaPrefilterExcluded": false,
+      "areaPrefilterReason": "accepted_target_city",
+      "seenThisRun": true,
+      "firstSeenAt": "2026-10-03T08:26:00.032548+00:00",
+      "lastSeenAt": "2026-10-03T08:26:00.032548+00:00",
+      "status": "active",
+      "searchTargets": [
+        "柏の葉キャンパス新築戸建て"
+      ],
+      "daysListed": 0,
+      "areaMatched": true,
+      "areaDetected": "柏の葉キャンパス",
+      "areaAddress": "千葉県柏市十余二",
+      "areaValidationReason": "address_area_matched",
+      "areaCityCode": "sc_kashiwa",
+      "areaCityMatched": true,
+      "schoolDistrictSchemaVersion": "1.0",
+      "schoolDistrictStatus": "unmatched",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "schoolDistrictCandidateReason": "候補住所パターン不一致",
+      "schoolDistrictCandidateConfidence": "none",
+      "schoolDistrictDecision": "unconfirmed",
+      "schoolDistrictDecisionLabel": "未確認",
+      "schoolDistrictVerification": "manual",
+      "schoolDistrictPolicy": "ui_manual_candidate",
+      "schoolDistrictAddress": "千葉県柏市十余二",
+      "schoolDistrictNote": "学区は番地等による正式確認が必要です。本項目は候補抽出のみで、自動的な学区合否判定には使用しません。",
+      "propertyTypeMatched": true,
+      "propertyTypeReason": "property_type_allowed",
+      "builtAgeMatched": true,
+      "builtAgeYears": 0.0,
+      "builtAgeStatus": "confirmed",
+      "builtAgeReason": "new_house_exempt_from_age_limit",
+      "walkMinutes": 25.0,
+      "landAreaM2": 139.46,
+      "buildingAreaM2": 101.43,
+      "priceMatched": true,
+      "walkMatched": false,
+      "landAreaMatched": true,
+      "buildingAreaMatched": true,
+      "priceReason": "within_price_limit",
+      "walkReason": "walk_minutes_over_limit",
+      "landAreaReason": "within_land_area_limit",
+      "buildingAreaReason": "within_building_area_limit",
+      "areaExcludedReason": null,
+      "searchCriteriaMatched": false,
+      "searchResultFilterExcluded": true,
+      "firstPrice": 32900000,
+      "priceHistory": [
+        {
+          "price": 41900000,
+          "observedAt": "2026-10-03T08:27:33.761727+00:00"
+        }
+      ],
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "areaClassification": "primaryTarget",
+      "lastDetailAttemptAt": "2026-10-03T08:27:21.802873+00:00",
+      "detailFetchAttempts": 1,
+      "lastDetailFetchAt": "2026-10-03T08:27:21.802873+00:00",
+      "lastSuccessfulDetailAt": "2026-10-03T08:27:21.802873+00:00",
+      "detail": {
+        "success": true,
+        "detailParserVersion": "2026-10-03-v39-price-and-quality-unification",
+        "fetchedAt": "2026-10-03T08:27:21.802587+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "httpStatus": 200,
+        "title": "十余二 4190万円・4490万円",
+        "price": 41900000,
+        "priceYen": 41900000,
+        "currentPrice": 41900000,
+        "priceConfidence": "medium",
+        "priceStatus": "normal",
+        "priceRaw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+        "priceWarning": null,
+        "priceSource": "price_label",
+        "priceCandidateCount": 2,
+        "priceCandidates": [
+          {
+            "price": 41900000,
+            "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 41900000,
+            "raw": "価格4190万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          }
+        ],
+        "address": "千葉県柏市十余二",
+        "landAreaM2": 139.46,
+        "buildingAreaM2": 101.43,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2026-12",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 12,
+        "constructionAgeYears": null,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-02",
+        "nextUpdateDate": "2026-10-10",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 2,
+            "candidates": [
+              {
+                "price": 41900000,
+                "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 41900000,
+                "raw": "価格4190万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 15,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "住所 千葉県柏市十余二 ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二 [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県知事（1）第018188号",
+                "raw": "千葉県知事（1）第018188号",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 9,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2 （登記）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2 （登記）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "土地面積171.14m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 101.43,
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 3,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2 （実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2 （実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "建物面積101.43m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 6,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月下旬予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月下旬予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 33,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、十余二 4190万円・4490万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、十余二 4190万円・4490万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-250104 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-250104 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4)",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "特徴ピックアップ 長期優良住宅認定通知書 / 設計住宅性能評価書 / 建設住宅性能評価書（新築時） / フラット３５・S適合証明書 / 省エネルギー対策 / フラット３５Sに対応 / 高気密高断熱住宅 / 地盤調査済 / 年内引渡可 / 駐車２台可 / 土地50坪以上 / スーパー 徒歩10分以内 / 南向き / システムキッチン / 浴室乾燥機 / 陽当り良好 / 全居室収納 / 駅まで平坦 / 閑静な住宅地 / シャワー付洗面化粧台 / 対面式キッチン / ハイルーフ駐車場 / バリアフリー / トイレ２ヶ所 / 浴室１坪以上 / ２階建 / 南面バルコニー / 複層ガラス / 全室南向き / オートバス / 温水洗浄便座 / 床下収納 / ＴＶモニタ付インターホン / 節水型トイレ / 緑豊かな住宅地 / 都市近郊 / 通風良好 / 全居室フローリング / パントリー（食器・食品の収納庫） / ウォークインクローゼット / 全居室複層ガラスか複層サッシ / 都市ガス / 平坦地 / 浄水器 / 高機能トイレ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "長期優良住宅認定通知書 / 設計住宅性能評価書 / 建設住宅性能評価書（新築時） / フラット３５・S適合証明書 / 省エネルギー対策 / フラット３５Sに対応 / 高気密高断熱住宅 / 地盤調査済 / 年内引渡可 / 駐車２台可 / 土地50坪以上 / スーパー 徒歩10分以内 / 南向き / システムキッチン / 浴室乾燥機 / 陽当り良好 / 全居室収納 / 駅まで平坦 / 閑静な住宅地 / シャワー付洗面化粧台 / 対面式キッチン / ハイルーフ駐車場 / バリアフリー / トイレ２ヶ所 / 浴室１坪以上 / ２階建 / 南面バルコニー / 複層ガラス / 全室南向き / オートバス / 温水洗浄便座 / 床下収納 / ＴＶモニタ付インターホン / 節水型トイレ / 緑豊かな住宅地 / 都市近郊 / 通風良好 / 全居室フローリング / パントリー（食器・食品の収納庫） / ウォークインクローゼット / 全居室複層ガラスか複層サッシ / 都市ガス / 平坦地 / 浄水器 / 高機能トイレ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す ＪＲ常磐線 | 東武野田線",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 4,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 25,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 25,
+        "walkMinutes": 25,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "低信頼度抽出項目: price"
+        ],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "weakCriticalExtractionFields": [
+          "price"
+        ],
+        "weakImportantExtractionFields": [],
+        "detailQualityReasons": [
+          "weak_critical_extraction:price",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "qualityModelVersion": "v39-price-and-quality-unification"
+      },
+      "lastSuccessfulDetail": {
+        "success": true,
+        "detailParserVersion": "2026-10-03-v39-price-and-quality-unification",
+        "fetchedAt": "2026-10-03T08:27:21.802587+00:00",
+        "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "requestUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "finalUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+        "httpStatus": 200,
+        "title": "十余二 4190万円・4490万円",
+        "price": 41900000,
+        "priceYen": 41900000,
+        "currentPrice": 41900000,
+        "priceConfidence": "medium",
+        "priceStatus": "normal",
+        "priceRaw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+        "priceWarning": null,
+        "priceSource": "price_label",
+        "priceCandidateCount": 2,
+        "priceCandidates": [
+          {
+            "price": 41900000,
+            "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+            "source": "price_label",
+            "confidence": "medium",
+            "status": "normal",
+            "selectionScore": 0.81,
+            "matchCount": 2
+          },
+          {
+            "price": 41900000,
+            "raw": "価格4190万円",
+            "source": "page_text",
+            "confidence": "low",
+            "status": "normal",
+            "selectionScore": 0.46,
+            "matchCount": 2
+          }
+        ],
+        "address": "千葉県柏市十余二",
+        "landAreaM2": 139.46,
+        "buildingAreaM2": 101.43,
+        "buildingFootprintAreaM2": null,
+        "layout": "4LDK",
+        "constructionMonth": "2026-12",
+        "constructionYear": 2026,
+        "constructionMonthNumber": 12,
+        "constructionAgeYears": null,
+        "constructionPrecision": "month",
+        "propertyType": "新築戸建",
+        "propertyTypeConsistencyWarning": null,
+        "informationDate": "2026-10-02",
+        "nextUpdateDate": "2026-10-10",
+        "extractionAudit": {
+          "price": {
+            "status": "found",
+            "selected_method": "price_label",
+            "selected_confidence": 0.65,
+            "priceConfidence": "medium",
+            "candidate_count": 2,
+            "candidates": [
+              {
+                "price": 41900000,
+                "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+                "source": "price_label",
+                "confidence": "medium",
+                "status": "normal",
+                "selectionScore": 0.81,
+                "matchCount": 2
+              },
+              {
+                "price": 41900000,
+                "raw": "価格4190万円",
+                "source": "page_text",
+                "confidence": "low",
+                "status": "normal",
+                "selectionScore": 0.46,
+                "matchCount": 2
+              }
+            ]
+          },
+          "address": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.91,
+            "candidate_count": 15,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "table_th_td",
+                "confidence": 0.91,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "住所 千葉県柏市十余二 ",
+                "source": "page_regex",
+                "confidence": 0.8,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市",
+                "raw": "千葉県柏市",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 >",
+                "raw": "千葉県 >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二",
+                "raw": "千葉県柏市十余二 [ ■ 周辺環境 ]",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥",
+                "raw": "都道府県・市区郡 都道府県を選択 北海道 青森県 岩手県 宮城県 秋田県 山形県 福島県 茨城県 栃木県 群馬県 埼玉県 千葉県 東京都 神奈川県 新潟県 富山県 石川県 福井県 山梨県 長野県 岐阜県 静岡県 愛知県 三重県 滋賀県 京都府 大阪府 兵庫県 奈良県 和歌山県 鳥取県 島根県 岡山県 広島県 山口県 徳島県 香川県 愛媛県 高知県 福岡県 佐賀県 長崎県 熊本県 大分県 宮崎県 鹿児島県 沖縄県 市区郡を選択",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県知事（1）第018188号",
+                "raw": "千葉県知事（1）第018188号",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "周辺施設 ※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "raw": "※地図上に表示される物件の位置は付近住所に所在することを表すものであり、実際の物件所在地とは異なる場合がございます。 ※地図の更新タイミングの関係で、物件情報が実際のものとは異なる場合や最新情報に更新されていない場合がございます。 ※以下の南西諸島及び離島においては、表示される物件の位置が実際のものとは数百メートル程度ずれる場合がございます。 東京都：硫黄島・青ヶ島、沖縄県： 北大東島・南大東島・多良間島・水納島・与那国島・宮古諸島・石垣島・竹富島",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "address",
+                "value": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "raw": "北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "landAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 9,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2 （登記）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "139.46m 2 ・171.14m 2 （登記）",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "土地面積171.14m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "(A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 139.46,
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 171.14,
+                "raw": "≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "landAreaM2",
+                "value": 101.43,
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingAreaM2": {
+            "status": "found",
+            "selected_method": "table_th_td_building",
+            "selected_confidence": 0.94,
+            "candidate_count": 3,
+            "candidate_sources": [
+              "page_regex",
+              "table_th_td_building"
+            ],
+            "candidates": [
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2 （実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "101.43m 2 ・102.67m 2 （実測）",
+                "source": "table_th_td_building",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "buildingAreaM2",
+                "value": 101.43,
+                "raw": "建物面積101.43m 2",
+                "source": "page_regex",
+                "confidence": 0.82,
+                "metadata": {}
+              }
+            ]
+          },
+          "buildingFootprintAreaM2": {
+            "status": "missing",
+            "methods_tried": [
+              "all_sources"
+            ],
+            "candidate_count": 0,
+            "candidates": []
+          },
+          "layout": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 6,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "4LDK",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "間取り図 [ 閉じる ] ≪ (A号棟)、価格4190万円、4LDK、土地面積171.14m 2 、建物面積101.43m 2 ≫",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              },
+              {
+                "field": "layout",
+                "value": "4LDK",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {}
+              }
+            ]
+          },
+          "constructionMonth": {
+            "status": "found",
+            "selected_method": "table_th_td",
+            "selected_confidence": 0.97,
+            "candidate_count": 5,
+            "candidate_sources": [
+              "table_th_td",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月下旬予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期（築年月） ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "2026年12月下旬予定",
+                "source": "table_th_td",
+                "confidence": 0.97,
+                "metadata": {
+                  "precision": "month",
+                  "sourceLabel": "完成時期(築年月) ヒント"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "物件詳細情報 ネットで見学予約できる日程 ◯ ：即時予約可 ■ ：仮予約可 TEL：電話予約できる可能性あり prev next 資料請求する(無料) その場で確定！ 見学予約する(無料) 問合せ先： 【通話料無料】 TEL：0120-250104 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 間取り ヒント 4LDK 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 完成時期（築年月） ヒント 2026年12月下旬予定 住所 千葉県柏市十余二 [ ■ 周辺環境 ] 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 関連リンク 【この会社の関連サイト】 創業4年で1200組以上のご購入・ご売却のお手伝いをさせていただきました！！ 引渡し後も私たちがサポートします！ 【東宝ハウス松戸】はネット未公開物件も多数取り扱ってます！！ 私たちが東宝ハウス松戸から家を買ったワケ！ 【全国8位の売買仲介実績】 TOHOHOUSEならではの物件情報！！ 不動産会社ガイド 会社やブランドを徹底研究していますので、是非ご覧ください。 東宝ハウス城東 / 東宝ハウス松戸 担当者より 担当者 人見 啓太 年齢：20代 業界経験：1年 物件のお引渡し後も、お客様とのご縁を大切に。リフォームや修繕、住まいのお困りごとなど、いつでも気軽に相談できる“暮らしのパートナー”として、長くサポートしてまいります。 【この物件について】 担当のヒトミです。嬉しいのが並列駐車2台可能なカースペース。2台の車を所有するご家庭はもちろん、来客時にも使いやすいゆとりを確保しています。 長く暮らすマイホームだからこそ住まいの品質にもこだわりたい 【得意エリア】 松戸市 市川市 三郷市 葛飾区 お問い合せ先 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) TEL：0120-250104 【通話料無料】 「SUUMO(スーモ)を見た」と問い合わせください 免許番号：千葉県知事（1）第018188号 取引態様：＜仲介＞ SUUMO(スーモ)だけではわからない物件の詳細な情報や、最新の物件情報がもらえます！ こんなパンフレットが届きます ■【住宅ローン入門】をお送り致します。住宅ローンの基礎知識、商品内容、各金融機関との比較、金融機関が教えてくれない事など内容は様々・・・まずは、資料を見て検討したい方にオススメです。",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              },
+              {
+                "field": "constructionMonth",
+                "value": "2026-12",
+                "raw": "【一戸建て】 販売スケジュール - イベント情報 現地見学会（事前に必ずお問い合わせください） 日程／毎週土日祝 時間／9:00～21:00 ■日時 毎日、ご見学が可能です。 9:00～21:00まで ■ご案内方法 ご自宅へお迎え・最寄り駅等でお待ち合わせ、弊社へのご来社など、ご相談くださいませ。 ご希望があれば周辺環境、お客様の希望に合わせた物件などもご案内をいたします。 ■ご予約方法 事前に鍵の手配が必要な場合がありますので、お早目にご連絡をいただけると、 ご案内がスムーズです。 ■その他、各種ご相談もお気軽にどうぞ！ ◎FPによるライフプランのシュミレーション。 ・漠然としたキャッシュフローをグラフに。 ・ライフプランに合った資金計画 ・効果的な生命保険の見直し etc... ◎住宅ローンのご相談 ・繰り上げ返済は「いつ」、「どのくらい」するが効果的？ ・どこの銀行で借りるとお得なの？ ・適切な借入額は？ etc... ■キッズスペースもご用意しております☆ 弊社にはお子様が退屈しないよう、ＤＶＤ、おもちゃ、絵本、ぬりえなどキッズスペースも充実させておりますので、ご安心下さい。 ■お車の無料提携駐車場がございます。 詳しくは営業スタッフよりお伝えさせて頂きます。 設立以来、多くのお客様に高い評価を頂いております、 弊社がご提供する独自の不動産仲介サービスにつきましては、 弊社のホームページをご参照くださいませ。 https://www.tohomatsudo.com/ なんでもお気軽にお申し付けくださいませ。 フリーダイヤル 【0120-250-104】 資料請求は【下部のオレンジ色資料請求ボタン】よりお問い合わせください。 所在地 千葉県柏市十余二 交通 ＪＲ常磐線「柏」バス13分雷神前歩1分 [ 乗り換え案内 ] つくばエクスプレス「柏の葉キャンパス」歩25分 [ 乗り換え案内 ] ＪＲ常磐線「柏」歩34分 [ 乗り換え案内 ] 販売戸数 ヒント 2戸 総戸数 ヒント 2戸 価格 ヒント 4190万円・4490万円 [ □ 支払シミュレーション ] 最多価格帯 ヒント - 私道負担・道路 ヒント 道路幅：4ｍ、コンクリート舗装 諸費用 ヒント - 間取り ヒント 4LDK 建物面積 ヒント 101.43m 2 ・102.67m 2 （実測） 土地面積 ヒント 139.46m 2 ・171.14m 2 （登記） 建ぺい率・容積率 ヒント 建ペい率：60％、容積率：150％ 完成時期(築年月) ヒント 2026年12月下旬予定 引渡可能時期 ヒント 相談 土地の権利形態 ヒント 所有権 構造・工法 ヒント - エネルギー消費性能 ヒント - 断熱性能 ヒント - 目安光熱費 ヒント - 施工 ヒント - リフォーム ヒント - 用途地域 ヒント １種低層 地目 ヒント - その他制限事項 景観法による規制有 その他概要・特記事項 担当者：人見 啓太、設備：公営水道、本下水、都市ガス、建築確認番号：第HPA-26-09927-1号他",
+                "source": "text_block",
+                "confidence": 0.72,
+                "metadata": {
+                  "precision": "month"
+                }
+              }
+            ]
+          },
+          "propertyType": {
+            "status": "found",
+            "selected_method": "listing_url",
+            "selected_confidence": 1.0,
+            "candidate_count": 33,
+            "candidate_sources": [
+              "listing_url",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21746498/",
+                "source": "listing_url",
+                "confidence": 1.0,
+                "metadata": {
+                  "reason": "SUUMO新築戸建詳細URL"
+                }
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、十余二 4190万円・4490万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンション購入 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "マンション購入 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建て購入・建築 新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "一戸建て購入・建築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "マンションを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "一戸建てを買う 新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て >",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築 中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり ログイン マイページ 閲覧履歴一覧 マイリスト（物件） マイリスト（会社） マイリスト（検索条件）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "あっ、ここに住もう！ SUUMO(スーモ)関東版 Produced By Recruit 全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国へ 検索 初めての方へ サイトマップ お問い合わせ マンション・購入 一戸建て購入・建築 賃貸 マンション購入 新築 マンション購入 中古 一戸建て購入・建築 新築 一戸建て購入・建築 中古 一戸建て購入・建築 土地 一戸建て購入・建築 注文 リフォーム 売却 相談 お役立ち 引越し見積もり",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "SUUMO(スーモ)新築一戸建ては、十余二 4190万円・4490万円の新築分譲住宅・一軒家のマイホーム購入をサポートする情報サイトです。 全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "全国へ 関東版 借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "借りる 賃貸 マンションを買う 新築 中古 一戸建てを買う 新築 中古 建てる 注文住宅 土地 リフォームする リフォーム 売る 売却査定 住まいの相談 講座/相談 暮らし SUUMO引越し見積もり SUUMO家とお金の相談 スゴい速い住宅ローン審査",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "中古戸建",
+                "raw": "中古",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO > 新築一戸建て > 関東 > 千葉県 > 柏市 > 柏駅 > 4190万円・4490万円（4LDK）",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール 新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-250104 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4) 資料請求する (無料) その場で確定！ 見学予約する (無料) TEL：0120-250104 【通話料無料】",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "新築一戸建て 新着 4190万円・4490万円 千葉県柏市 ＪＲ常磐線「柏」バス13分雷神前歩1分 情報提供日: 26/10/2 次回更新予定日: 26/10/10 取引条件有効期限: 26/12/31 東宝ハウスライフソリューションズグループ(株)東宝ハウス松戸お問い合わせ受付窓口(4)",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "特徴ピックアップ 長期優良住宅認定通知書 / 設計住宅性能評価書 / 建設住宅性能評価書（新築時） / フラット３５・S適合証明書 / 省エネルギー対策 / フラット３５Sに対応 / 高気密高断熱住宅 / 地盤調査済 / 年内引渡可 / 駐車２台可 / 土地50坪以上 / スーパー 徒歩10分以内 / 南向き / システムキッチン / 浴室乾燥機 / 陽当り良好 / 全居室収納 / 駅まで平坦 / 閑静な住宅地 / シャワー付洗面化粧台 / 対面式キッチン / ハイルーフ駐車場 / バリアフリー / トイレ２ヶ所 / 浴室１坪以上 / ２階建 / 南面バルコニー / 複層ガラス / 全室南向き / オートバス / 温水洗浄便座 / 床下収納 / ＴＶモニタ付インターホン / 節水型トイレ / 緑豊かな住宅地 / 都市近郊 / 通風良好 / 全居室フローリング / パントリー（食器・食品の収納庫） / ウォークインクローゼット / 全居室複層ガラスか複層サッシ / 都市ガス / 平坦地 / 浄水器 / 高機能トイレ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "長期優良住宅認定通知書 / 設計住宅性能評価書 / 建設住宅性能評価書（新築時） / フラット３５・S適合証明書 / 省エネルギー対策 / フラット３５Sに対応 / 高気密高断熱住宅 / 地盤調査済 / 年内引渡可 / 駐車２台可 / 土地50坪以上 / スーパー 徒歩10分以内 / 南向き / システムキッチン / 浴室乾燥機 / 陽当り良好 / 全居室収納 / 駅まで平坦 / 閑静な住宅地 / シャワー付洗面化粧台 / 対面式キッチン / ハイルーフ駐車場 / バリアフリー / トイレ２ヶ所 / 浴室１坪以上 / ２階建 / 南面バルコニー / 複層ガラス / 全室南向き / オートバス / 温水洗浄便座 / 床下収納 / ＴＶモニタ付インターホン / 節水型トイレ / 緑豊かな住宅地 / 都市近郊 / 通風良好 / 全居室フローリング / パントリー（食器・食品の収納庫） / ウォークインクローゼット / 全居室複層ガラスか複層サッシ / 都市ガス / 平坦地 / 浄水器 / 高機能トイレ",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す 柏の葉キャンパス駅 最寄駅の同じ沿線から新築一戸建てを探す ＪＲ常磐線 | 東武野田線",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "最寄駅の同じ沿線から新築一戸建てを探す",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "十余二 4190万円・4490万円の新築物件販売情報です。間取り・区画図や内観・外観の画像、周辺地図からマイホームのイメージはつきましたか？内覧予約をして実際に物件を見に行ってみるのもおすすめです。徒歩で行ける近くの病院・学校等の施設情報や、近隣エリアの口コミ・評判も住まいを決める大切な情報です。最新情報はスタッフにお気軽にお尋ねください。 全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄 初めての方へ | サイトマップ | 利用規約 | プライバシーポリシー | お問い合わせ 採用情報",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "全国の不動産情報へ | 関東トップへ 検索する 不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談 SUUMOエリアトップへ 北海道 | 東北 | 関東 | 甲信越・北陸 | 東海 | 関西 | 四国 | 中国 | 九州・沖縄",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "不動産・住宅サイト SUUMO（スーモ） 賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              },
+              {
+                "field": "propertyType",
+                "value": "新築戸建",
+                "raw": "賃貸 | 賃貸マンション | 賃貸アパート | 賃貸一戸建て | 家賃相場 | 新築分譲マンション | 中古マンション | 新築一戸建て | 中古一戸建て | 土地 | リノベーション物件 | 注文住宅 | 住宅リフォーム | 不動産売却・査定 | 新築相談 | 引越し見積もり | 住宅ローン | 物件ライブラリー | ファイナンシャルプランナー無料相談",
+                "source": "text_block",
+                "confidence": 0.68,
+                "metadata": {}
+              }
+            ]
+          },
+          "station": {
+            "status": "found",
+            "selected_method": "text_block",
+            "selected_confidence": 0.94,
+            "candidate_count": 4,
+            "candidate_sources": [
+              "page_text",
+              "text_block"
+            ],
+            "candidates": [
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "text_block",
+                "confidence": 0.94,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              },
+              {
+                "field": "station",
+                "value": {
+                  "station": "柏の葉キャンパス",
+                  "stationAccessType": "walk",
+                  "stationWalkMinutes": 25,
+                  "walkMinutes": 25,
+                  "targetStation": "柏の葉キャンパス",
+                  "targetStationWalkMinutes": 25,
+                  "targetStationWalkAvailable": true,
+                  "targetStationWalkSource": "walk",
+                  "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                  "busMinutes": null,
+                  "busStop": null,
+                  "busStopWalkMinutes": null
+                },
+                "raw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+                "source": "page_text",
+                "confidence": 0.84,
+                "metadata": {}
+              }
+            ]
+          }
+        },
+        "station": "柏の葉キャンパス",
+        "targetStation": "柏の葉キャンパス",
+        "targetStationWalkMinutes": 25,
+        "targetStationWalkAvailable": true,
+        "targetStationWalkSource": "walk",
+        "stationWalkMinutes": 25,
+        "walkMinutes": 25,
+        "transportRaw": "つくばエクスプレス「柏の葉キャンパス」歩25分",
+        "stationAccessType": "walk",
+        "busMinutes": null,
+        "busStop": null,
+        "busStopWalkMinutes": null,
+        "detailQuality": "partial",
+        "detailQualityScore": 75,
+        "missingFields": [],
+        "missingCriticalFields": [],
+        "missingImportantFields": [],
+        "validationWarnings": [
+          "低信頼度抽出項目: price"
+        ],
+        "weakExtractionFields": [
+          "price"
+        ],
+        "weakCriticalExtractionFields": [
+          "price"
+        ],
+        "weakImportantExtractionFields": [],
+        "detailQualityReasons": [
+          "weak_critical_extraction:price",
+          "validation_warning:低信頼度抽出項目: price"
+        ],
+        "poorReasonCategory": null,
+        "propertyTypeUsedForEvaluation": "新築戸建",
+        "targetStationWalkWarning": null,
+        "qualityModelVersion": "v39-price-and-quality-unification"
+      },
+      "priceStatus": "normal",
+      "priceRaw": "十余二 4190万円・4490万円 印刷用画面 お気に入りに追加する 価格更新お知らせメール",
+      "priceConfidence": "medium",
+      "priceWarning": null,
+      "priceSource": "price_label",
+      "address": "千葉県柏市十余二",
+      "land": 139.46,
+      "building": 101.43,
+      "layout": "4LDK",
+      "detailQuality": "complete",
+      "detailQualityReasons": []
     }
-  ],
-  "summary": {
-    "marketDbCount": 24,
-    "marketHistoryCount": 24,
-    "marketHistoryActiveCount": 22,
-    "marketHistoryEndedCount": 2,
-    "partialQualityCount": 9
-  }
+  ]
 }
