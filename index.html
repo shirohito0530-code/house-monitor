@@ -4680,9 +4680,7 @@ propertiesContainer.addEventListener("change", (e) => {
     }
     return;
   }
-});
 
-propertiesContainer.addEventListener("change", (e) => {
   const memoTextarea = e.target.closest("[data-user-memo]");
   if (memoTextarea) {
     const propertyId = memoTextarea.getAttribute("data-user-memo");
@@ -4690,16 +4688,13 @@ propertiesContainer.addEventListener("change", (e) => {
     if (property) {
       updateUserSelection(property, { memo: memoTextarea.value });
     }
+    return;
   }
 });
 
-
-document.addEventListener(
-  "DOMContentLoaded",
-  loadData
-);
+/* Initialize */
+loadData();
 
 </script>
-
 </body>
 </html>
