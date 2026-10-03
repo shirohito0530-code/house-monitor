@@ -3021,15 +3021,24 @@ def build_market_house_record(
 
     detail = get_detail(property_data)
     record = deepcopy(property_data)
-
-    detail_fetch_success = property_data.get("detailFetchSuccess")
+    detail_fetch_success = property_data.get(
+        "detailFetchSuccess"
+    )
     if detail_fetch_success is None:
-        detail_fetch_success = (property_data.get("detailFetchStatus") == "success")
-
+        detail_fetch_success = (
+            property_data.get(
+                "detailFetchStatus"
+            ) == "success"
+        )
     # --------------------------------------------------------
     # 1. 価格項目の統一
+    #
+    # 優先順位:
+    #   ① 詳細ページ価格
+    #   ② property_data に確定済みの価格
+    #   ③ 検索結果価格
     # --------------------------------------------------------
-    price_val = (
+    raw_price = (
         detail.get("priceYen")
         or detail.get("currentPrice")
         or detail.get("price")
@@ -3037,39 +3046,167 @@ def build_market_house_record(
         or property_data.get("currentPrice")
         or property_data.get("price")
         or property_data.get("searchPriceYen")
+        or property_data.get("searchPrice")
     )
-    if price_val is not None:
-        price_val = int(price_val)
-
+    price_val, validated_price_status = validate_sale_price(
+        raw_price
+    )
     record["priceYen"] = price_val
     record["currentPrice"] = price_val
     record["price"] = price_val
-
+    if price_val is not None:
+        record["priceMan"] = int(
+            price_val / 10_000
+        )
+        record["currentPriceMan"] = int(
+            price_val / 10_000
+        )
     # --------------------------------------------------------
-    # 2. 価格履歴更新
+    # 2. 価格メタデータの統一
+    #
+    # 詳細ページの情報を最優先する。
     # --------------------------------------------------------
-    current_price = record.get("currentPrice")
-    if current_price:
-        history = record.get("priceHistory") or []
-        if not history or history[-1].get("price") != current_price:
-            history.append({
-                "price": current_price,
-                "observedAt": now_iso()
-            })
+    price_source = (
+        detail.get("priceSource")
+        or record.get("priceSource")
+    )
+    price_confidence = (
+        detail.get("priceConfidence")
+        or record.get("priceConfidence")
+    )
+    price_warning = (
+        detail.get("priceWarning")
+        if detail.get("priceWarning") is not None
+        else record.get("priceWarning")
+    )
+    price_raw = (
+        detail.get("priceRaw")
+        or record.get("priceRaw")
+    )
+    price_status = (
+        detail.get("priceStatus")
+        or record.get("priceStatus")
+        or validated_price_status
+    )
+    price_candidate_count = (
+        detail.get("priceCandidateCount")
+        if detail.get("priceCandidateCount") is not None
+        else record.get("priceCandidateCount")
+    )
+    price_candidates = (
+        detail.get("priceCandidates")
+        if detail.get("priceCandidates") is not None
+        else record.get("priceCandidates")
+    )
+    # 詳細価格が取得できている場合
+    if price_val is not None:
+        if not price_source:
+            price_source = "detail"
+        if not price_confidence:
+            price_confidence = "high"
+        if not price_status:
+            price_status = validated_price_status
+    else:
+        price_source = "none"
+        price_confidence = "missing"
+        if not price_warning:
+            price_warning = "価格情報取得不可"
+        price_status = (
+            validated_price_status
+            or "missing"
+        )
+    record["priceSource"] = price_source
+    record["priceConfidence"] = price_confidence
+    record["priceWarning"] = price_warning
+    record["priceRaw"] = price_raw
+    record["priceStatus"] = price_status
+    if price_candidate_count is not None:
+        record["priceCandidateCount"] = (
+            price_candidate_count
+        )
+    if price_candidates is not None:
+        record["priceCandidates"] = (
+            price_candidates
+        )
+    # --------------------------------------------------------
+    # 3. 価格履歴更新
+    # --------------------------------------------------------
+    current_price = record.get(
+        "currentPrice"
+    )
+    if current_price is not None:
+        history = (
+            record.get("priceHistory")
+            or []
+        )
+        if not isinstance(
+            history,
+            list,
+        ):
+            history = []
+        if (
+            not history
+            or not isinstance(
+                history[-1],
+                dict,
+            )
+            or history[-1].get(
+                "price"
+            ) != current_price
+        ):
+            history.append(
+                {
+                    "price": current_price,
+                    "observedAt": now_iso(),
+                }
+            )
         record["priceHistory"] = history
-
     # --------------------------------------------------------
-    # 3. 品質判定 (quality_fields)
+    # 4. 品質判定用フィールドの補完
     # --------------------------------------------------------
-    if "address" not in record and "address" in detail:
-        record["address"] = detail.get("address")
-    if "landAreaM2" not in record or record["landAreaM2"] is None:
-        record["landAreaM2"] = record.get("land") or detail.get("landAreaM2")
-    if "buildingAreaM2" not in record or record["buildingAreaM2"] is None:
-        record["buildingAreaM2"] = record.get("building") or detail.get("buildingAreaM2")
-    if "layout" not in record and "layout" in detail:
-        record["layout"] = detail.get("layout")
-
+    if (
+        not record.get("address")
+        and detail.get("address")
+    ):
+        record["address"] = detail.get(
+            "address"
+        )
+    if (
+        record.get("landAreaM2") is None
+    ):
+        record["landAreaM2"] = (
+            record.get("land")
+            or detail.get("landAreaM2")
+        )
+    if (
+        record.get("buildingAreaM2") is None
+    ):
+        record["buildingAreaM2"] = (
+            record.get("building")
+            or detail.get("buildingAreaM2")
+        )
+    if (
+        not record.get("layout")
+        and detail.get("layout")
+    ):
+        record["layout"] = detail.get(
+            "layout"
+        )
+    # --------------------------------------------------------
+    # 5. 品質判定
+    #
+    # 必須:
+    #   priceYen
+    #   address
+    #   landAreaM2
+    #   buildingAreaM2
+    #   layout
+    #
+    # 以下は品質判定から除外:
+    #   propertyType
+    #   schoolDistrict
+    #   station walk
+    # --------------------------------------------------------
     quality_fields = [
         "priceYen",
         "address",
@@ -3077,35 +3214,53 @@ def build_market_house_record(
         "buildingAreaM2",
         "layout",
     ]
-
     missing = [
         field
         for field in quality_fields
-        if record.get(field) in (None, "", 0)
+        if record.get(field) in (
+            None,
+            "",
+            0,
+        )
     ]
-
     if detail_fetch_success:
         if missing:
-            record["detailQuality"] = "partial"
+            record["detailQuality"] = (
+                "partial"
+            )
         else:
-            record["detailQuality"] = "complete"
+            record["detailQuality"] = (
+                "complete"
+            )
     else:
-        record["detailQuality"] = "fetch_error"
-
+        record["detailQuality"] = (
+            "fetch_error"
+        )
+    record["missingFields"] = missing
+    record["missingCriticalFields"] = list(
+        missing
+    )
     record["detailQualityReasons"] = [
         f"missing:{field}"
         for field in missing
     ]
-
-    # propertyTypeをPARTIAL理由から除外
+    # propertyType は品質判定から除外
     record["detailQualityReasons"] = [
         reason
-        for reason in record.get("detailQualityReasons", [])
+        for reason in record.get(
+            "detailQualityReasons",
+            [],
+        )
         if "propertyType" not in reason
     ]
-
-    # schoolDistrict / schoolDistrictStatus は detailQuality 判定から除外
-
+    # schoolDistrict / schoolDistrictStatus
+    # / station walk は detailQuality 判定から除外
+    # --------------------------------------------------------
+    # 6. 品質モデルバージョン
+    # --------------------------------------------------------
+    record["qualityModelVersion"] = (
+        "v39-price-and-quality-unification"
+    )
     return record
 
 
@@ -3434,67 +3589,7 @@ def run_pipeline() -> None:
     save_json(OBSERVATIONS_PATH, {"version": "1.0", "updatedAt": run_start_iso, "observations": observations})
 
     active_count = sum(1 for p in market_houses if p.get("status") == "active")
-    ended_count = sum(1 for p in market_houses if p.get("status") == "observed_ended")
-
-    summary_data = {
-        "updatedAt": run_start_iso,
-        "parserVersion": MAIN_PARSER_VERSION,
-        "totalDiscovered": len(discovered_list),
-        "totalMarketHouses": len(market_houses),
-        "activeMarketHouses": active_count,
-        "endedMarketHouses": ended_count,
-        "searchSuccessTargets": search_success_count,
-        "searchFailedTargets": search_failed_count,
-    }
-
-    save_json(SUMMARY_PATH, summary_data)
-
-    # 価格監査ログ（PRICE-AUDIT）の出力
-    detail_price_sources = {
-        "detail",
-        "price_label",
-        "structured_data",
-        "json_ld",
-    }
-    detail_price_count = sum(
-        1
-        for p in market_houses
-        if p.get("priceSource") in detail_price_sources
-    )
-    search_fallback_count = sum(
-        1
-        for p in market_houses
-        if p.get("priceSource") == "search_fallback"
-    )
-    price_missing_count = sum(
-        1
-        for p in market_houses
-        if p.get("priceYen") is None
-        or p.get("priceSource") == "none"
-    )
-    multi_price_count = sum(
-        1
-        for p in market_houses
-        if (
-            (p.get("searchPriceCandidateCount") or 0) > 1
-            or (
-                p.get("searchPriceWarning")
-                and "複数" in str(p.get("searchPriceWarning"))
-            )
-        )
-    )
-
-    print(
-        "[PRICE-AUDIT]",
-        f"detail={detail_price_count}",
-        f"search_fallback={search_fallback_count}",
-        f"missing={price_missing_count}",
-        f"multi_candidate={multi_price_count}",
-    )
-
-    print("============================================================")
-    print(f"=== Pipeline completed successfully. Total market houses: {len(market_houses)} ===")
-    print("============================================================")
+    print(f"=== Pipeline Completed. Active Market Houses: {active_count} ===")
 
 
 if __name__ == "__main__":
