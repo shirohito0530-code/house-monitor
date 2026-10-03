@@ -3033,10 +3033,10 @@ def build_market_house_record(
         detail.get("priceYen")
         or detail.get("currentPrice")
         or detail.get("price")
-        or property_data.get("searchPriceYen")
         or property_data.get("priceYen")
         or property_data.get("currentPrice")
         or property_data.get("price")
+        or property_data.get("searchPriceYen")
     )
     if price_val is not None:
         price_val = int(price_val)
@@ -3450,21 +3450,38 @@ def run_pipeline() -> None:
     save_json(SUMMARY_PATH, summary_data)
 
     # 価格監査ログ（PRICE-AUDIT）の出力
+    detail_price_sources = {
+        "detail",
+        "price_label",
+        "structured_data",
+        "json_ld",
+    }
     detail_price_count = sum(
-        1 for p in market_houses
-        if p.get("priceSource") == "detail" or (p.get("priceSource") is None and get_detail(p).get("priceYen") is not None)
+        1
+        for p in market_houses
+        if p.get("priceSource") in detail_price_sources
     )
     search_fallback_count = sum(
-        1 for p in market_houses
-        if p.get("priceSource") == "search_fallback" or (p.get("priceSource") is None and p.get("priceYen") is not None and not get_detail(p).get("priceYen"))
+        1
+        for p in market_houses
+        if p.get("priceSource") == "search_fallback"
     )
     price_missing_count = sum(
-        1 for p in market_houses
-        if p.get("priceYen") is None or p.get("priceSource") == "none"
+        1
+        for p in market_houses
+        if p.get("priceYen") is None
+        or p.get("priceSource") == "none"
     )
     multi_price_count = sum(
-        1 for p in market_houses
-        if (p.get("searchPriceCandidateCount") or 0) > 1 or (p.get("searchPriceWarning") and "複数" in str(p.get("searchPriceWarning")))
+        1
+        for p in market_houses
+        if (
+            (p.get("searchPriceCandidateCount") or 0) > 1
+            or (
+                p.get("searchPriceWarning")
+                and "複数" in str(p.get("searchPriceWarning"))
+            )
+        )
     )
 
     print(
