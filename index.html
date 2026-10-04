@@ -1333,12 +1333,6 @@ function getUserSelection(property) {
   };
 }
 
-/*
- * 柏の葉小学校区のユーザー判断補助。
- *
- * ここでは areaClassification を学校区判定に直接流用しない。
- * 「柏の葉キャンパス」という対象エリアかどうかを補助的に確認する。
- */
 function isKashiwaNoHa(property) {
   const uiArea = getUiArea(property);
 
@@ -1974,12 +1968,7 @@ function getCurrentPrice(property) {
 }
 
 function getQualityLabel(property) {
-  const quality =
-    String(
-      property.detailQuality ||
-      property.quality ||
-      ""
-    ).toLowerCase();
+  const quality = getQuality(property);
 
   if (
     quality === "complete" ||
@@ -2013,11 +2002,6 @@ function getAddress(property) {
   );
 }
 
-/*
- * 検索エリア = 物件を発見した検索元。
- *
- * 物件の実際のエリア判定には使用しない。
- */
 function getSearchArea(property) {
   return property.searchArea || "-";
 }
@@ -2027,21 +2011,6 @@ function getSearchArea(property) {
    Canonical Area / Station UI Helpers
    ============================================================ */
 
-/*
- * UI上の実エリア名を取得。
- *
- * 重要：
- * searchArea は検索元なので、ここでは原則として
- * 実エリア判定には使わない。
- *
- * 優先順位：
- * 1. 明示的な実判定エリア
- * 2. targetStation
- * 3. 既存の area
- *
- * areaClassification は「分類」であり、
- * エリア名そのものではないためここでは使用しない。
- */
 function getUiArea(property) {
   const detail = getDetail(property);
 
@@ -2088,18 +2057,6 @@ function getUiArea(property) {
   return "";
 }
 
-/*
- * areaClassification の正式なUI表示。
- *
- * primaryTarget
- *   → 対象エリア
- *
- * subTarget
- *   → 対象駅20分圏
- *
- * その他
- *   → エリア未判定
- */
 function getAreaClassification(property) {
   const detail = getDetail(property);
 
@@ -2142,11 +2099,6 @@ function getAreaClassificationClass(property) {
   }
 }
 
-/*
- * 旧フィールドとの互換用。
- *
- * 新UIでは areaClassification を優先する。
- */
 function getDetectedArea(property) {
   return (
     getUiArea(property) ||
@@ -2154,9 +2106,6 @@ function getDetectedArea(property) {
   );
 }
 
-/*
- * targetStation の正式UI取得。
- */
 function getUiTargetStation(property) {
   const detail = getDetail(property);
 
@@ -2169,12 +2118,6 @@ function getUiTargetStation(property) {
   );
 }
 
-/*
- * targetStationWalkMinutes を正式UI取得。
- *
- * 旧 stationWalkMinutes / walkMinutes も
- * フォールバックとして許容する。
- */
 function getUiWalkMinutes(property) {
   const detail = getDetail(property);
 
@@ -2316,13 +2259,17 @@ function getTargetStationStatus(property) {
 }
 
 function getQuality(property) {
-  return (
+  if (!property || typeof property !== "object") {
+    return "unknown";
+  }
+
+  const q =
     property.detailQuality ||
     getDetail(property).detailQuality ||
-    "unknown"
-  )
-    .toString()
-    .toLowerCase();
+    property.quality ||
+    "";
+
+  return String(q).toLowerCase() || "unknown";
 }
 
 function getQualityScore(property) {
@@ -2362,9 +2309,15 @@ function qualityReasonLabel(reason) {
 
     const labels = {
       priceYen: "価格",
+      price: "価格",
       address: "住所",
       landAreaM2: "土地面積",
+      landArea: "土地面積",
       buildingAreaM2: "建物面積",
+      buildingArea: "建物面積",
+      walkMinutes: "駅徒歩",
+      builtYear: "築年",
+      station: "最寄駅",
       layout: "間取り"
     };
 
@@ -2403,6 +2356,18 @@ function renderQualityReasons(property) {
 }
 
 function isDetailFetched(property) {
+  if (!property || typeof property !== "object") {
+    return false;
+  }
+
+  if (property.detailFetched === true) {
+    return true;
+  }
+
+  if (property.detailFetched === false) {
+    return false;
+  }
+
   return (
     property.detailFetchSuccess === true ||
     property.detailFetchStatus === "success"
@@ -2410,15 +2375,13 @@ function isDetailFetched(property) {
 }
 
 function getDetailFetchStatus(property) {
-  if (
-    property.detailFetchSuccess === true ||
-    property.detailFetchStatus === "success"
-  ) {
+  if (isDetailFetched(property)) {
     return "成功";
   }
 
   if (
-    property.detailFetchStatus === "error"
+    property.detailFetchStatus === "error" ||
+    property.detailFetched === false
   ) {
     return "取得失敗";
   }
@@ -2637,17 +2600,6 @@ function validationText(value) {
   return "不明";
 }
 
-
-/*
- * 採用物件・検出履歴共通の判定表示。
- *
- * areaMatched は表示上の正式判定には使用しない。
- *
- * 正式な判定：
- *   primaryTarget → 対象エリア
- *   subTarget     → 対象駅20分圏
- *   その他        → エリア未判定
- */
 function renderValidation(property) {
   const classification =
     getAreaClassification(property);
@@ -2984,10 +2936,6 @@ function renderPropertyCard(property) {
 
   const label =
     getQualityLabel(property);
-
-  /* ----------------------------------------------------------
-     Canonical area UI
-     ---------------------------------------------------------- */
 
   const uiArea =
     getUiArea(property);
@@ -3451,76 +3399,54 @@ function renderHighlights() {
 
 
 /* ============================================================
-   Dashboard
+   Dashboard (Updated Data Contract: main.py -> houses.json -> index.html)
    ============================================================ */
 
 function updateDashboard() {
-  const total =
-    properties.length;
+  const registeredCount = properties.length;
 
-  const fetched =
-    properties.filter(property =>
-      isDetailFetched(property)
-    ).length;
+  const detailFetched = properties.filter(
+    h => h.detailFetched === true || isDetailFetched(h)
+  );
 
-  const good =
-    properties.filter(property => {
-      const q =
-        getQuality(property);
+  const complete = properties.filter(
+    h =>
+      (h.detailFetched === true || isDetailFetched(h)) &&
+      (h.detailQuality === "complete" || getQuality(h) === "complete")
+  );
 
-      return (
-        q === "complete" ||
-        q === "good"
-      );
-    }).length;
+  const partial = properties.filter(
+    h =>
+      (h.detailFetched === true || isDetailFetched(h)) &&
+      (h.detailQuality === "partial" || getQuality(h) === "partial")
+  );
 
-  const partial =
-    properties.filter(property =>
-      getQuality(property) === "partial"
-    ).length;
+  const priceDown = properties.filter(property =>
+    hasPriceDown(property)
+  ).length;
 
-  const priceDown =
-    properties.filter(property =>
-      hasPriceDown(property)
-    ).length;
+  document.getElementById("registeredCount").textContent =
+    registeredCount;
 
-  document.getElementById(
-    "registeredCount"
-  ).textContent = total;
+  document.getElementById("detailFetchedCount").textContent =
+    detailFetched.length;
 
-  document.getElementById(
-    "detailFetchedCount"
-  ).textContent = fetched;
+  document.getElementById("goodCount").textContent =
+    complete.length;
 
-  document.getElementById(
-    "goodCount"
-  ).textContent = good;
+  document.getElementById("partialCount").textContent =
+    partial.length;
 
-  document.getElementById(
-    "partialCount"
-  ).textContent = partial;
+  document.getElementById("priceDownCount").textContent =
+    priceDown;
 
-  document.getElementById(
-    "priceDownCount"
-  ).textContent = priceDown;
-
-  document.getElementById(
-    "discoveredCount"
-  ).textContent =
+  document.getElementById("discoveredCount").textContent =
     discoveredProperties.length;
 
-  const rate =
-    total > 0
-      ? (
-          (fetched / total) *
-          100
-        ).toFixed(0)
-      : 0;
-
-  document.getElementById(
-    "detailFetchedRate"
-  ).textContent =
-    `取得率 ${rate}%`;
+  document.getElementById("detailFetchedRate").textContent =
+    registeredCount > 0
+      ? `${Math.round((detailFetched.length / registeredCount) * 100)}%`
+      : "0%";
 }
 
 
@@ -3574,11 +3500,6 @@ function updateHeader() {
    ============================================================ */
 
 function initializeFilters() {
-  /*
-   * ここでの searchArea は「発見元」。
-   *
-   * 物件のエリア分類ではない。
-   */
   const discoveredAreas =
     [
       ...new Set(
@@ -3682,12 +3603,6 @@ function filterProperties() {
       const selection =
         getUserSelection(property);
 
-      /*
-       * 検索対象。
-       *
-       * areaClassification と
-       * 実エリア名も検索対象に含める。
-       */
       const searchText = [
         property.id,
         property.propertyId,
@@ -3736,12 +3651,6 @@ function filterProperties() {
         !search ||
         searchText.includes(search);
 
-
-      /*
-       * エリアフィルターは
-       * searchArea ではなく
-       * 実UIエリア getUiArea() を使用。
-       */
       const uiArea =
         getUiArea(property);
 
@@ -3751,7 +3660,6 @@ function filterProperties() {
       ) {
         return false;
       }
-
 
       const currentQ =
         getQuality(property);
@@ -3773,7 +3681,6 @@ function filterProperties() {
             currentQ === "fetch_error"
           )
         );
-
 
       const priceYen =
         getCurrentPrice(property);
@@ -3801,7 +3708,6 @@ function filterProperties() {
         }
       }
 
-
       const matchesPriceDown =
         !priceDownOnly ||
         hasPriceDown(property);
@@ -3823,7 +3729,6 @@ function filterProperties() {
         selection.schoolDecision ===
           schoolDecision;
 
-
       return (
         matchesSearch &&
         matchesQuality &&
@@ -3844,35 +3749,6 @@ function filterProperties() {
    Discovered Listing Validation
    ============================================================ */
 
-/*
- * 自動検出履歴の正式判定。
- *
- * 重要：
- *
- * areaMatched === false
- *
- * だけを理由に「除外」にはしない。
- *
- * areaClassification:
- *
- *   primaryTarget
- *       → 対象エリア
- *
- *   subTarget
- *       → 対象駅20分圏
- *
- * したがって、
- *
- *   流山検索
- *   ↓
- *   柏市豊四季
- *   ↓
- *   流山おおたかの森 徒歩14分
- *   ↓
- *   subTarget
- *
- * は「採用」とする。
- */
 function getDiscoveredValidationState(property) {
   const classification =
     getAreaClassification(property);
@@ -3880,9 +3756,6 @@ function getDiscoveredValidationState(property) {
   const criteriaMatched =
     property.searchCriteriaMatched;
 
-  /*
-   * 正式採用
-   */
   if (
     criteriaMatched === true &&
     (
@@ -3893,19 +3766,12 @@ function getDiscoveredValidationState(property) {
     return "matched";
   }
 
-  /*
-   * 検索条件そのものが明確にNG
-   */
   if (
     criteriaMatched === false
   ) {
     return "excluded";
   }
 
-  /*
-   * areaClassification が既知だが、
-   * その他条件が未判定の場合。
-   */
   if (
     classification === "primaryTarget" ||
     classification === "subTarget"
@@ -3992,23 +3858,11 @@ function renderDiscoveredListings(list) {
         const address =
           getAddress(property);
 
-        /*
-         * 検索元
-         */
         const searchArea =
           getSearchArea(property);
 
-        /*
-         * 実エリア名
-         */
         const uiArea =
           getUiArea(property);
-
-        /*
-         * 正式分類
-         */
-        const classification =
-          getAreaClassification(property);
 
         const classificationLabel =
           getAreaClassificationLabel(
@@ -4306,21 +4160,6 @@ function renderDiscoveredListings(list) {
                   `
               }
 
-              <div class="last-seen">
-                ${
-                  getLatestDate(property)
-                    ? `
-                      最終確認
-                      ${escapeHtml(
-                        formatShortDate(
-                          getLatestDate(property)
-                        )
-                      )}
-                    `
-                    : ""
-                }
-              </div>
-
             </div>
 
           </article>
@@ -4331,525 +4170,206 @@ function renderDiscoveredListings(list) {
 
 
 /* ============================================================
-   Discovered Listing Filtering
+   Discovered Listings Filtering
    ============================================================ */
 
 function filterDiscoveredProperties() {
   const search =
     document
-      .getElementById(
-        "discoveredSearch"
-      )
+      .getElementById("discoveredSearch")
       .value
       .trim()
       .toLowerCase();
 
   const area =
-    document.getElementById(
-      "discoveredArea"
-    ).value;
+    document.getElementById("discoveredArea").value;
 
   const validation =
-    document.getElementById(
-      "discoveredValidation"
-    ).value;
+    document.getElementById("discoveredValidation").value;
 
   const filtered =
-    discoveredProperties.filter(
-      property => {
+    discoveredProperties.filter(property => {
+      const detail = getDetail(property);
 
-        const searchText = [
-          property.id,
-          property.propertyId,
-          property.name,
-          property.title,
-          property.address,
-          property.location,
+      const searchText = [
+        property.id,
+        property.propertyId,
+        property.name,
+        property.title,
+        property.address,
+        property.location,
+        property.searchArea,
+        property.sourceUrl,
+        property.url,
+        detail.title,
+        detail.address
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-          /* Discovery */
-          property.searchArea,
+      const matchesSearch = !search || searchText.includes(search);
+      const matchesArea = !area || property.searchArea === area;
 
-          /* Area */
-          property.areaDetected,
-          property.detectedArea,
-          property.areaClassification,
+      const state = getDiscoveredValidationState(property);
+      const matchesValidation = !validation || state === validation;
 
-          getUiArea(property),
-          getAreaClassificationLabel(property),
-
-          /* Station */
-          property.targetStation,
-          property.targetStationWalkMinutes,
-          property.walkMinutes,
-
-          property.sourceUrl,
-          property.url
-        ]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-
-        const matchesSearch =
-          !search ||
-          searchText.includes(search);
-
-        /*
-         * ここは searchArea フィルター。
-         *
-         * 「どの検索から発見されたか」を
-         * 絞り込むためのもの。
-         */
-        const matchesArea =
-          !area ||
-          property.searchArea === area;
-
-        const matchesValidation =
-          !validation ||
-          getDiscoveredValidationState(
-            property
-          ) === validation;
-
-        return (
-          matchesSearch &&
-          matchesArea &&
-          matchesValidation
-        );
-      }
-    );
+      return matchesSearch && matchesArea && matchesValidation;
+    });
 
   renderDiscoveredListings(filtered);
 }
 
 
 /* ============================================================
-   Data Fetching
+   Data Loading & Initialization
    ============================================================ */
 
-async function fetchData() {
+async function loadData() {
   try {
-    const statusEl =
-      document.getElementById(
-        "status"
-      );
+    const localUserSelections = loadLocalUserSelections();
 
-    statusEl.style.display = "none";
-
-    const [
-      housesRes,
-      discoveredRes
-    ] = await Promise.all([
-      fetch(
-        "data/houses.json?t=" +
-        Date.now()
-      ),
-
-      fetch(
-        "data/discovered_listings.json?t=" +
-        Date.now()
-      )
-    ]);
-
-    if (!housesRes.ok) {
-      throw new Error(
-        `houses.json HTTP ${housesRes.status}`
-      );
+    try {
+      const res = await fetch("houses.json");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          properties = data;
+        } else if (data && typeof data === "object") {
+          properties = data.properties || data.houses || [];
+          housesUpdatedAt = data.updatedAt || data.lastUpdated || null;
+        }
+      }
+    } catch (e) {
+      console.warn("houses.jsonの取得に失敗しました", e);
     }
 
-    if (!discoveredRes.ok) {
-      throw new Error(
-        `discovered_listings.json HTTP ${discoveredRes.status}`
-      );
+    try {
+      const res = await fetch("discovered_listings.json");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          discoveredProperties = data;
+        } else if (data && typeof data === "object") {
+          discoveredProperties = data.properties || data.listings || [];
+          discoveredUpdatedAt = data.updatedAt || data.lastUpdated || null;
+        }
+      }
+    } catch (e) {
+      console.warn("discovered_listings.jsonの取得に失敗しました", e);
     }
 
-    if (
-      housesRes &&
-      housesRes.ok
-    ) {
-      const housesData =
-        await housesRes.json();
-
-      properties =
-        Array.isArray(housesData)
-          ? housesData
-          : (
-              housesData.properties ||
-              []
-            );
-
-      housesUpdatedAt =
-        housesData.updatedAt ||
-        housesData.lastUpdated ||
-        null;
+    try {
+      const res = await fetch("user_selections.json");
+      if (res.ok) {
+        const data = await res.json();
+        userSelections = mergeUserSelections(data, localUserSelections);
+      } else {
+        userSelections = mergeUserSelections(null, localUserSelections);
+      }
+    } catch (e) {
+      userSelections = mergeUserSelections(null, localUserSelections);
     }
 
-    if (
-      discoveredRes &&
-      discoveredRes.ok
-    ) {
-      const discoveredData =
-        await discoveredRes.json();
-
-      discoveredProperties =
-        Array.isArray(discoveredData)
-          ? discoveredData
-          : (
-              discoveredData.properties ||
-              []
-            );
-
-      discoveredUpdatedAt =
-        discoveredData.updatedAt ||
-        discoveredData.lastUpdated ||
-        null;
-    }
-
-    const localUserSelections =
-      loadLocalUserSelections();
-
-    if (localUserSelections) {
-      userSelections =
-        mergeUserSelections(
-          null,
-          localUserSelections
-        );
-    }
-
+    initializeFilters();
     updateHeader();
     updateDashboard();
-    initializeFilters();
     renderHighlights();
     filterProperties();
     filterDiscoveredProperties();
 
   } catch (error) {
-    console.error(
-      "データの読み込みに失敗しました:",
-      error
-    );
-
-    const statusEl =
-      document.getElementById(
-        "status"
-      );
-
-    statusEl.textContent =
-      "データの読み込みに失敗しました。時間をおいて再読み込みしてください。";
-
-    statusEl.className =
-      "status error";
+    console.error("データロード処理エラー:", error);
   }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
 
-/* ============================================================
-   Event Listeners Initialization
-   ============================================================ */
+  const propertyFilterInputs = [
+    "propertySearch",
+    "areaFilter",
+    "propertyQuality",
+    "propertyPrice",
+    "priceDownOnly",
+    "detailFetchedOnly",
+    "recentOnly",
+    "propertyUserStatus",
+    "propertySchoolDecision"
+  ];
 
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
+  propertyFilterInputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", filterProperties);
+      el.addEventListener("change", filterProperties);
+    }
+  });
 
-    fetchData();
-
-
-    /* Property filters */
-
-    document
-      .getElementById(
-        "propertySearch"
-      )
-      .addEventListener(
-        "input",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "areaFilter"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "propertyQuality"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "propertyPrice"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "priceDownOnly"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "detailFetchedOnly"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "recentOnly"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "propertyUserStatus"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-    document
-      .getElementById(
-        "propertySchoolDecision"
-      )
-      .addEventListener(
-        "change",
-        filterProperties
-      );
-
-
-    /* Property filter reset */
-
-    document
-      .getElementById(
-        "clearPropertyFilter"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "propertySearch"
-          ).value = "";
-
-          document.getElementById(
-            "areaFilter"
-          ).value = "";
-
-          document.getElementById(
-            "propertyQuality"
-          ).value = "";
-
-          document.getElementById(
-            "propertyPrice"
-          ).value = "";
-
-          document.getElementById(
-            "priceDownOnly"
-          ).checked = false;
-
-          document.getElementById(
-            "detailFetchedOnly"
-          ).checked = false;
-
-          document.getElementById(
-            "recentOnly"
-          ).checked = false;
-
-          document.getElementById(
-            "propertyUserStatus"
-          ).value = "";
-
-          document.getElementById(
-            "propertySchoolDecision"
-          ).value = "";
-
-          filterProperties();
-        }
-      );
-
-
-    /* Discovered filters */
-
-    document
-      .getElementById(
-        "discoveredSearch"
-      )
-      .addEventListener(
-        "input",
-        filterDiscoveredProperties
-      );
-
-    document
-      .getElementById(
-        "discoveredArea"
-      )
-      .addEventListener(
-        "change",
-        filterDiscoveredProperties
-      );
-
-    document
-      .getElementById(
-        "discoveredValidation"
-      )
-      .addEventListener(
-        "change",
-        filterDiscoveredProperties
-      );
-
-
-    /* Discovered filter reset */
-
-    document
-      .getElementById(
-        "clearDiscoveredFilter"
-      )
-      .addEventListener(
-        "click",
-        () => {
-
-          document.getElementById(
-            "discoveredSearch"
-          ).value = "";
-
-          document.getElementById(
-            "discoveredArea"
-          ).value = "";
-
-          document.getElementById(
-            "discoveredValidation"
-          ).value = "";
-
-          filterDiscoveredProperties();
-        }
-      );
-
-
-    /* Export */
-
-    document
-      .getElementById(
-        "exportUserSelections"
-      )
-      .addEventListener(
-        "click",
-        exportUserSelections
-      );
-
-
-    /* User selection */
-
-    document.addEventListener(
-      "change",
-      (e) => {
-
-        if (
-          e.target.dataset.userStatus
-        ) {
-          const propertyId =
-            e.target.dataset.userStatus;
-
-          const property =
-            properties.find(
-              p =>
-                getPropertyId(p) ===
-                propertyId
-            );
-
-          if (property) {
-            updateUserSelection(
-              property,
-              {
-                status:
-                  e.target.value
-              }
-            );
-          }
-        }
-
-
-        if (
-          e.target.dataset.userSchool
-        ) {
-          const propertyId =
-            e.target.dataset.userSchool;
-
-          const property =
-            properties.find(
-              p =>
-                getPropertyId(p) ===
-                propertyId
-            );
-
-          if (property) {
-            updateUserSelection(
-              property,
-              {
-                schoolDecision:
-                  e.target.value
-              }
-            );
-          }
-        }
-
-      }
-    );
-
-
-    /* User memo */
-
-    document.addEventListener(
-      "input",
-      (e) => {
-
-        if (
-          e.target.dataset.userMemo
-        ) {
-          const propertyId =
-            e.target.dataset.userMemo;
-
-          const property =
-            properties.find(
-              p =>
-                getPropertyId(p) ===
-                propertyId
-            );
-
-          if (property) {
-            updateUserSelection(
-              property,
-              {
-                memo:
-                  e.target.value
-              }
-            );
-          }
-        }
-
-      }
-    );
-
+  const clearPropBtn = document.getElementById("clearPropertyFilter");
+  if (clearPropBtn) {
+    clearPropBtn.addEventListener("click", () => {
+      document.getElementById("propertySearch").value = "";
+      document.getElementById("areaFilter").value = "";
+      document.getElementById("propertyQuality").value = "";
+      document.getElementById("propertyPrice").value = "";
+      document.getElementById("priceDownOnly").checked = false;
+      document.getElementById("detailFetchedOnly").checked = false;
+      document.getElementById("recentOnly").checked = false;
+      document.getElementById("propertyUserStatus").value = "";
+      document.getElementById("propertySchoolDecision").value = "";
+      filterProperties();
+    });
   }
-);
+
+  const discoveredFilterInputs = [
+    "discoveredSearch",
+    "discoveredArea",
+    "discoveredValidation"
+  ];
+
+  discoveredFilterInputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener("input", filterDiscoveredProperties);
+      el.addEventListener("change", filterDiscoveredProperties);
+    }
+  });
+
+  const clearDiscBtn = document.getElementById("clearDiscoveredFilter");
+  if (clearDiscBtn) {
+    clearDiscBtn.addEventListener("click", () => {
+      document.getElementById("discoveredSearch").value = "";
+      document.getElementById("discoveredArea").value = "";
+      document.getElementById("discoveredValidation").value = "";
+      filterDiscoveredProperties();
+    });
+  }
+
+  const exportBtn = document.getElementById("exportUserSelections");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", exportUserSelections);
+  }
+
+  document.addEventListener("change", (e) => {
+    const target = e.target;
+    if (target.dataset.userStatus) {
+      const id = target.dataset.userStatus;
+      updateUserSelection({ propertyId: id }, { status: target.value });
+    } else if (target.dataset.userSchool) {
+      const id = target.dataset.userSchool;
+      updateUserSelection({ propertyId: id }, { schoolDecision: target.value });
+    }
+  });
+
+  document.addEventListener("input", (e) => {
+    const target = e.target;
+    if (target.dataset.userMemo) {
+      const id = target.dataset.userMemo;
+      updateUserSelection({ propertyId: id }, { memo: target.value });
+    }
+  });
+});
 
 </script>
 </body>
