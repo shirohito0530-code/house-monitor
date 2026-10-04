@@ -2481,9 +2481,19 @@ async function fetchData() {
     statusEl.style.display = "none";
 
     const [housesRes, discoveredRes] = await Promise.all([
-      fetch("houses.json?t=" + Date.now()).catch(() => null),
-      fetch("discovered_listings.json?t=" + Date.now()).catch(() => null)
+      fetch("data/houses.json?t=" + Date.now()),
+      fetch("data/discovered_listings.json?t=" + Date.now())
     ]);
+    
+    if (!housesRes.ok) {
+      throw new Error(`houses.json HTTP ${housesRes.status}`);
+    }
+    
+    if (!discoveredRes.ok) {
+      throw new Error(
+        `discovered_listings.json HTTP ${discoveredRes.status}`
+      );
+    }
 
     if (housesRes && housesRes.ok) {
       const housesData = await housesRes.json();
