@@ -440,7 +440,7 @@ h2 {
   font-weight: 600;
 }
 
-/* ⑤ CSS追加 */
+/* エリアバッジ用CSS */
 .area-badge {
     display: inline-flex;
     align-items: center;
@@ -456,6 +456,10 @@ h2 {
 .area-candidate {
     background: #fff7ed;
     color: #c2410c;
+}
+.area-pending {
+    background: #f1f5f9;
+    color: #64748b;
 }
 
 .flag-good, .flag-complete {
@@ -997,7 +1001,6 @@ h2 {
           placeholder="住所・物件名・駅・IDを検索"
         >
 
-        <!-- ① エリアフィルターを明確化 -->
         <select id="areaFilter">
             <option value="">全エリア</option>
             <option value="柏の葉キャンパス">
@@ -1247,7 +1250,7 @@ function getUserSelection(property) {
 }
 
 function isKashiwaNoHa(property) {
-  return (property.area === "柏の葉キャンパス" || property.areaCandidate === "柏の葉キャンパス");
+  return (property.area === "柏の葉キャンパス" || property.areaCandidate === "柏の葉キャンパス" || property.searchArea === "柏の葉キャンパス");
 }
 
 function hasSchoolCandidate(property) {
@@ -1648,7 +1651,7 @@ function getTargetStationStatus(property) {
   const detail = getDetail(property);
   const station = detail.targetStation ?? property.targetStation ?? null;
   const available = detail.targetStationWalkAvailable === true || property.targetStationWalkAvailable === true;
-  const minutes = property.stationWalkMinutes ?? (detail.targetStationWalkMinutes ?? property.targetStationWalkMinutes ?? null);
+  const minutes = property.stationWalkMinutes ?? property.targetStationWalkMinutes ?? detail.targetStationWalkMinutes ?? null;
 
   if (available && station && minutes !== null && minutes !== undefined) {
     return {
@@ -1975,20 +1978,30 @@ function renderPropertyCard(property) {
   const propertyId = getPropertyId(property) || "-";
   const label = getQualityLabel(property);
 
-  // ③ エリア表示の決定
-  const areaLabel =
-    property.area ||
-    property.areaCandidate ||
-    "エリア未判定";
+  // ⑨ エリアラベルの決定（修正後）
+  let areaLabel = "エリア未判定";
+  if (property.areaStatus === "confirmed") {
+    areaLabel = property.area || property.searchArea || "エリア未判定";
+  } else if (property.areaStatus === "candidate") {
+    areaLabel = `候補：${property.areaCandidate || property.searchArea || "対象エリア"}`;
+  } else if (property.area) {
+    areaLabel = property.area;
+  } else if (property.areaCandidate) {
+    areaLabel = `候補：${property.areaCandidate}`;
+  }
 
-  // ④ 候補物件表示バッジ
-  const areaBadge =
-    property.areaStatus === "candidate"
-      ? `<span class="area-badge area-candidate">△ 候補</span>`
-      : `<span class="area-badge area-confirmed">✓ ${escapeHtml(property.area || areaLabel)}</span>`;
+  // ⑧ 候補物件表示バッジ（修正後）
+  let areaBadge = "";
+  if (property.areaStatus === "candidate") {
+    areaBadge = `<span class="area-badge area-candidate">△ 候補</span>`;
+  } else if (property.areaStatus === "confirmed") {
+    areaBadge = `<span class="area-badge area-confirmed">✓ 確定</span>`;
+  } else {
+    areaBadge = `<span class="area-badge area-pending">？未判定</span>`;
+  }
 
-  // ⑥ 駅徒歩独立表示
-  const walkMinutes = property.stationWalkMinutes ?? (getDetail(property).targetStationWalkMinutes ?? property.targetStationWalkMinutes);
+  // 駅徒歩の統一取得
+  const walkMinutes = property.stationWalkMinutes ?? property.targetStationWalkMinutes ?? getDetail(property).targetStationWalkMinutes;
   const walkText =
     walkMinutes != null
       ? `${walkMinutes}分`
@@ -2087,7 +2100,7 @@ function renderProperties(list) {
   container.innerHTML = list.map(property => renderPropertyCard(property)).join("");
 }
 
-/* Highlights (⑧ ランキングロジックは維持) */
+/* Highlights */
 function renderHighlights() {
   const container = document.getElementById("highlightGrid");
   const candidates = properties
@@ -2144,13 +2157,10 @@ function renderHighlights() {
     .join("");
 }
 
-/* Dashboard (⑦ 集計対象を area に統一) */
+/* Dashboard */
 function updateDashboard() {
   const total = properties.length;
   const fetched = properties.filter(property => isDetailFetched(property)).length;
-
-  const kashiwaCount = properties.filter(x => x.area === "柏の葉キャンパス").length;
-  const nagareyamaCount = properties.filter(x => x.area === "流山おおたかの森").length;
 
   const good = properties.filter(property => {
     const q = getQuality(property);
@@ -2205,7 +2215,7 @@ function initializeFilters() {
   });
 }
 
-/* Filtering (② areaCandidate を area と混同せず厳密判定) */
+/* Filtering */
 function filterProperties() {
   const search = document.getElementById("propertySearch").value.trim().toLowerCase();
   const areaFilter = document.getElementById("areaFilter").value;
@@ -2248,7 +2258,6 @@ function filterProperties() {
 
     const matchesSearch = !search || searchText.includes(search);
 
-    // ② エリアフィルター：確定エリア(area)で厳密比較
     if (areaFilter && property.area !== areaFilter) {
       return false;
     }
