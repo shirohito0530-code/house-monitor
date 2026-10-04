@@ -18,6 +18,7 @@ from urllib.parse import urljoin, urlsplit, urlunsplit
 
 from adapters.suumo_search import SuumoSearchAdapter
 from adapters.suumo_detail import SuumoDetailAdapter
+
 try:
     from identity import (
         infer_source,
@@ -38,13 +39,16 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-03-v39-price-quality-standardization"
+MAIN_PARSER_VERSION = "2026-10-04-v40-broad-search-narrow-storage"
+
 
 # ============================================================
 # Discovery DB retention / schema
 # ============================================================
+
 DISCOVERY_SCHEMA_VERSION = "2.0"
 DISCOVERY_RETENTION_DAYS = 180
+
 DISCOVERY_FIELDS = (
     "propertyId",
     "source",
@@ -66,6 +70,7 @@ DISCOVERY_FIELDS = (
     "detailFetchAttempts",
     "detailFetchSuccess",
 )
+
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -95,14 +100,18 @@ RETRYABLE_DETAIL_ERROR_TYPES = {
     "server_error",
 }
 
+
 # ============================================================
 # Market History DB
 # ============================================================
+
 HOUSE_DB_SCHEMA_VERSION = "2.0"
+
 HOUSE_DB_STATUSES = {
     "active",
     "observed_ended",
 }
+
 HOUSE_DB_AREA_CLASSIFICATIONS = {
     "primaryTarget",
     "subTarget",
@@ -305,22 +314,30 @@ def to_number(
         return None
 
 
-def validate_sale_price(price: Any) -> Tuple[Optional[int], Optional[str]]:
+def validate_sale_price(
+    price: Any,
+) -> Tuple[Optional[int], Optional[str]]:
 
     if price is None:
         return None, "missing"
+
     try:
         value = int(price)
     except (TypeError, ValueError):
         return None, "invalid"
+
     if value <= 0:
         return None, "invalid"
+
     if value < 5_000_000:
         return value, "very_low"
+
     if value > 500_000_000:
         return value, "very_high"
+
     if 10_000_000 <= value <= 200_000_000:
         return value, "normal"
+
     return value, "unusual"
 
 
@@ -329,9 +346,12 @@ def update_price_history(
     current_price: Optional[int],
     observed_at: str,
 ) -> Dict[str, Any]:
+
     if current_price is None:
         return existing
+
     history = existing.get("priceHistory") or []
+
     if not isinstance(history, list):
         history = []
 
@@ -339,6 +359,7 @@ def update_price_history(
         existing["firstPrice"] = current_price
 
     previous_price = existing.get("currentPrice")
+
     if previous_price != current_price:
         history.append(
             {
@@ -346,32 +367,50 @@ def update_price_history(
                 "observedAt": observed_at,
             }
         )
+
     existing["priceHistory"] = history
     existing["currentPrice"] = current_price
     existing["priceYen"] = current_price
     existing["price"] = current_price
 
     first_price = existing.get("firstPrice")
+
     if first_price and current_price < first_price:
+
         existing["totalPriceReduction"] = (
             first_price - current_price
         )
+
         existing["priceReductionRate"] = round(
             (first_price - current_price) / first_price,
             6,
         )
+
     else:
+
         existing["totalPriceReduction"] = 0
         existing["priceReductionRate"] = 0
+
     reductions = 0
     previous = None
+
     for item in history:
+
         if isinstance(item, dict):
+
             price = item.get("price")
-            if previous is not None and price is not None and price < previous:
+
+            if (
+                previous is not None
+                and price is not None
+                and price < previous
+            ):
                 reductions += 1
+
             previous = price
+
     existing["priceReductionCount"] = reductions
+
     return existing
 
 
@@ -515,9 +554,11 @@ def load_search_config() -> Dict[str, Any]:
     )
 
     if not isinstance(config, dict):
+
         print(
             "[WARN] search.json がobjectではありません"
         )
+
         return {}
 
     return config
@@ -531,6 +572,7 @@ def load_search_urls() -> List[Dict[str, Any]]:
     )
 
     if isinstance(data, list):
+
         return [
             item
             for item in data
@@ -550,6 +592,7 @@ def load_search_urls() -> List[Dict[str, Any]]:
             targets = data.get(key)
 
             if isinstance(targets, list):
+
                 return [
                     item
                     for item in targets
@@ -698,6 +741,7 @@ def canonicalize_property_identity(
     ] = property_id
 
     source = infer_source(property_data)
+
     if source and source != "unknown":
         property_data["source"] = source
 
@@ -711,6 +755,7 @@ def canonicalize_property_identity(
         ] = source_id
 
     try:
+
         identity = make_identity_key(
             property_data
         )
@@ -719,6 +764,7 @@ def canonicalize_property_identity(
             identity,
             dict,
         ):
+
             if identity.get(
                 "identityKey"
             ):
@@ -868,6 +914,13 @@ def apply_url_area_prefilter(
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
+    """
+    市区町村は「除外条件」ではなく、
+    エリア評価用の補助情報として記録する。
+
+    重要:
+        city mismatch でも詳細取得対象から除外しない。
+    """
 
     url = (
         property_data.get("sourceUrl")
@@ -896,10 +949,12 @@ def apply_url_area_prefilter(
 
         return property_data
 
-    allowed_city_codes = get_allowed_city_codes_for_area(
-        search_area,
-        search_config,
-        search_urls,
+    allowed_city_codes = (
+        get_allowed_city_codes_for_area(
+            search_area,
+            search_config,
+            search_urls,
+        )
     )
 
     if not allowed_city_codes:
@@ -916,13 +971,18 @@ def apply_url_area_prefilter(
 
     if city_code not in allowed_city_codes:
 
+        # ====================================================
+        # 重要変更:
+        # city mismatch でも除外しない
+        # ====================================================
+
         property_data[
             "areaPrefilterExcluded"
-        ] = True
+        ] = False
 
         property_data[
             "areaPrefilterReason"
-        ] = f"city_mismatch_{city_code}"
+        ] = f"city_mismatch_kept_for_station_evaluation_{city_code}"
 
     else:
 
@@ -948,7 +1008,9 @@ def build_discovery_record(
     record: Dict[str, Any] = {}
 
     for field in DISCOVERY_FIELDS:
+
         value = property_data.get(field)
+
         if value is not None:
             record[field] = value
 
@@ -979,6 +1041,7 @@ def parse_iso_datetime(
         return None
 
     try:
+
         dt = datetime.fromisoformat(
             str(value).replace(
                 "Z",
@@ -1075,16 +1138,67 @@ def compact_discovery_db(
 # Market History DB Selection
 # ============================================================
 
+def should_store_house(
+    property_data: Dict[str, Any],
+) -> bool:
+    """
+    houses.json に保存する候補物件を決定する。
+
+    重要:
+        areaMatched は保存条件に含めない。
+
+    保存条件:
+        - builtAgeMatched
+        - propertyTypeMatched
+        - priceMatched
+        - walkMatched
+        - landAreaMatched
+        - buildingAreaMatched
+
+    つまり、
+        「対象住所か」
+    ではなく
+        「対象駅から徒歩圏で、物件条件を満たすか」
+    を候補DBへの保存基準とする。
+    """
+
+    required_flags = (
+        "builtAgeMatched",
+        "propertyTypeMatched",
+        "priceMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched",
+    )
+
+    for field in required_flags:
+
+        if property_data.get(field) is not True:
+            return False
+
+    return True
+
+
 def is_market_history_property(
     property_data: Dict[str, Any],
 ) -> bool:
 
-    if not isinstance(property_data, dict):
+    if not isinstance(
+        property_data,
+        dict,
+    ):
         return False
 
-    status = property_data.get("status")
+    status = property_data.get(
+        "status"
+    )
 
     if status not in HOUSE_DB_STATUSES:
+        return False
+
+    if not should_store_house(
+        property_data
+    ):
         return False
 
     area_classification = property_data.get(
@@ -1113,23 +1227,39 @@ def get_allowed_city_codes_for_area(
     normalized_area = normalize_search_area(
         search_area
     )
+
     codes: set[str] = set()
 
     for target in search_urls:
-        if not isinstance(target, dict):
+
+        if not isinstance(
+            target,
+            dict,
+        ):
             continue
+
         target_area = normalize_search_area(
             target.get("area")
         )
+
         if target_area != normalized_area:
             continue
+
         configured = target.get(
             "allowedCityCodes"
         )
-        if isinstance(configured, list):
+
+        if isinstance(
+            configured,
+            list,
+        ):
+
             for code in configured:
+
                 if code:
-                    codes.add(str(code))
+                    codes.add(
+                        str(code)
+                    )
 
     if codes:
         return codes
@@ -1137,17 +1267,31 @@ def get_allowed_city_codes_for_area(
     area_rules = get_area_rules(
         search_config
     )
+
     rule = area_rules.get(
         normalized_area
     )
-    if isinstance(rule, dict):
+
+    if isinstance(
+        rule,
+        dict,
+    ):
+
         configured = rule.get(
             "cityCodes"
         )
-        if isinstance(configured, list):
+
+        if isinstance(
+            configured,
+            list,
+        ):
+
             for code in configured:
+
                 if code:
-                    codes.add(str(code))
+                    codes.add(
+                        str(code)
+                    )
 
     return codes
 
@@ -1157,6 +1301,16 @@ def is_detail_target_property(
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> bool:
+    """
+    詳細取得対象を決定する。
+
+    今回の方針では、
+    市区町村不一致を理由に除外しない。
+
+    詳細ページを取得して初めて
+    駅徒歩・価格・土地・建物等を確定できるため、
+    city code はここでは使用しない。
+    """
 
     if not isinstance(
         property_data,
@@ -1164,50 +1318,22 @@ def is_detail_target_property(
     ):
         return False
 
-    if property_data.get(
-        "areaPrefilterExcluded",
-        False,
-    ):
-        return False
-
-    search_area = normalize_search_area(
-        property_data.get(
-            "searchArea"
-        )
-    )
-
     url = (
         property_data.get("sourceUrl")
         or property_data.get("url")
     )
 
-    city_code = extract_city_from_url(
-        url
-    )
+    if not url:
+        return False
 
-    if not city_code:
-        return True
+    # --------------------------------------------------------
+    # 重要:
+    # areaPrefilterExcluded を見て False にしない。
+    #
+    # city mismatch でも詳細取得する。
+    # --------------------------------------------------------
 
-    allowed_city_codes = (
-        get_allowed_city_codes_for_area(
-            search_area,
-            search_config,
-            search_urls,
-        )
-    )
-
-    if not allowed_city_codes:
-        print(
-            "[WARN] 詳細取得対象のcity codeルールが"
-            f"未設定: area={search_area}, "
-            f"city_code={city_code}"
-        )
-        return True
-
-    return (
-        city_code
-        in allowed_city_codes
-    )
+    return True
 
 
 def get_detail(
@@ -1219,7 +1345,10 @@ def get_detail(
     )
 
     if (
-        isinstance(last_detail, dict)
+        isinstance(
+            last_detail,
+            dict,
+        )
         and last_detail
     ):
         return last_detail
@@ -1229,7 +1358,10 @@ def get_detail(
     )
 
     if (
-        isinstance(detail, dict)
+        isinstance(
+            detail,
+            dict,
+        )
         and detail
     ):
         return detail
@@ -1300,6 +1432,7 @@ def is_detail_stale(
         return True
 
     try:
+
         fetched_at = datetime.fromisoformat(
             str(last_fetch).replace(
                 "Z",
@@ -1339,15 +1472,13 @@ def detail_fetch_priority(
     property_data: Dict[str, Any],
 ) -> int:
 
-    if (
-        property_data.get(
-            "areaPrefilterExcluded",
-            False,
-        )
-        or property_data.get(
-            "searchResultFilterExcluded",
-            False,
-        )
+    # ========================================================
+    # city mismatch は優先度を下げない
+    # ========================================================
+
+    if property_data.get(
+        "searchResultFilterExcluded",
+        False,
     ):
         return 999
 
@@ -1387,6 +1518,7 @@ def detail_fetch_priority(
         status == "active"
         and not has_success
     ):
+
         if attempts < MAX_DETAIL_FETCH_ATTEMPTS:
             return 1
 
@@ -1421,10 +1553,16 @@ def resolve_property_type(
         or property_data.get("url")
         or property_data.get("searchUrl")
     )
+
     if url:
-        path = urlsplit(str(url)).path.lower()
+
+        path = urlsplit(
+            str(url)
+        ).path.lower()
+
         if "/chukoikkodate/" in path:
             return "中古戸建", "url", 1.00
+
         if "/ikkodate/" in path:
             return "新築戸建", "url", 1.00
 
@@ -1432,18 +1570,42 @@ def resolve_property_type(
         "searchPropertyType",
         "searchDetectedPropertyType",
     ]:
-        val = normalize_property_type(property_data.get(key))
+
+        val = normalize_property_type(
+            property_data.get(key)
+        )
+
         if val:
             return val, key, 0.95
 
-    detail = get_detail(property_data)
-    if isinstance(detail, dict):
-        for key in ["propertyType", "propertyTypeText", "type"]:
-            val = normalize_property_type(detail.get(key))
+    detail = get_detail(
+        property_data
+    )
+
+    if isinstance(
+        detail,
+        dict,
+    ):
+
+        for key in [
+            "propertyType",
+            "propertyTypeText",
+            "type",
+        ]:
+
+            val = normalize_property_type(
+                detail.get(key)
+            )
+
             if val:
                 return val, "detail", 0.80
 
-    val = normalize_property_type(property_data.get("propertyType"))
+    val = normalize_property_type(
+        property_data.get(
+            "propertyType"
+        )
+    )
+
     if val:
         return val, "property_data", 0.70
 
@@ -1454,7 +1616,10 @@ def detect_property_type(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
 
-    p_type, _, _ = resolve_property_type(property_data)
+    p_type, _, _ = resolve_property_type(
+        property_data
+    )
+
     return p_type
 
 
@@ -1751,19 +1916,39 @@ def get_price(
     property_data: Dict[str, Any],
 ) -> Optional[float]:
 
-    detail = get_detail(property_data)
-    
-    detail_price = detail.get("priceYen") or detail.get("currentPrice") or detail.get("price")
+    detail = get_detail(
+        property_data
+    )
+
+    detail_price = (
+        detail.get("priceYen")
+        or detail.get("currentPrice")
+        or detail.get("price")
+    )
+
     if detail_price is not None:
-        num = to_number(detail_price)
+
+        num = to_number(
+            detail_price
+        )
+
         if num is not None:
             return num
 
-    val = property_data.get("priceYen") or property_data.get("currentPrice") or property_data.get("price")
+    val = (
+        property_data.get("priceYen")
+        or property_data.get("currentPrice")
+        or property_data.get("price")
+    )
+
     if val is not None:
         return to_number(val)
 
-    search_price = property_data.get("searchPriceYen") or property_data.get("searchPrice")
+    search_price = (
+        property_data.get("searchPriceYen")
+        or property_data.get("searchPrice")
+    )
+
     if search_price is not None:
         return to_number(search_price)
 
@@ -1778,12 +1963,18 @@ def get_land_area(
         property_data
     )
 
-    value = detail.get("landAreaM2")
+    value = detail.get(
+        "landAreaM2"
+    )
 
     if value is None:
-        value = property_data.get("land")
+        value = property_data.get(
+            "land"
+        )
 
-    return to_number(value)
+    return to_number(
+        value
+    )
 
 
 def get_building_area(
@@ -1794,12 +1985,18 @@ def get_building_area(
         property_data
     )
 
-    value = detail.get("buildingAreaM2")
+    value = detail.get(
+        "buildingAreaM2"
+    )
 
     if value is None:
-        value = property_data.get("building")
+        value = property_data.get(
+            "building"
+        )
 
-    return to_number(value)
+    return to_number(
+        value
+    )
 
 
 def get_target_station_walk_minutes(
@@ -1815,9 +2012,11 @@ def get_target_station_walk_minutes(
     )
 
     if available is True:
+
         value = detail.get(
             "targetStationWalkMinutes"
         )
+
         if value is not None:
             return to_number(
                 value
@@ -1828,10 +2027,13 @@ def get_target_station_walk_minutes(
     )
 
     if value is not None:
+
         available = property_data.get(
             "targetStationWalkAvailable"
         )
+
         if available is True:
+
             return to_number(
                 value
             )
@@ -1884,6 +2086,7 @@ def evaluate_numeric_criteria(
     )
 
     result: Dict[str, Any] = {
+
         "priceMan": price_man,
         "walkMinutes": walk,
         "landAreaM2": land,
@@ -1900,67 +2103,94 @@ def evaluate_numeric_criteria(
         "buildingAreaReason": None,
     }
 
-    max_price = criteria["maxPriceMan"]
+    max_price = criteria[
+        "maxPriceMan"
+    ]
 
     if max_price is None:
+
         result["priceMatched"] = True
         result["priceReason"] = (
             "price_filter_not_configured"
         )
+
     elif price_man is None:
+
         result["priceReason"] = (
             "price_unavailable"
         )
+
     elif price_man <= max_price:
+
         result["priceMatched"] = True
         result["priceReason"] = (
             "within_price_limit"
         )
+
     else:
+
         result["priceMatched"] = False
         result["priceReason"] = (
             "price_over_limit"
         )
 
-    max_walk = criteria["maxWalkMinutes"]
+    max_walk = criteria[
+        "maxWalkMinutes"
+    ]
 
     if max_walk is None:
+
         result["walkMatched"] = True
         result["walkReason"] = (
             "walk_filter_not_configured"
         )
+
     elif walk is None:
+
         result["walkReason"] = (
             "walk_minutes_unavailable"
         )
+
     elif walk <= max_walk:
+
         result["walkMatched"] = True
         result["walkReason"] = (
             "within_walk_limit"
         )
+
     else:
+
         result["walkMatched"] = False
         result["walkReason"] = (
             "walk_minutes_over_limit"
         )
 
-    min_land = criteria["minLandArea"]
+    min_land = criteria[
+        "minLandArea"
+    ]
 
     if min_land is None:
+
         result["landAreaMatched"] = True
         result["landAreaReason"] = (
             "land_area_filter_not_configured"
         )
+
     elif land is None:
+
         result["landAreaReason"] = (
             "land_area_unavailable"
         )
+
     elif land >= min_land:
+
         result["landAreaMatched"] = True
         result["landAreaReason"] = (
             "within_land_area_limit"
         )
+
     else:
+
         result["landAreaMatched"] = False
         result["landAreaReason"] = (
             "land_area_below_limit"
@@ -1971,20 +2201,27 @@ def evaluate_numeric_criteria(
     ]
 
     if min_building is None:
+
         result["buildingAreaMatched"] = True
         result["buildingAreaReason"] = (
             "building_area_filter_not_configured"
         )
+
     elif building is None:
+
         result["buildingAreaReason"] = (
             "building_area_unavailable"
         )
+
     elif building >= min_building:
+
         result["buildingAreaMatched"] = True
         result["buildingAreaReason"] = (
             "within_building_area_limit"
         )
+
     else:
+
         result["buildingAreaMatched"] = False
         result["buildingAreaReason"] = (
             "building_area_below_limit"
@@ -2010,6 +2247,11 @@ def evaluate_area(
         detail.get("address")
     )
 
+    if not address:
+        address = clean_text(
+            property_data.get("address")
+        )
+
     search_area = normalize_search_area(
         property_data.get(
             "searchArea"
@@ -2020,22 +2262,29 @@ def evaluate_area(
         property_data.get("sourceUrl")
         or property_data.get("url")
     )
+
     url_city_code = extract_city_from_url(
         source_url
     )
+
     area_rules = get_area_rules(
         search_config
     )
+
     rule = area_rules.get(
         search_area,
         {}
     )
+
     allowed_city_codes = set(
         rule.get(
             "cityCodes",
             []
         )
-        if isinstance(rule, dict)
+        if isinstance(
+            rule,
+            dict,
+        )
         else []
     )
 
@@ -2045,58 +2294,93 @@ def evaluate_area(
     )
 
     result = {
+
         "areaMatched": None,
+
         "areaDetected": detected_area,
+
         "areaAddress": address,
+
         "areaValidationReason": None,
+
         "areaCityCode": url_city_code,
+
         "areaCityMatched": (
             url_city_code in allowed_city_codes
-            if url_city_code and allowed_city_codes
+            if (
+                url_city_code
+                and allowed_city_codes
+            )
             else None
         ),
     }
 
     if not address:
+
         result[
             "areaValidationReason"
         ] = "address_unavailable"
+
         return result
 
     if detected_area is None:
+
         if (
             url_city_code
             and allowed_city_codes
             and url_city_code in allowed_city_codes
         ):
-            result["areaMatched"] = None
+
+            result[
+                "areaMatched"
+            ] = None
+
             result[
                 "areaValidationReason"
             ] = (
                 "city_matched_strict_address_pattern_unmatched"
             )
+
             return result
-        result["areaMatched"] = False
+
+        result[
+            "areaMatched"
+        ] = False
+
         result[
             "areaValidationReason"
         ] = "address_outside_target_area"
+
         return result
 
     if not search_area:
-        result["areaMatched"] = True
+
+        result[
+            "areaMatched"
+        ] = True
+
         result[
             "areaValidationReason"
         ] = "area_detected"
+
         return result
 
     if detected_area == search_area:
-        result["areaMatched"] = True
+
+        result[
+            "areaMatched"
+        ] = True
+
         result[
             "areaValidationReason"
         ] = "address_area_matched"
+
         return result
 
-    result["areaMatched"] = False
+    result[
+        "areaMatched"
+    ] = False
+
     result[
         "areaValidationReason"
     ] = "search_area_address_mismatch"
@@ -2107,12 +2391,14 @@ def evaluate_area(
 def assign_area_excluded_reason(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
+    """
+    areaは保存可否のハード条件ではない。
 
-    if property_data.get(
-        "areaPrefilterExcluded",
-        False,
-    ):
-        return "cityMismatch"
+    したがって cityMismatch / addressMismatch を
+    「物件除外理由」として扱わない。
+
+    あくまでUI・評価用の情報として保持する。
+    """
 
     area_matched = property_data.get(
         "areaMatched"
@@ -2122,20 +2408,25 @@ def assign_area_excluded_reason(
         "areaValidationReason"
     )
 
+    if area_matched is True:
+        return None
+
     if area_matched is False:
+
         if area_val_reason in {
             "address_outside_target_area",
             "search_area_address_mismatch",
         }:
-            return "addressMismatch"
+            return "subTarget"
 
-        return "addressMismatch"
+        return "subTarget"
 
     if area_matched is None:
+
         if area_val_reason == "address_unavailable":
             return "detailPending"
 
-        return "unknown"
+        return "subTarget"
 
     return None
 
@@ -2162,11 +2453,17 @@ def evaluate_school_district(
         property_data.get("searchArea")
     )
 
-    detail = get_detail(property_data)
+    detail = get_detail(
+        property_data
+    )
 
     address = (
-        clean_text(detail.get("address"))
-        or clean_text(property_data.get("address"))
+        clean_text(
+            detail.get("address")
+        )
+        or clean_text(
+            property_data.get("address")
+        )
         or ""
     )
 
@@ -2176,72 +2473,144 @@ def evaluate_school_district(
     )
 
     result = {
-        "schoolDistrictSchemaVersion": SCHOOL_DISTRICT_SCHEMA_VERSION,
-        "schoolDistrictStatus": "unknown",
-        "schoolDistrictCandidate": False,
-        "schoolDistrictCandidateArea": None,
-        "schoolDistrictCandidateReason": None,
-        "schoolDistrictCandidateConfidence": "none",
-        "schoolDistrictDecision": "unconfirmed",
-        "schoolDistrictDecisionLabel": "未確認",
-        "schoolDistrictVerification": "manual",
-        "schoolDistrictPolicy": "ui_manual_candidate",
-        "schoolDistrictAddress": address or None,
-        "schoolDistrictNote": (
-            "学区は番地等による正式確認が必要です。"
-            "本項目は候補抽出のみで、自動的な学区合否判定には使用しません。"
-        ),
+
+        "schoolDistrictSchemaVersion":
+            SCHOOL_DISTRICT_SCHEMA_VERSION,
+
+        "schoolDistrictStatus":
+            "unknown",
+
+        "schoolDistrictCandidate":
+            False,
+
+        "schoolDistrictCandidateArea":
+            None,
+
+        "schoolDistrictCandidateReason":
+            None,
+
+        "schoolDistrictCandidateConfidence":
+            "none",
+
+        "schoolDistrictDecision":
+            "unconfirmed",
+
+        "schoolDistrictDecisionLabel":
+            "未確認",
+
+        "schoolDistrictVerification":
+            "manual",
+
+        "schoolDistrictPolicy":
+            "ui_manual_candidate",
+
+        "schoolDistrictAddress":
+            address or None,
+
+        "schoolDistrictNote":
+            (
+                "学区は番地等による正式確認が必要です。"
+                "本項目は候補抽出のみで、自動的な学区合否判定には使用しません。"
+            ),
     }
 
     if search_area != "柏の葉キャンパス":
+
         result.update(
             {
-                "schoolDistrictStatus": "not_target_area",
-                "schoolDistrictCandidate": False,
-                "schoolDistrictCandidateArea": None,
-                "schoolDistrictCandidateReason": "柏の葉キャンパス検索対象ではない",
-                "schoolDistrictCandidateConfidence": "none",
-                "schoolDistrictDecision": "not_applicable",
-                "schoolDistrictDecisionLabel": "対象外",
+                "schoolDistrictStatus":
+                    "not_target_area",
+
+                "schoolDistrictCandidate":
+                    False,
+
+                "schoolDistrictCandidateArea":
+                    None,
+
+                "schoolDistrictCandidateReason":
+                    "柏の葉キャンパス検索対象ではない",
+
+                "schoolDistrictCandidateConfidence":
+                    "none",
+
+                "schoolDistrictDecision":
+                    "not_applicable",
+
+                "schoolDistrictDecisionLabel":
+                    "対象外",
             }
         )
+
         return result
 
     if not normalized_address:
+
         result.update(
             {
-                "schoolDistrictStatus": "unknown",
-                "schoolDistrictCandidate": False,
-                "schoolDistrictCandidateArea": "柏の葉小学校区",
-                "schoolDistrictCandidateReason": "住所情報なし",
-                "schoolDistrictCandidateConfidence": "none",
+                "schoolDistrictStatus":
+                    "unknown",
+
+                "schoolDistrictCandidate":
+                    False,
+
+                "schoolDistrictCandidateArea":
+                    "柏の葉小学校区",
+
+                "schoolDistrictCandidateReason":
+                    "住所情報なし",
+
+                "schoolDistrictCandidateConfidence":
+                    "none",
             }
         )
+
         return result
 
     is_candidate = any(
         pattern in normalized_address
-        for pattern in KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS
+        for pattern
+        in KASHIWA_HANNOHA_SCHOOL_CANDIDATE_PATTERNS
     )
 
     if is_candidate:
+
         result.update(
             {
-                "schoolDistrictStatus": "candidate",
-                "schoolDistrictCandidate": True,
-                "schoolDistrictCandidateArea": "柏の葉小学校区",
-                "schoolDistrictCandidateReason": "候補住所パターンに合致",
-                "schoolDistrictCandidateConfidence": "address_based",
+                "schoolDistrictStatus":
+                    "candidate",
+
+                "schoolDistrictCandidate":
+                    True,
+
+                "schoolDistrictCandidateArea":
+                    "柏の葉小学校区",
+
+                "schoolDistrictCandidateReason":
+                    "候補住所パターンに合致",
+
+                "schoolDistrictCandidateConfidence":
+                    "address_based",
             }
         )
+
     else:
+
         result.update(
             {
-                "schoolDistrictStatus": "unmatched",
-                "schoolDistrictCandidate": False,
-                "schoolDistrictCandidateArea": "柏の葉小学校区",
-                "schoolDistrictCandidateReason": "候補住所パターン不一致",
-                "schoolDistrictCandidateConfidence": "none",
+                "schoolDistrictStatus":
+                    "unmatched",
+
+                "schoolDistrictCandidate":
+                    False,
+
+                "schoolDistrictCandidateArea":
+                    "柏の葉小学校区",
+
+                "schoolDistrictCandidateReason":
+                    "候補住所パターン不一致",
+
+                "schoolDistrictCandidateConfidence":
+                    "none",
             }
         )
 
@@ -2272,18 +2641,27 @@ def normalize_search_result(
         or ""
     )
 
-    if "/chukoikkodate/" in result["sourceUrl"].lower():
+    if "/chukoikkodate/" in result[
+        "sourceUrl"
+    ].lower():
+
         result["searchPropertyType"] = "中古戸建"
         result["propertyType"] = "中古戸建"
         result["propertyTypeSource"] = "search_url"
         result["propertyTypeConfidence"] = "high"
-    elif "/ikkodate/" in result["sourceUrl"].lower():
+
+    elif "/ikkodate/" in result[
+        "sourceUrl"
+    ].lower():
+
         result["searchPropertyType"] = "新築戸建"
         result["propertyType"] = "新築戸建"
         result["propertyTypeSource"] = "search_url"
         result["propertyTypeConfidence"] = "high"
 
-    result["source"] = infer_source(result)
+    result["source"] = infer_source(
+        result
+    )
 
     identity = make_identity_key(
         result
@@ -2293,14 +2671,19 @@ def normalize_search_result(
         {
             "propertyId":
                 identity["propertyId"],
+
             "identityKey":
                 identity["identityKey"],
+
             "identityType":
                 identity["identityType"],
+
             "identityCompleteness":
                 identity["identityCompleteness"],
+
             "sourceId":
                 get_source_id(result),
+
             "id":
                 identity["propertyId"],
         }
@@ -2315,6 +2698,7 @@ def normalize_search_result(
         )
         or None
     )
+
     result["searchTitle"] = (
         clean_text(
             result.get("searchTitle")
@@ -2322,6 +2706,7 @@ def normalize_search_result(
         or result.get("listingTitle")
         or None
     )
+
     result["name"] = (
         clean_text(
             result.get("name")
@@ -2336,22 +2721,66 @@ def normalize_search_result(
         or result.get("priceYen")
         or result.get("price")
     )
-    search_price_num = to_number(raw_price)
-    if search_price_num is not None:
-        search_price_val = int(search_price_num)
-        result["searchPriceYen"] = search_price_val
-        result["searchPriceMan"] = int(search_price_val / 10_000)
-    else:
-        result["searchPriceYen"] = None
-        result["searchPriceMan"] = None
 
-    effective_price = result["searchPriceYen"]
-    result["priceYen"] = effective_price
-    result["currentPrice"] = effective_price
-    result["price"] = effective_price
+    search_price_num = to_number(
+        raw_price
+    )
+
+    if search_price_num is not None:
+
+        search_price_val = int(
+            search_price_num
+        )
+
+        result[
+            "searchPriceYen"
+        ] = search_price_val
+
+        result[
+            "searchPriceMan"
+        ] = int(
+            search_price_val / 10_000
+        )
+
+    else:
+
+        result[
+            "searchPriceYen"
+        ] = None
+
+        result[
+            "searchPriceMan"
+        ] = None
+
+    effective_price = (
+        result["searchPriceYen"]
+    )
+
+    result[
+        "priceYen"
+    ] = effective_price
+
+    result[
+        "currentPrice"
+    ] = effective_price
+
+    result[
+        "price"
+    ] = effective_price
+
     if effective_price is not None:
-        result["priceMan"] = int(effective_price / 10_000)
-        result["currentPriceMan"] = int(effective_price / 10_000)
+
+        result[
+            "priceMan"
+        ] = int(
+            effective_price / 10_000
+        )
+
+        result[
+            "currentPriceMan"
+        ] = int(
+            effective_price / 10_000
+        )
 
     result["area"] = normalize_search_area(
         result.get("area")
@@ -2377,41 +2806,102 @@ def build_detail_quality_reasons(
 ) -> List[str]:
 
     reasons: List[str] = []
-    
-    missing_critical = detail.get("missingCriticalFields") or []
-    missing_important = detail.get("missingImportantFields") or []
-    weak_extraction = detail.get("weakExtractionFields") or []
-    warnings = detail.get("validationWarnings") or []
 
-    walk_fields = {"targetStationWalkMinutes", "walkMinutes", "targetStation", "walk"}
+    missing_critical = (
+        detail.get("missingCriticalFields")
+        or []
+    )
+
+    missing_important = (
+        detail.get("missingImportantFields")
+        or []
+    )
+
+    weak_extraction = (
+        detail.get("weakExtractionFields")
+        or []
+    )
+
+    warnings = (
+        detail.get("validationWarnings")
+        or []
+    )
+
+    walk_fields = {
+        "targetStationWalkMinutes",
+        "walkMinutes",
+        "targetStation",
+        "walk",
+    }
 
     for field in missing_critical:
-        if has_valid_price and field in ("price", "priceYen", "currentPrice"):
+
+        if (
+            has_valid_price
+            and field
+            in (
+                "price",
+                "priceYen",
+                "currentPrice",
+            )
+        ):
             continue
+
         if field == "propertyType":
             continue
+
         if field in walk_fields:
             continue
-        reasons.append(f"critical_missing:{field}")
+
+        reasons.append(
+            f"critical_missing:{field}"
+        )
 
     for field in missing_important:
+
         if field in walk_fields:
             continue
-        reasons.append(f"important_missing:{field}")
+
+        reasons.append(
+            f"important_missing:{field}"
+        )
 
     for field in weak_extraction:
+
         if field == "propertyType":
             continue
+
         if field in walk_fields:
             continue
-        reasons.append(f"weak_extraction:{field}")
+
+        reasons.append(
+            f"weak_extraction:{field}"
+        )
 
     for warning in warnings:
-        if has_valid_price and ("価格" in str(warning) or "price" in str(warning).lower()):
+
+        if (
+            has_valid_price
+            and (
+                "価格" in str(warning)
+                or "price"
+                in str(warning).lower()
+            )
+        ):
             continue
-        if "徒歩" in str(warning) or "walk" in str(warning).lower() or "駅" in str(warning):
+
+        if (
+            "徒歩" in str(warning)
+            or "walk"
+            in str(warning).lower()
+            or "駅"
+            in str(warning)
+        ):
             continue
-        reasons.append(f"validation_warning:{warning}")
+
+        reasons.append(
+            f"validation_warning:{warning}"
+        )
 
     return reasons
 
@@ -2443,6 +2933,7 @@ def enrich_with_detail(
         "success",
         False,
     ):
+
         property_data[
             "detailFetchStatus"
         ] = "error"
@@ -2468,6 +2959,7 @@ def enrich_with_detail(
         detail_content,
         dict,
     ):
+
         property_data[
             "detailFetchStatus"
         ] = "error"
@@ -2505,9 +2997,16 @@ def enrich_with_detail(
     detail_title = clean_text(
         detail_content.get("title")
     )
+
     if detail_title:
-        property_data["name"] = detail_title
-        property_data["listingTitle"] = detail_title
+
+        property_data[
+            "name"
+        ] = detail_title
+
+        property_data[
+            "listingTitle"
+        ] = detail_title
 
     property_data[
         "detail"
@@ -2524,87 +3023,280 @@ def enrich_with_detail(
         or detail_content.get("currentPrice")
         or detail_content.get("price")
     )
-    validated_price, price_status = validate_sale_price(raw_price)
 
-    if validated_price is not None:
-        price_source = detail_content.get("priceSource") or "detail"
-        price_confidence = detail_content.get("priceConfidence") or "high"
-        price_warning = detail_content.get("priceWarning")
-        price_raw_str = detail_content.get("priceRaw")
-    else:
-        search_price = (
-            property_data.get("searchPriceYen")
-            or property_data.get("searchPrice")
-            or property_data.get("priceYen")
-            or property_data.get("price")
+    validated_price, price_status = (
+        validate_sale_price(
+            raw_price
         )
-        validated_price, price_status = validate_sale_price(search_price)
-        if validated_price is not None:
-            price_source = "search_fallback"
-            price_confidence = (
-                property_data.get("searchPriceConfidence")
-                or "medium"
-            )
-            price_warning = (
-                property_data.get("searchPriceWarning")
-                or "詳細ページ価格未取得のため検索結果価格を採用"
-            )
-            price_raw_str = (
-                property_data.get("searchPriceRaw")
-                or str(search_price)
-            )
-        else:
-            price_source = "none"
-            price_confidence = "missing"
-            price_warning = "価格情報取得不可"
-            price_raw_str = None
-
-    property_data["priceYen"] = validated_price
-    property_data["currentPrice"] = validated_price
-    property_data["price"] = validated_price
-    property_data["priceStatus"] = price_status
-    property_data["priceRaw"] = price_raw_str
-    property_data["priceConfidence"] = price_confidence
-    property_data["priceWarning"] = price_warning
-    property_data["priceSource"] = price_source
-
-    if price_status in ("very_low", "very_high"):
-        property_data["priceConfidence"] = "low"
-        property_data["priceWarning"] = "販売価格が異常値の可能性"
-
-    if validated_price is not None:
-        property_data["priceMan"] = int(validated_price / 10_000)
-        property_data["currentPriceMan"] = int(validated_price / 10_000)
-
-    resolved_pt, pt_source, pt_confidence = resolve_property_type(property_data)
-    if resolved_pt:
-        property_data["propertyType"] = resolved_pt
-        property_data["propertyTypeSource"] = pt_source
-        property_data["propertyTypeConfidence"] = pt_confidence
-
-    p_id = property_data.get("propertyId")
-    p_yen = property_data.get("priceYen")
-    p_raw = property_data.get("priceRaw") or ""
-    p_conf = property_data.get("priceConfidence") or "missing"
-    p_stat = property_data.get("priceStatus") or "unknown"
-    p_src = property_data.get("priceSource") or "unknown"
-    print(
-        f"[PRICE-AUDIT] propertyId={p_id} price={p_yen} raw=\"{p_raw}\" confidence={p_conf} source={p_src} status={p_stat}"
     )
 
-    if detail_content.get("address"):
-        property_data["address"] = detail_content.get("address")
+    if validated_price is not None:
 
-    if detail_content.get("landAreaM2") is not None:
-        property_data["land"] = to_number(detail_content.get("landAreaM2"))
-        property_data["landAreaM2"] = property_data["land"]
+        price_source = (
+            detail_content.get(
+                "priceSource"
+            )
+            or "detail"
+        )
 
-    if detail_content.get("buildingAreaM2") is not None:
-        property_data["building"] = to_number(detail_content.get("buildingAreaM2"))
-        property_data["buildingAreaM2"] = property_data["building"]
+        price_confidence = (
+            detail_content.get(
+                "priceConfidence"
+            )
+            or "high"
+        )
 
-    if detail_content.get("layout"):
-        property_data["layout"] = detail_content.get("layout")
+        price_warning = (
+            detail_content.get(
+                "priceWarning"
+            )
+        )
+
+        price_raw_str = (
+            detail_content.get(
+                "priceRaw"
+            )
+        )
+
+    else:
+
+        search_price = (
+            property_data.get(
+                "searchPriceYen"
+            )
+            or property_data.get(
+                "searchPrice"
+            )
+            or property_data.get(
+                "priceYen"
+            )
+            or property_data.get(
+                "price"
+            )
+        )
+
+        validated_price, price_status = (
+            validate_sale_price(
+                search_price
+            )
+        )
+
+        if validated_price is not None:
+
+            price_source = (
+                "search_fallback"
+            )
+
+            price_confidence = (
+                property_data.get(
+                    "searchPriceConfidence"
+                )
+                or "medium"
+            )
+
+            price_warning = (
+                property_data.get(
+                    "searchPriceWarning"
+                )
+                or
+                "詳細ページ価格未取得のため検索結果価格を採用"
+            )
+
+            price_raw_str = (
+                property_data.get(
+                    "searchPriceRaw"
+                )
+                or str(search_price)
+            )
+
+        else:
+
+            price_source = "none"
+            price_confidence = "missing"
+
+            price_warning = (
+                "価格情報取得不可"
+            )
+
+            price_raw_str = None
+
+    property_data[
+        "priceYen"
+    ] = validated_price
+
+    property_data[
+        "currentPrice"
+    ] = validated_price
+
+    property_data[
+        "price"
+    ] = validated_price
+
+    property_data[
+        "priceStatus"
+    ] = price_status
+
+    property_data[
+        "priceRaw"
+    ] = price_raw_str
+
+    property_data[
+        "priceConfidence"
+    ] = price_confidence
+
+    property_data[
+        "priceWarning"
+    ] = price_warning
+
+    property_data[
+        "priceSource"
+    ] = price_source
+
+    if price_status in (
+        "very_low",
+        "very_high",
+    ):
+
+        property_data[
+            "priceConfidence"
+        ] = "low"
+
+        property_data[
+            "priceWarning"
+        ] = "販売価格が異常値の可能性"
+
+    if validated_price is not None:
+
+        property_data[
+            "priceMan"
+        ] = int(
+            validated_price / 10_000
+        )
+
+        property_data[
+            "currentPriceMan"
+        ] = int(
+            validated_price / 10_000
+        )
+
+    resolved_pt, pt_source, pt_confidence = (
+        resolve_property_type(
+            property_data
+        )
+    )
+
+    if resolved_pt:
+
+        property_data[
+            "propertyType"
+        ] = resolved_pt
+
+        property_data[
+            "propertyTypeSource"
+        ] = pt_source
+
+        property_data[
+            "propertyTypeConfidence"
+        ] = pt_confidence
+
+    p_id = property_data.get(
+        "propertyId"
+    )
+
+    p_yen = property_data.get(
+        "priceYen"
+    )
+
+    p_raw = (
+        property_data.get(
+            "priceRaw"
+        )
+        or ""
+    )
+
+    p_conf = (
+        property_data.get(
+            "priceConfidence"
+        )
+        or "missing"
+    )
+
+    p_stat = (
+        property_data.get(
+            "priceStatus"
+        )
+        or "unknown"
+    )
+
+    p_src = (
+        property_data.get(
+            "priceSource"
+        )
+        or "unknown"
+    )
+
+    print(
+        f'[PRICE-AUDIT] propertyId={p_id} '
+        f'price={p_yen} raw="{p_raw}" '
+        f'confidence={p_conf} source={p_src} '
+        f'status={p_stat}'
+    )
+
+    if detail_content.get(
+        "address"
+    ):
+
+        property_data[
+            "address"
+        ] = detail_content.get(
+            "address"
+        )
+
+    if detail_content.get(
+        "landAreaM2"
+    ) is not None:
+
+        property_data[
+            "land"
+        ] = to_number(
+            detail_content.get(
+                "landAreaM2"
+            )
+        )
+
+        property_data[
+            "landAreaM2"
+        ] = property_data[
+            "land"
+        ]
+
+    if detail_content.get(
+        "buildingAreaM2"
+    ) is not None:
+
+        property_data[
+            "building"
+        ] = to_number(
+            detail_content.get(
+                "buildingAreaM2"
+            )
+        )
+
+        property_data[
+            "buildingAreaM2"
+        ] = property_data[
+            "building"
+        ]
+
+    if detail_content.get(
+        "layout"
+    ):
+
+        property_data[
+            "layout"
+        ] = detail_content.get(
+            "layout"
+        )
 
     return property_data
 
@@ -2662,43 +3354,42 @@ def evaluate_property_criteria(
         numeric_eval
     )
 
-    excluded_reason = (
-        assign_area_excluded_reason(
-            property_data
-        )
-    )
-
-    property_data[
-        "areaExcludedReason"
-    ] = excluded_reason
+    # ========================================================
+    # 重要変更:
+    # areaMatched は除外条件ではない
+    # ========================================================
 
     criteria_flags = [
         property_data.get(
             "builtAgeMatched"
         ),
+
         property_data.get(
             "propertyTypeMatched"
         ),
-        property_data.get(
-            "areaMatched"
-        ),
+
         property_data.get(
             "priceMatched"
         ),
+
         property_data.get(
             "walkMatched"
         ),
+
         property_data.get(
             "landAreaMatched"
         ),
+
         property_data.get(
             "buildingAreaMatched"
         ),
     ]
 
-    is_criteria_matched = not any(
-        value is False
-        for value in criteria_flags
+    is_criteria_matched = (
+        not any(
+            value is False
+            for value in criteria_flags
+        )
     )
 
     property_data[
@@ -2709,46 +3400,84 @@ def evaluate_property_criteria(
         "searchResultFilterExcluded"
     ] = not is_criteria_matched
 
-    current_price = property_data.get("priceYen")
+    current_price = (
+        property_data.get(
+            "priceYen"
+        )
+    )
+
     if current_price is None:
-        p_num = get_price(property_data)
+
+        p_num = get_price(
+            property_data
+        )
+
         if p_num is not None:
-            current_price = int(p_num)
-            property_data["priceYen"] = current_price
-            property_data["currentPrice"] = current_price
-            property_data["price"] = current_price
-            property_data["priceMan"] = int(current_price / 10_000)
-            property_data["currentPriceMan"] = int(current_price / 10_000)
+
+            current_price = int(
+                p_num
+            )
+
+            property_data[
+                "priceYen"
+            ] = current_price
+
+            property_data[
+                "currentPrice"
+            ] = current_price
+
+            property_data[
+                "price"
+            ] = current_price
+
+            property_data[
+                "priceMan"
+            ] = int(
+                current_price / 10_000
+            )
+
+            property_data[
+                "currentPriceMan"
+            ] = int(
+                current_price / 10_000
+            )
 
     observed_at = (
-        property_data.get("lastSeenAt")
-        or property_data.get("firstSeenAt")
+        property_data.get(
+            "lastSeenAt"
+        )
+        or property_data.get(
+            "firstSeenAt"
+        )
         or now_iso()
     )
 
-    update_price_history(property_data, current_price, observed_at)
+    update_price_history(
+        property_data,
+        current_price,
+        observed_at,
+    )
 
-    if excluded_reason:
+    # ========================================================
+    # Area Classification
+    #
+    # primaryTarget:
+    #   住所が検索対象エリアに一致
+    #
+    # subTarget:
+    #   住所は対象外でも、対象駅徒歩条件を満たす候補
+    #
+    # outOfTarget:
+    #   houses.json には保存しないため使用しない
+    # ========================================================
 
-        property_data[
-            "areaClassification"
-        ] = "outOfTarget"
-
-    elif property_data.get(
+    if property_data.get(
         "areaMatched"
     ) is True:
 
         property_data[
             "areaClassification"
         ] = "primaryTarget"
-
-    elif property_data.get(
-        "areaMatched"
-    ) is False:
-
-        property_data[
-            "areaClassification"
-        ] = "outOfTarget"
 
     else:
 
@@ -2853,10 +3582,12 @@ def build_listing_observation(
     )
 
     return {
+
         "observationId": (
             f"{property_data.get('propertyId')}"
             f"@{observed_at}"
         ),
+
         "propertyId": (
             property_data.get(
                 "propertyId"
@@ -2865,16 +3596,20 @@ def build_listing_observation(
                 property_data
             )
         ),
+
         "source":
             property_data.get(
                 "source"
             ),
+
         "sourceId":
             property_data.get(
                 "sourceId"
             ),
+
         "observedAt":
             observed_at,
+
         "status":
             property_data.get(
                 "status"
@@ -2904,9 +3639,20 @@ def build_listing_observation(
                 "currentPriceMan"
             ),
 
-        "priceConfidence": property_data.get("priceConfidence"),
-        "priceStatus": property_data.get("priceStatus"),
-        "priceSource": property_data.get("priceSource"),
+        "priceConfidence":
+            property_data.get(
+                "priceConfidence"
+            ),
+
+        "priceStatus":
+            property_data.get(
+                "priceStatus"
+            ),
+
+        "priceSource":
+            property_data.get(
+                "priceSource"
+            ),
 
         "searchTargets":
             property_data.get(
@@ -3001,7 +3747,7 @@ def build_listing_observation(
 
         "walkMinutes":
             property_data.get(
-                "walk"
+                "walkMinutes"
             ),
 
         "priceReductionCount":
@@ -3018,26 +3764,21 @@ def build_listing_observation(
 def build_market_house_record(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """
+    houses.json 用のコンパクトな候補物件レコードを作る。
 
-    detail = get_detail(property_data)
-    record = deepcopy(property_data)
-    detail_fetch_success = property_data.get(
-        "detailFetchSuccess"
+    処理中の診断情報をそのまま deepcopy しない。
+    houses.json は「候補物件DB」として維持する。
+    """
+
+    detail = get_detail(
+        property_data
     )
-    if detail_fetch_success is None:
-        detail_fetch_success = (
-            property_data.get(
-                "detailFetchStatus"
-            ) == "success"
-        )
+
     # --------------------------------------------------------
-    # 1. 価格項目の統一
-    #
-    # 優先順位:
-    #   ① 詳細ページ価格
-    #   ② property_data に確定済みの価格
-    #   ③ 検索結果価格
+    # 1. Price
     # --------------------------------------------------------
+
     raw_price = (
         detail.get("priceYen")
         or detail.get("currentPrice")
@@ -3048,219 +3789,420 @@ def build_market_house_record(
         or property_data.get("searchPriceYen")
         or property_data.get("searchPrice")
     )
-    price_val, validated_price_status = validate_sale_price(
-        raw_price
+
+    price_val, validated_price_status = (
+        validate_sale_price(
+            raw_price
+        )
     )
-    record["priceYen"] = price_val
-    record["currentPrice"] = price_val
-    record["price"] = price_val
-    if price_val is not None:
-        record["priceMan"] = int(
-            price_val / 10_000
-        )
-        record["currentPriceMan"] = int(
-            price_val / 10_000
-        )
+
     # --------------------------------------------------------
-    # 2. 価格メタデータの統一
-    #
-    # 詳細ページの情報を最優先する。
+    # 2. Basic property information
     # --------------------------------------------------------
+
+    address = (
+        property_data.get("address")
+        or detail.get("address")
+    )
+
+    land_area = (
+        property_data.get("landAreaM2")
+        or property_data.get("land")
+        or detail.get("landAreaM2")
+    )
+
+    building_area = (
+        property_data.get("buildingAreaM2")
+        or property_data.get("building")
+        or detail.get("buildingAreaM2")
+    )
+
+    layout = (
+        property_data.get("layout")
+        or detail.get("layout")
+    )
+
+    property_type = (
+        property_data.get("propertyType")
+        or normalize_property_type(
+            detail.get("propertyType")
+        )
+    )
+
+    target_station = (
+        property_data.get("targetStation")
+        or detail.get("targetStation")
+    )
+
+    walk_minutes = (
+        property_data.get(
+            "walkMinutes"
+        )
+        if property_data.get(
+            "walkMinutes"
+        ) is not None
+        else get_walk_minutes(
+            property_data
+        )
+    )
+
+    # --------------------------------------------------------
+    # 3. Price history
+    # --------------------------------------------------------
+
+    history = (
+        property_data.get(
+            "priceHistory"
+        )
+        or []
+    )
+
+    if not isinstance(
+        history,
+        list,
+    ):
+        history = []
+
+    compact_history = []
+
+    for item in history:
+
+        if not isinstance(
+            item,
+            dict,
+        ):
+            continue
+
+        price = item.get(
+            "price"
+        )
+
+        observed_at = item.get(
+            "observedAt"
+        )
+
+        if price is None:
+            continue
+
+        compact_history.append(
+            {
+                "price": price,
+                "observedAt": observed_at,
+            }
+        )
+
+    # --------------------------------------------------------
+    # 4. Compact record
+    # --------------------------------------------------------
+
+    record: Dict[str, Any] = {
+
+        "propertyId":
+            property_data.get(
+                "propertyId"
+            ),
+
+        "source":
+            property_data.get(
+                "source"
+            ),
+
+        "sourceId":
+            property_data.get(
+                "sourceId"
+            ),
+
+        "sourceUrl":
+            property_data.get(
+                "sourceUrl"
+            )
+            or property_data.get(
+                "url"
+            ),
+
+        "name":
+            property_data.get(
+                "name"
+            ),
+
+        "listingTitle":
+            property_data.get(
+                "listingTitle"
+            ),
+
+        "priceYen":
+            price_val,
+
+        "currentPrice":
+            price_val,
+
+        "price":
+            price_val,
+
+        "priceMan":
+            (
+                int(price_val / 10_000)
+                if price_val is not None
+                else None
+            ),
+
+        "address":
+            address,
+
+        "landAreaM2":
+            to_number(
+                land_area
+            ),
+
+        "buildingAreaM2":
+            to_number(
+                building_area
+            ),
+
+        "layout":
+            layout,
+
+        "constructionYear":
+            property_data.get(
+                "constructionYear"
+            ),
+
+        "builtAgeYears":
+            property_data.get(
+                "builtAgeYears"
+            ),
+
+        "propertyType":
+            property_type,
+
+        "targetStation":
+            target_station,
+
+        "targetStationWalkMinutes":
+            to_number(
+                walk_minutes
+            ),
+
+        "areaClassification":
+            property_data.get(
+                "areaClassification"
+            ),
+
+        "searchArea":
+            property_data.get(
+                "searchArea"
+            ),
+
+        "schoolDistrictCandidate":
+            property_data.get(
+                "schoolDistrictCandidate"
+            ),
+
+        "schoolDistrictCandidateArea":
+            property_data.get(
+                "schoolDistrictCandidateArea"
+            ),
+
+        "firstSeenAt":
+            property_data.get(
+                "firstSeenAt"
+            ),
+
+        "lastSeenAt":
+            property_data.get(
+                "lastSeenAt"
+            ),
+
+        "endedObservedAt":
+            property_data.get(
+                "endedObservedAt"
+            ),
+
+        "status":
+            property_data.get(
+                "status"
+            ),
+
+        "daysListed":
+            property_data.get(
+                "daysListed"
+            ),
+
+        "firstPrice":
+            property_data.get(
+                "firstPrice"
+            ),
+
+        "totalPriceReduction":
+            property_data.get(
+                "totalPriceReduction",
+                0,
+            ),
+
+        "priceReductionRate":
+            property_data.get(
+                "priceReductionRate",
+                0,
+            ),
+
+        "priceReductionCount":
+            property_data.get(
+                "priceReductionCount",
+                0,
+            ),
+
+        "priceHistory":
+            compact_history,
+
+        "parserVersion":
+            MAIN_PARSER_VERSION,
+    }
+
+    # --------------------------------------------------------
+    # 5. Price metadata
+    # --------------------------------------------------------
+
     price_source = (
-        detail.get("priceSource")
-        or record.get("priceSource")
+        detail.get(
+            "priceSource"
+        )
+        or property_data.get(
+            "priceSource"
+        )
     )
+
     price_confidence = (
-        detail.get("priceConfidence")
-        or record.get("priceConfidence")
+        detail.get(
+            "priceConfidence"
+        )
+        or property_data.get(
+            "priceConfidence"
+        )
     )
+
     price_warning = (
-        detail.get("priceWarning")
-        if detail.get("priceWarning") is not None
-        else record.get("priceWarning")
+        detail.get(
+            "priceWarning"
+        )
+        if detail.get(
+            "priceWarning"
+        ) is not None
+        else property_data.get(
+            "priceWarning"
+        )
     )
-    price_raw = (
-        detail.get("priceRaw")
-        or record.get("priceRaw")
-    )
+
     price_status = (
-        detail.get("priceStatus")
-        or record.get("priceStatus")
+        detail.get(
+            "priceStatus"
+        )
+        or property_data.get(
+            "priceStatus"
+        )
         or validated_price_status
     )
-    price_candidate_count = (
-        detail.get("priceCandidateCount")
-        if detail.get("priceCandidateCount") is not None
-        else record.get("priceCandidateCount")
-    )
-    price_candidates = (
-        detail.get("priceCandidates")
-        if detail.get("priceCandidates") is not None
-        else record.get("priceCandidates")
-    )
-    # 詳細価格が取得できている場合
-    if price_val is not None:
-        if not price_source:
-            price_source = "detail"
-        if not price_confidence:
-            price_confidence = "high"
-        if not price_status:
-            price_status = validated_price_status
-    else:
-        price_source = "none"
-        price_confidence = "missing"
-        if not price_warning:
-            price_warning = "価格情報取得不可"
-        price_status = (
-            validated_price_status
-            or "missing"
-        )
-    record["priceSource"] = price_source
-    record["priceConfidence"] = price_confidence
-    record["priceWarning"] = price_warning
-    record["priceRaw"] = price_raw
-    record["priceStatus"] = price_status
-    if price_candidate_count is not None:
-        record["priceCandidateCount"] = (
-            price_candidate_count
-        )
-    if price_candidates is not None:
-        record["priceCandidates"] = (
-            price_candidates
-        )
+
+    record[
+        "priceSource"
+    ] = price_source
+
+    record[
+        "priceConfidence"
+    ] = price_confidence
+
+    record[
+        "priceWarning"
+    ] = price_warning
+
+    record[
+        "priceStatus"
+    ] = price_status
+
     # --------------------------------------------------------
-    # 3. 価格履歴更新
-    # --------------------------------------------------------
-    current_price = record.get(
-        "currentPrice"
-    )
-    if current_price is not None:
-        history = (
-            record.get("priceHistory")
-            or []
-        )
-        if not isinstance(
-            history,
-            list,
-        ):
-            history = []
-        if (
-            not history
-            or not isinstance(
-                history[-1],
-                dict,
-            )
-            or history[-1].get(
-                "price"
-            ) != current_price
-        ):
-            history.append(
-                {
-                    "price": current_price,
-                    "observedAt": now_iso(),
-                }
-            )
-        record["priceHistory"] = history
-    # --------------------------------------------------------
-    # 4. 品質判定用フィールドの補完
-    # --------------------------------------------------------
-    if (
-        not record.get("address")
-        and detail.get("address")
-    ):
-        record["address"] = detail.get(
-            "address"
-        )
-    if (
-        record.get("landAreaM2") is None
-    ):
-        record["landAreaM2"] = (
-            record.get("land")
-            or detail.get("landAreaM2")
-        )
-    if (
-        record.get("buildingAreaM2") is None
-    ):
-        record["buildingAreaM2"] = (
-            record.get("building")
-            or detail.get("buildingAreaM2")
-        )
-    if (
-        not record.get("layout")
-        and detail.get("layout")
-    ):
-        record["layout"] = detail.get(
-            "layout"
-        )
-    # --------------------------------------------------------
-    # 5. 品質判定
+    # 6. Optional station access
     #
-    # 必須:
-    #   priceYen
-    #   address
-    #   landAreaM2
-    #   buildingAreaM2
-    #   layout
-    #
-    # 以下は品質判定から除外:
-    #   propertyType
-    #   schoolDistrict
-    #   station walk
+    # 既存 detail parser が stationAccess を持っている場合のみ
+    # 小さな辞書として保存する。
+    # verboseな transport/raw/confidence は保存しない。
     # --------------------------------------------------------
-    quality_fields = [
-        "priceYen",
-        "address",
-        "landAreaM2",
-        "buildingAreaM2",
-        "layout",
-    ]
-    missing = [
-        field
-        for field in quality_fields
-        if record.get(field) in (
-            None,
-            "",
-            0,
+
+    station_access = (
+        detail.get(
+            "stationAccess"
         )
-    ]
-    if detail_fetch_success:
-        if missing:
-            record["detailQuality"] = (
-                "partial"
-            )
-        else:
-            record["detailQuality"] = (
-                "complete"
-            )
-    else:
-        record["detailQuality"] = (
-            "fetch_error"
+        or property_data.get(
+            "stationAccess"
         )
-    record["missingFields"] = missing
-    record["missingCriticalFields"] = list(
-        missing
     )
-    record["detailQualityReasons"] = [
-        f"missing:{field}"
-        for field in missing
-    ]
-    # propertyType は品質判定から除外
-    record["detailQualityReasons"] = [
-        reason
-        for reason in record.get(
-            "detailQualityReasons",
-            [],
-        )
-        if "propertyType" not in reason
-    ]
-    # schoolDistrict / schoolDistrictStatus
-    # / station walk は detailQuality 判定から除外
+
+    if isinstance(
+        station_access,
+        dict,
+    ):
+
+        compact_station_access = {}
+
+        for station, minutes in station_access.items():
+
+            minute_value = to_number(
+                minutes
+            )
+
+            if minute_value is None:
+                continue
+
+            compact_station_access[
+                str(station)
+            ] = minute_value
+
+        if compact_station_access:
+
+            record[
+                "stationAccess"
+            ] = compact_station_access
+
     # --------------------------------------------------------
-    # 6. 品質モデルバージョン
+    # 7. Schema / quality metadata
     # --------------------------------------------------------
-    record["qualityModelVersion"] = (
-        "v39-price-and-quality-unification"
-    )
+
+    record[
+        "houseDbSchemaVersion"
+    ] = HOUSE_DB_SCHEMA_VERSION
+
+    record[
+        "candidateCriteria"
+    ] = {
+        "builtAgeMatched":
+            property_data.get(
+                "builtAgeMatched"
+            ),
+
+        "propertyTypeMatched":
+            property_data.get(
+                "propertyTypeMatched"
+            ),
+
+        "priceMatched":
+            property_data.get(
+                "priceMatched"
+            ),
+
+        "walkMatched":
+            property_data.get(
+                "walkMatched"
+            ),
+
+        "landAreaMatched":
+            property_data.get(
+                "landAreaMatched"
+            ),
+
+        "buildingAreaMatched":
+            property_data.get(
+                "buildingAreaMatched"
+            ),
+    }
+
     return record
 
 
@@ -3294,31 +4236,65 @@ def merge_search_occurrence(
 ) -> None:
 
     target = (
-        candidate.get("searchTarget")
-        or candidate.get("searchTargetArea")
-    )
-    search_area = (
-        candidate.get("searchTargetArea")
-        or candidate.get("searchArea")
-    )
-    property_type = (
-        candidate.get("searchTargetPropertyType")
-        or candidate.get("searchPropertyType")
+        candidate.get(
+            "searchTarget"
+        )
+        or candidate.get(
+            "searchTargetArea"
+        )
     )
 
-    existing["searchTarget"] = target
-    existing["searchTargetArea"] = search_area
-    existing["searchTargetPropertyType"] = property_type
-    existing["searchPageNumber"] = candidate.get(
+    search_area = (
+        candidate.get(
+            "searchTargetArea"
+        )
+        or candidate.get(
+            "searchArea"
+        )
+    )
+
+    property_type = (
+        candidate.get(
+            "searchTargetPropertyType"
+        )
+        or candidate.get(
+            "searchPropertyType"
+        )
+    )
+
+    existing[
+        "searchTarget"
+    ] = target
+
+    existing[
+        "searchTargetArea"
+    ] = search_area
+
+    existing[
+        "searchTargetPropertyType"
+    ] = property_type
+
+    existing[
+        "searchPageNumber"
+    ] = candidate.get(
         "searchPageNumber"
     )
-    existing["searchPosition"] = candidate.get(
+
+    existing[
+        "searchPosition"
+    ] = candidate.get(
         "searchPosition"
     )
-    existing["searchUrl"] = candidate.get(
+
+    existing[
+        "searchUrl"
+    ] = candidate.get(
         "searchUrl"
     )
-    existing["searchPageUrl"] = candidate.get(
+
+    existing[
+        "searchPageUrl"
+    ] = candidate.get(
         "searchPageUrl"
     )
 
@@ -3393,203 +4369,826 @@ def run_pipeline() -> None:
     print(
         "============================================================"
     )
+
     print(
         f"=== Starting SUUMO Scraping Pipeline "
         f"{MAIN_PARSER_VERSION} ==="
     )
+
     print(
         f"=== {now_iso()} ==="
     )
+
     print(
         "============================================================"
     )
 
+    # ========================================================
     # 1. Config
+    # ========================================================
+
     search_config = load_search_config()
+
     search_urls = load_search_urls()
 
     if not search_urls:
+
         print(
             "[ERROR] 検索対象URLがありません。"
             "config/search_urls.json を確認してください。"
         )
+
         sys.exit(1)
 
-    # 2. Existing Market DB
-    houses_raw = load_json(HOUSES_PATH, default={"properties": []})
-    house_properties = houses_raw.get("properties", []) if isinstance(houses_raw, dict) else (houses_raw if isinstance(houses_raw, list) else [])
+    # ========================================================
+    # 2. Existing DB
+    # ========================================================
 
-    discovered_raw = load_json(DISCOVERED_PATH, default={"properties": []})
-    discovered_properties = discovered_raw.get("properties", []) if isinstance(discovered_raw, dict) else (discovered_raw if isinstance(discovered_raw, list) else [])
+    houses_raw = load_json(
+        HOUSES_PATH,
+        default={
+            "properties": []
+        },
+    )
 
-    db: Dict[str, Dict[str, Any]] = {}
+    house_properties = (
+        houses_raw.get(
+            "properties",
+            []
+        )
+        if isinstance(
+            houses_raw,
+            dict,
+        )
+        else (
+            houses_raw
+            if isinstance(
+                houses_raw,
+                list,
+            )
+            else []
+        )
+    )
+
+    discovered_raw = load_json(
+        DISCOVERED_PATH,
+        default={
+            "properties": []
+        },
+    )
+
+    discovered_properties = (
+        discovered_raw.get(
+            "properties",
+            []
+        )
+        if isinstance(
+            discovered_raw,
+            dict,
+        )
+        else (
+            discovered_raw
+            if isinstance(
+                discovered_raw,
+                list,
+            )
+            else []
+        )
+    )
+
+    db: Dict[
+        str,
+        Dict[str, Any],
+    ] = {}
+
+    # --------------------------------------------------------
+    # houses.json
+    # --------------------------------------------------------
 
     for prop in house_properties:
-        if not isinstance(prop, dict):
+
+        if not isinstance(
+            prop,
+            dict,
+        ):
             continue
-        prop = deepcopy(prop)
-        pid = canonicalize_property_identity(prop)
+
+        prop = deepcopy(
+            prop
+        )
+
+        pid = canonicalize_property_identity(
+            prop
+        )
+
         if not pid:
             continue
-        prop["seenThisRun"] = False
+
+        prop[
+            "seenThisRun"
+        ] = False
+
         if pid in db:
+
             existing = db[pid]
+
             for key, value in prop.items():
-                if existing.get(key) is None and value is not None:
+
+                if (
+                    existing.get(key)
+                    is None
+                    and value is not None
+                ):
                     existing[key] = value
+
         else:
+
             db[pid] = prop
+
+    # --------------------------------------------------------
+    # discovered_listings.json
+    # --------------------------------------------------------
 
     for prop in discovered_properties:
-        if not isinstance(prop, dict):
+
+        if not isinstance(
+            prop,
+            dict,
+        ):
             continue
-        prop = deepcopy(prop)
-        pid = canonicalize_property_identity(prop)
+
+        prop = deepcopy(
+            prop
+        )
+
+        pid = canonicalize_property_identity(
+            prop
+        )
+
         if not pid:
             continue
+
         if pid not in db:
-            prop["seenThisRun"] = False
+
+            prop[
+                "seenThisRun"
+            ] = False
+
             db[pid] = prop
 
+    # ========================================================
     # 3. Search Crawling
-    search_adapter = SuumoSearchAdapter(config=search_config)
+    # ========================================================
+
+    search_adapter = SuumoSearchAdapter(
+        config=search_config
+    )
+
     search_success_count = 0
     search_failed_count = 0
+
     run_start_iso = now_iso()
 
     for target in search_urls:
-        name = target.get("name", "Unknown")
-        url = target.get("url")
+
+        name = target.get(
+            "name",
+            "Unknown",
+        )
+
+        url = target.get(
+            "url"
+        )
+
         if not url:
             continue
 
-        print(f"--- Crawling target: {name} ({url}) ---")
+        print(
+            f"--- Crawling target: {name} ({url}) ---"
+        )
+
         try:
-            results = fetch_search_target(search_adapter, url, target, search_config)
+
+            results = fetch_search_target(
+                search_adapter,
+                url,
+                target,
+                search_config,
+            )
+
             search_success_count += 1
-            print(f"  取得件数: {len(results)}件")
+
+            print(
+                f"  取得件数: {len(results)}件"
+            )
 
             for item in results:
-                normalized = normalize_search_result(item)
-                normalized = apply_url_area_prefilter(normalized, search_config, search_urls)
-                pid = normalized["propertyId"]
+
+                normalized = normalize_search_result(
+                    item
+                )
+
+                normalized = apply_url_area_prefilter(
+                    normalized,
+                    search_config,
+                    search_urls,
+                )
+
+                pid = normalized[
+                    "propertyId"
+                ]
 
                 if pid in db:
-                    existing = db[pid]
-                    existing["seenThisRun"] = True
-                    existing["lastSeenAt"] = run_start_iso
-                    existing["status"] = "active"
 
-                    if normalized.get("searchPriceYen") is not None:
-                        existing["searchPriceYen"] = normalized.get("searchPriceYen")
-                        existing["searchPriceMan"] = normalized.get("searchPriceMan")
-                        if normalized.get("searchPriceRaw") is not None:
-                            existing["searchPriceRaw"] = normalized.get("searchPriceRaw")
-                        if normalized.get("searchPriceConfidence") is not None:
-                            existing["searchPriceConfidence"] = normalized.get("searchPriceConfidence")
-                        if normalized.get("searchPriceWarning") is not None:
-                            existing["searchPriceWarning"] = normalized.get("searchPriceWarning")
-                        if normalized.get("searchPriceCandidates") is not None:
-                            existing["searchPriceCandidates"] = normalized.get("searchPriceCandidates")
-                        if normalized.get("searchPriceCandidateCount") is not None:
-                            existing["searchPriceCandidateCount"] = normalized.get("searchPriceCandidateCount")
+                    existing = db[
+                        pid
+                    ]
 
-                    if not existing.get("searchArea"):
-                        existing["searchArea"] = normalized.get("searchArea")
+                    existing[
+                        "seenThisRun"
+                    ] = True
 
-                    search_targets = append_unique(existing.get("searchTargets", []), name)
-                    existing["searchTargets"] = search_targets
-                    merge_search_occurrence(existing, normalized)
+                    existing[
+                        "lastSeenAt"
+                    ] = run_start_iso
+
+                    existing[
+                        "status"
+                    ] = "active"
+
+                    if (
+                        normalized.get(
+                            "searchPriceYen"
+                        )
+                        is not None
+                    ):
+
+                        existing[
+                            "searchPriceYen"
+                        ] = normalized.get(
+                            "searchPriceYen"
+                        )
+
+                        existing[
+                            "searchPriceMan"
+                        ] = normalized.get(
+                            "searchPriceMan"
+                        )
+
+                        if (
+                            normalized.get(
+                                "searchPriceRaw"
+                            )
+                            is not None
+                        ):
+                            existing[
+                                "searchPriceRaw"
+                            ] = normalized.get(
+                                "searchPriceRaw"
+                            )
+
+                        if (
+                            normalized.get(
+                                "searchPriceConfidence"
+                            )
+                            is not None
+                        ):
+                            existing[
+                                "searchPriceConfidence"
+                            ] = normalized.get(
+                                "searchPriceConfidence"
+                            )
+
+                        if (
+                            normalized.get(
+                                "searchPriceWarning"
+                            )
+                            is not None
+                        ):
+                            existing[
+                                "searchPriceWarning"
+                            ] = normalized.get(
+                                "searchPriceWarning"
+                            )
+
+                        if (
+                            normalized.get(
+                                "searchPriceCandidates"
+                            )
+                            is not None
+                        ):
+                            existing[
+                                "searchPriceCandidates"
+                            ] = normalized.get(
+                                "searchPriceCandidates"
+                            )
+
+                        if (
+                            normalized.get(
+                                "searchPriceCandidateCount"
+                            )
+                            is not None
+                        ):
+                            existing[
+                                "searchPriceCandidateCount"
+                            ] = normalized.get(
+                                "searchPriceCandidateCount"
+                            )
+
+                    if not existing.get(
+                        "searchArea"
+                    ):
+
+                        existing[
+                            "searchArea"
+                        ] = normalized.get(
+                            "searchArea"
+                        )
+
+                    search_targets = append_unique(
+                        existing.get(
+                            "searchTargets",
+                            [],
+                        ),
+                        name,
+                    )
+
+                    existing[
+                        "searchTargets"
+                    ] = search_targets
+
+                    merge_search_occurrence(
+                        existing,
+                        normalized,
+                    )
+
                 else:
-                    normalized["seenThisRun"] = True
-                    normalized["firstSeenAt"] = run_start_iso
-                    normalized["lastSeenAt"] = run_start_iso
-                    normalized["status"] = "active"
-                    normalized["searchTargets"] = [name]
-                    normalized["detailFetchStatus"] = "pending"
-                    normalized["detailFetchSuccess"] = None
-                    db[pid] = normalized
+
+                    normalized[
+                        "seenThisRun"
+                    ] = True
+
+                    normalized[
+                        "firstSeenAt"
+                    ] = run_start_iso
+
+                    normalized[
+                        "lastSeenAt"
+                    ] = run_start_iso
+
+                    normalized[
+                        "status"
+                    ] = "active"
+
+                    normalized[
+                        "searchTargets"
+                    ] = [
+                        name
+                    ]
+
+                    normalized[
+                        "detailFetchStatus"
+                    ] = "pending"
+
+                    normalized[
+                        "detailFetchSuccess"
+                    ] = None
+
+                    db[
+                        pid
+                    ] = normalized
 
         except Exception as exc:
+
             search_failed_count += 1
-            print(f"[ERROR] ターゲットクロール失敗 {name}: {exc}")
 
-    search_healthy = (search_failed_count == 0)
+            print(
+                f"[ERROR] ターゲットクロール失敗 "
+                f"{name}: {exc}"
+            )
 
-    # 4. Update Lifecycle & Criteria
+    search_healthy = (
+        search_failed_count == 0
+    )
+
+    # ========================================================
+    # 4. Lifecycle & Initial Criteria
+    # ========================================================
+
     for pid, prop in db.items():
-        update_property_lifecycle(prop, run_start_iso, search_healthy=search_healthy)
-        evaluate_property_criteria(prop, search_config)
 
+        update_property_lifecycle(
+            prop,
+            run_start_iso,
+            search_healthy=search_healthy,
+        )
+
+        evaluate_property_criteria(
+            prop,
+            search_config,
+        )
+
+    # ========================================================
     # 5. Detail Fetch Processing
-    to_fetch: List[Dict[str, Any]] = []
+    # ========================================================
+
+    to_fetch: List[
+        Dict[str, Any]
+    ] = []
 
     for pid, prop in db.items():
-        if not is_detail_target_property(prop, search_config, search_urls):
+
+        if not is_detail_target_property(
+            prop,
+            search_config,
+            search_urls,
+        ):
             continue
-        priority = detail_fetch_priority(prop)
+
+        priority = detail_fetch_priority(
+            prop
+        )
+
         if priority < 999:
-            to_fetch.append({"priority": priority, "property": prop})
 
-    to_fetch.sort(key=lambda x: x["priority"])
-    limit = search_config.get("detailFetchLimit", DEFAULT_DETAIL_FETCH_LIMIT)
-    target_items = [x["property"] for x in to_fetch[:limit]]
+            to_fetch.append(
+                {
+                    "priority": priority,
+                    "property": prop,
+                }
+            )
 
-    print(f"--- Detail Fetch Target Count: {len(target_items)} / Queue: {len(to_fetch)} ---")
+    to_fetch.sort(
+        key=lambda x: x[
+            "priority"
+        ]
+    )
 
-    detail_adapter = SuumoDetailAdapter(config=search_config)
+    limit = search_config.get(
+        "detailFetchLimit",
+        DEFAULT_DETAIL_FETCH_LIMIT,
+    )
+
+    try:
+        limit = int(limit)
+    except (
+        TypeError,
+        ValueError,
+    ):
+        limit = DEFAULT_DETAIL_FETCH_LIMIT
+
+    target_items = [
+        x["property"]
+        for x in to_fetch[:limit]
+    ]
+
+    print(
+        f"--- Detail Fetch Target Count: "
+        f"{len(target_items)} / Queue: "
+        f"{len(to_fetch)} ---"
+    )
+
+    detail_adapter = SuumoDetailAdapter(
+        config=search_config
+    )
+
     consecutive_connectivity_errors = 0
 
-    for idx, prop in enumerate(target_items, start=1):
-        url = prop.get("sourceUrl") or prop.get("url")
+    for idx, prop in enumerate(
+        target_items,
+        start=1,
+    ):
+
+        url = (
+            prop.get("sourceUrl")
+            or prop.get("url")
+        )
+
         if not url:
             continue
 
-        print(f"[{idx}/{len(target_items)}] Detail fetching: {prop.get('propertyId')} ({url})")
-        try:
-            detail_res = detail_adapter.fetch_detail(url)
-            enrich_with_detail(prop, detail_res)
-            evaluate_property_criteria(prop, search_config)
+        print(
+            f"[{idx}/{len(target_items)}] "
+            f"Detail fetching: "
+            f"{prop.get('propertyId')} "
+            f"({url})"
+        )
 
-            if detail_res.get("success"):
+        try:
+
+            detail_res = (
+                detail_adapter.fetch_detail(
+                    url
+                )
+            )
+
+            enrich_with_detail(
+                prop,
+                detail_res,
+            )
+
+            # ------------------------------------------------
+            # 詳細取得後に再評価
+            #
+            # ここで初めて
+            # 駅徒歩 / 価格 / 土地 / 建物 / 築年数
+            # が確定する。
+            # ------------------------------------------------
+
+            evaluate_property_criteria(
+                prop,
+                search_config,
+            )
+
+            if detail_res.get(
+                "success"
+            ):
+
                 consecutive_connectivity_errors = 0
+
             else:
-                err_type = detail_res.get("errorType")
-                if err_type in ("timeout", "network_error", "server_error"):
+
+                err_type = (
+                    detail_res.get(
+                        "errorType"
+                    )
+                )
+
+                if err_type in (
+                    "timeout",
+                    "network_error",
+                    "server_error",
+                ):
+
                     consecutive_connectivity_errors += 1
+
                 else:
+
                     consecutive_connectivity_errors = 0
+
         except Exception as exc:
-            print(f"[ERROR] Detail fetch error ({url}): {exc}")
+
+            print(
+                f"[ERROR] Detail fetch error "
+                f"({url}): {exc}"
+            )
+
             consecutive_connectivity_errors += 1
 
-        if consecutive_connectivity_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
-            print(f"[WARN] 連続接続エラー({consecutive_connectivity_errors}回)のため詳細フェッチを中断します。")
+        if (
+            consecutive_connectivity_errors
+            >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS
+        ):
+
+            print(
+                f"[WARN] 連続接続エラー("
+                f"{consecutive_connectivity_errors}回)"
+                "のため詳細フェッチを中断します。"
+            )
+
             break
 
-        time.sleep(1.0)
+        time.sleep(
+            1.0
+        )
 
-    # 6. Save Data
-    discovered_list = compact_discovery_db(list(db.values()))
-    market_houses = []
-    observations = []
+    # ========================================================
+    # 6. Re-evaluate all properties after detail processing
+    # ========================================================
 
     for pid, prop in db.items():
-        obs = build_listing_observation(prop)
-        observations.append(obs)
 
-        if is_market_history_property(prop):
-            record = build_market_house_record(prop)
-            market_houses.append(record)
+        evaluate_property_criteria(
+            prop,
+            search_config,
+        )
 
-    market_houses.sort(key=lambda x: x.get("lastSeenAt") or "", reverse=True)
+    # ========================================================
+    # 7. Save Data
+    # ========================================================
 
-    save_json(DISCOVERED_PATH, {"version": DISCOVERY_SCHEMA_VERSION, "updatedAt": run_start_iso, "properties": discovered_list})
-    save_json(HOUSES_PATH, {"version": HOUSE_DB_SCHEMA_VERSION, "updatedAt": run_start_iso, "properties": market_houses})
-    save_json(OBSERVATIONS_PATH, {"version": "1.0", "updatedAt": run_start_iso, "observations": observations})
+    discovered_list = (
+        compact_discovery_db(
+            list(db.values())
+        )
+    )
 
-    active_count = sum(1 for p in market_houses if p.get("status") == "active")
-    print(f"=== Pipeline Completed. Active Market Houses: {active_count} ===")
+    market_houses = []
+
+    observations = []
+
+    storage_stats = Counter()
+
+    for pid, prop in db.items():
+
+        # ----------------------------------------------------
+        # Observation DB
+        # ----------------------------------------------------
+
+        obs = build_listing_observation(
+            prop
+        )
+
+        observations.append(
+            obs
+        )
+
+        # ----------------------------------------------------
+        # houses.json
+        #
+        # ここで保存条件を最終判定。
+        # areaMatched は条件に含めない。
+        # ----------------------------------------------------
+
+        if is_market_history_property(
+            prop
+        ):
+
+            record = build_market_house_record(
+                prop
+            )
+
+            market_houses.append(
+                record
+            )
+
+            storage_stats[
+                "stored"
+            ] += 1
+
+        else:
+
+            storage_stats[
+                "not_stored"
+            ] += 1
+
+            if not should_store_house(
+                prop
+            ):
+
+                storage_stats[
+                    "criteria_not_matched"
+                ] += 1
+
+            elif prop.get(
+                "areaClassification"
+            ) not in HOUSE_DB_AREA_CLASSIFICATIONS:
+
+                storage_stats[
+                    "area_classification_invalid"
+                ] += 1
+
+    market_houses.sort(
+        key=lambda x:
+            x.get(
+                "lastSeenAt"
+            )
+            or "",
+        reverse=True,
+    )
+
+    # ========================================================
+    # 8. Save Discovery DB
+    # ========================================================
+
+    save_json(
+        DISCOVERED_PATH,
+        {
+            "version":
+                DISCOVERY_SCHEMA_VERSION,
+
+            "updatedAt":
+                run_start_iso,
+
+            "properties":
+                discovered_list,
+        },
+    )
+
+    # ========================================================
+    # 9. Save Market House DB
+    # ========================================================
+
+    save_json(
+        HOUSES_PATH,
+        {
+            "version":
+                HOUSE_DB_SCHEMA_VERSION,
+
+            "updatedAt":
+                run_start_iso,
+
+            "properties":
+                market_houses,
+        },
+    )
+
+    # ========================================================
+    # 10. Save Observation DB
+    # ========================================================
+
+    save_json(
+        OBSERVATIONS_PATH,
+        {
+            "version":
+                "1.0",
+
+            "updatedAt":
+                run_start_iso,
+
+            "observations":
+                observations,
+        },
+    )
+
+    # ========================================================
+    # 11. Summary
+    # ========================================================
+
+    active_count = sum(
+        1
+        for p in market_houses
+        if p.get(
+            "status"
+        ) == "active"
+    )
+
+    ended_count = sum(
+        1
+        for p in market_houses
+        if p.get(
+            "status"
+        ) == "observed_ended"
+    )
+
+    primary_count = sum(
+        1
+        for p in market_houses
+        if p.get(
+            "areaClassification"
+        ) == "primaryTarget"
+    )
+
+    sub_count = sum(
+        1
+        for p in market_houses
+        if p.get(
+            "areaClassification"
+        ) == "subTarget"
+    )
+
+    print(
+        "============================================================"
+    )
+
+    print(
+        "=== Storage Summary ==="
+    )
+
+    print(
+        f"  Discovery DB: "
+        f"{len(discovered_list)}"
+    )
+
+    print(
+        f"  Market House DB: "
+        f"{len(market_houses)}"
+    )
+
+    print(
+        f"  Active: "
+        f"{active_count}"
+    )
+
+    print(
+        f"  Observed ended: "
+        f"{ended_count}"
+    )
+
+    print(
+        f"  primaryTarget: "
+        f"{primary_count}"
+    )
+
+    print(
+        f"  subTarget: "
+        f"{sub_count}"
+    )
+
+    print(
+        f"  Not stored: "
+        f"{storage_stats['not_stored']}"
+    )
+
+    print(
+        "============================================================"
+    )
+
+    print(
+        f"=== Pipeline Completed. "
+        f"Active Market Houses: "
+        f"{active_count} ==="
+    )
 
 
 if __name__ == "__main__":
