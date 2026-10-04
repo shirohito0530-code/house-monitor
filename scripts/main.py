@@ -50,16 +50,71 @@ DISCOVERY_SCHEMA_VERSION = "2.0"
 DISCOVERY_RETENTION_DAYS = 180
 
 DISCOVERY_FIELDS = (
+    # --------------------------------------------------------
+    # Identity
+    # --------------------------------------------------------
     "propertyId",
     "source",
     "sourceId",
     "sourceUrl",
+
+    # --------------------------------------------------------
+    # Listing / Search
+    # --------------------------------------------------------
     "name",
     "listingTitle",
     "searchTitle",
     "searchArea",
     "searchPropertyType",
+
+    # --------------------------------------------------------
+    # Address / Area
+    # --------------------------------------------------------
+    "address",
+    "detectedArea",
+    "areaDetected",
     "areaClassification",
+    "areaMatched",
+    "areaValidationReason",
+    "urlCityCode",
+    "areaCityMatched",
+
+    # --------------------------------------------------------
+    # Station
+    # --------------------------------------------------------
+    "targetStation",
+    "targetStationWalkMinutes",
+    "targetStationWalkAvailable",
+    "targetStationWalkSource",
+    "walkMinutes",
+    "walkMatched",
+
+    # --------------------------------------------------------
+    # Criteria
+    # --------------------------------------------------------
+    "propertyTypeMatched",
+    "builtAgeMatched",
+    "priceMatched",
+    "landAreaMatched",
+    "buildingAreaMatched",
+    "searchCriteriaMatched",
+
+    # --------------------------------------------------------
+    # Price
+    # --------------------------------------------------------
+    "priceYen",
+    "priceMan",
+    "currentPrice",
+    "currentPriceMan",
+    "searchPriceYen",
+    "searchPriceMan",
+    "priceConfidence",
+    "priceStatus",
+
+    # --------------------------------------------------------
+    # Detail
+    # --------------------------------------------------------
+    "detailQuality",
     "status",
     "firstSeenAt",
     "lastSeenAt",
@@ -1476,12 +1531,6 @@ def detail_fetch_priority(
     # city mismatch は優先度を下げない
     # ========================================================
 
-    if property_data.get(
-        "searchResultFilterExcluded",
-        False,
-    ):
-        return 999
-
     attempts = int(
         property_data.get(
             "detailFetchAttempts",
@@ -2392,41 +2441,26 @@ def assign_area_excluded_reason(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
     """
-    areaは保存可否のハード条件ではない。
+    エリア分類を返す。
 
-    したがって cityMismatch / addressMismatch を
-    「物件除外理由」として扱わない。
-
-    あくまでUI・評価用の情報として保持する。
+    areaはハード除外条件ではない。
     """
 
-    area_matched = property_data.get(
-        "areaMatched"
+    classification = property_data.get(
+        "areaClassification"
     )
 
-    area_val_reason = property_data.get(
-        "areaValidationReason"
-    )
-
-    if area_matched is True:
+    if classification == "primaryTarget":
         return None
 
-    if area_matched is False:
-
-        if area_val_reason in {
-            "address_outside_target_area",
-            "search_area_address_mismatch",
-        }:
-            return "subTarget"
-
+    if classification == "subTarget":
         return "subTarget"
 
-    if area_matched is None:
+    if classification == "outOfTarget":
+        return "outOfTarget"
 
-        if area_val_reason == "address_unavailable":
-            return "detailPending"
-
-        return "subTarget"
+    if classification == "detailPending":
+        return "detailPending"
 
     return None
 
@@ -3301,6 +3335,48 @@ def enrich_with_detail(
     return property_data
 
 
+def classify_area(
+    property_data: Dict[str, Any],
+) -> Optional[str]:
+    """
+    物件の対象エリア分類を決定する。
+
+    primaryTarget:
+        実住所が検索対象エリアに一致
+
+    subTarget:
+        実住所は対象エリア外だが、
+        対象駅の徒歩条件を満たす
+
+    outOfTarget:
+        対象エリア外かつ駅徒歩条件も満たさない
+
+    detailPending:
+        詳細情報不足で判定できない
+    """
+
+    area_matched = property_data.get(
+        "areaMatched"
+    )
+
+    walk_matched = property_data.get(
+        "walkMatched"
+    )
+
+    if area_matched is True:
+        return "primaryTarget"
+
+    if walk_matched is True:
+        return "subTarget"
+
+    if (
+        area_matched is False
+        and walk_matched is False
+    ):
+        return "outOfTarget"
+
+    return "detailPending"
+    
 # ============================================================
 # Criteria Evaluation
 # ============================================================
@@ -3471,19 +3547,11 @@ def evaluate_property_criteria(
     #   houses.json には保存しないため使用しない
     # ========================================================
 
-    if property_data.get(
-        "areaMatched"
-    ) is True:
-
-        property_data[
-            "areaClassification"
-        ] = "primaryTarget"
-
-    else:
-
-        property_data[
-            "areaClassification"
-        ] = "subTarget"
+    property_data[
+        "areaClassification"
+    ] = classify_area(
+        property_data
+    )
 
     return property_data
 
