@@ -74,6 +74,9 @@ DISCOVERY_FIELDS = (
     "detectedArea",
     "areaDetected",
     "areaClassification",
+    "areaStatus",
+    "area",
+    "areaCandidate",
     "areaMatched",
     "areaValidationReason",
     "urlCityCode",
@@ -84,6 +87,7 @@ DISCOVERY_FIELDS = (
     # --------------------------------------------------------
     "targetStation",
     "targetStationWalkMinutes",
+    "stationWalkMinutes",
     "targetStationWalkAvailable",
     "targetStationWalkSource",
     "walkMinutes",
@@ -969,13 +973,6 @@ def apply_url_area_prefilter(
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> Dict[str, Any]:
-    """
-    市区町村は「除外条件」ではなく、
-    エリア評価用の補助情報として記録する。
-
-    重要:
-        city mismatch でも詳細取得対象から除外しない。
-    """
 
     url = (
         property_data.get("sourceUrl")
@@ -1025,11 +1022,6 @@ def apply_url_area_prefilter(
         return property_data
 
     if city_code not in allowed_city_codes:
-
-        # ====================================================
-        # 重要変更:
-        # city mismatch でも除外しない
-        # ====================================================
 
         property_data[
             "areaPrefilterExcluded"
@@ -1196,26 +1188,6 @@ def compact_discovery_db(
 def should_store_house(
     property_data: Dict[str, Any],
 ) -> bool:
-    """
-    houses.json に保存する候補物件を決定する。
-
-    重要:
-        areaMatched は保存条件に含めない。
-
-    保存条件:
-        - builtAgeMatched
-        - propertyTypeMatched
-        - priceMatched
-        - walkMatched
-        - landAreaMatched
-        - buildingAreaMatched
-
-    つまり、
-        「対象住所か」
-    ではなく
-        「対象駅から徒歩圏で、物件条件を満たすか」
-    を候補DBへの保存基準とする。
-    """
 
     required_flags = (
         "builtAgeMatched",
@@ -1356,16 +1328,6 @@ def is_detail_target_property(
     search_config: Dict[str, Any],
     search_urls: List[Dict[str, Any]],
 ) -> bool:
-    """
-    詳細取得対象を決定する。
-
-    今回の方針では、
-    市区町村不一致を理由に除外しない。
-
-    詳細ページを取得して初めて
-    駅徒歩・価格・土地・建物等を確定できるため、
-    city code はここでは使用しない。
-    """
 
     if not isinstance(
         property_data,
@@ -1380,13 +1342,6 @@ def is_detail_target_property(
 
     if not url:
         return False
-
-    # --------------------------------------------------------
-    # 重要:
-    # areaPrefilterExcluded を見て False にしない。
-    #
-    # city mismatch でも詳細取得する。
-    # --------------------------------------------------------
 
     return True
 
@@ -1526,10 +1481,6 @@ def is_detail_stale(
 def detail_fetch_priority(
     property_data: Dict[str, Any],
 ) -> int:
-
-    # ========================================================
-    # city mismatch は優先度を下げない
-    # ========================================================
 
     attempts = int(
         property_data.get(
@@ -2440,11 +2391,6 @@ def evaluate_area(
 def assign_area_excluded_reason(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
-    """
-    エリア分類を返す。
-
-    areaはハード除外条件ではない。
-    """
 
     classification = property_data.get(
         "areaClassification"
@@ -2815,11 +2761,6 @@ def normalize_search_result(
         ] = int(
             effective_price / 10_000
         )
-
-    result["area"] = normalize_search_area(
-        result.get("area")
-        or result.get("searchArea")
-    )
 
     result["searchArea"] = normalize_search_area(
         result.get("searchArea")
@@ -3338,22 +3279,6 @@ def enrich_with_detail(
 def classify_area(
     property_data: Dict[str, Any],
 ) -> Optional[str]:
-    """
-    物件の対象エリア分類を決定する。
-
-    primaryTarget:
-        実住所が検索対象エリアに一致
-
-    subTarget:
-        実住所は対象エリア外だが、
-        対象駅の徒歩条件を満たす
-
-    outOfTarget:
-        対象エリア外かつ駅徒歩条件も満たさない
-
-    detailPending:
-        詳細情報不足で判定できない
-    """
 
     area_matched = property_data.get(
         "areaMatched"
@@ -3376,7 +3301,8 @@ def classify_area(
         return "outOfTarget"
 
     return "detailPending"
-    
+
+
 # ============================================================
 # Criteria Evaluation
 # ============================================================
@@ -3430,10 +3356,25 @@ def evaluate_property_criteria(
         numeric_eval
     )
 
-    # ========================================================
-    # 重要変更:
-    # areaMatched は除外条件ではない
-    # ========================================================
+    # --------------------------------------------------------
+    # 修正③: 駅徒歩フィールド名の不一致解消
+    # --------------------------------------------------------
+    walk_minutes = (
+        property_data.get("targetStationWalkMinutes")
+        if property_data.get("targetStationWalkMinutes") is not None
+        else (
+            property_data.get("walkMinutes")
+            if property_data.get("walkMinutes") is not None
+            else get_walk_minutes(property_data)
+        )
+    )
+
+    if walk_minutes is not None:
+        property_data["stationWalkMinutes"] = walk_minutes
+        property_data["targetStationWalkMinutes"] = walk_minutes
+        property_data["walkMinutes"] = walk_minutes
+    else:
+        property_data["stationWalkMinutes"] = None
 
     criteria_flags = [
         property_data.get(
@@ -3534,24 +3475,28 @@ def evaluate_property_criteria(
         observed_at,
     )
 
-    # ========================================================
-    # Area Classification
-    #
-    # primaryTarget:
-    #   住所が検索対象エリアに一致
-    #
-    # subTarget:
-    #   住所は対象外でも、対象駅徒歩条件を満たす候補
-    #
-    # outOfTarget:
-    #   houses.json には保存しないため使用しない
-    # ========================================================
+    # --------------------------------------------------------
+    # 修正①＆②: areaClassification → UI互換フィールド生成
+    # --------------------------------------------------------
+    classification = classify_area(property_data)
+    property_data["areaClassification"] = classification
 
-    property_data[
-        "areaClassification"
-    ] = classify_area(
-        property_data
+    search_area = normalize_search_area(
+        property_data.get("searchArea") or property_data.get("area")
     )
+
+    if classification == "primaryTarget":
+        property_data["areaStatus"] = "confirmed"
+        property_data["area"] = search_area
+        property_data["areaCandidate"] = None
+    elif classification == "subTarget":
+        property_data["areaStatus"] = "candidate"
+        property_data["area"] = None
+        property_data["areaCandidate"] = search_area
+    else:
+        property_data["areaStatus"] = "pending"
+        property_data["area"] = None
+        property_data["areaCandidate"] = None
 
     return property_data
 
@@ -3745,6 +3690,21 @@ def build_listing_observation(
                 "areaClassification"
             ),
 
+        "areaStatus":
+            property_data.get(
+                "areaStatus"
+            ),
+
+        "area":
+            property_data.get(
+                "area"
+            ),
+
+        "areaCandidate":
+            property_data.get(
+                "areaCandidate"
+            ),
+
         "schoolDistrictStatus":
             property_data.get(
                 "schoolDistrictStatus"
@@ -3818,6 +3778,11 @@ def build_listing_observation(
                 "walkMinutes"
             ),
 
+        "stationWalkMinutes":
+            property_data.get(
+                "stationWalkMinutes"
+            ),
+
         "priceReductionCount":
             property_data.get(
                 "priceReductionCount",
@@ -3832,20 +3797,10 @@ def build_listing_observation(
 def build_market_house_record(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
-    """
-    houses.json 用のコンパクトな候補物件レコードを作る。
-
-    処理中の診断情報をそのまま deepcopy しない。
-    houses.json は「候補物件DB」として維持する。
-    """
 
     detail = get_detail(
         property_data
     )
-
-    # --------------------------------------------------------
-    # 1. Price
-    # --------------------------------------------------------
 
     raw_price = (
         detail.get("priceYen")
@@ -3863,10 +3818,6 @@ def build_market_house_record(
             raw_price
         )
     )
-
-    # --------------------------------------------------------
-    # 2. Basic property information
-    # --------------------------------------------------------
 
     address = (
         property_data.get("address")
@@ -3904,19 +3855,17 @@ def build_market_house_record(
 
     walk_minutes = (
         property_data.get(
-            "walkMinutes"
+            "stationWalkMinutes"
         )
         if property_data.get(
-            "walkMinutes"
+            "stationWalkMinutes"
         ) is not None
-        else get_walk_minutes(
-            property_data
+        else (
+            property_data.get("walkMinutes")
+            if property_data.get("walkMinutes") is not None
+            else get_walk_minutes(property_data)
         )
     )
-
-    # --------------------------------------------------------
-    # 3. Price history
-    # --------------------------------------------------------
 
     history = (
         property_data.get(
@@ -3958,10 +3907,6 @@ def build_market_house_record(
                 "observedAt": observed_at,
             }
         )
-
-    # --------------------------------------------------------
-    # 4. Compact record
-    # --------------------------------------------------------
 
     record: Dict[str, Any] = {
 
@@ -4051,9 +3996,29 @@ def build_market_house_record(
                 walk_minutes
             ),
 
+        "stationWalkMinutes":
+            to_number(
+                walk_minutes
+            ),
+
         "areaClassification":
             property_data.get(
                 "areaClassification"
+            ),
+
+        "areaStatus":
+            property_data.get(
+                "areaStatus"
+            ),
+
+        "area":
+            property_data.get(
+                "area"
+            ),
+
+        "areaCandidate":
+            property_data.get(
+                "areaCandidate"
             ),
 
         "searchArea":
@@ -4126,10 +4091,6 @@ def build_market_house_record(
             MAIN_PARSER_VERSION,
     }
 
-    # --------------------------------------------------------
-    # 5. Price metadata
-    # --------------------------------------------------------
-
     price_source = (
         detail.get(
             "priceSource"
@@ -4186,14 +4147,6 @@ def build_market_house_record(
         "priceStatus"
     ] = price_status
 
-    # --------------------------------------------------------
-    # 6. Optional station access
-    #
-    # 既存 detail parser が stationAccess を持っている場合のみ
-    # 小さな辞書として保存する。
-    # verboseな transport/raw/confidence は保存しない。
-    # --------------------------------------------------------
-
     station_access = (
         detail.get(
             "stationAccess"
@@ -4228,10 +4181,6 @@ def build_market_house_record(
             record[
                 "stationAccess"
             ] = compact_station_access
-
-    # --------------------------------------------------------
-    # 7. Schema / quality metadata
-    # --------------------------------------------------------
 
     record[
         "houseDbSchemaVersion"
@@ -4529,10 +4478,6 @@ def run_pipeline() -> None:
         Dict[str, Any],
     ] = {}
 
-    # --------------------------------------------------------
-    # houses.json
-    # --------------------------------------------------------
-
     for prop in house_properties:
 
         if not isinstance(
@@ -4572,10 +4517,6 @@ def run_pipeline() -> None:
         else:
 
             db[pid] = prop
-
-    # --------------------------------------------------------
-    # discovered_listings.json
-    # --------------------------------------------------------
 
     for prop in discovered_properties:
 
@@ -4955,14 +4896,6 @@ def run_pipeline() -> None:
                 detail_res,
             )
 
-            # ------------------------------------------------
-            # 詳細取得後に再評価
-            #
-            # ここで初めて
-            # 駅徒歩 / 価格 / 土地 / 建物 / 築年数
-            # が確定する。
-            # ------------------------------------------------
-
             evaluate_property_criteria(
                 prop,
                 search_config,
@@ -5049,10 +4982,6 @@ def run_pipeline() -> None:
 
     for pid, prop in db.items():
 
-        # ----------------------------------------------------
-        # Observation DB
-        # ----------------------------------------------------
-
         obs = build_listing_observation(
             prop
         )
@@ -5060,13 +4989,6 @@ def run_pipeline() -> None:
         observations.append(
             obs
         )
-
-        # ----------------------------------------------------
-        # houses.json
-        #
-        # ここで保存条件を最終判定。
-        # areaMatched は条件に含めない。
-        # ----------------------------------------------------
 
         if is_market_history_property(
             prop
