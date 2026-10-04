@@ -1608,7 +1608,88 @@ function getSearchArea(property) {
 }
 
 function getDetectedArea(property) {
-  return property.areaDetected || property.detectedArea || property.area || "-";
+  const detail = getDetail(property);
+  // 1. バックエンドが明示した実判定エリアを最優先
+  const explicitArea =
+    property.areaDetected ||
+    property.detectedArea ||
+    property.areaClassificationLabel ||
+    detail.areaDetected ||
+    detail.detectedArea;
+  if (explicitArea) {
+    return explicitArea;
+  }
+  // 2. 目的駅からUI上のエリアを判定
+  const station =
+    property.targetStation ||
+    property.target_station ||
+    detail.targetStation ||
+    "";
+  if (station === "柏の葉キャンパス") {
+    return "柏の葉キャンパス";
+  }
+  if (station === "流山おおたかの森") {
+    return "流山おおたかの森";
+  }
+  // 3. 最後のフォールバック
+  return property.area || property.searchArea || "-";
+}
+
+function getUiArea(property) {
+  const detail = getDetail(property);
+  /*
+   * UI上のエリア分類
+   *
+   * 優先順位：
+   * 1. 明示的な実判定エリア
+   * 2. 目的駅
+   * 3. searchArea
+   * 4. area
+   */
+  const explicitArea =
+    property.areaDetected ||
+    property.detectedArea ||
+    property.areaClassificationLabel ||
+    detail.areaDetected ||
+    detail.detectedArea;
+  if (
+    explicitArea === "柏の葉キャンパス" ||
+    explicitArea === "流山おおたかの森"
+  ) {
+    return explicitArea;
+  }
+  const station =
+    property.targetStation ||
+    property.target_station ||
+    detail.targetStation ||
+    "";
+  if (station === "柏の葉キャンパス") {
+    return "柏の葉キャンパス";
+  }
+  if (station === "流山おおたかの森") {
+    return "流山おおたかの森";
+  }
+  const searchArea =
+    property.searchArea ||
+    detail.searchArea ||
+    "";
+  if (
+    searchArea === "柏の葉キャンパス" ||
+    searchArea === "流山おおたかの森"
+  ) {
+    return searchArea;
+  }
+  const area =
+    property.area ||
+    detail.area ||
+    "";
+  if (
+    area === "柏の葉キャンパス" ||
+    area === "流山おおたかの森"
+  ) {
+    return area;
+  }
+  return "";
 }
 
 function getLandArea(property) {
@@ -1843,7 +1924,7 @@ function validationText(value) {
 function renderValidation(property) {
   const areaMatched = property.areaMatched;
   const criteriaMatched = property.searchCriteriaMatched;
-  const areaDetected = getDetectedArea(property);
+  const areaDetected = getUiArea(property) || getDetectedArea(property);
   const searchArea = getSearchArea(property);
   const address = getAddress(property);
 
@@ -1978,26 +2059,19 @@ function renderPropertyCard(property) {
   const propertyId = getPropertyId(property) || "-";
   const label = getQualityLabel(property);
 
-  // ⑨ エリアラベルの決定（修正後）
-  let areaLabel = "エリア未判定";
-  if (property.areaStatus === "confirmed") {
-    areaLabel = property.area || property.searchArea || "エリア未判定";
-  } else if (property.areaStatus === "candidate") {
-    areaLabel = `候補：${property.areaCandidate || property.searchArea || "対象エリア"}`;
-  } else if (property.area) {
-    areaLabel = property.area;
-  } else if (property.areaCandidate) {
-    areaLabel = `候補：${property.areaCandidate}`;
-  }
+  const uiArea = getUiArea(property);
 
-  // ⑧ 候補物件表示バッジ（修正後）
-  let areaBadge = "";
-  if (property.areaStatus === "candidate") {
-    areaBadge = `<span class="area-badge area-candidate">△ 候補</span>`;
-  } else if (property.areaStatus === "confirmed") {
-    areaBadge = `<span class="area-badge area-confirmed">✓ 確定</span>`;
-  } else {
-    areaBadge = `<span class="area-badge area-pending">？未判定</span>`;
+  let areaLabel = uiArea || "エリア未判定";
+  if (!uiArea) {
+    if (property.areaStatus === "confirmed") {
+      areaLabel = property.area || property.searchArea || "エリア未判定";
+    } else if (property.areaStatus === "candidate") {
+      areaLabel = `候補：${property.areaCandidate || property.searchArea || "対象エリア"}`;
+    } else if (property.area) {
+      areaLabel = property.area;
+    } else if (property.areaCandidate) {
+      areaLabel = `候補：${property.areaCandidate}`;
+    }
   }
 
   // 駅徒歩の統一取得
@@ -2021,7 +2095,12 @@ function renderPropertyCard(property) {
       </div>
 
       <div class="flags">
-        ${areaBadge}
+        ${uiArea === "柏の葉キャンパス"
+          ? `<span class="area-badge area-confirmed">柏の葉</span>`
+          : uiArea === "流山おおたかの森"
+            ? `<span class="area-badge area-confirmed">おおたかの森</span>`
+            : `<span class="area-badge area-pending">エリア未判定</span>`
+        }
         ${renderUserSelectionBadge(property)}
         ${renderQualityFlag(property)}
         ${fetched ? `<span class="flag flag-good">詳細取得済み</span>` : `<span class="flag flag-unknown">詳細未取得</span>`}
@@ -2242,6 +2321,9 @@ function filterProperties() {
       property.searchArea,
       property.area,
       property.areaCandidate,
+      property.areaDetected,
+      property.detectedArea,
+      getUiArea(property),
       detail.title,
       detail.address,
       detail.station,
@@ -2258,7 +2340,8 @@ function filterProperties() {
 
     const matchesSearch = !search || searchText.includes(search);
 
-    if (areaFilter && property.area !== areaFilter) {
+    const uiArea = getUiArea(property);
+    if (areaFilter && uiArea !== areaFilter) {
       return false;
     }
 
@@ -2339,7 +2422,7 @@ function renderDiscoveredListings(list) {
       const name = getPropertyName(property);
       const address = getAddress(property);
       const searchArea = getSearchArea(property);
-      const detectedArea = getDetectedArea(property);
+      const detectedArea = getUiArea(property) || getDetectedArea(property);
       const source = property.source || "SUUMO";
       const collectedAt = property.collectedAt;
       const fetched = isDetailFetched(property);
