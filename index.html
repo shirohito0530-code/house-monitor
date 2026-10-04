@@ -440,6 +440,24 @@ h2 {
   font-weight: 600;
 }
 
+/* ⑤ CSS追加 */
+.area-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 7px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 700;
+}
+.area-confirmed {
+    background: var(--green-bg);
+    color: var(--green);
+}
+.area-candidate {
+    background: #fff7ed;
+    color: #c2410c;
+}
+
 .flag-good, .flag-complete {
   background: var(--green-bg);
   color: var(--green);
@@ -554,7 +572,6 @@ h2 {
 .user-save-panel {
   margin-top: 10px;
   padding: 10px;
-  border-radius: 99px;
   border-radius: 9px;
   background: #f8fafc;
   border: 1px solid var(--border);
@@ -980,8 +997,15 @@ h2 {
           placeholder="住所・物件名・駅・IDを検索"
         >
 
-        <select id="propertyArea">
-          <option value="">全エリア</option>
+        <!-- ① エリアフィルターを明確化 -->
+        <select id="areaFilter">
+            <option value="">全エリア</option>
+            <option value="柏の葉キャンパス">
+                柏の葉キャンパス
+            </option>
+            <option value="流山おおたかの森">
+                流山おおたかの森
+            </option>
         </select>
 
         <select id="propertyQuality">
@@ -1223,7 +1247,7 @@ function getUserSelection(property) {
 }
 
 function isKashiwaNoHa(property) {
-  return getSearchArea(property) === "柏の葉キャンパス";
+  return (property.area === "柏の葉キャンパス" || property.areaCandidate === "柏の葉キャンパス");
 }
 
 function hasSchoolCandidate(property) {
@@ -1518,7 +1542,6 @@ function getDetail(property) {
   return {};
 }
 
-/* 修正 3. getPrice() 全面置換 */
 function getPrice(property) {
   const detail = getDetail(property);
   const candidates = [
@@ -1549,12 +1572,10 @@ function getPrice(property) {
   return null;
 }
 
-/* 修正 3. getCurrentPrice() 統一 */
 function getCurrentPrice(property) {
   return getPrice(property);
 }
 
-/* 修正 3. 品質表示ラベル */
 function getQualityLabel(property) {
   const quality =
     String(
@@ -1584,17 +1605,7 @@ function getSearchArea(property) {
 }
 
 function getDetectedArea(property) {
-  return property.areaDetected || property.detectedArea || "-";
-}
-
-function getDisplayArea(property) {
-  return (
-    property.areaDetected ||
-    property.detectedArea ||
-    property.searchArea ||
-    property.area ||
-    getAddress(property)
-  );
+  return property.areaDetected || property.detectedArea || property.area || "-";
 }
 
 function getLandArea(property) {
@@ -1637,7 +1648,7 @@ function getTargetStationStatus(property) {
   const detail = getDetail(property);
   const station = detail.targetStation ?? property.targetStation ?? null;
   const available = detail.targetStationWalkAvailable === true || property.targetStationWalkAvailable === true;
-  const minutes = detail.targetStationWalkMinutes ?? property.targetStationWalkMinutes ?? null;
+  const minutes = property.stationWalkMinutes ?? (detail.targetStationWalkMinutes ?? property.targetStationWalkMinutes ?? null);
 
   if (available && station && minutes !== null && minutes !== undefined) {
     return {
@@ -1964,6 +1975,25 @@ function renderPropertyCard(property) {
   const propertyId = getPropertyId(property) || "-";
   const label = getQualityLabel(property);
 
+  // ③ エリア表示の決定
+  const areaLabel =
+    property.area ||
+    property.areaCandidate ||
+    "エリア未判定";
+
+  // ④ 候補物件表示バッジ
+  const areaBadge =
+    property.areaStatus === "candidate"
+      ? `<span class="area-badge area-candidate">△ 候補</span>`
+      : `<span class="area-badge area-confirmed">✓ ${escapeHtml(property.area || areaLabel)}</span>`;
+
+  // ⑥ 駅徒歩独立表示
+  const walkMinutes = property.stationWalkMinutes ?? (getDetail(property).targetStationWalkMinutes ?? property.targetStationWalkMinutes);
+  const walkText =
+    walkMinutes != null
+      ? `${walkMinutes}分`
+      : "不明";
+
   return `
     <article class="property">
       <div class="property-top">
@@ -1978,6 +2008,7 @@ function renderPropertyCard(property) {
       </div>
 
       <div class="flags">
+        ${areaBadge}
         ${renderUserSelectionBadge(property)}
         ${renderQualityFlag(property)}
         ${fetched ? `<span class="flag flag-good">詳細取得済み</span>` : `<span class="flag flag-unknown">詳細未取得</span>`}
@@ -1988,7 +2019,11 @@ function renderPropertyCard(property) {
       <div class="property-details">
         <div class="meta-item">
           <span class="meta-label">エリア</span>
-          ${formatValue(getDisplayArea(property))}
+          ${escapeHtml(areaLabel)}
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">駅徒歩</span>
+          ${escapeHtml(walkText)}
         </div>
         <div class="meta-item">
           <span class="meta-label">間取り</span>
@@ -2052,7 +2087,7 @@ function renderProperties(list) {
   container.innerHTML = list.map(property => renderPropertyCard(property)).join("");
 }
 
-/* Highlights */
+/* Highlights (⑧ ランキングロジックは維持) */
 function renderHighlights() {
   const container = document.getElementById("highlightGrid");
   const candidates = properties
@@ -2109,10 +2144,13 @@ function renderHighlights() {
     .join("");
 }
 
-/* Dashboard */
+/* Dashboard (⑦ 集計対象を area に統一) */
 function updateDashboard() {
   const total = properties.length;
   const fetched = properties.filter(property => isDetailFetched(property)).length;
+
+  const kashiwaCount = properties.filter(x => x.area === "柏の葉キャンパス").length;
+  const nagareyamaCount = properties.filter(x => x.area === "流山おおたかの森").length;
 
   const good = properties.filter(property => {
     const q = getQuality(property);
@@ -2151,7 +2189,7 @@ function updateHeader() {
     : "最終更新：不明";
 }
 
-/* Filters */
+/* Filters Initialization */
 function initializeFilters() {
   const discoveredAreas = [
     ...new Set(discoveredProperties.map(item => item.searchArea).filter(Boolean))
@@ -2165,35 +2203,12 @@ function initializeFilters() {
     option.textContent = area;
     discoveredAreaSelect.appendChild(option);
   });
-
-  const propertyAreas = [
-    ...new Set(
-      properties
-        .map(
-          property =>
-            property.areaDetected ||
-            property.searchArea ||
-            property.area ||
-            getAddress(property)
-        )
-        .filter(Boolean)
-    )
-  ].sort();
-
-  const propertyAreaSelect = document.getElementById("propertyArea");
-  propertyAreaSelect.innerHTML = '<option value="">全エリア</option>';
-  propertyAreas.forEach(area => {
-    const option = document.createElement("option");
-    option.value = area;
-    option.textContent = area;
-    propertyAreaSelect.appendChild(option);
-  });
 }
 
-/* Filtering */
+/* Filtering (② areaCandidate を area と混同せず厳密判定) */
 function filterProperties() {
   const search = document.getElementById("propertySearch").value.trim().toLowerCase();
-  const area = document.getElementById("propertyArea").value;
+  const areaFilter = document.getElementById("areaFilter").value;
   const quality = document.getElementById("propertyQuality").value;
   const priceRange = document.getElementById("propertyPrice").value;
   const priceDownOnly = document.getElementById("priceDownOnly").checked;
@@ -2215,7 +2230,8 @@ function filterProperties() {
       property.address,
       property.location,
       property.searchArea,
-      property.areaDetected,
+      property.area,
+      property.areaCandidate,
       detail.title,
       detail.address,
       detail.station,
@@ -2232,13 +2248,10 @@ function filterProperties() {
 
     const matchesSearch = !search || searchText.includes(search);
 
-    const propertyArea =
-      property.areaDetected ||
-      property.searchArea ||
-      property.area ||
-      getAddress(property);
-
-    const matchesArea = !area || propertyArea === area;
+    // ② エリアフィルター：確定エリア(area)で厳密比較
+    if (areaFilter && property.area !== areaFilter) {
+      return false;
+    }
 
     const currentQ = getQuality(property);
     const matchesQuality =
@@ -2269,7 +2282,6 @@ function filterProperties() {
 
     return (
       matchesSearch &&
-      matchesArea &&
       matchesQuality &&
       matchesPrice &&
       matchesPriceDown &&
@@ -2421,33 +2433,29 @@ function renderDiscoveredListings(list) {
     .join("");
 }
 
-function filterDiscoveredListings() {
+function filterDiscoveredProperties() {
   const search = document.getElementById("discoveredSearch").value.trim().toLowerCase();
   const area = document.getElementById("discoveredArea").value;
   const validation = document.getElementById("discoveredValidation").value;
 
   const filtered = discoveredProperties.filter(property => {
-    const detail = getDetail(property);
-    const text = [
+    const searchText = [
       property.id,
       property.propertyId,
-      property.searchArea,
-      property.areaDetected,
-      property.detectedArea,
-      property.sourceUrl,
-      property.source,
       property.name,
       property.title,
       property.address,
-      detail.title,
-      detail.address,
-      detail.station
+      property.location,
+      property.searchArea,
+      property.areaDetected,
+      property.sourceUrl,
+      property.url
     ]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
 
-    const matchesSearch = !search || text.includes(search);
+    const matchesSearch = !search || searchText.includes(search);
     const matchesArea = !area || property.searchArea === area;
     const matchesValidation = !validation || getDiscoveredValidationState(property) === validation;
 
@@ -2457,134 +2465,116 @@ function filterDiscoveredListings() {
   renderDiscoveredListings(filtered);
 }
 
-/* Data Loading */
-async function loadData() {
-  const timestamp = Date.now();
-
+/* Data Fetching */
+async function fetchData() {
   try {
-    const [housesResponse, discoveredResponse, userSelectionsResponse] = await Promise.all([
-      fetch("data/houses.json?" + timestamp, { cache: "no-store" }),
-      fetch("data/discovered_listings.json?" + timestamp, { cache: "no-store" }),
-      fetch("data/user_selections.json?" + timestamp, { cache: "no-store" }).catch(() => null)
+    const statusEl = document.getElementById("status");
+    statusEl.style.display = "none";
+
+    const [housesRes, discoveredRes] = await Promise.all([
+      fetch("houses.json?t=" + Date.now()).catch(() => null),
+      fetch("discovered_listings.json?t=" + Date.now()).catch(() => null)
     ]);
 
-    if (!housesResponse.ok) {
-      throw new Error("houses.jsonの取得に失敗しました");
+    if (housesRes && housesRes.ok) {
+      const housesData = await housesRes.json();
+      properties = Array.isArray(housesData) ? housesData : (housesData.properties || []);
+      housesUpdatedAt = housesData.updatedAt || housesData.lastUpdated || null;
     }
 
-    const housesData = await housesResponse.json();
-
-    let discoveredData = { properties: [], updatedAt: null };
-    if (discoveredResponse && discoveredResponse.ok) {
-      discoveredData = await discoveredResponse.json();
-    } else {
-      console.warn("discovered_listings.jsonが取得できませんでした。");
+    if (discoveredRes && discoveredRes.ok) {
+      const discoveredData = await discoveredRes.json();
+      discoveredProperties = Array.isArray(discoveredData) ? discoveredData : (discoveredData.properties || []);
+      discoveredUpdatedAt = discoveredData.updatedAt || discoveredData.lastUpdated || null;
     }
 
-    let serverUserSelections = null;
-    if (userSelectionsResponse && userSelectionsResponse.ok) {
-      try {
-        serverUserSelections = await userSelectionsResponse.json();
-      } catch (e) {
-        console.warn("user_selections.jsonの解析に失敗しました。", e);
-      }
+    const localUserSelections = loadLocalUserSelections();
+    if (localUserSelections) {
+      userSelections = mergeUserSelections(null, localUserSelections);
     }
-
-    const localSelections = loadLocalUserSelections();
-    userSelections = mergeUserSelections(serverUserSelections, localSelections);
-
-    properties = Array.isArray(housesData.properties) ? housesData.properties : [];
-    discoveredProperties = Array.isArray(discoveredData.properties) ? discoveredData.properties : [];
-
-    housesUpdatedAt = housesData.updatedAt || null;
-    discoveredUpdatedAt = discoveredData.updatedAt || null;
 
     updateHeader();
     updateDashboard();
     initializeFilters();
     renderHighlights();
-    renderProperties(properties);
-    renderDiscoveredListings(discoveredProperties);
+    filterProperties();
+    filterDiscoveredProperties();
 
   } catch (error) {
-    console.error(error);
-    showError(error.message || "データの読み込みに失敗しました。");
-
-    document.getElementById("properties").innerHTML = `<div class="empty">物件データを読み込めませんでした。</div>`;
-    document.getElementById("discoveredProperties").innerHTML = `<div class="empty">自動検出履歴を読み込めませんでした。</div>`;
+    console.error("データの読み込みに失敗しました:", error);
+    const statusEl = document.getElementById("status");
+    statusEl.textContent = "データの読み込みに失敗しました。時間をおいて再読み込みしてください。";
+    statusEl.className = "status error";
   }
 }
 
-function showError(message) {
-  const status = document.getElementById("status");
-  status.textContent = message;
-  status.className = "status error";
-}
+/* Event Listeners Initialization */
+document.addEventListener("DOMContentLoaded", () => {
+  fetchData();
 
-/* Event Listeners */
-document.getElementById("propertySearch").addEventListener("input", filterProperties);
-document.getElementById("propertyArea").addEventListener("change", filterProperties);
-document.getElementById("propertyQuality").addEventListener("change", filterProperties);
-document.getElementById("propertyPrice").addEventListener("change", filterProperties);
-document.getElementById("priceDownOnly").addEventListener("change", filterProperties);
-document.getElementById("detailFetchedOnly").addEventListener("change", filterProperties);
-document.getElementById("recentOnly").addEventListener("change", filterProperties);
-document.getElementById("propertyUserStatus").addEventListener("change", filterProperties);
-document.getElementById("propertySchoolDecision").addEventListener("change", filterProperties);
+  document.getElementById("propertySearch").addEventListener("input", filterProperties);
+  document.getElementById("areaFilter").addEventListener("change", filterProperties);
+  document.getElementById("propertyQuality").addEventListener("change", filterProperties);
+  document.getElementById("propertyPrice").addEventListener("change", filterProperties);
+  document.getElementById("priceDownOnly").addEventListener("change", filterProperties);
+  document.getElementById("detailFetchedOnly").addEventListener("change", filterProperties);
+  document.getElementById("recentOnly").addEventListener("change", filterProperties);
+  document.getElementById("propertyUserStatus").addEventListener("change", filterProperties);
+  document.getElementById("propertySchoolDecision").addEventListener("change", filterProperties);
 
-document.getElementById("clearPropertyFilter").addEventListener("click", () => {
-  document.getElementById("propertySearch").value = "";
-  document.getElementById("propertyArea").value = "";
-  document.getElementById("propertyQuality").value = "";
-  document.getElementById("propertyPrice").value = "";
-  document.getElementById("priceDownOnly").checked = false;
-  document.getElementById("detailFetchedOnly").checked = false;
-  document.getElementById("recentOnly").checked = false;
-  document.getElementById("propertyUserStatus").value = "";
-  document.getElementById("propertySchoolDecision").value = "";
-  filterProperties();
+  document.getElementById("clearPropertyFilter").addEventListener("click", () => {
+    document.getElementById("propertySearch").value = "";
+    document.getElementById("areaFilter").value = "";
+    document.getElementById("propertyQuality").value = "";
+    document.getElementById("propertyPrice").value = "";
+    document.getElementById("priceDownOnly").checked = false;
+    document.getElementById("detailFetchedOnly").checked = false;
+    document.getElementById("recentOnly").checked = false;
+    document.getElementById("propertyUserStatus").value = "";
+    document.getElementById("propertySchoolDecision").value = "";
+    filterProperties();
+  });
+
+  document.getElementById("discoveredSearch").addEventListener("input", filterDiscoveredProperties);
+  document.getElementById("discoveredArea").addEventListener("change", filterDiscoveredProperties);
+  document.getElementById("discoveredValidation").addEventListener("change", filterDiscoveredProperties);
+
+  document.getElementById("clearDiscoveredFilter").addEventListener("click", () => {
+    document.getElementById("discoveredSearch").value = "";
+    document.getElementById("discoveredArea").value = "";
+    document.getElementById("discoveredValidation").value = "";
+    filterDiscoveredProperties();
+  });
+
+  document.getElementById("exportUserSelections").addEventListener("click", exportUserSelections);
+
+  document.addEventListener("change", (e) => {
+    if (e.target.dataset.userStatus) {
+      const propertyId = e.target.dataset.userStatus;
+      const property = properties.find(p => getPropertyId(p) === propertyId);
+      if (property) {
+        updateUserSelection(property, { status: e.target.value });
+      }
+    }
+    if (e.target.dataset.userSchool) {
+      const propertyId = e.target.dataset.userSchool;
+      const property = properties.find(p => getPropertyId(p) === propertyId);
+      if (property) {
+        updateUserSelection(property, { schoolDecision: e.target.value });
+      }
+    }
+  });
+
+  document.addEventListener("input", (e) => {
+    if (e.target.dataset.userMemo) {
+      const propertyId = e.target.dataset.userMemo;
+      const property = properties.find(p => getPropertyId(p) === propertyId);
+      if (property) {
+        updateUserSelection(property, { memo: e.target.value });
+      }
+    }
+  });
 });
-
-document.getElementById("exportUserSelections").addEventListener("click", exportUserSelections);
-
-document.getElementById("discoveredSearch").addEventListener("input", filterDiscoveredListings);
-document.getElementById("discoveredArea").addEventListener("change", filterDiscoveredListings);
-document.getElementById("discoveredValidation").addEventListener("change", filterDiscoveredListings);
-
-document.getElementById("clearDiscoveredFilter").addEventListener("click", () => {
-  document.getElementById("discoveredSearch").value = "";
-  document.getElementById("discoveredArea").value = "";
-  document.getElementById("discoveredValidation").value = "";
-  filterDiscoveredListings();
-});
-
-document.addEventListener("change", (e) => {
-  const statusEl = e.target.closest("[data-user-status]");
-  if (statusEl) {
-    const propertyId = statusEl.getAttribute("data-user-status");
-    updateUserSelection({ propertyId }, { status: statusEl.value });
-    return;
-  }
-
-  const schoolEl = e.target.closest("[data-user-school]");
-  if (schoolEl) {
-    const propertyId = schoolEl.getAttribute("data-user-school");
-    updateUserSelection({ propertyId }, { schoolDecision: schoolEl.value });
-    return;
-  }
-});
-
-document.addEventListener("input", (e) => {
-  const memoEl = e.target.closest("[data-user-memo]");
-  if (memoEl) {
-    const propertyId = memoEl.getAttribute("data-user-memo");
-    updateUserSelection({ propertyId }, { memo: memoEl.value });
-  }
-});
-
-window.addEventListener("DOMContentLoaded", loadData);
-
 </script>
-
 </body>
 </html>
