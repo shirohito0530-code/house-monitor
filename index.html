@@ -616,7 +616,7 @@ h2 {
 .user-save-panel {
   margin-top: 10px;
   padding: 10px;
-  border-radius: 9px;
+  border-radius: 99px;
   background: #f8fafc;
   border: 1px solid var(--border);
 }
@@ -4262,61 +4262,171 @@ function filterDiscoveredProperties() {
    Data Loading & Initialization
    ============================================================ */
 
+function showLoadError(message) {
+  const status =
+    document.getElementById("status");
+  if (!status) {
+    return;
+  }
+  status.textContent =
+    message;
+  status.classList.add(
+    "error"
+  );
+}
+
 async function loadData() {
   try {
-    const localUserSelections = loadLocalUserSelections();
-
+    const localUserSelections =
+      loadLocalUserSelections();
+    // ============================================================
+    // houses.json
+    // ============================================================
     try {
-      const res = await fetch("houses.json");
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          properties = data;
-        } else if (data && typeof data === "object") {
-          properties = data.properties || data.houses || [];
-          housesUpdatedAt = data.updatedAt || data.lastUpdated || null;
-        }
+      const res =
+        await fetch(
+          "data/houses.json",
+          {
+            cache: "no-store"
+          }
+        );
+      if (!res.ok) {
+        throw new Error(
+          `houses.json HTTP ${res.status}`
+        );
       }
-    } catch (e) {
-      console.warn("houses.jsonの取得に失敗しました", e);
-    }
-
-    try {
-      const res = await fetch("discovered_listings.json");
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          discoveredProperties = data;
-        } else if (data && typeof data === "object") {
-          discoveredProperties = data.properties || data.listings || [];
-          discoveredUpdatedAt = data.updatedAt || data.lastUpdated || null;
-        }
-      }
-    } catch (e) {
-      console.warn("discovered_listings.jsonの取得に失敗しました", e);
-    }
-
-    try {
-      const res = await fetch("user_selections.json");
-      if (res.ok) {
-        const data = await res.json();
-        userSelections = mergeUserSelections(data, localUserSelections);
+      const data =
+        await res.json();
+      if (Array.isArray(data)) {
+        properties = data;
+      } else if (
+        data &&
+        typeof data === "object"
+      ) {
+        properties =
+          data.properties ||
+          data.houses ||
+          [];
+        housesUpdatedAt =
+          data.updatedAt ||
+          data.lastUpdated ||
+          null;
       } else {
-        userSelections = mergeUserSelections(null, localUserSelections);
+        properties = [];
+      }
+      console.log(
+        "[House Monitor] houses.json loaded:",
+        properties.length
+      );
+    } catch (e) {
+      console.error(
+        "[House Monitor] houses.json load failed:",
+        e
+      );
+      properties = [];
+      showLoadError(
+        "houses.jsonの読み込みに失敗しました"
+      );
+    }
+    // ============================================================
+    // discovered_listings.json
+    // ============================================================
+    try {
+      const res =
+        await fetch(
+          "data/discovered_listings.json",
+          {
+            cache: "no-store"
+          }
+        );
+      if (!res.ok) {
+        throw new Error(
+          `discovered_listings.json HTTP ${res.status}`
+        );
+      }
+      const data =
+        await res.json();
+      if (Array.isArray(data)) {
+        discoveredProperties = data;
+      } else if (
+        data &&
+        typeof data === "object"
+      ) {
+        discoveredProperties =
+          data.properties ||
+          data.listings ||
+          [];
+        discoveredUpdatedAt =
+          data.updatedAt ||
+          data.lastUpdated ||
+          null;
+      } else {
+        discoveredProperties = [];
+      }
+      console.log(
+        "[House Monitor] discovered_listings.json loaded:",
+        discoveredProperties.length
+      );
+    } catch (e) {
+      console.error(
+        "[House Monitor] discovered_listings.json load failed:",
+        e
+      );
+      discoveredProperties = [];
+      showLoadError(
+        "discovered_listings.jsonの読み込みに失敗しました"
+      );
+    }
+    // ============================================================
+    // user_selections.json
+    // ============================================================
+    try {
+      const res =
+        await fetch(
+          "data/user_selections.json",
+          {
+            cache: "no-store"
+          }
+        );
+      if (res.ok) {
+        const data =
+          await res.json();
+        userSelections =
+          mergeUserSelections(
+            data,
+            localUserSelections
+          );
+      } else {
+        userSelections =
+          mergeUserSelections(
+            null,
+            localUserSelections
+          );
       }
     } catch (e) {
-      userSelections = mergeUserSelections(null, localUserSelections);
+      userSelections =
+        mergeUserSelections(
+          null,
+          localUserSelections
+        );
     }
-
+    // ============================================================
+    // Initialize UI
+    // ============================================================
     initializeFilters();
     updateHeader();
     updateDashboard();
     renderHighlights();
     filterProperties();
     filterDiscoveredProperties();
-
   } catch (error) {
-    console.error("データロード処理エラー:", error);
+    console.error(
+      "[House Monitor] Data loading error:",
+      error
+    );
+    showLoadError(
+      "データの読み込み処理でエラーが発生しました"
+    );
   }
 }
 
