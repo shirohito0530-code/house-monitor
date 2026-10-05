@@ -990,13 +990,13 @@ h2 {
       <div class="stat-card stat-good">
         <div class="stat-label">COMPLETE</div>
         <div id="goodCount" class="stat-value">-</div>
-        <div class="stat-note">詳細品質</div>
+        <div class="stat-note">詳細品質：完全</div>
       </div>
 
       <div class="stat-card stat-warning">
         <div class="stat-label">PARTIAL</div>
         <div id="partialCount" class="stat-value">-</div>
-        <div class="stat-note">一部情報不足</div>
+        <div class="stat-note">詳細品質：一部不足</div>
       </div>
 
       <div class="stat-card stat-danger">
@@ -3403,49 +3403,86 @@ function renderHighlights() {
    ============================================================ */
 
 function updateDashboard() {
-  const registeredCount = properties.length;
-
+  const registeredCount =
+    Array.isArray(properties)
+      ? properties.length
+      : 0;
+  /*
+   * Detail fetch status
+   *
+   * 「詳細取得済み」と「品質」は別概念として扱う。
+   */
   const detailFetched = properties.filter(
-    h => h.detailFetched === true || isDetailFetched(h)
+    property =>
+      isDetailFetched(property) ||
+      property.detailFetched === true ||
+      property.detailFetchSuccess === true ||
+      property.detailFetchStatus === "success"
   );
-
+  /*
+   * Quality
+   *
+   * detailQuality を唯一の正規判定値として使用する。
+   */
   const complete = properties.filter(
-    h =>
-      (h.detailFetched === true || isDetailFetched(h)) &&
-      (h.detailQuality === "complete" || getQuality(h) === "complete")
+    property =>
+      getQuality(property) === "complete"
   );
-
   const partial = properties.filter(
-    h =>
-      (h.detailFetched === true || isDetailFetched(h)) &&
-      (h.detailQuality === "partial" || getQuality(h) === "partial")
+    property =>
+      getQuality(property) === "partial"
   );
-
-  const priceDown = properties.filter(property =>
-    hasPriceDown(property)
-  ).length;
-
-  document.getElementById("registeredCount").textContent =
+  const unknown = properties.filter(
+    property =>
+      getQuality(property) === "unknown"
+  );
+  const fetchError = properties.filter(
+    property =>
+      getQuality(property) === "fetch_error"
+  );
+  const priceDown =
+    properties.filter(
+      property =>
+        hasPriceDown(property)
+    ).length;
+  /*
+   * Dashboard values
+   */
+  document.getElementById(
+    "registeredCount"
+  ).textContent =
     registeredCount;
-
-  document.getElementById("detailFetchedCount").textContent =
+  document.getElementById(
+    "detailFetchedCount"
+  ).textContent =
     detailFetched.length;
-
-  document.getElementById("goodCount").textContent =
+  document.getElementById(
+    "goodCount"
+  ).textContent =
     complete.length;
-
-  document.getElementById("partialCount").textContent =
+  document.getElementById(
+    "partialCount"
+  ).textContent =
     partial.length;
-
-  document.getElementById("priceDownCount").textContent =
+  document.getElementById(
+    "priceDownCount"
+  ).textContent =
     priceDown;
-
-  document.getElementById("discoveredCount").textContent =
-    discoveredProperties.length;
-
-  document.getElementById("detailFetchedRate").textContent =
+  document.getElementById(
+    "discoveredCount"
+  ).textContent =
+    Array.isArray(discoveredProperties)
+      ? discoveredProperties.length
+      : 0;
+  document.getElementById(
+    "detailFetchedRate"
+  ).textContent =
     registeredCount > 0
-      ? `${Math.round((detailFetched.length / registeredCount) * 100)}%`
+      ? `${Math.round(
+          (detailFetched.length /
+            registeredCount) *
+            100
+        )}%`
       : "0%";
 }
 
