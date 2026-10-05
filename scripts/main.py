@@ -4477,6 +4477,69 @@ def build_market_house_record(
             ),
     }
 
+    # ========================================================
+    # Normalize detail fetch / quality contract
+    # ========================================================
+    # Detail fetch status
+    detail_success = has_successful_detail(
+        property_data
+    )
+    if (
+        property_data.get("detailFetched") is True
+        or detail_success
+    ):
+        record["detailFetched"] = True
+    elif property_data.get("detailFetched") is False:
+        record["detailFetched"] = False
+    else:
+        record["detailFetched"] = False
+    # Preserve fetch status / timestamp
+    record["detailFetchStatus"] = (
+        property_data.get("detailFetchStatus")
+        or detail.get("detailFetchStatus")
+    )
+    record["lastDetailFetchAt"] = (
+        property_data.get("lastDetailFetchAt")
+        or detail.get("lastDetailFetchAt")
+    )
+    record["detailFetchAttempts"] = (
+        property_data.get("detailFetchAttempts")
+        or detail.get("detailFetchAttempts")
+    )
+    record["detailFetchSuccess"] = (
+        property_data.get("detailFetchSuccess")
+        if property_data.get("detailFetchSuccess") is not None
+        else (
+            detail.get("detailFetchSuccess")
+            if detail.get("detailFetchSuccess") is not None
+            else detail_success
+        )
+    )
+    # ========================================================
+    # Recalculate quality on FINAL market-house record
+    # ========================================================
+    apply_detail_quality(record)
+    # ========================================================
+    # Final normalized quality contract
+    # ========================================================
+    record["detailQuality"] = (
+        record.get("detailQuality")
+        or DETAIL_QUALITY_UNKNOWN
+    )
+    record["detailQualityScore"] = (
+        record.get("detailQualityScore")
+        if record.get("detailQualityScore") is not None
+        else 0
+    )
+    record["detailQualityReasons"] = (
+        record.get("detailQualityReasons")
+        if isinstance(
+            record.get("detailQualityReasons"),
+            list
+        )
+        else []
+    )
+
     return record
 
 
@@ -5293,10 +5356,37 @@ def run_pipeline() -> None:
                     "area_classification_invalid"
                 ] += 1
 
-    # Ensure detailQuality is explicitly applied to all market house records
+    # ========================================================
+    # Ensure final detail contract for all market house records
+    # ========================================================
     for property_data in market_houses:
-        if isinstance(property_data, dict):
-            apply_detail_quality(property_data)
+        if not isinstance(property_data, dict):
+            continue
+        # Normalize detail fetched status
+        if (
+            property_data.get("detailFetched") is True
+            or property_data.get("detailFetchSuccess") is True
+            or property_data.get("detailFetchStatus") == "success"
+        ):
+            property_data["detailFetched"] = True
+        elif property_data.get("detailFetched") is None:
+            property_data["detailFetched"] = False
+        # Recalculate quality on final record
+        apply_detail_quality(
+            property_data
+        )
+        # Guarantee stable output fields
+        if not property_data.get("detailQuality"):
+            property_data["detailQuality"] = (
+                DETAIL_QUALITY_UNKNOWN
+            )
+        if property_data.get("detailQualityScore") is None:
+            property_data["detailQualityScore"] = 0
+        if not isinstance(
+            property_data.get("detailQualityReasons"),
+            list
+        ):
+            property_data["detailQualityReasons"] = []
 
     market_houses.sort(
         key=lambda x:
