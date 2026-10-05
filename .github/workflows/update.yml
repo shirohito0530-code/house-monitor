@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 毎日、日本時間06:00に実行
-    # UTC 21:00 = JST 06:00
-    - cron: "0 21 * * *"
+    # 毎日、日本時間06:20に実行
+    # UTC 21:20 = JST 06:20
+    - cron: "20 21 * * *"
 
 permissions:
   contents: write
