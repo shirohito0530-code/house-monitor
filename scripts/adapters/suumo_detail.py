@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-10-03-v40-price-text-fallback"
+DETAIL_PARSER_VERSION = "2026-10-07-v41-main-quality-alignment"
 
 
 # ============================================================
