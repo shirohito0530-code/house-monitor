@@ -39,7 +39,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-04-v40-broad-search-narrow-storage"
+MAIN_PARSER_VERSION = "2026-10-07-v41-detail-normalization-quality"
 
 
 # ============================================================
@@ -125,6 +125,7 @@ DISCOVERY_FIELDS = (
     "detailQuality",
     "detailQualityScore",
     "detailQualityReasons",
+    "coreComplete",
     "status",
     "firstSeenAt",
     "lastSeenAt",
@@ -994,6 +995,18 @@ def _has_value(value: Any) -> bool:
 def calculate_detail_quality(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """
+    詳細ページの主要7項目を基準に品質を判定する。
+
+    対象:
+      - 土地面積
+      - 建物面積
+      - 築年
+      - 対象駅
+      - 駅徒歩
+      - 価格
+      - 物件種別
+    """
     if not isinstance(property_data, dict):
         return {
             "detailQuality": DETAIL_QUALITY_UNKNOWN,
@@ -1003,8 +1016,7 @@ def calculate_detail_quality(
             ],
         }
 
-    detail_fetched = property_data.get("detailFetched")
-    if detail_fetched is False:
+    if property_data.get("detailFetched") is False:
         return {
             "detailQuality": DETAIL_QUALITY_UNKNOWN,
             "detailQualityScore": 0,
@@ -1013,120 +1025,60 @@ def calculate_detail_quality(
             ],
         }
 
-    detail_fields = [
-        "address",
-        "price",
-        "landArea",
-        "buildingArea",
-        "walkMinutes",
-        "builtYear",
-        "station",
-    ]
-    available_fields = sum(
-        1
-        for field in detail_fields
-        if _has_value(
-            property_data.get(field)
-            if property_data.get(field) is not None
-            else (
-                property_data.get("priceYen") if field == "price" else
-                property_data.get("landAreaM2") or property_data.get("land") if field == "landArea" else
-                property_data.get("buildingAreaM2") or property_data.get("building") if field == "buildingArea" else
-                property_data.get("stationWalkMinutes") or property_data.get("targetStationWalkMinutes") if field == "walkMinutes" else
-                property_data.get("constructionYear") or property_data.get("builtAgeYears") if field == "builtYear" else
-                property_data.get("targetStation") if field == "station" else None
-            )
-        )
-    )
+    detail = property_data.get("detail")
+    if not isinstance(detail, dict):
+        detail = {}
 
-    identity_completeness = property_data.get(
-        "identityCompleteness"
-    )
-    if isinstance(identity_completeness, str):
-        identity_completeness_normalized = (
-            identity_completeness.strip().lower()
-        )
-    else:
-        identity_completeness_normalized = None
+    def value(*keys: str) -> Any:
+        for key in keys:
+            if _has_value(property_data.get(key)):
+                return property_data.get(key)
+            if _has_value(detail.get(key)):
+                return detail.get(key)
+        return None
 
-    existing_quality = property_data.get(
-        "detailQuality"
-    )
-    if isinstance(existing_quality, str):
-        existing_quality = existing_quality.strip().lower()
-    else:
-        existing_quality = None
-
-    if existing_quality == DETAIL_QUALITY_COMPLETE:
-        return {
-            "detailQuality": DETAIL_QUALITY_COMPLETE,
-            "detailQualityScore": 100,
-            "detailQualityReasons": [],
-        }
-    if identity_completeness_normalized in {
-        "complete",
-        "full",
-    }:
-        return {
-            "detailQuality": DETAIL_QUALITY_COMPLETE,
-            "detailQualityScore": 100,
-            "detailQualityReasons": [],
-        }
+    fields = {
+        "landArea": value("landAreaM2", "land"),
+        "buildingArea": value("buildingAreaM2", "building"),
+        "builtYear": value(
+            "constructionYear",
+            "constructionYearMonth",
+            "constructionMonth",
+            "constructionAgeYears",
+            "builtAgeYears",
+        ),
+        "station": value("targetStation", "station"),
+        "walkMinutes": value(
+            "targetStationWalkMinutes",
+            "stationWalkMinutes",
+            "walkMinutes",
+        ),
+        "price": value("priceYen", "currentPrice", "price"),
+        "propertyType": value("propertyType", "searchPropertyType"),
+    }
 
     missing_fields = [
-        field
-        for field in detail_fields
-        if not _has_value(
-            property_data.get(field)
-            if property_data.get(field) is not None
-            else (
-                property_data.get("priceYen") if field == "price" else
-                property_data.get("landAreaM2") or property_data.get("land") if field == "landArea" else
-                property_data.get("buildingAreaM2") or property_data.get("building") if field == "buildingArea" else
-                property_data.get("stationWalkMinutes") or property_data.get("targetStationWalkMinutes") if field == "walkMinutes" else
-                property_data.get("constructionYear") or property_data.get("builtAgeYears") if field == "builtYear" else
-                property_data.get("targetStation") if field == "station" else None
-            )
-        )
+        key for key, item in fields.items()
+        if not _has_value(item)
     ]
-    score = round(
-        available_fields / len(detail_fields) * 100
-    )
+    available = len(fields) - len(missing_fields)
+    score = round(available / len(fields) * 100)
 
-    core_fields = [
-        "address",
-        "price",
-        "landArea",
-        "buildingArea",
-    ]
-    core_complete = all(
-        _has_value(
-            property_data.get(field)
-            if property_data.get(field) is not None
-            else (
-                property_data.get("priceYen") if field == "price" else
-                property_data.get("landAreaM2") or property_data.get("land") if field == "landArea" else
-                property_data.get("buildingAreaM2") or property_data.get("building") if field == "buildingArea" else None
-            )
-        )
-        for field in core_fields
-    )
-    if core_complete and available_fields >= 6:
+    if available == len(fields):
         return {
             "detailQuality": DETAIL_QUALITY_COMPLETE,
-            "detailQualityScore": max(score, 90),
+            "detailQualityScore": 100,
             "detailQualityReasons": [],
         }
 
-    if available_fields > 0:
-        reasons = [
-            f"missing: {field}"
-            for field in missing_fields
-        ]
+    if available > 0:
         return {
             "detailQuality": DETAIL_QUALITY_PARTIAL,
             "detailQualityScore": score,
-            "detailQualityReasons": reasons,
+            "detailQualityReasons": [
+                f"missing: {field}"
+                for field in missing_fields
+            ],
         }
 
     return {
@@ -3187,6 +3139,68 @@ def build_detail_quality_reasons(
     return reasons
 
 
+def promote_detail_fields(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+    """詳細結果をトップレベルの正規フィールドへ反映する。"""
+    detail = property_data.get("detail")
+    if not isinstance(detail, dict):
+        return property_data
+
+    field_aliases = {
+        "address": ("address",),
+        "landAreaM2": ("landAreaM2", "land"),
+        "buildingAreaM2": ("buildingAreaM2", "building"),
+        "constructionYear": ("constructionYear",),
+        "constructionMonth": ("constructionMonth",),
+        "constructionYearMonth": ("constructionYearMonth",),
+        "constructionAgeYears": ("constructionAgeYears",),
+        "targetStation": ("targetStation", "station"),
+        "targetStationWalkMinutes": (
+            "targetStationWalkMinutes",
+            "stationWalkMinutes",
+            "walkMinutes",
+        ),
+        "targetStationWalkAvailable": (
+            "targetStationWalkAvailable",
+        ),
+        "stationWalkMinutes": (
+            "stationWalkMinutes",
+            "targetStationWalkMinutes",
+            "walkMinutes",
+        ),
+        "walkMinutes": (
+            "walkMinutes",
+            "targetStationWalkMinutes",
+            "stationWalkMinutes",
+        ),
+        "propertyType": ("propertyType",),
+    }
+
+    for target, aliases in field_aliases.items():
+        if _has_value(property_data.get(target)):
+            continue
+        for source in aliases:
+            if _has_value(detail.get(source)):
+                property_data[target] = detail.get(source)
+                break
+
+    # 数値項目は既存の正規化関数を通す。
+    for key in ("landAreaM2", "buildingAreaM2", "constructionAgeYears",
+                "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"):
+        if property_data.get(key) is not None:
+            numeric = to_number(property_data.get(key))
+            if numeric is not None:
+                property_data[key] = numeric
+
+    if property_data.get("landAreaM2") is not None:
+        property_data["land"] = property_data["landAreaM2"]
+    if property_data.get("buildingAreaM2") is not None:
+        property_data["building"] = property_data["buildingAreaM2"]
+
+    return property_data
+
+
 def enrich_with_detail(
     property_data: Dict[str, Any],
     detail_res: Dict[str, Any],
@@ -3727,6 +3741,13 @@ def evaluate_property_criteria(
     property_data[
         "searchCriteriaMatched"
     ] = is_criteria_matched
+
+    property_data[
+        "coreComplete"
+    ] = all(
+        value is True
+        for value in criteria_flags
+    )
 
     property_data[
         "searchResultFilterExcluded"
@@ -5133,8 +5154,10 @@ def run_pipeline() -> None:
         try:
             detail_res = detail_adapter.fetch_detail(url)
             enrich_with_detail(prop, detail_res)
+            promote_detail_fields(prop)
             canonicalize_property_identity(prop)
             evaluate_property_criteria(prop, search_config)
+            apply_detail_quality(prop)
 
             if prop.get("detailFetchStatus") == "success":
                 fetched_count += 1
