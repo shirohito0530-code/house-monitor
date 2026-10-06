@@ -2272,6 +2272,23 @@ function getQuality(property) {
   return String(q).toLowerCase() || "unknown";
 }
 
+function getCoreComplete(property) {
+  if (!property || typeof property !== "object") {
+    return false;
+  }
+
+  if (typeof property.coreComplete === "boolean") {
+    return property.coreComplete;
+  }
+
+  const detail = getDetail(property);
+  if (typeof detail.coreComplete === "boolean") {
+    return detail.coreComplete;
+  }
+
+  return false;
+}
+
 function getQualityScore(property) {
   const score =
     property.detailQualityScore ??
@@ -3124,6 +3141,11 @@ function renderPropertyCard(property) {
             qualityScore !== null
               ? `${qualityScore}/100`
               : "-"
+          }
+          ${
+            getCoreComplete(property)
+              ? " · 主要条件OK"
+              : ""
           }
         </div>
 
