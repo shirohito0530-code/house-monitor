@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "updatedAt": "2026-10-06T23:18:11.402375+00:00",
+  "updatedAt": "2026-10-07T09:46:37.610517+00:00",
   "count": 43,
   "properties": [
     {
@@ -35,7 +35,7 @@
       "schoolDistrictCandidate": true,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-06T21:32:28.331148+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 0,
@@ -63,8 +63,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:35.769604+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-07T09:38:06.583637+00:00",
+      "detailFetchAttempts": 3,
       "detailFetchSuccess": true
     },
     {
@@ -127,8 +127,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:37.540218+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:07.758773+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -191,8 +191,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:39.602417+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-07T09:38:09.039064+00:00",
+      "detailFetchAttempts": 3,
       "detailFetchSuccess": true
     },
     {
@@ -227,7 +227,7 @@
       "schoolDistrictCandidate": true,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -255,8 +255,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:41.422002+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:10.324472+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -291,7 +291,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -319,8 +319,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:43.179706+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:11.858335+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -355,7 +355,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -383,8 +383,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:44.839145+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:13.221089+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -419,7 +419,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -447,8 +447,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:47.020801+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:14.973357+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -483,7 +483,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -511,8 +511,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:49.360686+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:16.966033+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -547,7 +547,7 @@
       "schoolDistrictCandidate": true,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -577,8 +577,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:51.846770+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:18.777504+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -613,7 +613,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -641,8 +641,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:53.890017+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:20.454070+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -677,7 +677,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -705,8 +705,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:56.342602+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:22.583542+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -741,7 +741,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -769,8 +769,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:06:59.020687+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:24.765227+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -805,7 +805,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -833,8 +833,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:00.990484+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:26.288638+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -869,7 +869,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -897,8 +897,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:03.569854+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:27.996564+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -933,7 +933,7 @@
       "schoolDistrictCandidate": true,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -961,8 +961,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:05.976581+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:29.955767+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -997,7 +997,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1025,8 +1025,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:08.149228+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:31.524113+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1061,7 +1061,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1089,8 +1089,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:10.426980+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:33.093716+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1125,7 +1125,7 @@
       "schoolDistrictCandidate": true,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1153,8 +1153,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:12.183946+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:34.406769+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1189,7 +1189,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1217,8 +1217,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:13.663788+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:35.538978+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1253,7 +1253,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1281,8 +1281,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:15.313057+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:36.741990+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1317,7 +1317,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1345,8 +1345,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:16.852042+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:37.832188+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1381,7 +1381,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1409,8 +1409,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:18.849811+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:39.111468+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1445,7 +1445,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1473,8 +1473,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:20.342447+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:40.144824+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1509,7 +1509,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1537,8 +1537,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:21.907075+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:41.287634+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1573,7 +1573,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1601,8 +1601,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:23.500559+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:42.449706+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1637,7 +1637,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1665,8 +1665,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:25.054984+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:43.481670+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1701,7 +1701,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1729,8 +1729,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:26.477701+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:44.806546+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1765,7 +1765,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1793,8 +1793,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:28.045917+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:45.873074+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1829,7 +1829,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1857,8 +1857,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:29.793876+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:47.251199+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1893,7 +1893,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1921,8 +1921,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:31.150296+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:48.411218+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -1957,7 +1957,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -1985,8 +1985,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:33.762854+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:50.574335+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2021,7 +2021,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2049,8 +2049,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:35.645507+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:52.077229+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2085,7 +2085,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2113,8 +2113,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:38.316768+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:54.701940+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2149,7 +2149,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2177,8 +2177,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:41.456505+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:56.561712+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2213,7 +2213,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2241,8 +2241,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:43.974515+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:38:58.476423+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2277,7 +2277,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2305,8 +2305,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:46.258425+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:39:00.126530+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2369,8 +2369,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:47.757576+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:39:01.159870+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2405,7 +2405,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2433,8 +2433,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:49.866489+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:39:02.510182+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2469,7 +2469,7 @@
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
       "firstSeenAt": "2026-10-04T13:10:34.747673+00:00",
-      "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
+      "lastSeenAt": "2026-10-07T09:36:20.037874+00:00",
       "endedObservedAt": null,
       "status": "active",
       "daysListed": 2,
@@ -2497,8 +2497,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:52.148090+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:39:03.917700+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2534,8 +2534,8 @@
       "schoolDistrictCandidateArea": "柏の葉小学校区",
       "firstSeenAt": "2026-10-05T14:02:43.587725+00:00",
       "lastSeenAt": "2026-10-06T23:04:27.664843+00:00",
-      "endedObservedAt": null,
-      "status": "active",
+      "endedObservedAt": "2026-10-07T09:36:20.037874+00:00",
+      "status": "observed_ended",
       "daysListed": 1,
       "firstPrice": 47990000,
       "totalPriceReduction": 0,
@@ -2561,8 +2561,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:54.069106+00:00",
-      "detailFetchAttempts": 3,
+      "lastDetailFetchAt": "2026-10-07T09:39:05.171295+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true
     },
     {
@@ -2625,8 +2625,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:55.741218+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-07T09:39:06.386326+00:00",
+      "detailFetchAttempts": 3,
       "detailFetchSuccess": true
     },
     {
@@ -2689,8 +2689,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:57.393989+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-07T09:39:07.565252+00:00",
+      "detailFetchAttempts": 3,
       "detailFetchSuccess": true
     },
     {
@@ -2753,8 +2753,8 @@
         "buildingAreaMatched": true
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-06T23:07:58.818487+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-07T09:39:08.559826+00:00",
+      "detailFetchAttempts": 3,
       "detailFetchSuccess": true
     }
   ]
