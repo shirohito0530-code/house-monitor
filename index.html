@@ -2192,20 +2192,65 @@ function getLayout(property) {
 function getConstruction(property) {
   const detail = getDetail(property);
 
-  if (
-    detail.constructionMonth !== null &&
-    detail.constructionMonth !== undefined &&
-    detail.constructionMonth !== ""
-  ) {
-    return detail.constructionMonth;
-  }
+  // 1. 最優先：築年月
+  const constructionMonth =
+    detail.constructionMonth ??
+    property.constructionMonth;
 
   if (
-    property.constructionMonth !== null &&
-    property.constructionMonth !== undefined &&
-    property.constructionMonth !== ""
+    constructionMonth !== null &&
+    constructionMonth !== undefined &&
+    constructionMonth !== ""
   ) {
-    return property.constructionMonth;
+    return String(constructionMonth);
+  }
+
+  // 2. 築年 + 築年数
+  const constructionYear =
+    detail.constructionYear ??
+    property.constructionYear;
+
+  const builtAgeYears =
+    detail.builtAgeYears ??
+    property.builtAgeYears ??
+    detail.constructionAgeYears ??
+    property.constructionAgeYears;
+
+  if (
+    constructionYear !== null &&
+    constructionYear !== undefined &&
+    constructionYear !== ""
+  ) {
+    const year = Number(constructionYear);
+
+    if (Number.isFinite(year)) {
+      if (
+        builtAgeYears !== null &&
+        builtAgeYears !== undefined &&
+        builtAgeYears !== ""
+      ) {
+        const age = Number(builtAgeYears);
+
+        if (Number.isFinite(age)) {
+          return `${year}年（築${age.toFixed(1)}年）`;
+        }
+      }
+
+      return `${year}年`;
+    }
+  }
+
+  // 3. 築年数だけ存在する場合
+  if (
+    builtAgeYears !== null &&
+    builtAgeYears !== undefined &&
+    builtAgeYears !== ""
+  ) {
+    const age = Number(builtAgeYears);
+
+    if (Number.isFinite(age)) {
+      return `築${age.toFixed(1)}年`;
+    }
   }
 
   return "-";
