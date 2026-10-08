@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
+<meta name="house-monitor-ui-version" content="2026-10-09-location-priority-school-manual">
 
 <style>
 * {
@@ -611,6 +612,35 @@ h2 {
   font-weight: 750;
   color: #9a3412;
   margin-bottom: 4px;
+}
+
+.location-priority {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: 12px;
+}
+
+.location-priority strong {
+  margin-right: 5px;
+}
+
+.location-priority.tier-1 {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.location-priority.tier-2 {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+
+.location-priority.tier-3 {
+  color: #475569;
 }
 
 .user-save-panel {
@@ -1356,6 +1386,93 @@ function getSchoolDecisionLabel(decision) {
   return SCHOOL_DECISION_LABELS[decision] || "学区未確認";
 }
 
+
+/* ============================================================
+   Location Priority
+   柏の葉小学校区とおおたかの森駅近を同等の最優先とする。
+   学区はユーザー確認値のみを使用し、住所から推測しない。
+   ============================================================ */
+function getLocationPriority(property) {
+  const station = getUiTargetStation(property);
+  const walkMinutes = getUiWalkMinutes(property);
+  const selection = getUserSelection(property);
+
+  // 柏の葉小学校区と手動で確認された物件
+  if (
+    station === "柏の葉キャンパス" &&
+    selection.schoolDecision === "confirmed"
+  ) {
+    return {
+      tier: 1,
+      label: "優先度1：柏の葉小学校区（手動確認済）",
+      reason: "柏の葉小学校区をユーザーが確認済み"
+    };
+  }
+
+  // おおたかの森駅徒歩15分以内は、柏の葉小学校区と同等に扱う
+  if (
+    station === "流山おおたかの森" &&
+    walkMinutes !== null &&
+    walkMinutes <= 15
+  ) {
+    return {
+      tier: 1,
+      label: `優先度1：おおたかの森駅 徒歩${walkMinutes}分`,
+      reason: "おおたかの森駅徒歩15分以内"
+    };
+  }
+
+  // 柏の葉駅徒歩圏で学区確認済みでない物件はTier 2
+  if (
+    station === "柏の葉キャンパス" &&
+    walkMinutes !== null &&
+    walkMinutes <= 20
+  ) {
+    const schoolNote =
+      selection.schoolDecision === "excluded"
+        ? "学区対象外"
+        : selection.schoolDecision === "candidate"
+          ? "学区候補・未確定"
+          : "学区未確認";
+
+    return {
+      tier: 2,
+      label: `優先度2：柏の葉駅 徒歩${walkMinutes}分（${schoolNote}）`,
+      reason: "柏の葉小学校区と確認できていないため優先度2"
+    };
+  }
+
+  // おおたかの森駅16〜20分はTier 2相当
+  if (
+    station === "流山おおたかの森" &&
+    walkMinutes !== null &&
+    walkMinutes <= 20
+  ) {
+    return {
+      tier: 2,
+      label: `優先度2：おおたかの森駅 徒歩${walkMinutes}分`,
+      reason: "駅徒歩16〜20分"
+    };
+  }
+
+  return {
+    tier: 3,
+    label: "優先度3：その他・要確認",
+    reason: "駅距離または立地情報を要確認"
+  };
+}
+
+function renderLocationPriority(property) {
+  const priority = getLocationPriority(property);
+  return `
+    <div class="location-priority tier-${priority.tier}"
+         title="${escapeHtml(priority.reason)}">
+      <strong>立地評価</strong>
+      ${escapeHtml(priority.label)}
+    </div>
+  `;
+}
+
 function createDefaultUserSelection() {
   const now = new Date().toISOString();
 
@@ -1516,7 +1633,7 @@ function renderUserSelection(property) {
     ? `
       <div class="school-candidate-box">
         <div class="school-candidate-title">
-          柏の葉小学校区
+          柏の葉小学校区（手動選択）
         </div>
 
         ${
@@ -1554,14 +1671,14 @@ function renderUserSelection(property) {
             value="confirmed"
             ${selection.schoolDecision === "confirmed" ? "selected" : ""}
           >
-            学区確認済
+            柏の葉小学校区と確認済み
           </option>
 
           <option
             value="excluded"
             ${selection.schoolDecision === "excluded" ? "selected" : ""}
           >
-            学区対象外
+            柏の葉小学校区外と確認済み
           </option>
         </select>
       </div>
@@ -3199,6 +3316,8 @@ function renderPropertyCard(property) {
 
       ${renderQualityReasons(property)}
 
+      ${renderLocationPriority(property)}
+
       ${renderUserSelection(property)}
 
 
@@ -3844,6 +3963,11 @@ function filterProperties() {
         matchesSchoolDecision
       );
     });
+
+  // 立地Tierを第一優先で並べ替える。同じTier内の既存順序は維持する。
+  filtered.sort((a, b) =>
+    getLocationPriority(a).tier - getLocationPriority(b).tier
+  );
 
   renderProperties(filtered);
 }
