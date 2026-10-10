@@ -21,7 +21,7 @@
   "onlyFlatLand": false,
   "excludeRetainingWall": false,
 
-  "maxPagesPerRun": 5,
+  "maxPagesPerRun": 7,
   "deepScanEnabled": false,
   "deepScanPages": 5,
 
