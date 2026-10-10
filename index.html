@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
-<meta name="house-monitor-ui-version" content="2026-10-09-location-priority-school-manual">
+<meta name="house-monitor-ui-version" content="2026-10-10-sort-filter-deduplicate-v2">
 
 <style>
 * {
@@ -344,6 +344,32 @@ h2 {
   color: var(--muted);
   font-size: 11px;
 }
+
+/* Discovery history is secondary; keep it collapsed until explicitly opened. */
+.discovered-section {
+  margin-top: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #f8fafc;
+  overflow: hidden;
+}
+.discovered-summary-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+.discovered-summary-toggle::-webkit-details-marker { display: none; }
+.discovered-summary-toggle span:first-child { display: flex; flex-direction: column; gap: 2px; }
+.discovered-summary-toggle small { color: var(--muted); font-size: 11px; font-weight: 400; }
+.summary-chevron { color: var(--primary); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.discovered-section[open] .summary-chevron { font-size: 0; }
+.discovered-section[open] .summary-chevron::after { content: "閉じる ▴"; font-size: 12px; }
+.discovered-section > section { padding: 0 12px 12px; }
+.duplicate-note { margin: 8px 0; color: var(--muted); font-size: 11px; }
 
 /* Property Grid */
 .property-grid {
@@ -1111,6 +1137,30 @@ h2 {
           <option value="12000-99999">1.2億円～</option>
         </select>
 
+        <select id="propertySort" aria-label="並べ替え">
+          <option value="priority">立地優先順位（推奨）</option>
+          <option value="price-asc">価格が安い順</option>
+          <option value="price-desc">価格が高い順</option>
+          <option value="walk-asc">駅徒歩が短い順</option>
+          <option value="land-desc">土地面積が広い順</option>
+          <option value="building-desc">建物面積が広い順</option>
+          <option value="price-down">値下げ額が大きい順</option>
+          <option value="recent">新着・更新順</option>
+        </select>
+
+        <select id="propertyTypeFilter" aria-label="物件種別">
+          <option value="">新築・中古すべて</option>
+          <option value="new">新築戸建</option>
+          <option value="used">中古戸建</option>
+        </select>
+
+        <select id="propertyWalkFilter" aria-label="駅徒歩">
+          <option value="">駅徒歩すべて</option>
+          <option value="10">10分以内</option>
+          <option value="15">15分以内</option>
+          <option value="20">20分以内</option>
+        </select>
+
         <button
           id="clearPropertyFilter"
           class="button"
@@ -1192,14 +1242,19 @@ h2 {
     </div>
   </section>
 
-  <!-- Discovered Listings -->
-  <section>
+  <!-- Discovered Listings: collapsed by default to keep the primary shortlist readable -->
+  <details id="discoveredSection" class="discovered-section">
+    <summary class="discovered-summary-toggle">
+      <span><strong>未採用・自動検出履歴</strong><small>詳細未取得・除外・重複候補を含む探索用一覧</small></span>
+      <span class="summary-chevron">開く ▾</span>
+    </summary>
+    <section>
     <div class="section-header">
       <div>
         <h2>自動検出履歴</h2>
 
         <div class="section-description">
-          SUUMO検索で発見された全候補。採用・除外・詳細未取得を含みます。
+          採用一覧とは分離した探索用データ。重複ID・URLは整理して表示します。
         </div>
       </div>
     </div>
@@ -1245,7 +1300,8 @@ h2 {
         自動検出履歴を読み込んでいます...
       </div>
     </div>
-  </section>
+    </section>
+  </details>
 
 </main>
 
@@ -3787,6 +3843,10 @@ function filterProperties() {
       "propertyPrice"
     ).value;
 
+  const sortMode = document.getElementById("propertySort").value;
+  const propertyType = document.getElementById("propertyTypeFilter").value;
+  const walkLimit = document.getElementById("propertyWalkFilter").value;
+
   const priceDownOnly =
     document.getElementById(
       "priceDownOnly"
@@ -3931,6 +3991,14 @@ function filterProperties() {
         }
       }
 
+      const detailTitle = String(detail.title || property.title || property.name || "").toLowerCase();
+      const sourceUrl = String(getPropertyUrl(property) || "").toLowerCase();
+      const isNewBuild = /新築|新築戸建|\/ikkodate\//.test(detailTitle + " " + sourceUrl) || property.propertyType === "new" || property.houseType === "new_build";
+      const isUsedBuild = /中古|\/chukoikkodate\//.test(detailTitle + " " + sourceUrl) || property.propertyType === "used" || property.houseType === "used";
+      const matchesPropertyType = !propertyType || (propertyType === "new" ? isNewBuild : isUsedBuild);
+      const walkMinutesForFilter = getUiWalkMinutes(property);
+      const matchesWalk = !walkLimit || (walkMinutesForFilter !== null && walkMinutesForFilter <= Number(walkLimit));
+
       const matchesPriceDown =
         !priceDownOnly ||
         hasPriceDown(property);
@@ -3956,6 +4024,8 @@ function filterProperties() {
         matchesSearch &&
         matchesQuality &&
         matchesPrice &&
+        matchesPropertyType &&
+        matchesWalk &&
         matchesPriceDown &&
         matchesFetched &&
         matchesRecent &&
@@ -3964,10 +4034,34 @@ function filterProperties() {
       );
     });
 
-  // 立地Tierを第一優先で並べ替える。同じTier内の既存順序は維持する。
-  filtered.sort((a, b) =>
-    getLocationPriority(a).tier - getLocationPriority(b).tier
-  );
+  const priceOf = p => getCurrentPrice(p) ?? Number.POSITIVE_INFINITY;
+  const walkOf = p => getUiWalkMinutes(p) ?? Number.POSITIVE_INFINITY;
+  const areaOf = (p, fn) => fn(p) ?? -1;
+  const priceDownAmount = p => {
+    const change = getPriceChange(p);
+    return change !== null ? Math.max(0, -change) : 0;
+  };
+  const dateOf = p => {
+    const value = getLatestDate(p) || p.collectedAt || p.updatedAt || null;
+    const time = value ? new Date(value).getTime() : 0;
+    return Number.isFinite(time) ? time : 0;
+  };
+
+  // 明示選択された並べ替えを適用。優先順位モードのみTierを第一キーにする。
+  filtered.sort((a, b) => {
+    if (sortMode === "price-asc") return priceOf(a) - priceOf(b);
+    if (sortMode === "price-desc") return priceOf(b) - priceOf(a);
+    if (sortMode === "walk-asc") return walkOf(a) - walkOf(b);
+    if (sortMode === "land-desc") return areaOf(a, getLandArea) === areaOf(b, getLandArea) ? 0 : areaOf(b, getLandArea) - areaOf(a, getLandArea);
+    if (sortMode === "building-desc") return areaOf(b, getBuildingArea) - areaOf(a, getBuildingArea);
+    if (sortMode === "price-down") return priceDownAmount(b) - priceDownAmount(a);
+    if (sortMode === "recent") return dateOf(b) - dateOf(a);
+    const tierDiff = getLocationPriority(a).tier - getLocationPriority(b).tier;
+    if (tierDiff) return tierDiff;
+    const walkDiff = walkOf(a) - walkOf(b);
+    if (walkDiff) return walkDiff;
+    return priceOf(a) - priceOf(b);
+  });
 
   renderProperties(filtered);
 }
@@ -4065,8 +4159,15 @@ function renderDiscoveredListings(list) {
         ) === "unknown"
     ).length;
 
+  const duplicateCount = Math.max(0, discoveredProperties.length - deduplicateDiscoveredListings(discoveredProperties).length);
+  const adoptedOverlapCount = Math.max(0, deduplicateDiscoveredListings(discoveredProperties).filter(property => {
+    const key = getDiscoveryDuplicateKey(property);
+    return key && properties.some(registered => getDiscoveryDuplicateKey(registered) === key);
+  }).length);
   summary.textContent =
-    `${list.length}件を表示 / ` +
+    `${list.length}件を表示（重複整理後） / ` +
+    `採用一覧との重複 ${adoptedOverlapCount}件を非表示 / ` +
+    `自動検出内の重複 ${duplicateCount}件を整理 / ` +
     `採用 ${matchedCount}件 / ` +
     `除外 ${excludedCount}件 / ` +
     `判定不能 ${unknownCount}件`;
@@ -4401,6 +4502,45 @@ function renderDiscoveredListings(list) {
    Discovered Listings Filtering
    ============================================================ */
 
+function normalizeListingUrl(rawUrl) {
+  const safe = safeExternalUrl(rawUrl);
+  if (!safe) return "";
+  try {
+    const parsed = new URL(safe);
+    parsed.search = "";
+    parsed.hash = "";
+    return parsed.hostname.toLowerCase() + parsed.pathname.replace(/\/+$/, "").toLowerCase();
+  } catch (_) { return String(rawUrl || "").split("?")[0].replace(/\/+$/, "").toLowerCase(); }
+}
+
+function getDiscoveryDuplicateKey(property) {
+  const url = normalizeListingUrl(getPropertyUrl(property) || property.sourceUrl || property.url);
+  const id = String(property.listingId || property.sourceId || property.propertyId || property.id || "").trim().toLowerCase();
+  // Prefer stable SUUMO listing IDs; otherwise use canonical URL. Do not fuzzy-merge on price alone.
+  const urlId = (url.match(/(?:nc|ch|kk|tm)_?\d{5,}/i) || [])[0];
+  if (urlId) return "suumo:" + urlId.toLowerCase();
+  if (id && /^(?:nc|ch|kk|tm)_?\d{5,}$/i.test(id)) return "suumo:" + id;
+  if (url) return "url:" + url;
+  return id ? "record:" + id : "";
+}
+
+function deduplicateDiscoveredListings(list) {
+  const groups = new Map();
+  let index = 0;
+  for (const property of list) {
+    const stableKey = getDiscoveryDuplicateKey(property);
+    const key = stableKey || `unkeyed:${index}`;
+    index += 1;
+    if (!groups.has(key)) { groups.set(key, property); continue; }
+    const existing = groups.get(key);
+    // Prefer the record with more complete detail; otherwise keep the most recently collected one.
+    const score = p => (isDetailFetched(p) ? 10 : 0) + (getAddress(p) && getAddress(p) !== "-" ? 3 : 0) + (getCurrentPrice(p) !== null ? 2 : 0) + (getPropertyName(p) && getPropertyName(p) !== "-" ? 1 : 0);
+    const existingScore = score(existing), nextScore = score(property);
+    if (nextScore > existingScore || (nextScore === existingScore && String(property.collectedAt || "") > String(existing.collectedAt || ""))) groups.set(key, property);
+  }
+  return Array.from(groups.values());
+}
+
 function filterDiscoveredProperties() {
   const search =
     document
@@ -4415,8 +4555,16 @@ function filterDiscoveredProperties() {
   const validation =
     document.getElementById("discoveredValidation").value;
 
+  const uniqueDiscovered = deduplicateDiscoveredListings(discoveredProperties);
+  const registeredKeys = new Set(
+    properties.map(getDiscoveryDuplicateKey).filter(Boolean)
+  );
+  const unadoptedDiscovered = uniqueDiscovered.filter(property => {
+    const key = getDiscoveryDuplicateKey(property);
+    return !key || !registeredKeys.has(key);
+  });
   const filtered =
-    discoveredProperties.filter(property => {
+    unadoptedDiscovered.filter(property => {
       const detail = getDetail(property);
 
       const searchText = [
@@ -4629,6 +4777,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "areaFilter",
     "propertyQuality",
     "propertyPrice",
+    "propertySort",
+    "propertyTypeFilter",
+    "propertyWalkFilter",
     "priceDownOnly",
     "detailFetchedOnly",
     "recentOnly",
@@ -4651,6 +4802,9 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("areaFilter").value = "";
       document.getElementById("propertyQuality").value = "";
       document.getElementById("propertyPrice").value = "";
+      document.getElementById("propertySort").value = "priority";
+      document.getElementById("propertyTypeFilter").value = "";
+      document.getElementById("propertyWalkFilter").value = "";
       document.getElementById("priceDownOnly").checked = false;
       document.getElementById("detailFetchedOnly").checked = false;
       document.getElementById("recentOnly").checked = false;
