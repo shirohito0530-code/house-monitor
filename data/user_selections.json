@@ -1,5 +1,321 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": null,
-  "properties": {}
+  "updatedAt": "2026-10-10T12:57:45.821Z",
+  "properties": {
+    "suumo:nc_21057868": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-04T00:20:39.770Z",
+      "updatedAt": "2026-10-09T14:46:11.230Z"
+    },
+    "suumo:nc_21312860": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-04T00:22:06.759Z",
+      "updatedAt": "2026-10-04T00:22:06.759Z"
+    },
+    "suumo:nc_20960507": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-04T00:27:49.541Z",
+      "updatedAt": "2026-10-04T00:27:49.541Z"
+    },
+    "suumo:nc_21640435": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:23:02.596Z",
+      "updatedAt": "2026-10-08T16:23:56.964Z"
+    },
+    "suumo:nc_21461422": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:23:46.046Z",
+      "updatedAt": "2026-10-08T16:23:52.571Z"
+    },
+    "suumo:nc_21519415": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:25:07.804Z",
+      "updatedAt": "2026-10-08T16:25:10.382Z"
+    },
+    "suumo:nc_21108615": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:26:25.169Z",
+      "updatedAt": "2026-10-08T16:26:28.174Z"
+    },
+    "suumo:nc_78939562": {
+      "status": "archived",
+      "schoolDecision": "confirmed",
+      "memo": "",
+      "createdAt": "2026-10-08T16:27:40.516Z",
+      "updatedAt": "2026-10-08T16:27:47.254Z"
+    },
+    "suumo:nc_20451896": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:28:31.986Z",
+      "updatedAt": "2026-10-08T16:28:38.232Z"
+    },
+    "suumo:nc_20999578": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-08T16:29:33.013Z",
+      "updatedAt": "2026-10-08T16:29:36.454Z"
+    },
+    "suumo:nc_21814086": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T14:40:52.546Z",
+      "updatedAt": "2026-10-09T14:40:52.546Z"
+    },
+    "suumo:nc_21142986": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T15:03:28.772Z",
+      "updatedAt": "2026-10-09T15:03:51.110Z"
+    },
+    "suumo:nc_21171960": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T15:06:22.152Z",
+      "updatedAt": "2026-10-09T15:06:22.152Z"
+    },
+    "suumo:nc_21242061": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T15:08:00.697Z",
+      "updatedAt": "2026-10-09T15:08:00.697Z"
+    },
+    "suumo:nc_20173694": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T15:08:46.996Z",
+      "updatedAt": "2026-10-09T15:08:46.996Z"
+    },
+    "suumo:nc_20448861": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-09T15:09:45.256Z",
+      "updatedAt": "2026-10-09T15:09:48.296Z"
+    },
+    "suumo:nc_21132660": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-09T15:10:35.793Z",
+      "updatedAt": "2026-10-09T15:10:35.793Z"
+    },
+    "suumo:nc_20981839": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-09T15:11:43.746Z",
+      "updatedAt": "2026-10-09T15:11:46.986Z"
+    },
+    "suumo:nc_21318631": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-09T15:12:00.217Z",
+      "updatedAt": "2026-10-09T15:12:36.138Z"
+    },
+    "suumo:nc_21244280": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-09T15:13:40.760Z",
+      "updatedAt": "2026-10-09T15:13:43.204Z"
+    },
+    "suumo:nc_21904762": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:45:22.262Z",
+      "updatedAt": "2026-10-10T06:45:22.263Z"
+    },
+    "suumo:nc_20812753": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T06:46:51.654Z",
+      "updatedAt": "2026-10-10T06:46:54.443Z"
+    },
+    "suumo:nc_20980994": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T06:48:05.442Z",
+      "updatedAt": "2026-10-10T06:48:13.939Z"
+    },
+    "suumo:nc_21784706": {
+      "status": "candidate",
+      "schoolDecision": "confirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:55:04.592Z",
+      "updatedAt": "2026-10-10T06:55:09.098Z"
+    },
+    "suumo:nc_20944633": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T06:56:04.564Z",
+      "updatedAt": "2026-10-10T06:56:09.043Z"
+    },
+    "suumo:nc_21796210": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:56:29.241Z",
+      "updatedAt": "2026-10-10T06:56:29.241Z"
+    },
+    "suumo:nc_21634100": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:57:53.387Z",
+      "updatedAt": "2026-10-10T06:57:53.387Z"
+    },
+    "suumo:nc_77679926": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:58:55.614Z",
+      "updatedAt": "2026-10-10T06:58:55.614Z"
+    },
+    "suumo:nc_20732129": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T06:59:05.126Z",
+      "updatedAt": "2026-10-10T06:59:05.126Z"
+    },
+    "suumo:nc_21230090": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:00:41.216Z",
+      "updatedAt": "2026-10-10T07:00:41.216Z"
+    },
+    "suumo:nc_21266770": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:00:46.949Z",
+      "updatedAt": "2026-10-10T07:00:46.949Z"
+    },
+    "suumo:nc_78472545": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:02:27.540Z",
+      "updatedAt": "2026-10-10T07:02:27.540Z"
+    },
+    "suumo:nc_21677333": {
+      "status": "candidate",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:03:53.731Z",
+      "updatedAt": "2026-10-10T07:03:53.731Z"
+    },
+    "suumo:nc_20667069": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:04:21.220Z",
+      "updatedAt": "2026-10-10T07:04:21.220Z"
+    },
+    "suumo:nc_21638604": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:04:30.664Z",
+      "updatedAt": "2026-10-10T07:04:30.664Z"
+    },
+    "suumo:nc_78359385": {
+      "status": "archived",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:06:07.918Z",
+      "updatedAt": "2026-10-10T07:06:07.918Z"
+    },
+    "suumo:nc_21224665": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T07:08:02.699Z",
+      "updatedAt": "2026-10-10T07:08:09.994Z"
+    },
+    "suumo:nc_21802362": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:08:19.439Z",
+      "updatedAt": "2026-10-10T07:08:19.439Z"
+    },
+    "suumo:nc_21827710": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:08:24.519Z",
+      "updatedAt": "2026-10-10T07:08:24.520Z"
+    },
+    "suumo:nc_21708425": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T07:09:03.919Z",
+      "updatedAt": "2026-10-10T07:09:05.753Z"
+    },
+    "suumo:nc_21682362": {
+      "status": "excluded",
+      "schoolDecision": "excluded",
+      "memo": "",
+      "createdAt": "2026-10-10T07:09:14.468Z",
+      "updatedAt": "2026-10-10T07:09:21.148Z"
+    },
+    "suumo:nc_21180867": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:15:35.747Z",
+      "updatedAt": "2026-10-10T07:15:35.747Z"
+    },
+    "suumo:nc_21514756": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:15:48.166Z",
+      "updatedAt": "2026-10-10T07:15:48.166Z"
+    },
+    "suumo:nc_21859937": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:16:57.432Z",
+      "updatedAt": "2026-10-10T07:16:57.432Z"
+    },
+    "suumo:nc_21509999": {
+      "status": "excluded",
+      "schoolDecision": "unconfirmed",
+      "memo": "",
+      "createdAt": "2026-10-10T07:17:52.179Z",
+      "updatedAt": "2026-10-10T07:17:52.179Z"
+    }
+  }
 }
