@@ -2,10 +2,8 @@ name: Update house listings
 
 on:
   workflow_dispatch:
-
   schedule:
-    # 毎日、日本時間06:20に実行
-    # UTC 21:20 = JST 06:20
+    # 毎日、日本時間06:20に実行（UTC 21:20）
     - cron: "20 21 * * *"
 
 permissions:
@@ -18,755 +16,145 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 60
     steps:
-
-      # =====================================================
-      # 1. リポジトリを取得
-      # =====================================================
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
-      # =====================================================
-      # 2. Python環境を設定
-      # =====================================================
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
-      # =====================================================
-      # 3. 依存ライブラリをインストール
-      # =====================================================
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # =====================================================
-      # 4. 実行コミット確認
-      # =====================================================
       - name: Show execution revision
         run: |
-          echo "========================================"
-          echo "Execution revision"
-          echo "========================================"
+          echo "Execution revision:"
           git rev-parse HEAD
           git log -1 --oneline
-          echo ""
-          echo "main.py parser version:"
-          grep -n "MAIN_PARSER_VERSION" scripts/main.py
-          echo ""
-          echo "identity.py:"
-          grep -n "def make_property_id" scripts/identity.py
+          echo "Parser version:"
+          grep -n "MAIN_PARSER_VERSION" scripts/main.py || true
 
-      # =====================================================
-      # 5. SUUMO検索・物件統合・詳細情報取得
-      # =====================================================
+      - name: Compile Python files
+        run: python -m compileall -q scripts
+
       - name: Discover and fetch house listings
-        run: |
-          python scripts/main.py
+        run: python scripts/main.py
 
-      # =====================================================
-      # 6. 出力ファイルを検証
-      # =====================================================
-      - name: Validate output
+      # DB maintenance runs after main.py so all newly written data is compacted
+      # before validation and commit. It deliberately does not fuzzy-merge houses.
+      - name: Compact and validate JSON databases
+        run: python scripts/db_maintenance.py
+
+      - name: Validate output JSON and identity consistency
         run: |
           python - <<'PY'
           import json
+          import re
           from pathlib import Path
 
-          REQUIRED_FILES = [
+          required = [
               Path("data/discovered_listings.json"),
               Path("data/houses.json"),
           ]
 
-          # =================================================
-          # 必須ファイル確認
-          # =================================================
+          def get_id(item):
+              value = item.get("propertyId") or item.get("id")
+              return str(value).strip() if value is not None else ""
 
-          for path in REQUIRED_FILES:
+          def load_db(path):
               if not path.exists():
-                  raise SystemExit(
-                      f"ERROR: {path} was not created"
-                  )
+                  raise SystemExit(f"ERROR: required file missing: {path}")
+              with path.open(encoding="utf-8") as f:
+                  data = json.load(f)
+              if not isinstance(data, dict):
+                  raise SystemExit(f"ERROR: {path} must be a JSON object")
+              if not isinstance(data.get("properties"), list):
+                  raise SystemExit(f"ERROR: {path}: properties must be a list")
+              if not data.get("updatedAt"):
+                  raise SystemExit(f"ERROR: {path}: updatedAt missing")
+              seen = set()
+              for i, item in enumerate(data["properties"]):
+                  if not isinstance(item, dict):
+                      raise SystemExit(f"ERROR: {path}: properties[{i}] is not an object")
+                  pid = get_id(item)
+                  if not pid:
+                      raise SystemExit(f"ERROR: {path}: properties[{i}] has no propertyId/id")
+                  if pid in seen:
+                      raise SystemExit(f"ERROR: {path}: duplicate property ID: {pid}")
+                  seen.add(pid)
+                  if not item.get("sourceUrl"):
+                      raise SystemExit(f"ERROR: {path}: properties[{i}] sourceUrl missing")
+                  url = str(item["sourceUrl"])
+                  if "suumo.jp" in url:
+                      match = re.search(r"/(nc_\d+)(?:/|$)", url, re.I)
+                      if match:
+                          expected = "suumo:" + match.group(1).lower()
+                          if pid != expected:
+                              raise SystemExit(
+                                  f"ERROR: {path}: propertyId/sourceUrl mismatch at properties[{i}]: "
+                                  f"{pid} != {expected} ({url})"
+                              )
+              print(f"OK: {path} properties={len(data['properties'])} bytes={path.stat().st_size:,}")
+              print(f"  updatedAt={data['updatedAt']}")
+              print(f"  summary={data.get('summary', {})}")
+              return data
 
-              print(f"Found: {path}")
+          for path in required:
+              load_db(path)
 
-          # =================================================
-          # 共通ID取得
-          #
-          # 現行スキーマ:
-          #   propertyId = canonical ID
-          #
-          # 旧データとの互換性のため:
-          #   id
-          # もフォールバックとして許容
-          # =================================================
-
-          def get_property_id(property_data):
-              return (
-                  property_data.get("propertyId")
-                  or property_data.get("id")
-              )
-
-          # =================================================
-          # discovered_listings.json
-          # =================================================
-
-          discovered_path = Path(
-              "data/discovered_listings.json"
-          )
-
-          with discovered_path.open(
-              encoding="utf-8"
-          ) as file:
-              discovered = json.load(file)
-
-          if not isinstance(discovered, dict):
-              raise SystemExit(
-                  "ERROR: discovered_listings.json "
-                  "must be a JSON object"
-              )
-
-          if "updatedAt" not in discovered:
-              raise SystemExit(
-                  "ERROR: discovered_listings.json "
-                  "updatedAt is missing"
-              )
-
-          if "properties" not in discovered:
-              raise SystemExit(
-                  "ERROR: discovered_listings.json "
-                  "properties is missing"
-              )
-
-          if not isinstance(
-              discovered["properties"],
-              list
-          ):
-              raise SystemExit(
-                  "ERROR: discovered_listings.json "
-                  "properties must be a list"
-              )
-
-          for index, property_data in enumerate(
-              discovered["properties"]
-          ):
-              if not isinstance(
-                  property_data,
-                  dict
-              ):
-                  raise SystemExit(
-                      "ERROR: discovered_listings.json "
-                      f"properties[{index}] must be an object"
-                  )
-
-              property_id = get_property_id(
-                  property_data
-              )
-
-              if not property_id:
-                  raise SystemExit(
-                      "ERROR: discovered_listings.json "
-                      f"properties[{index}].propertyId "
-                      "is missing"
-                  )
-
-              if not property_data.get("sourceUrl"):
-                  raise SystemExit(
-                      "ERROR: discovered_listings.json "
-                      f"properties[{index}].sourceUrl "
-                      "is missing"
-                  )
-
-          # =================================================
-          # houses.json
-          # =================================================
-
-          houses_path = Path(
-              "data/houses.json"
-          )
-
-          with houses_path.open(
-              encoding="utf-8"
-          ) as file:
-              houses = json.load(file)
-
-          if not isinstance(houses, dict):
-              raise SystemExit(
-                  "ERROR: houses.json "
-                  "must be a JSON object"
-              )
-
-          if "updatedAt" not in houses:
-              raise SystemExit(
-                  "ERROR: houses.json "
-                  "updatedAt is missing"
-              )
-
-          if "properties" not in houses:
-              raise SystemExit(
-                  "ERROR: houses.json "
-                  "properties is missing"
-              )
-
-          if not isinstance(
-              houses["properties"],
-              list
-          ):
-              raise SystemExit(
-                  "ERROR: houses.json "
-                  "properties must be a list"
-              )
-
-          for index, property_data in enumerate(
-              houses["properties"]
-          ):
-              if not isinstance(
-                  property_data,
-                  dict
-              ):
-                  raise SystemExit(
-                      "ERROR: houses.json "
-                      f"properties[{index}] must be an object"
-                  )
-
-              property_id = get_property_id(
-                  property_data
-              )
-
-              if not property_id:
-                  raise SystemExit(
-                      "ERROR: houses.json "
-                      f"properties[{index}].propertyId "
-                      "is missing"
-                  )
-
-              if not property_data.get("sourceUrl"):
-                  raise SystemExit(
-                      "ERROR: houses.json "
-                      f"properties[{index}].sourceUrl "
-                      "is missing"
-                  )
-
-          # =================================================
-          # 重複IDチェック
-          # =================================================
-
-          def check_duplicate_ids(
-              properties,
-              label
-          ):
-              seen = {}
-              for index, item in enumerate(
-                  properties
-              ):
-                  property_id = get_property_id(
-                      item
-                  )
-                  if property_id in seen:
-                      first_index = seen[
-                          property_id
-                      ]
-                      print("")
-                      print(
-                          "========================================"
-                      )
-                      print(
-                          "DUPLICATE PROPERTY ID"
-                      )
-                      print(
-                          "========================================"
-                      )
-                      print(
-                          f"File       : {label}"
-                      )
-                      print(
-                          f"propertyId : {property_id}"
-                      )
-                      print(
-                          f"First index: {first_index}"
-                      )
-                      print(
-                          f"Second index: {index}"
-                      )
-                      first_item = properties[
-                          first_index
-                      ]
-                      print(
-                          "First sourceUrl:"
-                      )
-                      print(
-                          first_item.get(
-                              "sourceUrl"
-                          )
-                      )
-                      print(
-                          "Second sourceUrl:"
-                      )
-                      print(
-                          item.get(
-                              "sourceUrl"
-                          )
-                      )
-                      print(
-                          "First name:"
-                      )
-                      print(
-                          first_item.get(
-                              "name"
-                          )
-                      )
-                      print(
-                          "Second name:"
-                      )
-                      print(
-                          item.get(
-                              "name"
-                          )
-                      )
-                      raise SystemExit(
-                          "ERROR: Duplicate propertyId "
-                          f"found in {label}: "
-                          f"{property_id}"
-                      )
-                  seen[
-                      property_id
-                  ] = index
-
-          check_duplicate_ids(
-              discovered["properties"],
-              "discovered_listings.json"
-          )
-
-          check_duplicate_ids(
-              houses["properties"],
-              "houses.json"
-          )
-
-          # =================================================
-          # 内部IDとURLの整合性チェック
-          # =================================================
-
-          def check_identity_consistency(
-              properties,
-              label
-          ):
-              for index, item in enumerate(
-                  properties
-              ):
-                  property_id = get_property_id(
-                      item
-                  )
-                  source_url = item.get(
-                      "sourceUrl"
-                  )
-                  if not property_id:
-                      continue
-                  if not source_url:
-                      continue
-                  # SUUMO URLからnc_IDを抽出
-                  if "suumo.jp" not in str(
-                      source_url
-                  ):
-                      continue
-                  import re
-                  match = re.search(
-                      r"/(nc_\d+)(?:/|$)",
-                      str(source_url),
-                      re.IGNORECASE,
-                  )
-                  if not match:
-                      continue
-                  expected_source_id = (
-                      match.group(1).lower()
-                  )
-                  expected_property_id = (
-                      "suumo:"
-                      + expected_source_id
-                  )
-                  if (
-                      property_id
-                      != expected_property_id
-                  ):
-                      raise SystemExit(
-                          "ERROR: propertyId/sourceUrl "
-                          "mismatch in "
-                          f"{label} "
-                          f"properties[{index}]: "
-                          f"propertyId={property_id}, "
-                          f"expected={expected_property_id}, "
-                          f"sourceUrl={source_url}"
-                      )
-
-          check_identity_consistency(
-              discovered["properties"],
-              "discovered_listings.json"
-          )
-          check_identity_consistency(
-              houses["properties"],
-              "houses.json"
-          )
-
-          # =================================================
-          # propertyIdの形式確認
-          # =================================================
-
-          def validate_property_id_format(
-              properties,
-              label
-          ):
-              for index, item in enumerate(
-                  properties
-              ):
-                  property_id = get_property_id(
-                      item
-                  )
-
-                  if not isinstance(
-                      property_id,
-                      str
-                  ):
-                      raise SystemExit(
-                          "ERROR: "
-                          f"{label} "
-                          f"properties[{index}].propertyId "
-                          "must be a string"
-                      )
-
-                  if not property_id.strip():
-                      raise SystemExit(
-                          "ERROR: "
-                          f"{label} "
-                          f"properties[{index}].propertyId "
-                          "must not be empty"
-                      )
-
-          validate_property_id_format(
-              discovered["properties"],
-              "discovered_listings.json"
-          )
-
-          validate_property_id_format(
-              houses["properties"],
-              "houses.json"
-          )
-
-          # =================================================
-          # サマリー取得
-          # =================================================
-
-          discovered_summary = discovered.get(
-              "summary",
-              {}
-          )
-
-          houses_summary = houses.get(
-              "summary",
-              {}
-          )
-
-          if not isinstance(
-              discovered_summary,
-              dict
-          ):
-              discovered_summary = {}
-
-          if not isinstance(
-              houses_summary,
-              dict
-          ):
-              houses_summary = {}
-
-          # =================================================
-          # Validation結果
-          # =================================================
-
-          print("")
-          print("========================================")
-          print("Output validation: OK")
-          print("========================================")
-
-          print("")
-          print("discovered_listings.json")
-          print(
-              f"  Updated at: "
-              f"{discovered['updatedAt']}"
-          )
-          print(
-              "  Properties:",
-              len(discovered["properties"])
-          )
-
-          print("")
-          print("houses.json")
-          print(
-              f"  Updated at: "
-              f"{houses['updatedAt']}"
-          )
-          print(
-              "  Properties:",
-              len(houses["properties"])
-          )
-
-          # =================================================
-          # 現行 main.py の summary キーに対応
-          # =================================================
-
-          print("")
-          print("Summary")
-
-          print(
-              "  Discovered:",
-              discovered_summary.get(
-                  "discoveredCount",
-                  discovered_summary.get(
-                      "searchCandidateCount",
-                      len(
-                          discovered["properties"]
-                      )
-                  )
-              )
-          )
-
-          print(
-              "  Market DB:",
-              houses_summary.get(
-                  "marketDbCount",
-                  len(
-                      houses["properties"]
-                  )
-              )
-          )
-
-          print(
-              "  Market History:",
-              houses_summary.get(
-                  "marketHistoryCount",
-                  0
-              )
-          )
-
-          print(
-              "  History Active:",
-              houses_summary.get(
-                  "marketHistoryActiveCount",
-                  0
-              )
-          )
-
-          print(
-              "  History Ended:",
-              houses_summary.get(
-                  "marketHistoryEndedCount",
-                  0
-              )
-          )
-
-          print(
-              "  Criteria Excluded:",
-              houses_summary.get(
-                  "marketHistoryCriteriaExcludedCount",
-                  houses_summary.get(
-                      "criteriaExcludedCount",
-                      0
-                  )
-              )
-          )
-
-          print(
-              "  Criteria Pending:",
-              houses_summary.get(
-                  "marketHistoryCriteriaPendingCount",
-                  houses_summary.get(
-                      "criteriaPendingCount",
-                      0
-                  )
-              )
-          )
-
-          print(
-              "  Detail Pending:",
-              houses_summary.get(
-                  "detailPendingCount",
-                  0
-              )
-          )
-
-          print(
-              "  Detail Success This Run:",
-              houses_summary.get(
-                  "detailSuccessThisRun",
-                  0
-              )
-          )
-
-          print(
-              "  Detail Failure This Run:",
-              houses_summary.get(
-                  "detailFailureThisRun",
-                  0
-              )
-          )
-
-          print(
-              "  Price Reduction:",
-              houses_summary.get(
-                  "priceReductionCount",
-                  0
-              )
-          )
-
-          print(
-              "  Observations:",
-              houses_summary.get(
-                  "observationsCount",
-                  0
-              )
-          )
-
-          print(
-              "  Detail Interrupted:",
-              houses_summary.get(
-                  "detailInterrupted",
-                  False
-              )
-          )
-
-          print("")
-          print(
-              "Validation completed successfully."
-          )
+          observations_path = Path("data/listing_observations.json")
+          if observations_path.exists():
+              with observations_path.open(encoding="utf-8") as f:
+                  obs = json.load(f)
+              records = obs.get("observations", []) if isinstance(obs, dict) else obs
+              if not isinstance(records, list):
+                  raise SystemExit("ERROR: listing_observations.json observations must be a list")
+              print(f"OK: {observations_path} observations={len(records)} bytes={observations_path.stat().st_size:,}")
+          else:
+              print("INFO: listing_observations.json not present; no history file to validate")
           PY
 
-      # =====================================================
-      # 7. 生成結果の概要をログに表示
-      # =====================================================
       - name: Display output summary
         run: |
-          echo "===== discovered_listings.json ====="
-
           python - <<'PY'
           import json
-
-          with open(
-              "data/discovered_listings.json",
-              encoding="utf-8"
-          ) as f:
-              data = json.load(f)
-
-          print(
-              "updatedAt:",
-              data.get("updatedAt")
-          )
-
-          print(
-              "schemaVersion:",
-              data.get("schemaVersion")
-          )
-
-          print(
-              "parserVersion:",
-              data.get("parserVersion")
-          )
-
-          print(
-              "properties:",
-              len(
-                  data.get(
-                      "properties",
-                      []
-                  )
-              )
-          )
-
-          print(
-              "summary:",
-              data.get(
-                  "summary",
-                  {}
-              )
-          )
-
+          from pathlib import Path
+          for name in ("discovered_listings.json", "houses.json"):
+              path = Path("data") / name
+              with path.open(encoding="utf-8") as f:
+                  data = json.load(f)
+              print(f"===== {path} =====")
+              print("updatedAt:", data.get("updatedAt"))
+              print("schemaVersion:", data.get("schemaVersion"))
+              print("parserVersion:", data.get("parserVersion"))
+              print("properties:", len(data.get("properties", [])))
+              print("summary:", data.get("summary", {}))
           PY
 
-          echo ""
-          echo "===== houses.json ====="
-
-          python - <<'PY'
-          import json
-
-          with open(
-              "data/houses.json",
-              encoding="utf-8"
-          ) as f:
-              data = json.load(f)
-
-          print(
-              "updatedAt:",
-              data.get("updatedAt")
-          )
-
-          print(
-              "schemaVersion:",
-              data.get("schemaVersion")
-          )
-
-          print(
-              "parserVersion:",
-              data.get("parserVersion")
-          )
-
-          print(
-              "properties:",
-              len(
-                  data.get(
-                      "properties",
-                      []
-                  )
-              )
-          )
-
-          print(
-              "summary:",
-              data.get(
-                  "summary",
-                  {}
-              )
-          )
-
-          PY
-
-      # =====================================================
-      # 8. 変更されたJSONを確認
-      # =====================================================
       - name: Show changed files
         run: |
-          echo "===== Git status ====="
           git status --short
-
-          echo ""
-          echo "===== Git diff stat ====="
           git diff --stat
 
-      # =====================================================
-      # 9. 生成データをコミット・プッシュ
-      # =====================================================
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add data/discovered_listings.json
-          git add data/houses.json
-
+          git add data/discovered_listings.json data/houses.json
+          if [ -f data/listing_observations.json ]; then
+            git add data/listing_observations.json
+          fi
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update house listings"
+            git commit -m "Update house listings and compact database"
             git push
           fi
