@@ -56,7 +56,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-12-v42-lifecycle-dedup-history"
+MAIN_PARSER_VERSION = "2026-10-12-v43-pending-market-db-validation"
 
 
 # ============================================================
@@ -1597,25 +1597,38 @@ def mark_duplicate_candidates(
 # Market History DB Selection
 # ============================================================
 
+CRITERIA_FIELDS = (
+    "builtAgeMatched",
+    "propertyTypeMatched",
+    "priceMatched",
+    "walkMatched",
+    "landAreaMatched",
+    "buildingAreaMatched",
+)
+
+
+def get_market_criteria_review(property_data: Dict[str, Any]) -> Dict[str, Any]:
+    """未知項目を不合格と誤認せず、適合・判定待ち・除外を分ける。"""
+    excluded = [field for field in CRITERIA_FIELDS if property_data.get(field) is False]
+    pending = [field for field in CRITERIA_FIELDS if property_data.get(field) is None]
+    if excluded:
+        status = "excluded"
+    elif pending:
+        status = "pending"
+    else:
+        status = "matched"
+    return {
+        "marketReviewStatus": status,
+        "criteriaExcludedFields": excluded,
+        "criteriaPendingFields": pending,
+    }
+
+
 def should_store_house(
     property_data: Dict[str, Any],
 ) -> bool:
-
-    required_flags = (
-        "builtAgeMatched",
-        "propertyTypeMatched",
-        "priceMatched",
-        "walkMatched",
-        "landAreaMatched",
-        "buildingAreaMatched",
-    )
-
-    for field in required_flags:
-
-        if property_data.get(field) is not True:
-            return False
-
-    return True
+    """明示的に条件外と判定された物件だけを除外。情報不足は判定待ちで保持。"""
+    return not any(property_data.get(field) is False for field in CRITERIA_FIELDS)
 
 
 def is_market_history_property(
@@ -1640,14 +1653,11 @@ def is_market_history_property(
     ):
         return False
 
-    area_classification = property_data.get(
-        "areaClassification"
-    )
+    area_classification = property_data.get("areaClassification")
 
-    if (
-        area_classification
-        not in HOUSE_DB_AREA_CLASSIFICATIONS
-    ):
+    # 住所・徒歩が未取得で分類保留の候補は保持し、UI上で判定待ちと表示する。
+    # 明示的に対象外と分類された物件は市場DBに入れない。
+    if area_classification not in HOUSE_DB_AREA_CLASSIFICATIONS | {"detailPending"}:
         return False
 
     return True
@@ -4761,6 +4771,9 @@ def build_market_house_record(
         "houseDbSchemaVersion"
     ] = HOUSE_DB_SCHEMA_VERSION
 
+    criteria_review = get_market_criteria_review(property_data)
+    record.update(criteria_review)
+
     record[
         "candidateCriteria"
     ] = {
@@ -5291,9 +5304,8 @@ def run_pipeline() -> None:
                         "lastSeenAt"
                     ] = run_start_iso
 
-                    existing[
-                        "status"
-                    ] = "active"
+                    # status更新は後段のupdate_property_lifecycleに任せる。
+                    # 先にactiveへ上書きすると、終了物件の再掲載を検知できない。
 
                     if (
                         normalized.get(
@@ -5541,6 +5553,18 @@ def run_pipeline() -> None:
     # 6d. Summary
     status_counts = Counter(prop.get("status", "unknown") for prop in db.values())
     lifecycle_analytics = summarize_listing_lifecycle(list(db.values()))
+    criteria_reviews = [get_market_criteria_review(prop) for prop in db.values()]
+    criteria_review_counts = Counter(item["marketReviewStatus"] for item in criteria_reviews)
+    market_area_pending_count = sum(
+        1 for prop in db.values() if prop.get("areaClassification") == "detailPending"
+    )
+    criteria_excluded_by_field = Counter(
+        field for item in criteria_reviews for field in item["criteriaExcludedFields"]
+    )
+    criteria_pending_by_field = Counter(
+        field for item in criteria_reviews for field in item["criteriaPendingFields"]
+    )
+
     summary_data = {
         "updatedAt": now_iso(),
         "totalDiscovered": len(discovered_records),
@@ -5559,10 +5583,23 @@ def run_pipeline() -> None:
         "confirmedEndedCount": status_counts.get("confirmed_ended", 0),
         "activeCount": status_counts.get("active", 0),
         "duplicateCandidateCount": duplicate_candidate_count,
+        "marketCriteriaMatchedCount": criteria_review_counts.get("matched", 0),
+        "marketCriteriaPendingCount": criteria_review_counts.get("pending", 0),
+        "marketCriteriaExcludedCount": criteria_review_counts.get("excluded", 0),
+        "marketAreaPendingCount": market_area_pending_count,
+        "criteriaExcludedByField": dict(criteria_excluded_by_field),
+        "criteriaPendingByField": dict(criteria_pending_by_field),
+        "marketDbEmptyWarning": len(deduplicated_houses) == 0,
         "parserVersion": MAIN_PARSER_VERSION,
         **lifecycle_analytics,
     }
     save_json(SUMMARY_PATH, summary_data)
+
+    if not deduplicated_houses:
+        print(
+            "[WARN] houses.json が0件です。"
+            "criteriaPendingByField / criteriaExcludedByField / marketAreaPendingCount を確認してください。"
+        )
 
     print("============================================================")
     run_result = (
