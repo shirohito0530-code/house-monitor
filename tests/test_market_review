@@ -1,0 +1,51 @@
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+import main
+
+
+class MarketReviewTests(unittest.TestCase):
+    def test_unknown_criteria_are_pending_not_excluded(self):
+        row = {
+            "builtAgeMatched": None,
+            "propertyTypeMatched": True,
+            "priceMatched": True,
+            "walkMatched": None,
+            "landAreaMatched": True,
+            "buildingAreaMatched": True,
+        }
+        self.assertTrue(main.should_store_house(row))
+        self.assertEqual(main.get_market_criteria_review(row)["marketReviewStatus"], "pending")
+
+    def test_explicit_false_excludes(self):
+        row = {
+            "builtAgeMatched": True,
+            "propertyTypeMatched": True,
+            "priceMatched": False,
+            "walkMatched": True,
+            "landAreaMatched": True,
+            "buildingAreaMatched": True,
+        }
+        self.assertFalse(main.should_store_house(row))
+        self.assertEqual(main.get_market_criteria_review(row)["marketReviewStatus"], "excluded")
+
+    def test_all_true_is_matched(self):
+        row = {field: True for field in main.CRITERIA_FIELDS}
+        self.assertTrue(main.should_store_house(row))
+        self.assertEqual(main.get_market_criteria_review(row)["marketReviewStatus"], "matched")
+
+    def test_detail_pending_area_is_kept_for_review(self):
+        row = {field: True for field in main.CRITERIA_FIELDS}
+        row.update({"status": "active", "areaClassification": "detailPending"})
+        self.assertTrue(main.is_market_history_property(row))
+
+    def test_out_of_target_area_is_excluded(self):
+        row = {field: True for field in main.CRITERIA_FIELDS}
+        row.update({"status": "active", "areaClassification": "outOfTarget"})
+        self.assertFalse(main.is_market_history_property(row))
+
+
+if __name__ == "__main__":
+    unittest.main()
