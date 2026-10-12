@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
-<meta name="house-monitor-ui-version" content="2026-10-10-sort-filter-deduplicate-v2">
+<meta name="house-monitor-ui-version" content="2026-10-12-listing-lifecycle-filters-v3">
 
 <style>
 * {
@@ -1277,6 +1277,17 @@ h2 {
           <option value="matched">採用</option>
           <option value="excluded">除外</option>
           <option value="unknown">判定不能</option>
+        </select>
+
+        <select id="discoveredStatus" aria-label="掲載状態">
+          <option value="">全掲載状態</option>
+          <option value="active">掲載中</option>
+          <option value="possibly_ended">終了の可能性あり</option>
+          <option value="observed_ended">掲載終了（検索未検出）</option>
+          <option value="confirmed_ended">掲載終了（明示確認）</option>
+          <option value="recently_ended">最近終了（30日以内）</option>
+          <option value="price_down_ended">値下げ後に終了</option>
+          <option value="relisted">再掲載</option>
         </select>
 
         <button
@@ -4159,6 +4170,11 @@ function renderDiscoveredListings(list) {
         ) === "unknown"
     ).length;
 
+  const activeCount = list.filter(property => getListingStatus(property) === "active").length;
+  const possiblyEndedCount = list.filter(property => getListingStatus(property) === "possibly_ended").length;
+  const observedEndedCount = list.filter(property => getListingStatus(property) === "observed_ended").length;
+  const confirmedEndedCount = list.filter(property => getListingStatus(property) === "confirmed_ended").length;
+  const relistedCount = list.filter(property => Boolean(property.relistedAt)).length;
   const duplicateCount = Math.max(0, discoveredProperties.length - deduplicateDiscoveredListings(discoveredProperties).length);
   const adoptedOverlapCount = Math.max(0, deduplicateDiscoveredListings(discoveredProperties).filter(property => {
     const key = getDiscoveryDuplicateKey(property);
@@ -4170,7 +4186,11 @@ function renderDiscoveredListings(list) {
     `自動検出内の重複 ${duplicateCount}件を整理 / ` +
     `採用 ${matchedCount}件 / ` +
     `除外 ${excludedCount}件 / ` +
-    `判定不能 ${unknownCount}件`;
+    `判定不能 ${unknownCount}件 / ` +
+    `掲載中 ${activeCount}件 / ` +
+    `終了候補 ${possiblyEndedCount}件 / ` +
+    `終了 ${observedEndedCount + confirmedEndedCount}件 / ` +
+    `再掲載履歴 ${relistedCount}件`;
 
   container.innerHTML =
     list
@@ -4293,6 +4313,10 @@ function renderDiscoveredListings(list) {
 
               <span class="validation-badge ${stateClass}">
                 ${stateLabel}
+              </span>
+
+              <span class="flag ${getListingStatusClass(property)}">
+                ${escapeHtml(getListingStatusLabel(property))}
               </span>
 
               ${
@@ -4541,6 +4565,55 @@ function deduplicateDiscoveredListings(list) {
   return Array.from(groups.values());
 }
 
+function getListingStatus(property) {
+  const status = String(property?.status || "active");
+  if (["active", "possibly_ended", "observed_ended", "confirmed_ended"].includes(status)) {
+    return status;
+  }
+  // 旧データとの互換性。endedAtのみある旧レコードは終了確認扱いにせず候補扱い。
+  if (property?.isListingEnded === true) return "confirmed_ended";
+  if (property?.endedObservedAt || property?.endedAt) return "observed_ended";
+  return "active";
+}
+
+function getListingStatusLabel(property) {
+  const status = getListingStatus(property);
+  const labels = {
+    active: "掲載中",
+    possibly_ended: "終了の可能性あり",
+    observed_ended: "掲載終了（検索未検出）",
+    confirmed_ended: "掲載終了（明示確認）"
+  };
+  if (property?.relistedAt && status === "active") return "再掲載";
+  return labels[status] || "状態不明";
+}
+
+function getListingStatusClass(property) {
+  const status = getListingStatus(property);
+  if (status === "active") return "flag-good";
+  if (status === "possibly_ended") return "flag-unknown";
+  return "flag-down";
+}
+
+function matchesDiscoveredStatus(property, filterValue) {
+  if (!filterValue) return true;
+  const status = getListingStatus(property);
+  if (["active", "possibly_ended", "observed_ended", "confirmed_ended"].includes(filterValue)) {
+    return status === filterValue;
+  }
+  if (filterValue === "relisted") return Boolean(property?.relistedAt);
+  if (filterValue === "recently_ended") {
+    const dateValue = property?.endedObservedAt || property?.endedAt || property?.listingStatusUpdatedAt;
+    if (!dateValue || !["possibly_ended", "observed_ended", "confirmed_ended"].includes(status)) return false;
+    const date = new Date(dateValue);
+    return !Number.isNaN(date.getTime()) && (Date.now() - date.getTime()) <= 30 * 86400000 && date.getTime() <= Date.now();
+  }
+  if (filterValue === "price_down_ended") {
+    return ["possibly_ended", "observed_ended", "confirmed_ended"].includes(status) && hasPriceDown(property);
+  }
+  return true;
+}
+
 function filterDiscoveredProperties() {
   const search =
     document
@@ -4555,13 +4628,19 @@ function filterDiscoveredProperties() {
   const validation =
     document.getElementById("discoveredValidation").value;
 
+  const listingStatus =
+    document.getElementById("discoveredStatus")?.value || "";
+
   const uniqueDiscovered = deduplicateDiscoveredListings(discoveredProperties);
   const registeredKeys = new Set(
     properties.map(getDiscoveryDuplicateKey).filter(Boolean)
   );
   const unadoptedDiscovered = uniqueDiscovered.filter(property => {
     const key = getDiscoveryDuplicateKey(property);
-    return !key || !registeredKeys.has(key);
+    const isEndedOrRelisted =
+      getListingStatus(property) !== "active" || Boolean(property.relistedAt);
+    // 採用一覧との重複は通常非表示。ただし終了・再掲載の履歴確認では残す。
+    return !key || !registeredKeys.has(key) || isEndedOrRelisted;
   });
   const filtered =
     unadoptedDiscovered.filter(property => {
@@ -4589,8 +4668,9 @@ function filterDiscoveredProperties() {
 
       const state = getDiscoveredValidationState(property);
       const matchesValidation = !validation || state === validation;
+      const matchesStatus = matchesDiscoveredStatus(property, listingStatus);
 
-      return matchesSearch && matchesArea && matchesValidation;
+      return matchesSearch && matchesArea && matchesValidation && matchesStatus;
     });
 
   renderDiscoveredListings(filtered);
@@ -4817,7 +4897,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const discoveredFilterInputs = [
     "discoveredSearch",
     "discoveredArea",
-    "discoveredValidation"
+    "discoveredValidation",
+    "discoveredStatus"
   ];
 
   discoveredFilterInputs.forEach(id => {
@@ -4834,6 +4915,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("discoveredSearch").value = "";
       document.getElementById("discoveredArea").value = "";
       document.getElementById("discoveredValidation").value = "";
+      document.getElementById("discoveredStatus").value = "";
       filterDiscoveredProperties();
     });
   }
