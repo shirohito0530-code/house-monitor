@@ -3292,6 +3292,20 @@ def parse_detail_html(
         or ""
     )
 
+    # 掲載終了は検索からの消失だけで確定しない。
+    # 詳細ページ本文に明示的な終了文言がある場合だけ証拠として付与する。
+    explicit_end_phrases = (
+        "この物件は掲載を終了しました",
+        "この物件の掲載は終了しました",
+        "掲載を終了しました",
+        "掲載終了しました",
+        "現在掲載されていません",
+    )
+    listing_end_evidence = next(
+        (phrase for phrase in explicit_end_phrases if phrase in page_text),
+        None,
+    )
+
     price_info = extract_sale_price(
         clean_soup,
         page_text=page_text,
@@ -3612,6 +3626,10 @@ def parse_detail_html(
         "httpStatus": http_status,
 
         "title": title,
+
+        "listingEnded": bool(listing_end_evidence),
+        "isListingEnded": bool(listing_end_evidence),
+        "listingEndEvidence": listing_end_evidence,
 
         # ====================================================
         # Unified price fields

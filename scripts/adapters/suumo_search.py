@@ -1616,6 +1616,12 @@ class SuumoSearchAdapter(PropertyAdapter):
 
         target_result["candidates"] = all_candidates
         target_result["candidateCount"] = len(all_candidates)
+
+        # 0件は本当に検索結果が空なのか、ページ構造変更による抽出失敗なのかを
+        # 区別できないため、掲載終了判定に使う「健全な検索」とはみなさない。
+        if not all_candidates:
+            target_result["emptyResultWarning"] = True
+            self.last_search_healthy = False
         target_result["acceptedCount"] = sum(
             int(stat.get("acceptedCount", 0))
             for stat in target_result["pageStats"]
