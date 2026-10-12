@@ -137,3 +137,62 @@ def save_observations(
             "observations": observations,
         },
     )
+
+def merge_records_by_property_id(records):
+    """propertyId単位で重複レコードを統合する。非空値を保持し、後続値で可変項目を更新。"""
+    result = {}
+    latest_fields = {
+        "status", "lastSeenAt", "priceYen", "priceMan", "currentPrice",
+        "currentPriceMan", "searchPriceYen", "searchPriceMan", "sourceUrl",
+        "missedSearchRuns", "endedObservedAt", "relistedAt",
+        "listingStatusUpdatedAt",
+    }
+    for record in records or []:
+        if not isinstance(record, dict):
+            continue
+        property_id = record.get("propertyId") or record.get("id")
+        if not property_id:
+            continue
+        property_id = str(property_id)
+        if property_id not in result:
+            result[property_id] = dict(record)
+            continue
+        existing = result[property_id]
+        for key, value in record.items():
+            if value is None or value == "":
+                continue
+            if key in latest_fields:
+                old_seen = str(existing.get("lastSeenAt") or "")
+                new_seen = str(record.get("lastSeenAt") or "")
+                if new_seen >= old_seen:
+                    existing[key] = value
+            elif existing.get(key) in (None, "", [], {}):
+                existing[key] = value
+    return list(result.values())
+
+
+def append_changed_observations(existing_observations, current_observations, compare_fields=None):
+    """同一propertyIdで比較対象フィールドが変化した場合だけ履歴を追記する。"""
+    compare_fields = compare_fields or (
+        "status", "currentPrice", "currentPriceMan",
+        "priceConfidence", "priceStatus", "priceSource",
+    )
+    history = [
+        item for item in (existing_observations or [])
+        if isinstance(item, dict)
+    ]
+    latest = {}
+    for item in history:
+        if item.get("propertyId"):
+            latest[str(item["propertyId"])] = item
+    appended = 0
+    for item in current_observations or []:
+        if not isinstance(item, dict) or not item.get("propertyId"):
+            continue
+        key = str(item["propertyId"])
+        previous = latest.get(key)
+        if previous is None or any(previous.get(field) != item.get(field) for field in compare_fields):
+            history.append(dict(item))
+            latest[key] = item
+            appended += 1
+    return history, appended

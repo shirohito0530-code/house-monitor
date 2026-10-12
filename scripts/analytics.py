@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 
 def today_string():
@@ -224,4 +224,51 @@ def merge_properties(
     return {
         "updatedAt": datetime.now().isoformat(),
         "properties": updated_properties
+    }
+
+
+def summarize_listing_lifecycle(properties):
+    """掲載状態の件数と、UIで使えるピックアップ候補を返す。"""
+    from collections import Counter
+
+    items = [p for p in (properties or []) if isinstance(p, dict)]
+    counts = Counter(str(p.get("status") or "unknown") for p in items)
+    ended = [
+        p for p in items
+        if p.get("status") in {"possibly_ended", "observed_ended", "confirmed_ended"}
+    ]
+    now = datetime.now(timezone.utc)
+    recently_ended = []
+    for item in ended:
+        raw_date = item.get("endedObservedAt") or item.get("endedAt")
+        if not raw_date:
+            continue
+        try:
+            dt = datetime.fromisoformat(str(raw_date).replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            if 0 <= (now - dt).total_seconds() <= 30 * 86400:
+                recently_ended.append(item)
+        except (TypeError, ValueError):
+            continue
+    relisted = [p for p in items if p.get("relistedAt")]
+    price_down_ended = [
+        p for p in ended
+        if p.get("priceChange", 0) < 0
+        or (
+            isinstance(p.get("priceHistory"), list)
+            and len(p["priceHistory"]) >= 2
+            and p["priceHistory"][-1].get("price") is not None
+            and p["priceHistory"][-2].get("price") is not None
+            and p["priceHistory"][-1]["price"] < p["priceHistory"][-2]["price"]
+        )
+    ]
+    return {
+        "statusCounts": dict(counts),
+        "possiblyEndedCount": counts.get("possibly_ended", 0),
+        "observedEndedCount": counts.get("observed_ended", 0),
+        "confirmedEndedCount": counts.get("confirmed_ended", 0),
+        "recentlyEndedCount": len(recently_ended),
+        "relistedCount": len(relisted),
+        "priceDownEndedCount": len(price_down_ended),
     }

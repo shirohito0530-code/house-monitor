@@ -20,11 +20,27 @@ from adapters.suumo_search import SuumoSearchAdapter
 from adapters.suumo_detail import SuumoDetailAdapter
 
 try:
+    from storage import append_changed_observations
+except ImportError:
+    from scripts.storage import append_changed_observations
+
+try:
+    from analytics import summarize_listing_lifecycle
+except ImportError:
+    from scripts.analytics import summarize_listing_lifecycle
+
+try:
+    from normalize import normalize_listing_status
+except ImportError:
+    from scripts.normalize import normalize_listing_status
+
+try:
     from identity import (
         infer_source,
         get_source_id,
         make_property_id,
         make_identity_key,
+        make_strong_physical_identity_key,
     )
 except ImportError:
     from scripts.identity import (
@@ -32,6 +48,7 @@ except ImportError:
         get_source_id,
         make_property_id,
         make_identity_key,
+        make_strong_physical_identity_key,
     )
 
 
@@ -39,15 +56,18 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-07-v41-detail-normalization-quality"
+MAIN_PARSER_VERSION = "2026-10-12-v42-lifecycle-dedup-history"
 
 
 # ============================================================
 # Discovery DB retention / schema
 # ============================================================
 
-DISCOVERY_SCHEMA_VERSION = "2.0"
+DISCOVERY_SCHEMA_VERSION = "3.0"
 DISCOVERY_RETENTION_DAYS = 180
+OBSERVATION_RETENTION_DAYS = 365
+OBSERVATION_MAX_RECORDS = 20000
+HEALTHY_MISSES_TO_OBSERVED_ENDED = 2
 
 DISCOVERY_FIELDS = (
     # --------------------------------------------------------
@@ -115,6 +135,9 @@ DISCOVERY_FIELDS = (
     "currentPriceMan",
     "searchPriceYen",
     "searchPriceMan",
+    "priceHistory",
+    "priceChange",
+    "priceChangePercent",
     "priceConfidence",
     "priceStatus",
 
@@ -130,11 +153,24 @@ DISCOVERY_FIELDS = (
     "firstSeenAt",
     "lastSeenAt",
     "endedAt",
+    "endedObservedAt",
+    "isListingEnded",
+    "listingEndReason",
+    "listingEndEvidence",
+    "listingStatusUpdatedAt",
+    "missedSearchRuns",
+    "relistedAt",
     "lastDetailFetchAt",
+    "lastDetailAttemptAt",
     "detailFetchStatus",
     "detailFetchErrorType",
     "detailFetchAttempts",
     "detailFetchSuccess",
+    "detailFetchLastError",
+    "detailFetchHttpStatus",
+    "detailFetchErrorAt",
+    "duplicateCandidate",
+    "duplicateCandidateOf",
 )
 
 
@@ -175,7 +211,9 @@ HOUSE_DB_SCHEMA_VERSION = "2.0"
 
 HOUSE_DB_STATUSES = {
     "active",
+    "possibly_ended",
     "observed_ended",
+    "confirmed_ended",
 }
 
 HOUSE_DB_AREA_CLASSIFICATIONS = {
@@ -806,6 +844,19 @@ def canonicalize_property_identity(
         "id"
     ] = property_id
 
+    raw_status = property_data.get("status")
+    normalized_status = normalize_listing_status(raw_status)
+    if normalized_status != "unknown":
+        property_data["status"] = normalized_status
+    elif raw_status not in (None, "", "unknown"):
+        property_data["status"] = "active"
+    if (
+        property_data.get("status") == "confirmed_ended"
+        and property_data.get("isListingEnded") is not True
+    ):
+        # 古いstatus表記だけでは「明示確認」と断定しない。
+        property_data["status"] = "observed_ended"
+
     source = infer_source(property_data)
 
     if source and source != "unknown":
@@ -857,6 +908,15 @@ def canonicalize_property_identity(
                 ] = identity.get(
                     "identityCompleteness"
                 )
+
+            # canonicalIdentityKeyは掲載IDをまたぐ実物件候補キー。
+            # 住所・土地・建物等の強い根拠がある場合のみ物理キーとして採用する。
+            if identity.get("canonicalIdentityKey") and float(
+                identity.get("canonicalIdentityCompleteness") or 0
+            ) >= 0.6:
+                property_data["physicalIdentityKey"] = identity.get("canonicalIdentityKey")
+                property_data["physicalIdentityType"] = identity.get("canonicalIdentityType")
+                property_data["physicalIdentityCompleteness"] = identity.get("canonicalIdentityCompleteness")
 
             if identity.get(
                 "physicalIdentityKey"
@@ -1310,7 +1370,11 @@ def build_discovery_record(
         value = property_data.get(field)
 
         if value is not None:
-            record[field] = value
+            if field == "priceHistory" and isinstance(value, list):
+                # 初回価格を残しつつ直近履歴だけを保持し、1レコードの肥大化を防ぐ。
+                record[field] = value if len(value) <= 30 else [value[0]] + value[-29:]
+            else:
+                record[field] = value
 
     property_id = (
         property_data.get("propertyId")
@@ -1389,47 +1453,144 @@ def should_keep_discovery(
     )
 
 
+def _merge_property_records(
+    existing: Dict[str, Any],
+    incoming: Dict[str, Any],
+) -> Dict[str, Any]:
+    """同一propertyIdの情報を欠損補完しつつ、最新値を優先して統合する。"""
+    merged = deepcopy(existing)
+    incoming_detail_score = int(incoming.get("detailQualityScore") or 0)
+    existing_detail_score = int(merged.get("detailQualityScore") or 0)
+    incoming_seen = str(incoming.get("lastSeenAt") or incoming.get("collectedAt") or "")
+    existing_seen = str(merged.get("lastSeenAt") or merged.get("collectedAt") or "")
+    incoming_is_newer = incoming_seen >= existing_seen
+    incoming_detail_is_better = incoming_detail_score > existing_detail_score
+
+    always_latest = {
+        "lastSeenAt", "status", "priceYen", "priceMan", "currentPrice",
+        "currentPriceMan", "searchPriceYen", "searchPriceMan",
+        "listingTitle", "searchTitle", "searchArea", "sourceUrl",
+        "lastDetailFetchAt", "detailFetchStatus", "detailFetchSuccess",
+        "listingStatusUpdatedAt", "missedSearchRuns", "endedObservedAt",
+        "endedAt", "relistedAt", "isListingEnded", "listingEndReason",
+        "listingEndEvidence", "detailFetchLastError", "detailFetchHttpStatus",
+        "detailFetchErrorAt", "lastDetailAttemptAt",
+    }
+    detail_fields = {
+        "address", "detectedArea", "areaDetected", "targetStation",
+        "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
+        "landArea", "landAreaM2", "buildingArea", "buildingAreaM2",
+        "yearBuilt", "builtYear", "propertyType", "layout", "detail",
+    }
+
+    for key, value in incoming.items():
+        if value is None or value == "":
+            continue
+        if key in {"firstSeenAt", "discoveredAt"}:
+            if not merged.get(key):
+                merged[key] = value
+        elif key in always_latest:
+            if key in {"status", "missedSearchRuns", "isListingEnded", "endedObservedAt", "endedAt", "relistedAt", "listingEndReason", "listingEndEvidence"}:
+                incoming_status_at = str(
+                    incoming.get("listingStatusUpdatedAt")
+                    or incoming.get("lastSeenAt")
+                    or ""
+                )
+                existing_status_at = str(
+                    merged.get("listingStatusUpdatedAt")
+                    or merged.get("lastSeenAt")
+                    or ""
+                )
+                if incoming_status_at >= existing_status_at:
+                    merged[key] = value
+            elif incoming_is_newer:
+                merged[key] = value
+        elif key in detail_fields:
+            if merged.get(key) in (None, "", [], {}) or incoming_detail_is_better:
+                merged[key] = deepcopy(value)
+        elif merged.get(key) in (None, "", [], {}):
+            merged[key] = deepcopy(value)
+
+    # 掲載IDは維持。明示的な再掲載ならactiveへ戻す。
+    if merged.get("seenThisRun"):
+        merged["status"] = "active"
+    return merged
+
+
 def compact_discovery_db(
     properties: List[Dict[str, Any]],
 ) -> List[Dict[str, Any]]:
-
+    """保持期間を適用し、同じcanonical propertyIdは1件へ統合する。"""
     now = datetime.now(timezone.utc)
-
-    compacted: Dict[
-        str,
-        Dict[str, Any],
-    ] = {}
+    compacted: Dict[str, Dict[str, Any]] = {}
 
     for prop in properties:
-
-        if not isinstance(
-            prop,
-            dict,
-        ):
+        if not isinstance(prop, dict) or not should_keep_discovery(prop, now):
             continue
 
-        if not should_keep_discovery(
-            prop,
-            now,
-        ):
-            continue
-
-        record = build_discovery_record(
-            prop
-        )
-
-        property_id = record.get(
-            "propertyId"
-        )
-
+        record = build_discovery_record(prop)
+        property_id = record.get("propertyId")
         if not property_id:
             continue
 
-        compacted[property_id] = record
+        if property_id in compacted:
+            compacted[property_id] = _merge_property_records(
+                compacted[property_id], record
+            )
+        else:
+            compacted[property_id] = record
 
-    return list(
-        compacted.values()
+    return sorted(
+        compacted.values(),
+        key=lambda item: (
+            str(item.get("status") or ""),
+            str(item.get("lastSeenAt") or ""),
+            str(item.get("propertyId") or ""),
+        ),
+        reverse=True,
     )
+
+
+
+def mark_duplicate_candidates(
+    properties: List[Dict[str, Any]],
+) -> int:
+    """強い実物件キーが一致する別掲載IDを重複候補として記録する。自動統合はしない。"""
+    groups: Dict[str, List[Dict[str, Any]]] = {}
+    for prop in properties:
+        if not isinstance(prop, dict):
+            continue
+        key = make_strong_physical_identity_key(prop)
+        if not key:
+            prop["duplicateCandidate"] = False
+            prop["duplicateCandidateOf"] = None
+            continue
+        groups.setdefault(key, []).append(prop)
+
+    marked = 0
+    for group in groups.values():
+        ids = {str(item.get("propertyId") or "") for item in group}
+        if len(ids) <= 1:
+            for item in group:
+                item["duplicateCandidate"] = False
+                item["duplicateCandidateOf"] = None
+            continue
+
+        representative = max(
+            group,
+            key=lambda item: (
+                int(item.get("detailQualityScore") or 0),
+                float(item.get("physicalIdentityCompleteness") or 0),
+                str(item.get("lastSeenAt") or ""),
+            ),
+        )
+        representative_id = str(representative.get("propertyId") or "")
+        for item in group:
+            item["duplicateCandidate"] = str(item.get("propertyId") or "") != representative_id
+            item["duplicateCandidateOf"] = representative_id if item["duplicateCandidate"] else None
+            if item["duplicateCandidate"]:
+                marked += 1
+    return marked
 
 
 # ============================================================
@@ -3843,73 +4004,62 @@ def update_property_lifecycle(
     now_timestamp: str,
     search_healthy: bool = True,
 ) -> Dict[str, Any]:
+    """検索の健全性を確認したうえで、掲載状態を保守的に更新する。"""
+    if not property_data.get("firstSeenAt"):
+        property_data["firstSeenAt"] = property_data.get("discoveredAt") or now_timestamp
 
-    if not property_data.get(
-        "firstSeenAt"
-    ):
+    previous_status = property_data.get("status") or "active"
 
-        property_data[
-            "firstSeenAt"
-        ] = (
-            property_data.get(
-                "discoveredAt"
+    if property_data.get("seenThisRun", False):
+        was_ended = previous_status in {
+            "possibly_ended", "observed_ended", "confirmed_ended"
+        } or int(property_data.get("missedSearchRuns") or 0) > 0
+
+        property_data["lastSeenAt"] = now_timestamp
+        property_data["status"] = "active"
+        property_data["missedSearchRuns"] = 0
+        # endedObservedAtは過去の終了イベントとして保持し、再掲載で消さない。
+        property_data["isListingEnded"] = False
+        property_data["listingEndReason"] = None
+        property_data["listingEndEvidence"] = None
+        if was_ended:
+            property_data["relistedAt"] = now_timestamp
+            property_data["listingStatusUpdatedAt"] = now_timestamp
+        elif not property_data.get("listingStatusUpdatedAt"):
+            property_data["listingStatusUpdatedAt"] = now_timestamp
+
+    elif search_healthy:
+        misses = int(property_data.get("missedSearchRuns") or 0) + 1
+        property_data["missedSearchRuns"] = misses
+        if misses >= HEALTHY_MISSES_TO_OBSERVED_ENDED:
+            if previous_status not in {"observed_ended", "confirmed_ended"}:
+                property_data["endedObservedAt"] = now_timestamp
+                property_data["listingStatusUpdatedAt"] = now_timestamp
+            property_data["status"] = (
+                "confirmed_ended"
+                if property_data.get("isListingEnded") is True
+                else "observed_ended"
             )
-            or now_timestamp
-        )
-
-    if property_data.get(
-        "seenThisRun",
-        False,
-    ):
-
-        property_data[
-            "lastSeenAt"
-        ] = now_timestamp
-
-        property_data[
-            "status"
-        ] = "active"
-
-    else:
-
-        if search_healthy:
-
-            property_data[
-                "status"
-            ] = "observed_ended"
-
-            if not property_data.get(
-                "endedObservedAt"
-            ):
-
-                property_data[
-                    "endedObservedAt"
-                ] = now_timestamp
-
+            property_data["listingEndReason"] = (
+                property_data.get("listingEndReason")
+                or "missing_from_healthy_searches"
+            )
         else:
-
-            print(
-                f"[INFO] 検索一部失敗のためステータス維持: "
-                f"{property_data.get('propertyId')}"
-            )
-
-    days_listed = calculate_days_between(
-        property_data.get(
-            "firstSeenAt"
-        ),
-        property_data.get(
-            "lastSeenAt"
+            property_data["status"] = "possibly_ended"
+            property_data["listingStatusUpdatedAt"] = now_timestamp
+    else:
+        # 一部でも検索が不完全なら、未検出を掲載終了の根拠にしない。
+        print(
+            f"[INFO] 検索不完全のため掲載状態を維持: "
+            f"{property_data.get('propertyId')}"
         )
-        if property_data.get(
-            "status"
-        ) == "observed_ended"
+
+    property_data["daysListed"] = calculate_days_between(
+        property_data.get("firstSeenAt"),
+        property_data.get("endedObservedAt")
+        if property_data.get("status") in {"possibly_ended", "observed_ended", "confirmed_ended"}
         else None,
     )
-
-    property_data[
-        "daysListed"
-    ] = days_listed
-
     return property_data
 
 
@@ -4415,6 +4565,46 @@ def build_market_house_record(
                 "endedObservedAt"
             ),
 
+        "endedAt":
+            property_data.get(
+                "endedAt"
+            ),
+
+        "isListingEnded":
+            property_data.get(
+                "isListingEnded"
+            ),
+
+        "listingEndReason":
+            property_data.get(
+                "listingEndReason"
+            ),
+
+        "listingStatusUpdatedAt":
+            property_data.get(
+                "listingStatusUpdatedAt"
+            ),
+
+        "missedSearchRuns":
+            property_data.get(
+                "missedSearchRuns"
+            ),
+
+        "relistedAt":
+            property_data.get(
+                "relistedAt"
+            ),
+
+        "duplicateCandidate":
+            property_data.get(
+                "duplicateCandidate"
+            ),
+
+        "duplicateCandidateOf":
+            property_data.get(
+                "duplicateCandidateOf"
+            ),
+
         "status":
             property_data.get(
                 "status"
@@ -4845,6 +5035,21 @@ def run_pipeline() -> None:
     # ========================================================
 
     search_config = load_search_config()
+    lifecycle_config = search_config.get("listingLifecycle", {})
+    global DISCOVERY_RETENTION_DAYS, OBSERVATION_RETENTION_DAYS
+    global OBSERVATION_MAX_RECORDS, HEALTHY_MISSES_TO_OBSERVED_ENDED
+    DISCOVERY_RETENTION_DAYS = int(
+        lifecycle_config.get("discoveryRetentionDays", DISCOVERY_RETENTION_DAYS)
+    )
+    OBSERVATION_RETENTION_DAYS = int(
+        lifecycle_config.get("observationRetentionDays", OBSERVATION_RETENTION_DAYS)
+    )
+    OBSERVATION_MAX_RECORDS = int(
+        lifecycle_config.get("observationMaxRecords", OBSERVATION_MAX_RECORDS)
+    )
+    HEALTHY_MISSES_TO_OBSERVED_ENDED = int(
+        lifecycle_config.get("healthyMissesToObservedEnded", HEALTHY_MISSES_TO_OBSERVED_ENDED)
+    )
 
     search_urls = load_search_urls()
 
@@ -4977,12 +5182,11 @@ def run_pipeline() -> None:
         if not pid:
             continue
 
-        if pid not in db:
-
-            prop[
-                "seenThisRun"
-            ] = False
-
+        prop["seenThisRun"] = False
+        if pid in db:
+            db[pid] = _merge_property_records(db[pid], prop)
+            db[pid]["seenThisRun"] = False
+        else:
             db[pid] = prop
 
     # ========================================================
@@ -5010,6 +5214,8 @@ def run_pipeline() -> None:
         )
 
         if not url:
+            search_failed_count += 1
+            print(f"[WARN] 検索URLが空のため失敗扱い: {name}")
             continue
 
         print(
@@ -5018,17 +5224,41 @@ def run_pipeline() -> None:
 
         try:
 
+            previous_target_result_count = len(
+                getattr(search_adapter, "search_target_results", [])
+            )
             results = fetch_search_target(
                 search_adapter,
                 url,
                 target,
                 search_config,
             )
-
-            search_success_count += 1
+            target_results = getattr(search_adapter, "search_target_results", [])
+            latest_target_result = (
+                target_results[-1]
+                if len(target_results) > previous_target_result_count
+                and target_results
+                else {}
+            )
+            target_healthy = (
+                getattr(search_adapter, "last_search_healthy", True) is True
+                and latest_target_result.get("success", False) is True
+                and int(latest_target_result.get("pagesFetched") or 0) > 0
+                and len(results) > 0
+            )
+            if target_healthy:
+                search_success_count += 1
+            else:
+                search_failed_count += 1
+                print(
+                    f"[WARN] 検索結果が不完全なため掲載終了判定に使用しません: "
+                    f"{name}; 件数={len(results)}; "
+                    f"error={latest_target_result.get('error')}"
+                )
 
             print(
-                f"  取得件数: {len(results)}件"
+                f"  取得件数: {len(results)}件 / "
+                f"検索健全性={'OK' if target_healthy else 'NG'}"
             )
 
             for item in results:
@@ -5081,7 +5311,15 @@ def run_pipeline() -> None:
                         ] = normalized.get("searchPriceMan")
 
                     for k, v in normalized.items():
-                        if v is not None and (existing.get(k) is None or k in ["lastSeenAt", "status"]):
+                        if v is None:
+                            continue
+                        # 検索結果由来の可変情報は毎回更新。詳細ページ由来の確度が高い値は後段で維持。
+                        if k in {
+                            "lastSeenAt", "status", "searchPriceYen", "searchPriceMan",
+                            "priceYen", "priceMan", "currentPrice", "currentPriceMan",
+                            "searchTitle", "listingTitle", "searchArea", "sourceUrl",
+                            "searchPropertyType", "targetStation", "targetStationWalkMinutes",
+                        } or existing.get(k) in (None, "", [], {}):
                             existing[k] = v
 
                 else:
@@ -5131,17 +5369,20 @@ def run_pipeline() -> None:
     detail_candidates = [
         prop for prop in db.values()
         if is_detail_target_property(prop, search_config, search_urls)
+        and detail_fetch_priority(prop) < 999
     ]
     detail_candidates.sort(key=detail_fetch_priority)
 
     fetch_limit = search_config.get("detailFetchLimit", DEFAULT_DETAIL_FETCH_LIMIT)
     fetched_count = 0
+    attempted_count = 0
+    detail_failed_count = 0
     consecutive_errors = 0
 
     print(f"--- Detail Fetching (対象候補: {len(detail_candidates)}件, 上限: {fetch_limit}件) ---")
 
     for prop in detail_candidates:
-        if fetched_count >= fetch_limit:
+        if attempted_count >= fetch_limit:
             break
         if consecutive_errors >= MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS:
             print("[WARN] 連続通信エラーのため詳細フェッチを中断します。")
@@ -5152,7 +5393,32 @@ def run_pipeline() -> None:
             continue
 
         try:
+            attempted_count += 1
+            prop["lastDetailAttemptAt"] = now_iso()
+            prop["detailFetchAttempts"] = int(prop.get("detailFetchAttempts") or 0) + 1
             detail_res = detail_adapter.fetch_detail(url)
+            prop["detailFetchHttpStatus"] = detail_res.get("httpStatus")
+            if detail_res.get("success") is True:
+                prop["lastDetailFetchAt"] = now_iso()
+                prop["detailFetchLastError"] = None
+                prop["detailFetchErrorAt"] = None
+                detail_payload = detail_res.get("detail") or {}
+                # 明示的な終了フラグが返された場合だけ確定終了とする。
+                if detail_payload.get("listingEnded") is True or detail_payload.get("isListingEnded") is True:
+                    prop["isListingEnded"] = True
+                    prop["status"] = "confirmed_ended"
+                    prop["listingEndReason"] = "explicit_detail_page_evidence"
+                    prop["listingEndEvidence"] = (
+                        detail_payload.get("listingEndEvidence")
+                        or detail_payload.get("statusText")
+                        or "detail_adapter_explicit_flag"
+                    )
+                    prop["endedAt"] = now_iso()
+                    prop["listingStatusUpdatedAt"] = prop["endedAt"]
+            else:
+                detail_failed_count += 1
+                prop["detailFetchLastError"] = str(detail_res.get("error") or "detail_fetch_failed")[:500]
+                prop["detailFetchErrorAt"] = now_iso()
             enrich_with_detail(prop, detail_res)
             promote_detail_fields(prop)
             canonicalize_property_identity(prop)
@@ -5163,17 +5429,29 @@ def run_pipeline() -> None:
                 fetched_count += 1
                 consecutive_errors = 0
             else:
+                if detail_res.get("success") is True:
+                    detail_failed_count += 1
                 err_type = prop.get("detailFetchErrorType")
                 if err_type in RETRYABLE_DETAIL_ERROR_TYPES:
                     consecutive_errors += 1
 
         except Exception as exc:
+            detail_failed_count += 1
+            prop["detailFetchLastError"] = str(exc)[:500]
+            prop["detailFetchErrorAt"] = now_iso()
+            prop["detailFetchStatus"] = "error"
             print(f"[ERROR] 詳細フェッチ失敗: {url}: {exc}")
             consecutive_errors += 1
 
     # ========================================================
     # 6. Save Databases
     # ========================================================
+
+    duplicate_candidate_count = mark_duplicate_candidates(list(db.values()))
+    print(
+        f"[INFO] 別掲載IDの重複候補: {duplicate_candidate_count}件 "
+        "(自動統合せず候補として保持)"
+    )
 
     # 6a. Discovered DB (全掲載・全IDを保持)
     discovered_records = compact_discovery_db(list(db.values()))
@@ -5187,15 +5465,57 @@ def run_pipeline() -> None:
         },
     )
 
-    # 6b. Listing Observations
-    observations = [build_listing_observation(prop) for prop in db.values()]
+    # 6b. Listing Observations (差分のみ追記。毎回全件を上書きしない)
+    previous_observations_raw = load_json(
+        OBSERVATIONS_PATH,
+        default={"observations": []},
+    )
+    if isinstance(previous_observations_raw, dict):
+        observations = previous_observations_raw.get("observations", [])
+    elif isinstance(previous_observations_raw, list):
+        observations = previous_observations_raw
+    else:
+        observations = []
+    if not isinstance(observations, list):
+        observations = []
+
+    current_observations = [
+        build_listing_observation(prop)
+        for prop in db.values()
+    ]
+    observations, appended_observations = append_changed_observations(
+        observations,
+        current_observations,
+        compare_fields=(
+            "status", "currentPrice", "currentPriceMan",
+            "priceConfidence", "priceStatus", "priceSource", "searchTargets",
+        ),
+    )
+
+    cutoff = datetime.now(timezone.utc).timestamp() - OBSERVATION_RETENTION_DAYS * 86400
+    retained_observations = []
+    for observation in observations:
+        if not isinstance(observation, dict):
+            continue
+        observed_dt = parse_iso_datetime(observation.get("observedAt"))
+        if observed_dt is None or observed_dt.timestamp() >= cutoff:
+            retained_observations.append(observation)
+    if len(retained_observations) > OBSERVATION_MAX_RECORDS:
+        retained_observations = retained_observations[-OBSERVATION_MAX_RECORDS:]
+
     save_json(
         OBSERVATIONS_PATH,
         {
+            "version": "2.0",
             "updatedAt": now_iso(),
-            "count": len(observations),
-            "observations": observations,
+            "count": len(retained_observations),
+            "appendedInRun": appended_observations,
+            "observations": retained_observations,
         },
+    )
+    print(
+        f"[INFO] 観測履歴: 今回追加={appended_observations}件 / "
+        f"保存総数={len(retained_observations)}件"
     )
 
     # 6c. Market Houses DB (同一物件を1件にまとめて表示)
@@ -5220,19 +5540,43 @@ def run_pipeline() -> None:
 
     # 6d. Summary
     status_counts = Counter(prop.get("status", "unknown") for prop in db.values())
+    lifecycle_analytics = summarize_listing_lifecycle(list(db.values()))
     summary_data = {
         "updatedAt": now_iso(),
         "totalDiscovered": len(discovered_records),
         "totalMarketHouses": len(deduplicated_houses),
         "statusCounts": dict(status_counts),
         "detailFetchedInRun": fetched_count,
+        "detailCandidates": len(detail_candidates),
+        "detailFetchLimit": fetch_limit,
+        "detailAttemptsInRun": attempted_count,
+        "detailFailuresInRun": detail_failed_count,
+        "detailFetchPartial": attempted_count < len(detail_candidates),
+        "searchTargetsHealthy": search_success_count,
+        "searchTargetsFailedOrIncomplete": search_failed_count,
+        "possiblyEndedCount": status_counts.get("possibly_ended", 0),
+        "observedEndedCount": status_counts.get("observed_ended", 0),
+        "confirmedEndedCount": status_counts.get("confirmed_ended", 0),
+        "activeCount": status_counts.get("active", 0),
+        "duplicateCandidateCount": duplicate_candidate_count,
         "parserVersion": MAIN_PARSER_VERSION,
+        **lifecycle_analytics,
     }
     save_json(SUMMARY_PATH, summary_data)
 
     print("============================================================")
-    print(f"=== Pipeline completed successfully at {now_iso()} ===")
-    print(f"    Discovered: {len(discovered_records)}, Houses: {len(deduplicated_houses)}")
+    run_result = (
+        "completed with warnings"
+        if search_failed_count > 0 or attempted_count < len(detail_candidates) or detail_failed_count > 0
+        else "completed successfully"
+    )
+    print(f"=== Pipeline {run_result} at {now_iso()} ===")
+    print(
+        f"    Discovered: {len(discovered_records)}, Houses: {len(deduplicated_houses)}, "
+        f"Search healthy: {search_success_count}, search incomplete: {search_failed_count}, "
+        f"detail attempts: {attempted_count}, detail failures: {detail_failed_count}, "
+        f"observations added: {appended_observations}"
+    )
     print("============================================================")
 
 

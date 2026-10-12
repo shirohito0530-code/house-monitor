@@ -1085,3 +1085,28 @@ def get_canonical_identity_key(
         return str(value)
 
     return None
+
+def make_strong_physical_identity_key(
+    property_data: Dict[str, Any],
+) -> Optional[str]:
+    """高い同一性根拠が揃う場合だけ、掲載IDをまたぐ重複候補キーを返す。
+
+    住所単独ではキーを作らず、canonical identityが十分に揃った場合に限定する。
+    このキーは自動統合ではなく、重複候補の表示・監査用。
+    """
+    if not isinstance(property_data, dict):
+        return None
+
+    identity = build_canonical_identity(property_data)
+    key = identity.get("canonicalIdentityKey")
+    identity_type = identity.get("canonicalIdentityType")
+    completeness = float(identity.get("canonicalIdentityCompleteness") or 0)
+
+    strong_types = {
+        "address_land_building",
+        "address_land_year_plan",
+        "address_building_year_plan",
+    }
+    if key and identity_type in strong_types and completeness >= 0.6:
+        return str(key)
+    return None

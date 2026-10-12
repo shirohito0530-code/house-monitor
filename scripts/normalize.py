@@ -3,10 +3,16 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Dict
 
-from identity import (
-    get_source_id,
-    make_identity_key,
-)
+try:
+    from identity import (
+        get_source_id,
+        make_identity_key,
+    )
+except ImportError:
+    from scripts.identity import (
+        get_source_id,
+        make_identity_key,
+    )
 
 
 AREA_ALIASES = {
@@ -260,3 +266,21 @@ def normalize_property(
     )
 
     return normalized
+
+LISTING_STATUS_ALIASES = {
+    "active": "active",
+    "possibly_ended": "possibly_ended",
+    "observed_ended": "observed_ended",
+    "confirmed_ended": "confirmed_ended",
+    "ended": "observed_ended",
+    "sold": "unknown",
+    "unknown": "unknown",
+}
+
+
+def normalize_listing_status(value: Any) -> str:
+    """掲載状態を既知のライフサイクル値へ正規化する。売却済みとは同一視しない。"""
+    if value is None:
+        return "unknown"
+    key = str(value).strip().lower()
+    return LISTING_STATUS_ALIASES.get(key, "unknown")
