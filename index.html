@@ -3245,6 +3245,16 @@ function renderPropertyCard(property) {
           ${escapeHtml(areaClassificationLabel)}
         </span>
 
+        ${
+          property.marketReviewStatus === "pending"
+            ? `<span class="flag flag-unknown">条件判定待ち</span>`
+            : property.marketReviewStatus === "matched"
+              ? `<span class="flag flag-good">条件確認済み</span>`
+              : property.marketReviewStatus === "excluded"
+                ? `<span class="flag flag-down">条件外</span>`
+                : ""
+        }
+
         ${renderUserSelectionBadge(property)}
 
         ${renderQualityFlag(property)}
