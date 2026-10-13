@@ -2344,9 +2344,12 @@ function getLandArea(property) {
 
   return (
     parseAreaM2(detail.landAreaM2) ??
+    parseAreaM2(detail.landArea) ??
+    parseAreaM2(detail.land) ??
     parseAreaM2(property.landAreaM2) ??
     parseAreaM2(property.landArea) ??
-    parseAreaM2(property.land_area)
+    parseAreaM2(property.land_area) ??
+    parseAreaM2(property.land)
   );
 }
 
@@ -2355,9 +2358,12 @@ function getBuildingArea(property) {
 
   return (
     parseAreaM2(detail.buildingAreaM2) ??
+    parseAreaM2(detail.buildingArea) ??
+    parseAreaM2(detail.building) ??
     parseAreaM2(property.buildingAreaM2) ??
     parseAreaM2(property.buildingArea) ??
-    parseAreaM2(property.building_area)
+    parseAreaM2(property.building_area) ??
+    parseAreaM2(property.building)
   );
 }
 
@@ -2367,8 +2373,10 @@ function getLayout(property) {
   return (
     detail.layoutRaw ||
     detail.layout ||
+    property.layoutRaw ||
     property.layout ||
     property.floorPlan ||
+    property.floor_plan ||
     "-"
   );
 }
