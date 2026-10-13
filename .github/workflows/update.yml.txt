@@ -1,0 +1,129 @@
+name: Update house listings
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # 毎日、日本時間06:20に実行
+    # UTC 21:20 = JST 06:20
+    - cron: "20 21 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-house-listings
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+
+    steps:
+
+      # =====================================================
+      # 1. リポジトリを取得
+      # =====================================================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # =====================================================
+      # 2. Python環境を設定
+      # =====================================================
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      # =====================================================
+      # 3. 依存ライブラリをインストール
+      # =====================================================
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # =====================================================
+      # 4. 実行コミット確認
+      # =====================================================
+      - name: Show execution revision
+        run: |
+          echo "========================================"
+          echo "Execution revision"
+          echo "========================================"
+          git rev-parse HEAD
+          git log -1 --oneline
+          echo ""
+          echo "main.py parser version:"
+          grep -n "MAIN_PARSER_VERSION" scripts/main.py
+          echo ""
+          echo "detail.py parser version:"
+          grep -n "DETAIL_PARSER_VERSION" scripts/adapters/suumo_detail.py
+          echo ""
+          echo "identity.py:"
+          grep -n "def make_property_id" scripts/identity.py
+
+      # =====================================================
+      # 4.5 Python構文・抽出回帰テスト
+      # =====================================================
+      - name: Compile and test extraction
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python - <<'PY'
+          import ast
+          from pathlib import Path
+          for root in (Path("scripts"), Path("tests")):
+              for path in root.rglob("*.py"):
+                  ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+          print("Python syntax: OK")
+          PY
+          python -m unittest discover -s tests -v
+
+      # =====================================================
+      # 5. SUUMO検索・物件統合・詳細情報取得
+      # =====================================================
+      - name: Discover and fetch house listings
+        run: |
+          python scripts/main.py
+
+      # =====================================================
+      # 6. 生成データを検証（summary.jsonの実スキーマと整合）
+      # =====================================================
+      - name: Validate generated data
+        run: |
+          python scripts/validate_data.py
+
+      # =====================================================
+      # 9. 変更されたJSONを確認
+      # =====================================================
+      - name: Show changed files
+        run: |
+          echo "===== Git status ====="
+          git status --short
+
+          echo ""
+          echo "===== Git diff stat ====="
+          git diff --stat
+
+      # =====================================================
+      # 10. 生成データをコミット・プッシュ
+      # =====================================================
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/discovered_listings.json data/houses.json data/listing_observations.json data/summary.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update house listings"
+            git push
+          fi
