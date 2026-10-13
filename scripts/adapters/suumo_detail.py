@@ -1,5 +1,6 @@
 import json
 import re
+import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Tuple
@@ -13,7 +14,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-10-07-v41-main-quality-alignment"
+DETAIL_PARSER_VERSION = "2026-10-14-v44-area-layout-fallback"
 
 
 # ============================================================
@@ -956,12 +957,18 @@ FIELD_LABELS = {
     "landAreaM2": [
         "土地面積",
         "敷地面積",
+        "土地面積（公簿）",
+        "土地面積(公簿)",
+        "土地面積（実測）",
+        "土地面積(実測)",
     ],
     "buildingAreaM2": [
         "延床面積",
         "延べ床面積",
         "延べ面積",
         "建物面積",
+        "建物面積（延床面積）",
+        "建物面積(延床面積)",
     ],
     "buildingFootprintAreaM2": [
         "建築面積",
@@ -1117,28 +1124,38 @@ def is_valid_suumo_url(
 
 def parse_area_m2(
     value: Any,
+    allow_bare_number: bool = False,
 ) -> Optional[float]:
+    """Parse an area value; allow unit-less numbers only when the field label is known."""
     text = clean_text(value)
-
     if not text:
         return None
 
+    text = unicodedata.normalize("NFKC", text)
+    text = text.replace("，", ",").replace(",", "").replace("平方メートル", "m2")
+
     match = re.search(
-        r"([0-9]+(?:\.[0-9]+)?)\s*(?:m\s*[²2]?|㎡)",
+        r"(?<![A-Za-z0-9])([0-9]+(?:\.[0-9]+)?)\s*(?:m\s*(?:\^\s*)?[²2]|m2|㎡)",
         text,
         re.I,
     )
+    if match:
+        try:
+            val = float(match.group(1))
+            return val if val > 0 else None
+        except ValueError:
+            return None
 
-    if not match:
-        return None
+    if allow_bare_number:
+        bare = re.fullmatch(r"\s*([0-9]+(?:\.[0-9]+)?)\s*", text)
+        if bare:
+            try:
+                val = float(bare.group(1))
+                return val if val > 0 else None
+            except ValueError:
+                return None
 
-    try:
-        val = float(match.group(1))
-
-        return val if val > 0 else None
-
-    except ValueError:
-        return None
+    return None
 
 
 def parse_year_month(
@@ -1992,7 +2009,8 @@ def collect_land_area_candidates(
             ]
         ):
             val = parse_area_m2(
-                pair["value"]
+                pair["value"],
+                allow_bare_number=True,
             )
 
             if val:
@@ -2014,7 +2032,7 @@ def collect_land_area_candidates(
 
     match = re.search(
         r"(?:土地面積|敷地面積)\s*[:：]?\s*"
-        r"([0-9]+(?:\.[0-9]+)?)\s*"
+        r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*"
         r"(?:m\s*[²2]?|㎡)",
         page_text,
         re.I,
@@ -2043,7 +2061,7 @@ def collect_land_area_candidates(
         ):
             continue
 
-        val = parse_area_m2(block)
+        val = parse_area_m2(block, allow_bare_number=True)
 
         if val:
             candidates.append(
@@ -2080,7 +2098,8 @@ def collect_building_area_candidates(
 
         if "建築面積" in label:
             val = parse_area_m2(
-                val_str
+                val_str,
+                allow_bare_number=True,
             )
 
             if val:
@@ -2105,7 +2124,8 @@ def collect_building_area_candidates(
             ]
         ):
             val = parse_area_m2(
-                val_str
+                val_str,
+                allow_bare_number=True,
             )
 
             if val:
@@ -2121,7 +2141,8 @@ def collect_building_area_candidates(
 
         elif "建物面積" in label:
             val = parse_area_m2(
-                val_str
+                val_str,
+                allow_bare_number=True,
             )
 
             if val:
@@ -2137,15 +2158,15 @@ def collect_building_area_candidates(
 
     gross_patterns = [
         r"延床面積\s*[:：]?\s*"
-        r"([0-9]+(?:\.[0-9]+)?)\s*"
+        r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*"
         r"(?:m\s*[²2]?|㎡)",
 
         r"延べ床面積\s*[:：]?\s*"
-        r"([0-9]+(?:\.[0-9]+)?)\s*"
+        r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*"
         r"(?:m\s*[²2]?|㎡)",
 
         r"建物面積\s*[:：]?\s*"
-        r"([0-9]+(?:\.[0-9]+)?)\s*"
+        r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*"
         r"(?:m\s*[²2]?|㎡)",
     ]
 
@@ -2174,7 +2195,7 @@ def collect_building_area_candidates(
 
     match = re.search(
         r"建築面積\s*[:：]?\s*"
-        r"([0-9]+(?:\.[0-9]+)?)\s*"
+        r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*"
         r"(?:m\s*[²2]?|㎡)",
         page_text,
         re.I,
@@ -2214,11 +2235,13 @@ def normalize_layout(
     if not text:
         return None
 
+    text = unicodedata.normalize("NFKC", text).upper()
+
     patterns = [
-        r"\d+\s*LDK(?:\s*[＋+]\s*\d+\s*S)?",
-        r"\d+\s*DK(?:\s*[＋+]\s*\d+\s*S)?",
-        r"\d+\s*LK(?:\s*[＋+]\s*\d+\s*S)?",
-        r"\d+\s*K(?:\s*[＋+]\s*\d+\s*S)?",
+        r"\d+\s*LDK(?:\s*[＋+]\s*(?:\d+\s*)?S)?",
+        r"\d+\s*DK(?:\s*[＋+]\s*(?:\d+\s*)?S)?",
+        r"\d+\s*LK(?:\s*[＋+]\s*(?:\d+\s*)?S)?",
+        r"\d+\s*K(?:\s*[＋+]\s*(?:\d+\s*)?S)?",
     ]
 
     for pattern in patterns:
@@ -2239,45 +2262,53 @@ def normalize_layout(
 def collect_layout_candidates(
     pairs: List[Dict[str, Any]],
     blocks: List[str],
+    page_text: str = "",
+    title: Optional[str] = None,
 ) -> List[Dict[str, Any]]:
     candidates = []
 
     for pair in pairs:
         if "間取り" not in pair["label"]:
             continue
-
-        layout = normalize_layout(
-            pair["value"]
-        )
-
+        layout = normalize_layout(pair["value"])
         if layout:
             candidates.append(
-                create_candidate(
-                    "layout",
-                    layout,
-                    pair["value"],
-                    pair["source"],
-                    0.97,
-                )
+                create_candidate("layout", layout, pair["value"], pair["source"], 0.97)
             )
 
     for block in blocks:
         if "間取り" not in block:
             continue
-
-        layout = normalize_layout(
-            block
-        )
-
+        layout = normalize_layout(block)
         if layout:
             candidates.append(
-                create_candidate(
-                    "layout",
-                    layout,
-                    block,
-                    "text_block",
-                    0.72,
+                create_candidate("layout", layout, block, "text_block", 0.72)
+            )
+
+    # Some pages put the label and value in separate non-table nodes.
+    if page_text:
+        normalized_page = unicodedata.normalize("NFKC", page_text)
+        label_match = re.search(
+            r"間取り\s*[:：]?\s*((?:[1-9]\s*)?(?:LDK|DK|LK|K)(?:\s*[＋+]?\s*[0-9]*\s*S)?)",
+            normalized_page,
+            re.I,
+        )
+        if label_match:
+            layout = normalize_layout(label_match.group(1))
+            if layout:
+                candidates.append(
+                    create_candidate(
+                        "layout", layout, label_match.group(0),
+                        "page_text_label_regex", 0.80,
+                    )
                 )
+
+    # Title fallback is lower confidence; do not scan arbitrary recommendation cards.
+    if title:
+        layout = normalize_layout(title)
+        if layout:
+            candidates.append(
+                create_candidate("layout", layout, title, "title", 0.58)
             )
 
     return candidates
@@ -3411,6 +3442,8 @@ def parse_detail_html(
     layout_cands = collect_layout_candidates(
         pairs,
         blocks,
+        page_text=page_text,
+        title=title,
     )
 
     layout, layout_best = (
