@@ -111,6 +111,16 @@ def main():
     print(f"Criteria matched / pending / excluded: {summary.get('marketCriteriaMatchedCount', 'n/a')} / {summary.get('marketCriteriaPendingCount', 'n/a')} / {summary.get('marketCriteriaExcludedCount', 'n/a')}")
     print(f"Criteria pending by field: {summary.get('criteriaPendingByField', {})}")
     print(f"Criteria excluded by field: {summary.get('criteriaExcludedByField', {})}")
+    field_coverage = summary.get("fieldCoverage", {})
+    if isinstance(field_coverage, dict):
+        for db_name in ("houses", "discovered"):
+            db_coverage = field_coverage.get(db_name, {})
+            fields = db_coverage.get("fields", {}) if isinstance(db_coverage, dict) else {}
+            if fields:
+                print(f"Field coverage ({db_name}, total={db_coverage.get('total', 0)}):")
+                for field_name, metric in fields.items():
+                    if isinstance(metric, dict):
+                        print(f"  {field_name}: {metric.get('count', 0)} ({metric.get('ratio', 0):.1%})")
     if not houses:
         print("WARNING: houses.json is empty; inspect the criteria and area diagnostics above.")
     if summary.get("detailFetchPartial"):

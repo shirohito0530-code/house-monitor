@@ -56,7 +56,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-12-v43-pending-market-db-validation"
+MAIN_PARSER_VERSION = "2026-10-14-v44-detail-field-coverage-counter-fix"
 
 
 # ============================================================
@@ -3322,6 +3322,9 @@ def promote_detail_fields(
         "address": ("address",),
         "landAreaM2": ("landAreaM2", "land"),
         "buildingAreaM2": ("buildingAreaM2", "building"),
+        "buildingFootprintAreaM2": ("buildingFootprintAreaM2",),
+        "layout": ("layout", "layoutRaw", "floorPlan", "floor_plan"),
+        "layoutRaw": ("layoutRaw", "layout", "floorPlan", "floor_plan"),
         "constructionYear": ("constructionYear",),
         "constructionMonth": ("constructionMonth",),
         "constructionYearMonth": ("constructionYearMonth",),
@@ -3357,8 +3360,9 @@ def promote_detail_fields(
                 break
 
     # 数値項目は既存の正規化関数を通す。
-    for key in ("landAreaM2", "buildingAreaM2", "constructionAgeYears",
-                "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"):
+    for key in ("landAreaM2", "buildingAreaM2", "buildingFootprintAreaM2",
+                "constructionAgeYears", "targetStationWalkMinutes",
+                "stationWalkMinutes", "walkMinutes"):
         if property_data.get(key) is not None:
             numeric = to_number(property_data.get(key))
             if numeric is not None:
@@ -3383,17 +3387,8 @@ def enrich_with_detail(
         "lastDetailAttemptAt"
     ] = attempt_at
 
-    attempts = int(
-        property_data.get(
-            "detailFetchAttempts",
-            0,
-        )
-        or 0
-    ) + 1
-
-    property_data[
-        "detailFetchAttempts"
-    ] = attempts
+    # detailFetchAttempts is incremented exactly once in the fetch loop.
+    # Do not increment it here: this function handles enrichment, not a new request.
 
     if not detail_res.get(
         "success",
@@ -4491,13 +4486,42 @@ def build_market_house_record(
                 land_area
             ),
 
+        "land":
+            to_number(
+                land_area
+            ),
+
         "buildingAreaM2":
             to_number(
                 building_area
             ),
 
+        "building":
+            to_number(
+                building_area
+            ),
+
+        "buildingFootprintAreaM2":
+            to_number(
+                property_data.get("buildingFootprintAreaM2")
+                if property_data.get("buildingFootprintAreaM2") is not None
+                else detail.get("buildingFootprintAreaM2")
+            ),
+
         "layout":
             layout,
+
+        "layoutRaw":
+            layout or detail.get("layoutRaw"),
+
+        "constructionMonth":
+            property_data.get("constructionMonth")
+            or detail.get("constructionMonth"),
+
+        "constructionAgeYears":
+            property_data.get("constructionAgeYears")
+            if property_data.get("constructionAgeYears") is not None
+            else detail.get("constructionAgeYears"),
 
         "constructionYear":
             property_data.get(
@@ -5565,6 +5589,40 @@ def run_pipeline() -> None:
         field for item in criteria_reviews for field in item["criteriaPendingFields"]
     )
 
+    def _has_nonempty_field(record: Dict[str, Any], field: str) -> bool:
+        value = record.get(field)
+        if field == "layout":
+            return isinstance(value, str) and bool(value.strip()) and value.strip() != "-"
+        if isinstance(value, str):
+            return bool(value.strip())
+        return value is not None
+
+    coverage_fields = {
+        "layout": "layout",
+        "landAreaM2": "landAreaM2",
+        "buildingAreaM2": "buildingAreaM2",
+        "buildingFootprintAreaM2": "buildingFootprintAreaM2",
+        "address": "address",
+        "targetStationWalkMinutes": "targetStationWalkMinutes",
+        "constructionMonth": "constructionMonth",
+    }
+
+    def _coverage(records: List[Dict[str, Any]]) -> Dict[str, Any]:
+        total = len(records)
+        fields = {}
+        for label, key in coverage_fields.items():
+            count = sum(1 for record in records if _has_nonempty_field(record, key))
+            fields[label] = {
+                "count": count,
+                "ratio": round(count / total, 4) if total else 0.0,
+            }
+        return {"total": total, "fields": fields}
+
+    field_coverage = {
+        "houses": _coverage(deduplicated_houses),
+        "discovered": _coverage(discovered_records),
+    }
+
     summary_data = {
         "updatedAt": now_iso(),
         "totalDiscovered": len(discovered_records),
@@ -5590,6 +5648,7 @@ def run_pipeline() -> None:
         "criteriaExcludedByField": dict(criteria_excluded_by_field),
         "criteriaPendingByField": dict(criteria_pending_by_field),
         "marketDbEmptyWarning": len(deduplicated_houses) == 0,
+        "fieldCoverage": field_coverage,
         "parserVersion": MAIN_PARSER_VERSION,
         **lifecycle_analytics,
     }
@@ -5599,6 +5658,19 @@ def run_pipeline() -> None:
         print(
             "[WARN] houses.json が0件です。"
             "criteriaPendingByField / criteriaExcludedByField / marketAreaPendingCount を確認してください。"
+        )
+
+    print("[FIELD-COVERAGE] houses.json")
+    for field_name, metric in field_coverage["houses"]["fields"].items():
+        print(
+            f"  {field_name}: {metric['count']}/{field_coverage['houses']['total']} "
+            f"({metric['ratio']:.1%})"
+        )
+    print("[FIELD-COVERAGE] discovered_listings.json")
+    for field_name, metric in field_coverage["discovered"]["fields"].items():
+        print(
+            f"  {field_name}: {metric['count']}/{field_coverage['discovered']['total']} "
+            f"({metric['ratio']:.1%})"
         )
 
     print("============================================================")
