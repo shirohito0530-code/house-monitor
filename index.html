@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
-<meta name="house-monitor-ui-version" content="2026-10-12-listing-lifecycle-filters-v3">
+<meta name="house-monitor-ui-version" content="2026-10-18-phase12-lifecycle-field-filter">
 
 <style>
 * {
@@ -1128,6 +1128,14 @@ h2 {
           <option value="unknown">UNKNOWN</option>
         </select>
 
+        <select id="propertyLifecycleFilter" aria-label="掲載状態">
+          <option value="">全掲載状態</option>
+          <option value="active">掲載中</option>
+          <option value="possibly_ended">終了の可能性あり</option>
+          <option value="observed_ended">掲載終了（検索未検出）</option>
+          <option value="confirmed_ended">掲載終了（明示確認）</option>
+        </select>
+
         <select id="propertyPrice">
           <option value="">全価格帯</option>
           <option value="0-7000">～7,000万円</option>
@@ -1182,6 +1190,15 @@ h2 {
           <input id="detailFetchedOnly" type="checkbox">
           詳細取得済みのみ
         </label>
+
+        <select id="missingFieldFilter" aria-label="不足項目">
+          <option value="">不足項目：すべて</option>
+          <option value="landAreaM2">土地面積が不足</option>
+          <option value="buildingAreaM2">建物面積が不足</option>
+          <option value="layout">間取りが不足</option>
+          <option value="constructionMonth">築年月が不足</option>
+          <option value="anyCore">主要項目のいずれかが不足</option>
+        </select>
 
         <label class="filter-check">
           <input id="recentOnly" type="checkbox">
@@ -3875,6 +3892,8 @@ function filterProperties() {
   const sortMode = document.getElementById("propertySort").value;
   const propertyType = document.getElementById("propertyTypeFilter").value;
   const walkLimit = document.getElementById("propertyWalkFilter").value;
+  const lifecycleFilter = document.getElementById("propertyLifecycleFilter")?.value || "";
+  const missingFieldFilter = document.getElementById("missingFieldFilter")?.value || "";
 
   const priceDownOnly =
     document.getElementById(
@@ -4036,6 +4055,19 @@ function filterProperties() {
         !detailFetchedOnly ||
         isDetailFetched(property);
 
+      const lifecycleStatus = getListingStatus(property);
+      const matchesLifecycle = !lifecycleFilter || lifecycleStatus === lifecycleFilter;
+      const coreFields = ["landAreaM2", "buildingAreaM2", "layout", "constructionMonth"];
+      const hasField = field => {
+        const value = property[field] ?? detail[field];
+        return value !== null && value !== undefined && String(value).trim() !== "" && String(value).trim() !== "-";
+      };
+      const matchesMissingField = !missingFieldFilter || (
+        missingFieldFilter === "anyCore"
+          ? coreFields.some(field => !hasField(field))
+          : !hasField(missingFieldFilter)
+      );
+
       const matchesRecent =
         !recentOnly ||
         isRecent(property);
@@ -4057,6 +4089,8 @@ function filterProperties() {
         matchesWalk &&
         matchesPriceDown &&
         matchesFetched &&
+        matchesLifecycle &&
+        matchesMissingField &&
         matchesRecent &&
         matchesUserStatus &&
         matchesSchoolDecision
@@ -4874,6 +4908,8 @@ document.addEventListener("DOMContentLoaded", () => {
     "propertySearch",
     "areaFilter",
     "propertyQuality",
+    "propertyLifecycleFilter",
+    "missingFieldFilter",
     "propertyPrice",
     "propertySort",
     "propertyTypeFilter",
@@ -4899,6 +4935,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("propertySearch").value = "";
       document.getElementById("areaFilter").value = "";
       document.getElementById("propertyQuality").value = "";
+      document.getElementById("propertyLifecycleFilter").value = "";
+      document.getElementById("missingFieldFilter").value = "";
       document.getElementById("propertyPrice").value = "";
       document.getElementById("propertySort").value = "priority";
       document.getElementById("propertyTypeFilter").value = "";
