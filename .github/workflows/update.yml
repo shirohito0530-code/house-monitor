@@ -17,126 +17,372 @@ jobs:
   update:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+
+    env:
+      PYTHONUNBUFFERED: "1"
+      TZ: Asia/Tokyo
+      REINFOLIB_API_KEY: ${{ secrets.REINFOLIB_API_KEY }}
+
     steps:
+      # --------------------------------------------------
+      # 1. Checkout
+      # --------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
+      # --------------------------------------------------
+      # 2. Python environment
+      # --------------------------------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
+          cache-dependency-path: requirements.txt
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # --------------------------------------------------
+      # 3. Execution information
+      # --------------------------------------------------
       - name: Show execution revision
         run: |
           echo "Execution revision:"
           git rev-parse HEAD
           git log -1 --oneline
+
           echo "Parser version:"
           grep -n "MAIN_PARSER_VERSION" scripts/main.py || true
 
+          echo "Pipeline version:"
+          grep -n '^VERSION =' scripts/market_pipeline.py || true
+
+          echo "Python version:"
+          python --version
+
+      # --------------------------------------------------
+      # 4. Syntax validation
+      # --------------------------------------------------
       - name: Compile Python files
-        run: python -m compileall -q scripts
+        run: |
+          python -m compileall -q scripts
 
+      # --------------------------------------------------
+      # 5. SUUMO discovery and detail fetching
+      # --------------------------------------------------
       - name: Discover and fetch house listings
-        run: python scripts/main.py
+        run: |
+          python scripts/main.py
 
-      # DB maintenance runs after main.py so all newly written data is compacted
-      # before validation and commit. It deliberately does not fuzzy-merge houses.
-      - name: Compact and validate JSON databases
-        run: python scripts/db_maintenance.py
+      # --------------------------------------------------
+      # 6. Database maintenance
+      # ID-based compaction and observation retention.
+      # Do not fuzzy-merge physically similar properties here.
+      # --------------------------------------------------
+      - name: Compact house databases
+        run: |
+          python scripts/db_maintenance.py
 
-      - name: Validate output JSON and identity consistency
+      # --------------------------------------------------
+      # 7. MLIT transaction data
+      #
+      # If the API secret is unavailable, preserve the
+      # existing transactions.json and continue.
+      #
+      # If the secret is configured but API retrieval fails,
+      # fail the workflow rather than replacing valid data
+      # with an empty dataset.
+      # --------------------------------------------------
+      - name: Fetch MLIT transaction data
+        env:
+          REINFOLIB_API_KEY: ${{ secrets.REINFOLIB_API_KEY }}
+        run: |
+          if [ -z "${REINFOLIB_API_KEY:-}" ]; then
+            echo "::warning::REINFOLIB_API_KEY is not configured."
+            echo "Skipping MLIT retrieval; existing transaction data will be preserved."
+          else
+            python scripts/get_transactions.py
+          fi
+
+      # --------------------------------------------------
+      # 8. Area classification, quarantine, duplicate review,
+      # market analysis, and bargain indicators.
+      #
+      # market_pipeline.py currently reads data/transactions.json.
+      # --------------------------------------------------
+      - name: Run market analysis pipeline
+        run: |
+          python scripts/market_pipeline.py
+
+      # --------------------------------------------------
+      # 9. Validate JSON files and identity consistency
+      # --------------------------------------------------
+      - name: Validate generated databases
         run: |
           python - <<'PY'
           import json
           import re
+          import sys
           from pathlib import Path
 
-          required = [
-              Path("data/discovered_listings.json"),
-              Path("data/houses.json"),
+          ROOT = Path(".")
+          REQUIRED_DATABASES = [
+              ROOT / "data/discovered_listings.json",
+              ROOT / "data/houses.json",
+              ROOT / "data/listing_observations.json",
+              ROOT / "data/transactions.json",
+              ROOT / "data/summary.json",
+              ROOT / "data/duplicate_review_candidates.json",
           ]
 
-          def get_id(item):
-              value = item.get("propertyId") or item.get("id")
-              return str(value).strip() if value is not None else ""
+          def fail(message):
+              print(f"ERROR: {message}", file=sys.stderr)
+              raise SystemExit(1)
 
-          def load_db(path):
+          def load_json(path):
               if not path.exists():
-                  raise SystemExit(f"ERROR: required file missing: {path}")
-              with path.open(encoding="utf-8") as f:
-                  data = json.load(f)
+                  fail(f"Required output file missing: {path}")
+
+              try:
+                  with path.open(encoding="utf-8") as f:
+                      return json.load(f)
+              except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+                  fail(f"Invalid JSON in {path}: {exc}")
+
+          def validate_properties(path, data):
               if not isinstance(data, dict):
-                  raise SystemExit(f"ERROR: {path} must be a JSON object")
-              if not isinstance(data.get("properties"), list):
-                  raise SystemExit(f"ERROR: {path}: properties must be a list")
+                  fail(f"{path} must be a JSON object")
+
+              properties = data.get("properties")
+              if not isinstance(properties, list):
+                  fail(f"{path}: properties must be a list")
+
               if not data.get("updatedAt"):
-                  raise SystemExit(f"ERROR: {path}: updatedAt missing")
+                  fail(f"{path}: updatedAt is missing")
+
               seen = set()
-              for i, item in enumerate(data["properties"]):
+
+              for i, item in enumerate(properties):
                   if not isinstance(item, dict):
-                      raise SystemExit(f"ERROR: {path}: properties[{i}] is not an object")
-                  pid = get_id(item)
+                      fail(f"{path}: properties[{i}] must be an object")
+
+                  raw_id = item.get("propertyId") or item.get("id")
+                  pid = str(raw_id).strip() if raw_id is not None else ""
+
                   if not pid:
-                      raise SystemExit(f"ERROR: {path}: properties[{i}] has no propertyId/id")
+                      fail(f"{path}: properties[{i}] has no propertyId/id")
+
                   if pid in seen:
-                      raise SystemExit(f"ERROR: {path}: duplicate property ID: {pid}")
+                      fail(f"{path}: duplicate property ID: {pid}")
+
                   seen.add(pid)
-                  if not item.get("sourceUrl"):
-                      raise SystemExit(f"ERROR: {path}: properties[{i}] sourceUrl missing")
-                  url = str(item["sourceUrl"])
-                  if "suumo.jp" in url:
-                      match = re.search(r"/(nc_\d+)(?:/|$)", url, re.I)
+
+                  source_url = item.get("sourceUrl") or item.get("url")
+
+                  # A listing URL is expected for records in the
+                  # listing indexes. Historical/transaction records
+                  # are validated under their own schema.
+                  if not source_url:
+                      fail(f"{path}: properties[{i}] sourceUrl/url is missing")
+
+                  url = str(source_url)
+
+                  if "suumo.jp" in url.lower():
+                      match = re.search(
+                          r"/(nc_\d+)(?:/|$)",
+                          url,
+                          re.IGNORECASE,
+                      )
+
                       if match:
-                          expected = "suumo:" + match.group(1).lower()
-                          if pid != expected:
-                              raise SystemExit(
-                                  f"ERROR: {path}: propertyId/sourceUrl mismatch at properties[{i}]: "
-                                  f"{pid} != {expected} ({url})"
+                          expected_id = "suumo:" + match.group(1).lower()
+
+                          if pid.lower() != expected_id.lower():
+                              fail(
+                                  f"{path}: propertyId/sourceUrl mismatch "
+                                  f"at properties[{i}]: {pid} != "
+                                  f"{expected_id} ({url})"
                               )
-              print(f"OK: {path} properties={len(data['properties'])} bytes={path.stat().st_size:,}")
-              print(f"  updatedAt={data['updatedAt']}")
-              print(f"  summary={data.get('summary', {})}")
-              return data
 
-          for path in required:
-              load_db(path)
+              print(
+                  f"OK: {path} "
+                  f"properties={len(properties)} "
+                  f"bytes={path.stat().st_size:,}"
+              )
+              print(f"  updatedAt={data.get('updatedAt')}")
 
-          observations_path = Path("data/listing_observations.json")
-          if observations_path.exists():
-              with observations_path.open(encoding="utf-8") as f:
-                  obs = json.load(f)
-              records = obs.get("observations", []) if isinstance(obs, dict) else obs
-              if not isinstance(records, list):
-                  raise SystemExit("ERROR: listing_observations.json observations must be a list")
-              print(f"OK: {observations_path} observations={len(records)} bytes={observations_path.stat().st_size:,}")
+          # Main listing databases
+          for path in (
+              ROOT / "data/discovered_listings.json",
+              ROOT / "data/houses.json",
+          ):
+              validate_properties(path, load_json(path))
+
+          # Observation history
+          observations_path = ROOT / "data/listing_observations.json"
+          observations = load_json(observations_path)
+
+          if isinstance(observations, dict):
+              records = observations.get("observations")
           else:
-              print("INFO: listing_observations.json not present; no history file to validate")
+              records = observations
+
+          if not isinstance(records, list):
+              fail(
+                  "data/listing_observations.json must contain "
+                  "an observations list or be a list"
+              )
+
+          if not all(isinstance(item, dict) for item in records):
+              fail("listing_observations.json contains a non-object record")
+
+          print(
+              f"OK: {observations_path} "
+              f"observations={len(records)} "
+              f"bytes={observations_path.stat().st_size:,}"
+          )
+
+          # Transaction database
+          transactions_path = ROOT / "data/transactions.json"
+          transactions = load_json(transactions_path)
+
+          if not isinstance(transactions, dict):
+              fail("data/transactions.json must be a JSON object")
+
+          periods = transactions.get("periods")
+          if not isinstance(periods, list):
+              fail("data/transactions.json: periods must be a list")
+
+          for i, period in enumerate(periods):
+              if not isinstance(period, dict):
+                  fail(f"transactions.json: periods[{i}] must be an object")
+
+              cities = period.get("cities", {})
+              if not isinstance(cities, dict):
+                  fail(f"transactions.json: periods[{i}].cities must be an object")
+
+              for city_key, city in cities.items():
+                  if not isinstance(city, dict):
+                      fail(
+                          f"transactions.json: periods[{i}].cities"
+                          f"[{city_key}] must be an object"
+                      )
+
+                  if not isinstance(city.get("data", []), list):
+                      fail(
+                          f"transactions.json: periods[{i}].cities"
+                          f"[{city_key}].data must be a list"
+                      )
+
+          print(
+              f"OK: {transactions_path} "
+              f"periods={len(periods)} "
+              f"bytes={transactions_path.stat().st_size:,}"
+          )
+
+          # Analysis output
+          summary_path = ROOT / "data/summary.json"
+          summary = load_json(summary_path)
+
+          if not isinstance(summary, dict):
+              fail("data/summary.json must be a JSON object")
+
+          if not summary.get("updatedAt"):
+              fail("data/summary.json: updatedAt is missing")
+
+          if not summary.get("marketPipelineVersion"):
+              fail("data/summary.json: marketPipelineVersion is missing")
+
+          print(
+              f"OK: {summary_path} "
+              f"bytes={summary_path.stat().st_size:,}"
+          )
+          print(f"  updatedAt={summary.get('updatedAt')}")
+          print(f"  marketPipelineVersion={summary.get('marketPipelineVersion')}")
+          print(f"  areaDecisionCounts={summary.get('areaDecisionCounts', {})}")
+          print(f"  duplicateManagement={summary.get('duplicateManagement', {})}")
+
+          # Duplicate review candidates
+          review_path = ROOT / "data/duplicate_review_candidates.json"
+          review = load_json(review_path)
+
+          if not isinstance(review, (dict, list)):
+              fail(
+                  "data/duplicate_review_candidates.json "
+                  "must be a JSON object or list"
+              )
+
+          if isinstance(review, dict):
+              print(
+                  f"OK: {review_path} "
+                  f"bytes={review_path.stat().st_size:,}"
+              )
+          else:
+              print(
+                  f"OK: {review_path} "
+                  f"candidates={len(review)} "
+                  f"bytes={review_path.stat().st_size:,}"
+              )
+
+          print("All output JSON validations passed.")
           PY
 
+      # --------------------------------------------------
+      # 10. Output summary
+      # --------------------------------------------------
       - name: Display output summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          for name in ("discovered_listings.json", "houses.json"):
-              path = Path("data") / name
+
+          paths = [
+              Path("data/discovered_listings.json"),
+              Path("data/houses.json"),
+              Path("data/listing_observations.json"),
+              Path("data/transactions.json"),
+              Path("data/summary.json"),
+              Path("data/duplicate_review_candidates.json"),
+          ]
+
+          for path in paths:
+              print(f"\n===== {path} =====")
+
               with path.open(encoding="utf-8") as f:
                   data = json.load(f)
-              print(f"===== {path} =====")
-              print("updatedAt:", data.get("updatedAt"))
-              print("schemaVersion:", data.get("schemaVersion"))
-              print("parserVersion:", data.get("parserVersion"))
-              print("properties:", len(data.get("properties", [])))
-              print("summary:", data.get("summary", {}))
+
+              print("bytes:", f"{path.stat().st_size:,}")
+
+              if isinstance(data, dict):
+                  print("updatedAt:", data.get("updatedAt"))
+                  print("schemaVersion:", data.get("schemaVersion"))
+                  print("parserVersion:", data.get("parserVersion"))
+                  print("marketPipelineVersion:", data.get("marketPipelineVersion"))
+
+                  if isinstance(data.get("properties"), list):
+                      print("properties:", len(data["properties"]))
+
+                  if isinstance(data.get("observations"), list):
+                      print("observations:", len(data["observations"]))
+
+                  if isinstance(data.get("periods"), list):
+                      print("transaction periods:", len(data["periods"]))
+
+                  print("summary:", data.get("summary", {}))
+                  print("areaDecisionCounts:", data.get("areaDecisionCounts", {}))
+                  print("duplicateManagement:", data.get("duplicateManagement", {}))
+                  print("marketAnalysis:", data.get("marketAnalysis", {}))
+                  print("bargainIndicator:", data.get("bargainIndicator", {}))
+
+              elif isinstance(data, list):
+                  print("records:", len(data))
+
+          print("\n===== Git status =====")
           PY
 
       - name: Show changed files
@@ -144,17 +390,26 @@ jobs:
           git status --short
           git diff --stat
 
+      # --------------------------------------------------
+      # 11. Commit all generated data together
+      # --------------------------------------------------
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/discovered_listings.json data/houses.json
-          if [ -f data/listing_observations.json ]; then
-            git add data/listing_observations.json
-          fi
+
+          git add \
+            data/discovered_listings.json \
+            data/houses.json \
+            data/listing_observations.json \
+            data/transactions.json \
+            data/summary.json \
+            data/duplicate_review_candidates.json
+
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update house listings and compact database"
+            git diff --cached --stat
+            git commit -m "Update house listings and market analysis"
             git push
           fi
