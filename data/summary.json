@@ -1,0 +1,158 @@
+{
+  "updatedAt": "2026-10-19T13:56:54.649940+00:00",
+  "marketPipelineVersion": "2026-10-19-v1",
+  "areaDecisionCounts": {
+    "accepted": 93,
+    "review": 334,
+    "rejected": 580
+  },
+  "quarantineRetentionDays": 90,
+  "quarantinePrunedThisRun": {
+    "discovered": 0,
+    "houses": 0
+  },
+  "duplicateManagement": {
+    "highConfidenceGroupsMergedLogically": 9,
+    "manualMergeOperations": 0,
+    "manualDecisionsLoaded": 0,
+    "reviewCandidateCount": 256,
+    "autoMergePolicy": "high_confidence_only; preserve_listing_ids_and_urls"
+  },
+  "marketAnalysis": {
+    "updatedAt": "2026-10-19T13:56:54.649940+00:00",
+    "source": "SUUMO observations + MLIT XIT001 transactions when available",
+    "periods": [
+      "3m",
+      "12m"
+    ],
+    "areas": {
+      "柏の葉キャンパス": {
+        "3m": {
+          "periodDays": 90,
+          "area": "柏の葉キャンパス",
+          "activeCanonicalListingCount": 25,
+          "observationCount": 143,
+          "propertiesWithRepeatedPriceObservation": 33,
+          "observationSpanDays": 5,
+          "periodCoveragePct": 5.6,
+          "medianAskingPriceYen": 48945000.0,
+          "medianPriceAtWindowStartYen": 46980000.0,
+          "medianPriceAtWindowEndYen": 46980000.0,
+          "medianObservedPriceChangePct": 0.0,
+          "priceReductionPropertyCount": 1,
+          "medianRecordedReductionPct": 2.08,
+          "transactionCountAvailable": 0,
+          "medianTransactionPriceYen": null,
+          "medianLandPricePerM2Yen": null,
+          "confidence": "low",
+          "limitations": [
+            "期間内の観測カバー率は5.6%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+          ]
+        },
+        "12m": {
+          "periodDays": 365,
+          "area": "柏の葉キャンパス",
+          "activeCanonicalListingCount": 25,
+          "observationCount": 143,
+          "propertiesWithRepeatedPriceObservation": 33,
+          "observationSpanDays": 5,
+          "periodCoveragePct": 1.4,
+          "medianAskingPriceYen": 48945000.0,
+          "medianPriceAtWindowStartYen": 46980000.0,
+          "medianPriceAtWindowEndYen": 46980000.0,
+          "medianObservedPriceChangePct": 0.0,
+          "priceReductionPropertyCount": 1,
+          "medianRecordedReductionPct": 2.08,
+          "transactionCountAvailable": 0,
+          "medianTransactionPriceYen": null,
+          "medianLandPricePerM2Yen": null,
+          "confidence": "low",
+          "limitations": [
+            "期間内の観測カバー率は1.4%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+          ]
+        }
+      },
+      "流山おおたかの森": {
+        "3m": {
+          "periodDays": 90,
+          "area": "流山おおたかの森",
+          "activeCanonicalListingCount": 30,
+          "observationCount": 107,
+          "propertiesWithRepeatedPriceObservation": 22,
+          "observationSpanDays": 5,
+          "periodCoveragePct": 5.6,
+          "medianAskingPriceYen": 79800000.0,
+          "medianPriceAtWindowStartYen": 69900000.0,
+          "medianPriceAtWindowEndYen": 69800000.0,
+          "medianObservedPriceChangePct": 0.0,
+          "priceReductionPropertyCount": 4,
+          "medianRecordedReductionPct": 5.15,
+          "transactionCountAvailable": 0,
+          "medianTransactionPriceYen": null,
+          "medianLandPricePerM2Yen": null,
+          "confidence": "low",
+          "limitations": [
+            "期間内の観測カバー率は5.6%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+          ]
+        },
+        "12m": {
+          "periodDays": 365,
+          "area": "流山おおたかの森",
+          "activeCanonicalListingCount": 30,
+          "observationCount": 107,
+          "propertiesWithRepeatedPriceObservation": 22,
+          "observationSpanDays": 5,
+          "periodCoveragePct": 1.4,
+          "medianAskingPriceYen": 79800000.0,
+          "medianPriceAtWindowStartYen": 69900000.0,
+          "medianPriceAtWindowEndYen": 69800000.0,
+          "medianObservedPriceChangePct": 0.0,
+          "priceReductionPropertyCount": 4,
+          "medianRecordedReductionPct": 5.15,
+          "transactionCountAvailable": 0,
+          "medianTransactionPriceYen": null,
+          "medianLandPricePerM2Yen": null,
+          "confidence": "low",
+          "limitations": [
+            "期間内の観測カバー率は1.4%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+          ]
+        }
+      }
+    },
+    "transactionMetrics": {
+      "柏の葉キャンパス": {
+        "transactionCount": 0,
+        "medianTransactionPriceYen": null,
+        "medianLandPricePerM2Yen": null,
+        "dataConfidence": "low",
+        "source": "国土交通省 不動産情報ライブラリ XIT001"
+      },
+      "流山おおたかの森": {
+        "transactionCount": 0,
+        "medianTransactionPriceYen": null,
+        "medianLandPricePerM2Yen": null,
+        "dataConfidence": "low",
+        "source": "国土交通省 不動産情報ライブラリ XIT001"
+      }
+    },
+    "limitations": [
+      "観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます",
+      "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません"
+    ]
+  },
+  "bargainIndicator": {
+    "method": "explainable_rule_based_v1",
+    "labels": {
+      "65-100": "割安候補",
+      "40-64": "相場並み",
+      "0-39": "割高候補",
+      "null": "データ不足"
+    },
+    "note": "比較対象が少ない場合は信頼度を低くし、根拠を併記する"
+  },
+  "schoolDistrictPolicy": {
+    "school": "柏の葉小学校区",
+    "status": "unconfirmed unless exact address exists in config/school_districts.json verifiedAddresses",
+    "officialSource": "https://www.city.kashiwa.lg.jp/gakkokyoiku/kyouiku/tekiseka/shogakkotsugaku.html"
+  }
+}
