@@ -1,10 +1,22 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-19T13:56:54.649940+00:00",
+  "updatedAt": "2026-10-19T23:53:16.742652+00:00",
   "algorithmVersion": "2026-10-19-v1",
-  "count": 256,
+  "count": 292,
   "decisionsApplied": 0,
   "candidates": [
+    {
+      "candidateId": "dup:4a437e422258c21b9a12",
+      "propertyIdA": "suumo:nc_20145295",
+      "propertyIdB": "suumo:nc_21753882",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
     {
       "candidateId": "dup:5804fa26dde3abf989a0",
       "propertyIdA": "suumo:nc_20173694",
@@ -54,18 +66,6 @@
       "candidateId": "dup:b566b9258afc69686856",
       "propertyIdA": "suumo:nc_20385279",
       "propertyIdB": "suumo:nc_21388496",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:6d7e2a8ac8725aedea2b",
-      "propertyIdA": "suumo:nc_20385279",
-      "propertyIdB": "suumo:nc_21629248",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -136,6 +136,18 @@
       "candidateId": "dup:781cb8849a72a38b2c89",
       "propertyIdA": "suumo:nc_20419678",
       "propertyIdB": "suumo:nc_21277140",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:4813f5b93232ba17ebdc",
+      "propertyIdA": "suumo:nc_20419678",
+      "propertyIdB": "suumo:nc_21685232",
       "similarityScore": 0.65,
       "reasons": [
         "normalized_address_match",
@@ -230,6 +242,17 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:bf3e21157e4ed8484d94",
+      "propertyIdA": "suumo:nc_20507229",
+      "propertyIdB": "suumo:nc_21685232",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:32956ddd3fc7e5a8f111",
       "propertyIdA": "suumo:nc_20507229",
       "propertyIdB": "suumo:nc_21693779",
@@ -301,14 +324,104 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:d817c6f3a054fb154522",
-      "propertyIdA": "suumo:nc_20524179",
-      "propertyIdB": "suumo:nc_21753882",
-      "similarityScore": 0.6,
+      "candidateId": "dup:ec1073c5eba98dc7c030",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_20669977",
+      "similarityScore": 0.7,
       "reasons": [
-        "normalized_address_match",
+        "address_partial_match",
+        "land_area_match",
+        "building_area_close",
         "construction_year_match",
         "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:09186c2daceb723abb8a",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_20727809",
+      "similarityScore": 0.8,
+      "reasons": [
+        "address_partial_match",
+        "land_area_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:bb78b6dc51d1f9a7b80e",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21050416",
+      "similarityScore": 0.85,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:8e4e1bdce8d8eb4c3a13",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21050417",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:2053bc4c525277a29098",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21124726",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:1f5e3928fad5018eb590",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21281406",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:e2d5f58cdd2e38d9166f",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21324611",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:5b27231af6949838b484",
+      "propertyIdA": "suumo:nc_20565733",
+      "propertyIdB": "suumo:nc_21767325",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -338,30 +451,15 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:08419d0b5530f05168cf",
+      "candidateId": "dup:2ef0d2f6bf7e91a8d99f",
       "propertyIdA": "suumo:nc_20669977",
-      "propertyIdB": "suumo:nc_20931147",
-      "similarityScore": 0.8,
+      "propertyIdB": "suumo:nc_21050416",
+      "similarityScore": 0.75,
       "reasons": [
         "address_partial_match",
         "land_area_match",
         "building_area_match",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:678341d2ba59d7f95a0c",
-      "propertyIdA": "suumo:nc_20669977",
-      "propertyIdB": "suumo:nc_20939482",
-      "similarityScore": 0.7,
-      "reasons": [
-        "address_partial_match",
-        "land_area_match",
-        "building_area_close",
-        "construction_year_match",
-        "layout_match"
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -427,6 +525,18 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:1180b8f08ea29c7b052c",
+      "propertyIdA": "suumo:nc_20691763",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:ef4f160ab3fc556b1e28",
       "propertyIdA": "suumo:nc_20709805",
       "propertyIdB": "suumo:nc_20714889",
@@ -465,18 +575,6 @@
       "candidateId": "dup:53849af4e009266c4c38",
       "propertyIdA": "suumo:nc_20709805",
       "propertyIdB": "suumo:nc_21388496",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:c865c0add69d2ad3e043",
-      "propertyIdA": "suumo:nc_20709805",
-      "propertyIdB": "suumo:nc_21629248",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -559,18 +657,6 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:cd6bab1ac6a72feaa19a",
-      "propertyIdA": "suumo:nc_20714889",
-      "propertyIdB": "suumo:nc_21629248",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
       "candidateId": "dup:a903506a627ad4397773",
       "propertyIdA": "suumo:nc_20714889",
       "propertyIdB": "suumo:nc_21931909",
@@ -596,30 +682,15 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:fcb19151cfe690e7cf2b",
+      "candidateId": "dup:5aaf5ebab50d8eee23ff",
       "propertyIdA": "suumo:nc_20727809",
-      "propertyIdB": "suumo:nc_20931147",
-      "similarityScore": 0.7,
+      "propertyIdB": "suumo:nc_21050416",
+      "similarityScore": 0.65,
       "reasons": [
         "address_partial_match",
         "land_area_match",
         "building_area_close",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:b354c14f6bc54a602ace",
-      "propertyIdA": "suumo:nc_20727809",
-      "propertyIdB": "suumo:nc_20939482",
-      "similarityScore": 0.8,
-      "reasons": [
-        "address_partial_match",
-        "land_area_match",
-        "building_area_match",
-        "construction_year_match",
-        "layout_match"
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -660,40 +731,6 @@
         "land_area_match",
         "building_area_close",
         "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:279943d9d0567072ffb2",
-      "propertyIdA": "suumo:nc_20732129",
-      "propertyIdB": "suumo:nc_21781641",
-      "similarityScore": 0.65,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:bcc844f60e619b91f5eb",
-      "propertyIdA": "suumo:nc_20732129",
-      "propertyIdB": "suumo:nc_77679926",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:76260af735c8d99acb85",
-      "propertyIdA": "suumo:nc_20781402",
-      "propertyIdB": "suumo:nc_21076107",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "layout_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -746,6 +783,79 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:8e3796c59d926637be4c",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_20905209",
+      "similarityScore": 0.8,
+      "reasons": [
+        "address_partial_match",
+        "land_area_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:e500df3cdbab83b0ab81",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_21085899",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:5649c47de5a86286276c",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_21157329",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:285d782706353bf91fe0",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_21716418",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:fa528b6be58fc5f6ba97",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_21741844",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:962207899b1288be1732",
+      "propertyIdA": "suumo:nc_20903310",
+      "propertyIdB": "suumo:nc_21948216",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:be780a343d1b78b88e16",
       "propertyIdA": "suumo:nc_20912649",
       "propertyIdB": "suumo:nc_21740264",
@@ -788,141 +898,6 @@
         "normalized_address_match",
         "construction_year_match",
         "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:d6c51582f2e32b2900f8",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_20939482",
-      "similarityScore": 0.9,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_match",
-        "building_area_close",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:a91dbef5e9fb5cc97728",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_21050417",
-      "similarityScore": 0.65,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:ef0aa516fc4dc01fd164",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_21124726",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:1375afc02c5f58203890",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_21281406",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:5d8bda5ad613c1331cba",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_21324611",
-      "similarityScore": 0.8,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close",
-        "building_area_close",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:f72361024ac2a6008c74",
-      "propertyIdA": "suumo:nc_20931147",
-      "propertyIdB": "suumo:nc_21767325",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:b0d6d956845fa5f46aea",
-      "propertyIdA": "suumo:nc_20939482",
-      "propertyIdB": "suumo:nc_21050417",
-      "similarityScore": 0.65,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:76105a302fb919c3163f",
-      "propertyIdA": "suumo:nc_20939482",
-      "propertyIdB": "suumo:nc_21124726",
-      "similarityScore": 0.65,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:06a2af14aade9e1b82d3",
-      "propertyIdA": "suumo:nc_20939482",
-      "propertyIdB": "suumo:nc_21281406",
-      "similarityScore": 0.7,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:54299a83159dd085e4dd",
-      "propertyIdA": "suumo:nc_20939482",
-      "propertyIdB": "suumo:nc_21324611",
-      "similarityScore": 0.9,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close",
-        "building_area_match",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:d04f04dec3c23b6a2ba5",
-      "propertyIdA": "suumo:nc_20939482",
-      "propertyIdB": "suumo:nc_21767325",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -1033,6 +1008,67 @@
       "reasons": [
         "normalized_address_match",
         "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:1981cf6587d9d1cb797a",
+      "propertyIdA": "suumo:nc_21050416",
+      "propertyIdB": "suumo:nc_21050417",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:2c0ce57f44d5de79c72f",
+      "propertyIdA": "suumo:nc_21050416",
+      "propertyIdB": "suumo:nc_21124726",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:ff90e97114c4f8a7d7ac",
+      "propertyIdA": "suumo:nc_21050416",
+      "propertyIdB": "suumo:nc_21281406",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:668f58996a6353803de7",
+      "propertyIdA": "suumo:nc_21050416",
+      "propertyIdB": "suumo:nc_21324611",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:446b853f9372a6fae135",
+      "propertyIdA": "suumo:nc_21050416",
+      "propertyIdB": "suumo:nc_21767325",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
         "construction_year_match",
         "layout_match"
       ],
@@ -1180,6 +1216,18 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:b47dd1ad4ce076583859",
+      "propertyIdA": "suumo:nc_21068964",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:a9a712ff0abcaa3089e5",
       "propertyIdA": "suumo:nc_21072504",
       "propertyIdB": "suumo:nc_21634932",
@@ -1187,6 +1235,29 @@
       "reasons": [
         "normalized_address_match",
         "land_area_close"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:a421b26538271d4280bb",
+      "propertyIdA": "suumo:nc_21075590",
+      "propertyIdB": "suumo:nc_21546037",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:e36d6cd15b977b801a5e",
+      "propertyIdA": "suumo:nc_21076107",
+      "propertyIdB": "suumo:nc_21917395",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "layout_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -1214,19 +1285,6 @@
         "building_area_close",
         "construction_year_match",
         "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:af5beebe107edaf88f00",
-      "propertyIdA": "suumo:nc_21085899",
-      "propertyIdB": "suumo:nc_21684779",
-      "similarityScore": 0.75,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close",
-        "building_area_close",
-        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -1261,6 +1319,20 @@
       "reasons": [
         "normalized_address_match",
         "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:9d2afe8db3acbc0744dc",
+      "propertyIdA": "suumo:nc_21096414",
+      "propertyIdB": "suumo:nc_21565338",
+      "similarityScore": 0.8,
+      "reasons": [
+        "address_partial_match",
+        "land_area_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -1446,13 +1518,16 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:92828ee2782726a2fe17",
-      "propertyIdA": "suumo:nc_21157329",
-      "propertyIdB": "suumo:nc_21684779",
-      "similarityScore": 0.55,
+      "candidateId": "dup:0ee37a33303e4a79c8d6",
+      "propertyIdA": "suumo:nc_21137676",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 1.0,
       "reasons": [
         "normalized_address_match",
-        "construction_year_match"
+        "land_area_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -1491,6 +1566,42 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:0e36caa4ae88623ee713",
+      "propertyIdA": "suumo:nc_21165211",
+      "propertyIdB": "suumo:nc_21609583",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:4447893972bf04b0bb7a",
+      "propertyIdA": "suumo:nc_21165211",
+      "propertyIdB": "suumo:nc_21609703",
+      "similarityScore": 0.6,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:dfa9c6c5d9cf2aba2ea8",
+      "propertyIdA": "suumo:nc_21167338",
+      "propertyIdB": "suumo:nc_21982699",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:23a2c830faf064ac3222",
       "propertyIdA": "suumo:nc_21167486",
       "propertyIdB": "suumo:nc_21388496",
@@ -1498,18 +1609,6 @@
       "reasons": [
         "normalized_address_match",
         "land_area_close",
-        "building_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:1cd5325c427712a097f7",
-      "propertyIdA": "suumo:nc_21167486",
-      "propertyIdB": "suumo:nc_21629248",
-      "similarityScore": 0.6,
-      "reasons": [
-        "normalized_address_match",
         "building_area_close",
         "layout_match"
       ],
@@ -1600,6 +1699,19 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:db1840724d4c4d8d626f",
+      "propertyIdA": "suumo:nc_21180549",
+      "propertyIdB": "suumo:nc_21574456",
+      "similarityScore": 0.85,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:072e5bccd29a47f30d02",
       "propertyIdA": "suumo:nc_21180549",
       "propertyIdB": "suumo:nc_21576505",
@@ -1627,18 +1739,6 @@
       "candidateId": "dup:a5cff8af5f1ec50570c0",
       "propertyIdA": "suumo:nc_21180867",
       "propertyIdB": "suumo:nc_21388496",
-      "similarityScore": 0.65,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:824d803c131c90a5620e",
-      "propertyIdA": "suumo:nc_21180867",
-      "propertyIdB": "suumo:nc_21629248",
       "similarityScore": 0.65,
       "reasons": [
         "normalized_address_match",
@@ -1696,9 +1796,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:b3586e969403f7e1ac7f",
+      "candidateId": "dup:c4ac074174a5db390272",
       "propertyIdA": "suumo:nc_21206834",
-      "propertyIdB": "suumo:nc_21734957",
+      "propertyIdB": "suumo:nc_21881282",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -1748,9 +1848,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:9334f33375fc5cba3dc2",
+      "candidateId": "dup:13ce72a1ca8950265510",
       "propertyIdA": "suumo:nc_21256908",
-      "propertyIdB": "suumo:nc_21286986",
+      "propertyIdB": "suumo:nc_21296388",
       "similarityScore": 0.55,
       "reasons": [
         "normalized_address_match",
@@ -1771,9 +1871,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:447313da338d2fdb3664",
+      "candidateId": "dup:b143254c4f95b65a3579",
       "propertyIdA": "suumo:nc_21256908",
-      "propertyIdB": "suumo:nc_21726579",
+      "propertyIdB": "suumo:nc_21727373",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -1783,9 +1883,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:b143254c4f95b65a3579",
+      "candidateId": "dup:cf0d509c8c1415a30e56",
       "propertyIdA": "suumo:nc_21256908",
-      "propertyIdB": "suumo:nc_21727373",
+      "propertyIdB": "suumo:nc_21761632",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -1814,6 +1914,33 @@
       "reasons": [
         "normalized_address_match",
         "land_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:9bd93626070dae949df1",
+      "propertyIdA": "suumo:nc_21273031",
+      "propertyIdB": "suumo:nc_21423339",
+      "similarityScore": 0.6,
+      "reasons": [
+        "address_partial_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:52c8d833acc51a3df2e1",
+      "propertyIdA": "suumo:nc_21277140",
+      "propertyIdB": "suumo:nc_21685232",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
         "construction_year_match"
       ],
       "decisionStatus": "review_required"
@@ -1917,9 +2044,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:b430fdf21888bcbc0ea4",
-      "propertyIdA": "suumo:nc_21286986",
-      "propertyIdB": "suumo:nc_21726579",
+      "candidateId": "dup:56df021c4681e2b94a39",
+      "propertyIdA": "suumo:nc_21296388",
+      "propertyIdB": "suumo:nc_21727373",
       "similarityScore": 0.75,
       "reasons": [
         "normalized_address_match",
@@ -1929,9 +2056,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:cbfb18c9d06235521957",
-      "propertyIdA": "suumo:nc_21286986",
-      "propertyIdB": "suumo:nc_21727373",
+      "candidateId": "dup:298ac362e43fc04dc454",
+      "propertyIdA": "suumo:nc_21296388",
+      "propertyIdB": "suumo:nc_21761632",
       "similarityScore": 0.75,
       "reasons": [
         "normalized_address_match",
@@ -1963,9 +2090,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:a5cfcd68433ba3c093b5",
-      "propertyIdA": "suumo:nc_21359792",
-      "propertyIdB": "suumo:nc_21621803",
+      "candidateId": "dup:d221741d486bab4ca655",
+      "propertyIdA": "suumo:nc_21343970",
+      "propertyIdB": "suumo:nc_21859806",
       "similarityScore": 0.55,
       "reasons": [
         "normalized_address_match",
@@ -1986,13 +2113,12 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:16f9a56c8956f5274096",
-      "propertyIdA": "suumo:nc_21388496",
-      "propertyIdB": "suumo:nc_21629248",
-      "similarityScore": 0.7,
+      "candidateId": "dup:203f2217e2964be1c16b",
+      "propertyIdA": "suumo:nc_21359792",
+      "propertyIdB": "suumo:nc_21901647",
+      "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
-        "building_area_close",
         "construction_year_match",
         "layout_match"
       ],
@@ -2049,6 +2175,18 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:eb2df53f342b2b213b30",
+      "propertyIdA": "suumo:nc_21396895",
+      "propertyIdB": "suumo:nc_21721498",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:134d6378df4ceb15614e",
       "propertyIdA": "suumo:nc_21436456",
       "propertyIdB": "suumo:nc_21638306",
@@ -2067,6 +2205,34 @@
       "similarityScore": 0.8,
       "reasons": [
         "normalized_address_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:4d4061eb9b59f074ebfb",
+      "propertyIdA": "suumo:nc_21437394",
+      "propertyIdB": "suumo:nc_21562045",
+      "similarityScore": 0.8,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:f06af6ab530bd7269ca6",
+      "propertyIdA": "suumo:nc_21437394",
+      "propertyIdB": "suumo:nc_21564648",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
         "building_area_match",
         "construction_year_match",
         "layout_match"
@@ -2135,6 +2301,18 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:5077d02b504d5dafa7d5",
+      "propertyIdA": "suumo:nc_21458749",
+      "propertyIdB": "suumo:nc_21592987",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:59bb7966413c62dc482f",
       "propertyIdA": "suumo:nc_21468931",
       "propertyIdB": "suumo:nc_21766977",
@@ -2154,6 +2332,31 @@
       "reasons": [
         "normalized_address_match",
         "building_area_close"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:cb6ed23ab87e2384fb50",
+      "propertyIdA": "suumo:nc_21482613",
+      "propertyIdB": "suumo:nc_21882468",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:87489f9f967d98a6b2e2",
+      "propertyIdA": "suumo:nc_21514117",
+      "propertyIdB": "suumo:nc_21574456",
+      "similarityScore": 0.8,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -2204,6 +2407,19 @@
         "land_area_match",
         "building_area_close",
         "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:24658f1604fb182251e0",
+      "propertyIdA": "suumo:nc_21522924",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -2261,9 +2477,90 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:7715265afaafb6511213",
+      "propertyIdA": "suumo:nc_21549215",
+      "propertyIdB": "suumo:nc_21562045",
+      "similarityScore": 0.8,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:2d8f192e5a506dc8cba6",
+      "propertyIdA": "suumo:nc_21549215",
+      "propertyIdB": "suumo:nc_21564648",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:c3177d37f932f998b740",
       "propertyIdA": "suumo:nc_21549215",
       "propertyIdB": "suumo:nc_21894497",
+      "similarityScore": 0.8,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:62e81fc4ab82fa744ef2",
+      "propertyIdA": "suumo:nc_21562045",
+      "propertyIdB": "suumo:nc_21564648",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_match",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:6fc9052da7ff99c83592",
+      "propertyIdA": "suumo:nc_21562045",
+      "propertyIdB": "suumo:nc_21894497",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:c32afb02f65b4775c16b",
+      "propertyIdA": "suumo:nc_21564648",
+      "propertyIdB": "suumo:nc_21894497",
+      "similarityScore": 0.8,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:75ddd862a1c11a0d7654",
+      "propertyIdA": "suumo:nc_21573187",
+      "propertyIdB": "suumo:nc_21574456",
       "similarityScore": 0.8,
       "reasons": [
         "normalized_address_match",
@@ -2299,14 +2596,55 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:987d223c8160cc174e02",
-      "propertyIdA": "suumo:nc_21574870",
-      "propertyIdB": "suumo:nc_21594853",
+      "candidateId": "dup:58b77a76d08538d1bb0b",
+      "propertyIdA": "suumo:nc_21574456",
+      "propertyIdB": "suumo:nc_21576505",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:4fd355fb5eb1e39dc7ef",
+      "propertyIdA": "suumo:nc_21574456",
+      "propertyIdB": "suumo:nc_21858200",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
         "construction_year_match",
         "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:d999b0f167b98d1d2078",
+      "propertyIdA": "suumo:nc_21574870",
+      "propertyIdB": "suumo:nc_21594609",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:987d223c8160cc174e02",
+      "propertyIdA": "suumo:nc_21574870",
+      "propertyIdB": "suumo:nc_21594853",
+      "similarityScore": 0.95,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_match",
+        "building_area_match",
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -2348,14 +2686,65 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:9b44b2dc8e410001790e",
+      "propertyIdA": "suumo:nc_21594609",
+      "propertyIdB": "suumo:nc_21594853",
+      "similarityScore": 0.85,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:2c6b2ff4104e9216b775",
+      "propertyIdA": "suumo:nc_21594609",
+      "propertyIdB": "suumo:nc_21602742",
+      "similarityScore": 0.9,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:4016d7cdbe5fe85b8c8b",
+      "propertyIdA": "suumo:nc_21594609",
+      "propertyIdB": "suumo:nc_21921994",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_match",
+        "building_area_close"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:9c3381c25506476d3945",
       "propertyIdA": "suumo:nc_21594853",
       "propertyIdB": "suumo:nc_21602742",
-      "similarityScore": 0.6,
+      "similarityScore": 0.75,
       "reasons": [
         "normalized_address_match",
-        "construction_year_match",
-        "layout_match"
+        "building_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:b056a680ef92ae49e61d",
+      "propertyIdA": "suumo:nc_21594853",
+      "propertyIdB": "suumo:nc_21921994",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -2429,73 +2818,13 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:38de7d1a95e1a9fa9234",
-      "propertyIdA": "suumo:nc_21621803",
-      "propertyIdB": "suumo:nc_21732924",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:3412850576acde111166",
-      "propertyIdA": "suumo:nc_21629248",
-      "propertyIdB": "suumo:nc_21682362",
-      "similarityScore": 0.55,
-      "reasons": [
-        "normalized_address_match",
-        "construction_year_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
       "candidateId": "dup:8e9b63eb72a0753f2eee",
       "propertyIdA": "suumo:nc_21629248",
       "propertyIdB": "suumo:nc_21794850",
-      "similarityScore": 0.8,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close",
-        "building_area_close",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:336119c868cc2c15f7c8",
-      "propertyIdA": "suumo:nc_21629248",
-      "propertyIdB": "suumo:nc_21931909",
-      "similarityScore": 0.7,
-      "reasons": [
-        "normalized_address_match",
-        "building_area_close",
-        "construction_year_match",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:dee2f083624ce48b7cd4",
-      "propertyIdA": "suumo:nc_21629248",
-      "propertyIdB": "suumo:nc_21932991",
       "similarityScore": 0.6,
       "reasons": [
-        "normalized_address_match",
+        "address_partial_match",
         "land_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
-      "candidateId": "dup:10e2dc2f63414e59fdac",
-      "propertyIdA": "suumo:nc_21629248",
-      "propertyIdB": "suumo:nc_78129354",
-      "similarityScore": 0.7,
-      "reasons": [
-        "normalized_address_match",
         "building_area_close",
         "construction_year_match",
         "layout_match"
@@ -2520,11 +2849,23 @@
       "candidateId": "dup:d41768d2881d61051f94",
       "propertyIdA": "suumo:nc_21638604",
       "propertyIdB": "suumo:nc_21827710",
-      "similarityScore": 0.7,
+      "similarityScore": 0.65,
       "reasons": [
         "normalized_address_match",
         "building_area_close",
-        "construction_year_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:ece4c44e7fdd4ebb357f",
+      "propertyIdA": "suumo:nc_21638851",
+      "propertyIdB": "suumo:nc_21728999",
+      "similarityScore": 0.7,
+      "reasons": [
+        "address_partial_match",
+        "land_area_match",
+        "building_area_match",
         "layout_match"
       ],
       "decisionStatus": "review_required"
@@ -2533,13 +2874,11 @@
       "candidateId": "dup:ae701df84779f4a682ed",
       "propertyIdA": "suumo:nc_21658842",
       "propertyIdB": "suumo:nc_21712196",
-      "similarityScore": 0.8,
+      "similarityScore": 0.65,
       "reasons": [
         "normalized_address_match",
-        "land_area_close",
         "building_area_close",
-        "construction_year_match",
-        "layout_match"
+        "construction_year_match"
       ],
       "decisionStatus": "review_required"
     },
@@ -2623,9 +2962,20 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:6ec9589774306cd5a788",
-      "propertyIdA": "suumo:nc_21684779",
-      "propertyIdB": "suumo:nc_21716418",
+      "candidateId": "dup:5104f1e8f55bdb7bdcae",
+      "propertyIdA": "suumo:nc_21682462",
+      "propertyIdB": "suumo:nc_21717135",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:619af5b5359128369752",
+      "propertyIdA": "suumo:nc_21682852",
+      "propertyIdB": "suumo:nc_21717135",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -2635,9 +2985,21 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:c00350b19a80c2ce8cc4",
-      "propertyIdA": "suumo:nc_21684779",
-      "propertyIdB": "suumo:nc_21741844",
+      "candidateId": "dup:b2f21769f412f69e72d9",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21693779",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:9929622d6938e04254c5",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21693782",
       "similarityScore": 0.65,
       "reasons": [
         "normalized_address_match",
@@ -2647,12 +3009,48 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:ca379dd9d68c0d971ebe",
-      "propertyIdA": "suumo:nc_21684779",
-      "propertyIdB": "suumo:nc_21948216",
+      "candidateId": "dup:62a861f493a918989bae",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21738244",
       "similarityScore": 0.55,
       "reasons": [
         "normalized_address_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:6d6aba7734649a849675",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21746765",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:21dfef461ea831d7346e",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21747880",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
+        "construction_year_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:3816b8aca642328e71f0",
+      "propertyIdA": "suumo:nc_21685232",
+      "propertyIdB": "suumo:nc_21782703",
+      "similarityScore": 0.75,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match",
         "construction_year_match"
       ],
       "decisionStatus": "review_required"
@@ -2774,19 +3172,6 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:51dfe808063396085966",
-      "propertyIdA": "suumo:nc_21704890",
-      "propertyIdB": "suumo:nc_21726579",
-      "similarityScore": 0.7,
-      "reasons": [
-        "normalized_address_match",
-        "land_area_close",
-        "building_area_close",
-        "layout_match"
-      ],
-      "decisionStatus": "review_required"
-    },
-    {
       "candidateId": "dup:40ff8d49bc2e806264d6",
       "propertyIdA": "suumo:nc_21704890",
       "propertyIdB": "suumo:nc_21727373",
@@ -2794,6 +3179,19 @@
       "reasons": [
         "normalized_address_match",
         "land_area_close",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:71e62ad733e97c6ccc29",
+      "propertyIdA": "suumo:nc_21704890",
+      "propertyIdB": "suumo:nc_21761632",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
+        "building_area_close",
         "layout_match"
       ],
       "decisionStatus": "review_required"
@@ -2824,9 +3222,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:6632d813e6c911c7fe70",
-      "propertyIdA": "suumo:nc_21726579",
-      "propertyIdB": "suumo:nc_21727373",
+      "candidateId": "dup:97c1e8f27d2a4ad9009f",
+      "propertyIdA": "suumo:nc_21727373",
+      "propertyIdB": "suumo:nc_21761632",
       "similarityScore": 0.8,
       "reasons": [
         "normalized_address_match",
@@ -2834,6 +3232,17 @@
         "building_area_close",
         "construction_year_match",
         "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:57c9f73bb6519ab8fba2",
+      "propertyIdA": "suumo:nc_21732924",
+      "propertyIdB": "suumo:nc_21901647",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close"
       ],
       "decisionStatus": "review_required"
     },
@@ -3020,9 +3429,9 @@
       "decisionStatus": "review_required"
     },
     {
-      "candidateId": "dup:1eedbac70064cc747ef2",
+      "candidateId": "dup:33e52f4e435116973dcf",
       "propertyIdA": "suumo:nc_21806077",
-      "propertyIdB": "suumo:nc_21898776",
+      "propertyIdB": "suumo:nc_21806581",
       "similarityScore": 0.6,
       "reasons": [
         "normalized_address_match",
@@ -3058,11 +3467,10 @@
       "candidateId": "dup:c03ca750ad5fc30deb2e",
       "propertyIdA": "suumo:nc_21827710",
       "propertyIdB": "suumo:nc_78472545",
-      "similarityScore": 0.6,
+      "similarityScore": 0.55,
       "reasons": [
         "normalized_address_match",
-        "building_area_close",
-        "layout_match"
+        "building_area_close"
       ],
       "decisionStatus": "review_required"
     },
@@ -3094,12 +3502,48 @@
       "decisionStatus": "review_required"
     },
     {
+      "candidateId": "dup:cee7119166806bff4a15",
+      "propertyIdA": "suumo:nc_21870108",
+      "propertyIdB": "suumo:nc_21971274",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
       "candidateId": "dup:4ecd4e8a22c689dc0dc7",
       "propertyIdA": "suumo:nc_21881451",
       "propertyIdB": "suumo:nc_21929396",
       "similarityScore": 0.55,
       "reasons": [
         "normalized_address_match",
+        "building_area_close"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:3ba322c59126e9d725fd",
+      "propertyIdA": "suumo:nc_21881451",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 0.7,
+      "reasons": [
+        "normalized_address_match",
+        "building_area_close",
+        "construction_year_match",
+        "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:a438debbaaa9692ef5cb",
+      "propertyIdA": "suumo:nc_21929396",
+      "propertyIdB": "suumo:nc_21950118",
+      "similarityScore": 0.65,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close",
         "building_area_close"
       ],
       "decisionStatus": "review_required"
@@ -3114,6 +3558,17 @@
         "building_area_match",
         "construction_year_match",
         "layout_match"
+      ],
+      "decisionStatus": "review_required"
+    },
+    {
+      "candidateId": "dup:2495463e15f47f88623f",
+      "propertyIdA": "suumo:nc_21971274",
+      "propertyIdB": "suumo:nc_77679926",
+      "similarityScore": 0.55,
+      "reasons": [
+        "normalized_address_match",
+        "land_area_close"
       ],
       "decisionStatus": "review_required"
     }

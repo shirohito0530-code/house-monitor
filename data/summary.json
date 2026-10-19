@@ -1,10 +1,120 @@
 {
-  "updatedAt": "2026-10-19T13:56:54.649940+00:00",
+  "updatedAt": "2026-10-19T23:53:16.742652+00:00",
+  "totalDiscovered": 1099,
+  "totalMarketHouses": 514,
+  "statusCounts": {
+    "active": 577,
+    "observed_ended": 441,
+    "possibly_ended": 81
+  },
+  "detailFetchedInRun": 447,
+  "detailCandidates": 447,
+  "detailFetchLimit": 500,
+  "detailAttemptsInRun": 447,
+  "detailFailuresInRun": 0,
+  "detailFetchPartial": false,
+  "searchTargetsHealthy": 6,
+  "searchTargetsFailedOrIncomplete": 0,
+  "possiblyEndedCount": 81,
+  "observedEndedCount": 441,
+  "confirmedEndedCount": 0,
+  "activeCount": 577,
+  "duplicateCandidateCount": 137,
+  "marketCriteriaMatchedCount": 58,
+  "marketCriteriaPendingCount": 642,
+  "marketCriteriaExcludedCount": 399,
+  "marketAreaPendingCount": 916,
+  "criteriaExcludedByField": {
+    "landAreaMatched": 64,
+    "builtAgeMatched": 108,
+    "buildingAreaMatched": 18,
+    "walkMatched": 295,
+    "priceMatched": 1
+  },
+  "criteriaPendingByField": {
+    "walkMatched": 694,
+    "landAreaMatched": 455,
+    "buildingAreaMatched": 455,
+    "builtAgeMatched": 237
+  },
+  "marketDbEmptyWarning": false,
+  "fieldCoverage": {
+    "houses": {
+      "total": 514,
+      "fields": {
+        "layout": {
+          "count": 365,
+          "ratio": 0.7101
+        },
+        "landAreaM2": {
+          "count": 345,
+          "ratio": 0.6712
+        },
+        "buildingAreaM2": {
+          "count": 345,
+          "ratio": 0.6712
+        },
+        "buildingFootprintAreaM2": {
+          "count": 0,
+          "ratio": 0.0
+        },
+        "address": {
+          "count": 512,
+          "ratio": 0.9961
+        },
+        "targetStationWalkMinutes": {
+          "count": 65,
+          "ratio": 0.1265
+        },
+        "constructionMonth": {
+          "count": 342,
+          "ratio": 0.6654
+        }
+      }
+    },
+    "discovered": {
+      "total": 1099,
+      "fields": {
+        "layout": {
+          "count": 0,
+          "ratio": 0.0
+        },
+        "landAreaM2": {
+          "count": 0,
+          "ratio": 0.0
+        },
+        "buildingAreaM2": {
+          "count": 0,
+          "ratio": 0.0
+        },
+        "buildingFootprintAreaM2": {
+          "count": 0,
+          "ratio": 0.0
+        },
+        "address": {
+          "count": 1097,
+          "ratio": 0.9982
+        },
+        "targetStationWalkMinutes": {
+          "count": 405,
+          "ratio": 0.3685
+        },
+        "constructionMonth": {
+          "count": 0,
+          "ratio": 0.0
+        }
+      }
+    }
+  },
+  "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+  "recentlyEndedCount": 491,
+  "relistedCount": 359,
+  "priceDownEndedCount": 0,
   "marketPipelineVersion": "2026-10-19-v1",
   "areaDecisionCounts": {
-    "accepted": 93,
-    "review": 334,
-    "rejected": 580
+    "accepted": 97,
+    "review": 365,
+    "rejected": 637
   },
   "quarantineRetentionDays": 90,
   "quarantinePrunedThisRun": {
@@ -12,14 +122,14 @@
     "houses": 0
   },
   "duplicateManagement": {
-    "highConfidenceGroupsMergedLogically": 9,
+    "highConfidenceGroupsMergedLogically": 11,
     "manualMergeOperations": 0,
     "manualDecisionsLoaded": 0,
-    "reviewCandidateCount": 256,
+    "reviewCandidateCount": 292,
     "autoMergePolicy": "high_confidence_only; preserve_listing_ids_and_urls"
   },
   "marketAnalysis": {
-    "updatedAt": "2026-10-19T13:56:54.649940+00:00",
+    "updatedAt": "2026-10-19T23:53:16.742652+00:00",
     "source": "SUUMO observations + MLIT XIT001 transactions when available",
     "periods": [
       "3m",
@@ -31,44 +141,44 @@
           "periodDays": 90,
           "area": "柏の葉キャンパス",
           "activeCanonicalListingCount": 25,
-          "observationCount": 143,
-          "propertiesWithRepeatedPriceObservation": 33,
-          "observationSpanDays": 5,
-          "periodCoveragePct": 5.6,
+          "observationCount": 196,
+          "propertiesWithRepeatedPriceObservation": 36,
+          "observationSpanDays": 7,
+          "periodCoveragePct": 7.8,
           "medianAskingPriceYen": 48945000.0,
           "medianPriceAtWindowStartYen": 46980000.0,
           "medianPriceAtWindowEndYen": 46980000.0,
           "medianObservedPriceChangePct": 0.0,
-          "priceReductionPropertyCount": 1,
-          "medianRecordedReductionPct": 2.08,
+          "priceReductionPropertyCount": 2,
+          "medianRecordedReductionPct": 5.18,
           "transactionCountAvailable": 0,
           "medianTransactionPriceYen": null,
           "medianLandPricePerM2Yen": null,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は5.6%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は7.8%（観測期間7日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         },
         "12m": {
           "periodDays": 365,
           "area": "柏の葉キャンパス",
           "activeCanonicalListingCount": 25,
-          "observationCount": 143,
-          "propertiesWithRepeatedPriceObservation": 33,
-          "observationSpanDays": 5,
-          "periodCoveragePct": 1.4,
+          "observationCount": 196,
+          "propertiesWithRepeatedPriceObservation": 36,
+          "observationSpanDays": 7,
+          "periodCoveragePct": 1.9,
           "medianAskingPriceYen": 48945000.0,
           "medianPriceAtWindowStartYen": 46980000.0,
           "medianPriceAtWindowEndYen": 46980000.0,
           "medianObservedPriceChangePct": 0.0,
-          "priceReductionPropertyCount": 1,
-          "medianRecordedReductionPct": 2.08,
+          "priceReductionPropertyCount": 2,
+          "medianRecordedReductionPct": 5.18,
           "transactionCountAvailable": 0,
           "medianTransactionPriceYen": null,
           "medianLandPricePerM2Yen": null,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は1.4%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は1.9%（観測期間7日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         }
       },
@@ -76,13 +186,13 @@
         "3m": {
           "periodDays": 90,
           "area": "流山おおたかの森",
-          "activeCanonicalListingCount": 30,
-          "observationCount": 107,
-          "propertiesWithRepeatedPriceObservation": 22,
-          "observationSpanDays": 5,
-          "periodCoveragePct": 5.6,
+          "activeCanonicalListingCount": 32,
+          "observationCount": 144,
+          "propertiesWithRepeatedPriceObservation": 26,
+          "observationSpanDays": 7,
+          "periodCoveragePct": 7.8,
           "medianAskingPriceYen": 79800000.0,
-          "medianPriceAtWindowStartYen": 69900000.0,
+          "medianPriceAtWindowStartYen": 70000000.0,
           "medianPriceAtWindowEndYen": 69800000.0,
           "medianObservedPriceChangePct": 0.0,
           "priceReductionPropertyCount": 4,
@@ -92,19 +202,19 @@
           "medianLandPricePerM2Yen": null,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は5.6%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は7.8%（観測期間7日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         },
         "12m": {
           "periodDays": 365,
           "area": "流山おおたかの森",
-          "activeCanonicalListingCount": 30,
-          "observationCount": 107,
-          "propertiesWithRepeatedPriceObservation": 22,
-          "observationSpanDays": 5,
-          "periodCoveragePct": 1.4,
+          "activeCanonicalListingCount": 32,
+          "observationCount": 144,
+          "propertiesWithRepeatedPriceObservation": 26,
+          "observationSpanDays": 7,
+          "periodCoveragePct": 1.9,
           "medianAskingPriceYen": 79800000.0,
-          "medianPriceAtWindowStartYen": 69900000.0,
+          "medianPriceAtWindowStartYen": 70000000.0,
           "medianPriceAtWindowEndYen": 69800000.0,
           "medianObservedPriceChangePct": 0.0,
           "priceReductionPropertyCount": 4,
@@ -114,7 +224,7 @@
           "medianLandPricePerM2Yen": null,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は1.4%（観測期間5日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は1.9%（観測期間7日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         }
       }
