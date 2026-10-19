@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0",
+  "school": "柏の葉小学校区",
+  "officialSource": "https://www.city.kashiwa.lg.jp/gakkokyoiku/kyouiku/tekiseka/shogakkotsugaku.html",
+  "officialMapSource": "https://www.city.kashiwa.lg.jp/documents/413/kashiwanoha1122.pdf",
+  "sourceCheckedAt": "2026-10-19",
+  "verificationPolicy": "Do not infer the district from station, town name, or search area. Confirm only when the exact normalized address is explicitly listed in verifiedAddresses after checking the official source.",
+  "verifiedAddresses": []
+}
