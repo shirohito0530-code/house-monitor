@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>House Monitor | 柏の葉・流山戸建て監視</title>
-<meta name="house-monitor-ui-version" content="2026-10-18-phase12-lifecycle-field-filter">
+<meta name="house-monitor-ui-version" content="2026-10-19-market-pipeline-v1">
 
 <style>
 * {
@@ -146,6 +146,29 @@ h2 {
   font-size: 12px;
   margin-top: 3px;
 }
+
+/* Market analysis and duplicate review */
+.market-area-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.market-panel { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow); min-width: 0; }
+.market-panel h3 { margin: 0 0 10px; font-size: 16px; }
+.market-period-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.market-period { background: var(--gray-bg); border-radius: 10px; padding: 11px; }
+.market-period-title { font-size: 12px; color: var(--muted); font-weight: 700; margin-bottom: 8px; }
+.market-kpi { margin: 6px 0; font-size: 13px; display: flex; justify-content: space-between; gap: 8px; }
+.market-kpi strong { text-align: right; overflow-wrap: anywhere; }
+.market-note { color: var(--muted); font-size: 11px; margin-top: 9px; }
+.review-list { display: grid; gap: 10px; }
+.review-row { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.review-row-title { font-weight: 700; font-size: 13px; overflow-wrap: anywhere; }
+.review-row-meta { color: var(--muted); font-size: 11px; margin: 4px 0 8px; overflow-wrap: anywhere; }
+.review-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.review-actions button { border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; background: white; cursor: pointer; font-size: 12px; }
+.review-actions button:hover { background: var(--primary-light); }
+.market-score { font-weight: 750; }
+.market-score-good { color: var(--green); }
+.market-score-neutral { color: var(--yellow); }
+.market-score-bad { color: var(--red); }
+@media (max-width: 760px) { .market-area-grid { grid-template-columns: 1fr; } .market-period-grid { grid-template-columns: 1fr 1fr; } }
 
 /* Status */
 .status {
@@ -1070,6 +1093,17 @@ h2 {
     </div>
   </section>
 
+  <!-- Market Analysis -->
+  <section>
+    <div class="section-header"><div><h2>市況・取引実績インジケーター</h2><div class="section-description">対象エリア別に直近3か月・12か月を比較します。観測期間が短い場合は信頼度を下げて表示します。</div></div></div>
+    <div id="marketDashboard" class="market-area-grid"><div class="loading">市況データを読み込んでいます...</div></div>
+    <div id="marketDashboardNote" class="market-note"></div>
+    <div class="market-note">柏の葉小学校区は住所から推測して確定しません。<a href="https://www.city.kashiwa.lg.jp/gakkokyoiku/kyouiku/tekiseka/shogakkotsugaku.html" target="_blank" rel="noopener noreferrer">柏市公式の通学区域一覧</a> と <a href="https://www.city.kashiwa.lg.jp/documents/413/kashiwanoha1122.pdf" target="_blank" rel="noopener noreferrer">柏の葉小学校区図</a> を確認し、住所が確定できない場合は未確認のまま保持します。</div>
+  </section>
+  <section>
+    <div class="section-header"><div><h2>重複統合の確認候補</h2><div class="section-description">高確度の重複は同一グループ化し、判断が難しい候補はここで確認できます。判断はブラウザに保存し、JSON出力後にリポジトリへ反映します。</div></div><button id="exportDuplicateDecisions" class="button" type="button">統合判断をJSON出力</button></div>
+    <div id="duplicateReviewSummary" class="filter-summary">候補を読み込んでいます...</div><div id="duplicateReviewList" class="review-list"></div>
+  </section>
   <!-- Highlights -->
   <section>
     <div class="section-header">
@@ -1128,14 +1162,6 @@ h2 {
           <option value="unknown">UNKNOWN</option>
         </select>
 
-        <select id="propertyLifecycleFilter" aria-label="掲載状態">
-          <option value="">全掲載状態</option>
-          <option value="active">掲載中</option>
-          <option value="possibly_ended">終了の可能性あり</option>
-          <option value="observed_ended">掲載終了（検索未検出）</option>
-          <option value="confirmed_ended">掲載終了（明示確認）</option>
-        </select>
-
         <select id="propertyPrice">
           <option value="">全価格帯</option>
           <option value="0-7000">～7,000万円</option>
@@ -1190,15 +1216,6 @@ h2 {
           <input id="detailFetchedOnly" type="checkbox">
           詳細取得済みのみ
         </label>
-
-        <select id="missingFieldFilter" aria-label="不足項目">
-          <option value="">不足項目：すべて</option>
-          <option value="landAreaM2">土地面積が不足</option>
-          <option value="buildingAreaM2">建物面積が不足</option>
-          <option value="layout">間取りが不足</option>
-          <option value="constructionMonth">築年月が不足</option>
-          <option value="anyCore">主要項目のいずれかが不足</option>
-        </select>
 
         <label class="filter-check">
           <input id="recentOnly" type="checkbox">
@@ -1296,6 +1313,9 @@ h2 {
           <option value="unknown">判定不能</option>
         </select>
 
+        <select id="discoveredAreaDecision" aria-label="エリア隔離状態">
+          <option value="target">対象・要確認（通常）</option><option value="rejected">対象外隔離</option><option value="all">すべて</option>
+        </select>
         <select id="discoveredStatus" aria-label="掲載状態">
           <option value="">全掲載状態</option>
           <option value="active">掲載中</option>
@@ -1344,6 +1364,10 @@ let discoveredProperties = [];
 
 let housesUpdatedAt = null;
 let discoveredUpdatedAt = null;
+let marketSummary = {};
+let duplicateReviewCandidates = [];
+let duplicateReviewDecisions = {};
+const DUPLICATE_REVIEW_STORAGE_KEY = "houseMonitorDuplicateReviewDecisionsV1";
 
 /* User Selection State */
 let userSelections = {
@@ -3207,6 +3231,9 @@ function renderPropertyCard(property) {
 
   const label =
     getQualityLabel(property);
+  const marketIndicator = property.marketIndicators || {};
+  const marketScoreClass = marketIndicator.score === null || marketIndicator.score === undefined ? "" : marketIndicator.score >= 65 ? "market-score-good" : marketIndicator.score >= 40 ? "market-score-neutral" : "market-score-bad";
+  const schoolStatusText = property.schoolDistrictStatus === "confirmed" ? "柏の葉小学校区：公式情報確認済み" : (property.area === "柏の葉キャンパス" || property.schoolDistrictCandidate) ? "柏の葉小学校区：未確認" : "";
 
   const uiArea =
     getUiArea(property);
@@ -3269,6 +3296,9 @@ function renderPropertyCard(property) {
         <span class="area-badge ${areaClassificationClass}">
           ${escapeHtml(areaClassificationLabel)}
         </span>
+        ${marketIndicator.label ? `<span class="flag ${marketScoreClass}">お買い得度：${escapeHtml(marketIndicator.label)}${marketIndicator.score !== null && marketIndicator.score !== undefined ? ` ${marketIndicator.score}/100` : ""}</span>` : ""}
+        ${schoolStatusText ? `<span class="flag flag-unknown">${escapeHtml(schoolStatusText)}</span>` : ""}
+        ${property.duplicateStatus === "canonical" ? `<span class="flag flag-good">重複統合グループ</span>` : ""}
 
         ${
           property.marketReviewStatus === "pending"
@@ -3417,6 +3447,7 @@ function renderPropertyCard(property) {
 
 
       ${renderQualityReasons(property)}
+      ${Array.isArray(marketIndicator.reasons) && marketIndicator.reasons.length ? `<div class="quality-reasons"><strong>お買い得度の根拠（信頼度：${escapeHtml(marketIndicator.confidence || "low")}）</strong><ul>${marketIndicator.reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul></div>` : ""}
 
       ${renderLocationPriority(property)}
 
@@ -3507,6 +3538,81 @@ function renderProperties(list) {
 
 
 /* ============================================================
+   Market dashboard and duplicate review actions
+   ============================================================ */
+function isNormalTargetProperty(property) {
+  if (property?.areaDecision && property.areaDecision !== "accepted") return false;
+  const canonicalId = property?.canonicalPropertyId || property?.propertyId || property?.id;
+  const ownId = property?.propertyId || property?.id;
+  return !(canonicalId && ownId && canonicalId !== ownId);
+}
+function formatYenShort(value) {
+  const n = Number(value);
+  if (!Number.isFinite(n) || n <= 0) return "データなし";
+  return `${(n / 10000).toLocaleString("ja-JP", { maximumFractionDigits: 0 })}万円`;
+}
+function formatPct(value) {
+  if (value === null || value === undefined || value === "") return "データ不足";
+  const n = Number(value);
+  return Number.isFinite(n) ? `${n > 0 ? "+" : ""}${n.toFixed(1)}%` : "データ不足";
+}
+function renderMarketDashboard() {
+  const container = document.getElementById("marketDashboard");
+  if (!container) return;
+  const analysis = marketSummary?.marketAnalysis;
+  if (!analysis?.areas) { container.innerHTML = '<div class="empty">市況分析データはまだありません。次回のGitHub Actions実行後に生成されます。</div>'; return; }
+  const areaNames = ["柏の葉キャンパス", "流山おおたかの森"];
+  container.innerHTML = areaNames.map(area => {
+    const periods = analysis.areas[area] || {};
+    const tx = analysis.transactionMetrics?.[area] || {};
+    const panel = periodKey => {
+      const m = periods[periodKey] || {};
+      return `<div class="market-period"><div class="market-period-title">${periodKey === "3m" ? "直近3か月" : "直近12か月"}</div>
+        <div class="market-kpi"><span>対象掲載</span><strong>${Number(m.activeCanonicalListingCount || 0).toLocaleString("ja-JP")}件</strong></div>
+        <div class="market-kpi"><span>現在の売出中央値</span><strong>${formatYenShort(m.medianAskingPriceYen)}</strong></div>
+        <div class="market-kpi"><span>期間内初回観測中央値</span><strong>${formatYenShort(m.medianPriceAtWindowStartYen)}</strong></div>
+        <div class="market-kpi"><span>期間内最新観測中央値</span><strong>${formatYenShort(m.medianPriceAtWindowEndYen)}</strong></div>
+        <div class="market-kpi"><span>観測価格変化中央値</span><strong>${formatPct(m.medianObservedPriceChangePct)}</strong></div>
+        <div class="market-kpi"><span>反復観測物件</span><strong>${Number(m.propertiesWithRepeatedPriceObservation || 0).toLocaleString("ja-JP")}件</strong></div>
+        <div class="market-kpi"><span>期間カバー率</span><strong>${Number(m.periodCoveragePct || 0).toFixed(1)}%</strong></div>
+        <div class="market-kpi"><span>信頼度</span><strong>${escapeHtml(m.confidence || "low")}</strong></div></div>`;
+    };
+    return `<div class="market-panel"><h3>${escapeHtml(area)}</h3><div class="market-period-grid">${panel("3m")}${panel("12m")}</div>
+      <div class="market-note">国交省取引データ：${Number(tx.transactionCount || 0).toLocaleString("ja-JP")}件／取引価格中央値：${formatYenShort(tx.medianTransactionPriceYen)}／土地単価中央値：${tx.medianLandPricePerM2Yen ? `${Math.round(tx.medianLandPricePerM2Yen).toLocaleString("ja-JP")}円/㎡` : "データなし"}</div></div>`;
+  }).join("");
+  const decisions = marketSummary?.areaDecisionCounts || {}, dup = marketSummary?.duplicateManagement || {}, q = marketSummary?.quarantinePrunedThisRun || {};
+  document.getElementById("marketDashboardNote").textContent = `エリア判定：対象 ${decisions.accepted || 0}件／要確認 ${decisions.review || 0}件／隔離 ${decisions.rejected || 0}件。重複統合グループ ${dup.highConfidenceGroupsMergedLogically || 0}件、確認候補 ${dup.reviewCandidateCount || 0}件。今回整理した隔離データ：${q.discovered || 0}件。${(analysis.limitations || []).join("。")}`;
+}
+function getReviewProperty(id) { return properties.find(p => (p.propertyId || p.id) === id) || discoveredProperties.find(p => (p.propertyId || p.id) === id) || {}; }
+function renderDuplicateReview() {
+  const list = document.getElementById("duplicateReviewList"), summary = document.getElementById("duplicateReviewSummary");
+  if (!list || !summary) return;
+  const remaining = duplicateReviewCandidates.filter(c => !duplicateReviewDecisions[c.candidateId]);
+  summary.textContent = `${remaining.length}件の未判断候補（全候補 ${duplicateReviewCandidates.length}件）。判断済みはこのブラウザに保存されています。`;
+  if (!remaining.length) { list.innerHTML = '<div class="empty">確認候補はありません。判断済みの内容をリポジトリに反映する場合はJSON出力してください。</div>'; return; }
+  list.innerHTML = remaining.slice(0, 100).map(c => {
+    const a = getReviewProperty(c.propertyIdA), b = getReviewProperty(c.propertyIdB);
+    const nameA = a.name || a.listingTitle || a.address || c.propertyIdA, nameB = b.name || b.listingTitle || b.address || c.propertyIdB;
+    return `<div class="review-row"><div class="review-row-title">${escapeHtml(nameA)}　↔　${escapeHtml(nameB)}</div><div class="review-row-meta">類似度 ${Math.round((c.similarityScore || 0) * 100)}% · ${escapeHtml((c.reasons || []).join(", "))}<br>${escapeHtml(c.propertyIdA)} / ${escapeHtml(c.propertyIdB)}</div><div class="review-actions"><button type="button" data-duplicate-decision="same" data-candidate-id="${escapeHtml(c.candidateId)}">同一物件として統合</button><button type="button" data-duplicate-decision="different" data-candidate-id="${escapeHtml(c.candidateId)}">別物件として保持</button></div></div>`;
+  }).join("");
+  if (remaining.length > 100) list.insertAdjacentHTML("beforeend", `<div class="market-note">表示は先頭100件までです。候補総数：${remaining.length}件</div>`);
+}
+function handleDuplicateReviewAction(event) {
+  const button = event.target.closest("button[data-duplicate-decision]"); if (!button) return;
+  const candidateId = button.dataset.candidateId, decision = button.dataset.duplicateDecision;
+  if (!candidateId || !["same", "different"].includes(decision)) return;
+  duplicateReviewDecisions[candidateId] = decision;
+  try { localStorage.setItem(DUPLICATE_REVIEW_STORAGE_KEY, JSON.stringify(duplicateReviewDecisions)); } catch (_) {}
+  renderDuplicateReview();
+}
+function exportDuplicateReviewDecisions() {
+  const payload = { schemaVersion: "1.0", updatedAt: new Date().toISOString(), decisions: duplicateReviewDecisions };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+  const url = URL.createObjectURL(blob), a = document.createElement("a");
+  a.href = url; a.download = "duplicate_review_decisions.json"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+/* ============================================================
    Highlights
    ============================================================ */
 
@@ -3518,9 +3624,7 @@ function renderHighlights() {
 
   const candidates =
     properties
-      .filter(property =>
-        isDetailFetched(property)
-      )
+      .filter(property => isNormalTargetProperty(property) && isDetailFetched(property))
       .sort((a, b) => {
         const aChange =
           getPriceChange(a);
@@ -3691,16 +3795,14 @@ function renderHighlights() {
    ============================================================ */
 
 function updateDashboard() {
-  const registeredCount =
-    Array.isArray(properties)
-      ? properties.length
-      : 0;
+  const normalProperties = Array.isArray(properties) ? properties.filter(isNormalTargetProperty) : [];
+  const registeredCount = normalProperties.length;
   /*
    * Detail fetch status
    *
    * 「詳細取得済み」と「品質」は別概念として扱う。
    */
-  const detailFetched = properties.filter(
+  const detailFetched = normalProperties.filter(
     property =>
       isDetailFetched(property) ||
       property.detailFetched === true ||
@@ -3712,24 +3814,24 @@ function updateDashboard() {
    *
    * detailQuality を唯一の正規判定値として使用する。
    */
-  const complete = properties.filter(
+  const complete = normalProperties.filter(
     property =>
       getQuality(property) === "complete"
   );
-  const partial = properties.filter(
+  const partial = normalProperties.filter(
     property =>
       getQuality(property) === "partial"
   );
-  const unknown = properties.filter(
+  const unknown = normalProperties.filter(
     property =>
       getQuality(property) === "unknown"
   );
-  const fetchError = properties.filter(
+  const fetchError = normalProperties.filter(
     property =>
       getQuality(property) === "fetch_error"
   );
   const priceDown =
-    properties.filter(
+    normalProperties.filter(
       property =>
         hasPriceDown(property)
     ).length;
@@ -3892,8 +3994,6 @@ function filterProperties() {
   const sortMode = document.getElementById("propertySort").value;
   const propertyType = document.getElementById("propertyTypeFilter").value;
   const walkLimit = document.getElementById("propertyWalkFilter").value;
-  const lifecycleFilter = document.getElementById("propertyLifecycleFilter")?.value || "";
-  const missingFieldFilter = document.getElementById("missingFieldFilter")?.value || "";
 
   const priceDownOnly =
     document.getElementById(
@@ -3922,6 +4022,11 @@ function filterProperties() {
 
   const filtered =
     properties.filter(property => {
+      // Only accepted target-area records and canonical representatives appear in the normal shortlist.
+      if (property.areaDecision && property.areaDecision !== "accepted") return false;
+      const canonicalId = property.canonicalPropertyId || property.propertyId || property.id;
+      const ownId = property.propertyId || property.id;
+      if (canonicalId && ownId && canonicalId !== ownId) return false;
 
       const detail =
         getDetail(property);
@@ -4055,19 +4160,6 @@ function filterProperties() {
         !detailFetchedOnly ||
         isDetailFetched(property);
 
-      const lifecycleStatus = getListingStatus(property);
-      const matchesLifecycle = !lifecycleFilter || lifecycleStatus === lifecycleFilter;
-      const coreFields = ["landAreaM2", "buildingAreaM2", "layout", "constructionMonth"];
-      const hasField = field => {
-        const value = property[field] ?? detail[field];
-        return value !== null && value !== undefined && String(value).trim() !== "" && String(value).trim() !== "-";
-      };
-      const matchesMissingField = !missingFieldFilter || (
-        missingFieldFilter === "anyCore"
-          ? coreFields.some(field => !hasField(field))
-          : !hasField(missingFieldFilter)
-      );
-
       const matchesRecent =
         !recentOnly ||
         isRecent(property);
@@ -4089,8 +4181,6 @@ function filterProperties() {
         matchesWalk &&
         matchesPriceDown &&
         matchesFetched &&
-        matchesLifecycle &&
-        matchesMissingField &&
         matchesRecent &&
         matchesUserStatus &&
         matchesSchoolDecision
@@ -4362,6 +4452,7 @@ function renderDiscoveredListings(list) {
               <span class="flag flag-auto">
                 自動検出
               </span>
+              ${property.areaDecision === "rejected" ? `<span class="flag flag-down">対象外隔離：${escapeHtml(property.areaDecisionReason || "対象エリア外")}</span>` : property.areaDecision === "review" ? `<span class="flag flag-unknown">エリア要確認</span>` : property.areaDecision === "accepted" ? `<span class="flag flag-good">対象エリア確認済み</span>` : ""}
 
               <span class="validation-badge ${stateClass}">
                 ${stateLabel}
@@ -4667,6 +4758,7 @@ function matchesDiscoveredStatus(property, filterValue) {
 }
 
 function filterDiscoveredProperties() {
+  const areaDecisionFilter = document.getElementById("discoveredAreaDecision")?.value || "target";
   const search =
     document
       .getElementById("discoveredSearch")
@@ -4696,6 +4788,9 @@ function filterDiscoveredProperties() {
   });
   const filtered =
     unadoptedDiscovered.filter(property => {
+      const areaDecision = property.areaDecision || "review";
+      if (areaDecisionFilter === "target" && areaDecision === "rejected") return false;
+      if (areaDecisionFilter === "rejected" && areaDecision !== "rejected") return false;
       const detail = getDetail(property);
 
       const searchText = [
@@ -4882,11 +4977,24 @@ async function loadData() {
         );
     }
     // ============================================================
+    // Market summary and duplicate review candidates
+    // ============================================================
+    try { const res = await fetch("data/summary.json", { cache: "no-store" }); if (res.ok) marketSummary = await res.json(); } catch (e) { console.warn("summary.json unavailable", e); }
+    try { const res = await fetch("data/duplicate_review_candidates.json", { cache: "no-store" }); if (res.ok) { const data = await res.json(); duplicateReviewCandidates = Array.isArray(data.candidates) ? data.candidates : []; } } catch (e) { console.warn("duplicate_review_candidates.json unavailable", e); }
+    try {
+      const decisionRes = await fetch("data/duplicate_review_decisions.json", { cache: "no-store" });
+      if (decisionRes.ok) { const decisionData = await decisionRes.json(); duplicateReviewDecisions = decisionData.decisions || {}; }
+    } catch (e) { duplicateReviewDecisions = {}; }
+    try { const saved = localStorage.getItem(DUPLICATE_REVIEW_STORAGE_KEY); if (saved) duplicateReviewDecisions = { ...duplicateReviewDecisions, ...(JSON.parse(saved) || {}) }; } catch (e) {}
+
+    // ============================================================
     // Initialize UI
     // ============================================================
     initializeFilters();
     updateHeader();
     updateDashboard();
+    renderMarketDashboard();
+    renderDuplicateReview();
     renderHighlights();
     filterProperties();
     filterDiscoveredProperties();
@@ -4908,8 +5016,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "propertySearch",
     "areaFilter",
     "propertyQuality",
-    "propertyLifecycleFilter",
-    "missingFieldFilter",
     "propertyPrice",
     "propertySort",
     "propertyTypeFilter",
@@ -4935,8 +5041,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("propertySearch").value = "";
       document.getElementById("areaFilter").value = "";
       document.getElementById("propertyQuality").value = "";
-      document.getElementById("propertyLifecycleFilter").value = "";
-      document.getElementById("missingFieldFilter").value = "";
       document.getElementById("propertyPrice").value = "";
       document.getElementById("propertySort").value = "priority";
       document.getElementById("propertyTypeFilter").value = "";
@@ -4954,6 +5058,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "discoveredSearch",
     "discoveredArea",
     "discoveredValidation",
+    "discoveredAreaDecision",
     "discoveredStatus"
   ];
 
@@ -4971,6 +5076,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("discoveredSearch").value = "";
       document.getElementById("discoveredArea").value = "";
       document.getElementById("discoveredValidation").value = "";
+      document.getElementById("discoveredAreaDecision").value = "target";
       document.getElementById("discoveredStatus").value = "";
       filterDiscoveredProperties();
     });
@@ -4980,6 +5086,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (exportBtn) {
     exportBtn.addEventListener("click", exportUserSelections);
   }
+  const exportDuplicateBtn = document.getElementById("exportDuplicateDecisions");
+  if (exportDuplicateBtn) exportDuplicateBtn.addEventListener("click", exportDuplicateReviewDecisions);
+  const duplicateReviewList = document.getElementById("duplicateReviewList");
+  if (duplicateReviewList) duplicateReviewList.addEventListener("click", handleDuplicateReviewAction);
 
   document.addEventListener("change", (e) => {
     const target = e.target;
