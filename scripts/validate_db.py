@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 REQUIRED = ("discovered_listings.json", "houses.json")
 VALID_STATUSES = {"active", "possibly_ended", "observed_ended", "confirmed_ended"}
+VALID_AREA_DECISIONS = {"accepted", "review", "rejected"}
 MAX_DB_BYTES = 80 * 1024 * 1024
 MAX_OBSERVATION_BYTES = 100 * 1024 * 1024
 
@@ -38,6 +39,11 @@ def validate_properties(data: Any, label: str) -> list[dict[str, Any]]:
         status = item.get("status")
         if status not in (None, "") and status not in VALID_STATUSES:
             raise ValueError(f"{label}: {pid} invalid status {status!r}")
+        area_decision = item.get("areaDecision")
+        if area_decision not in (None, "") and area_decision not in VALID_AREA_DECISIONS:
+            raise ValueError(f"{label}: {pid} invalid areaDecision {area_decision!r}")
+        if item.get("canonicalPropertyId") and not isinstance(item.get("canonicalPropertyId"), str):
+            raise ValueError(f"{label}: {pid} canonicalPropertyId must be a string")
         for field in ("landAreaM2", "buildingAreaM2", "buildingFootprintAreaM2"):
             value = item.get(field)
             if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or value <= 0):
@@ -77,6 +83,27 @@ def main() -> int:
             statuses[status] = statuses.get(status, 0) + 1
         print(f"OK {filename}: {len(records)} records; statuses={statuses}; bytes={path.stat().st_size:,}")
     print(f"OK listing_observations.json: {validate_observations()} observations")
+    summary_path = DATA / "summary.json"
+    if summary_path.exists():
+        summary = load(summary_path)
+        if not isinstance(summary, dict):
+            raise ValueError("summary.json must be an object")
+        if summary.get("marketPipelineVersion") and not isinstance(summary.get("marketAnalysis"), dict):
+            raise ValueError("summary.json has marketPipelineVersion but marketAnalysis is missing")
+        print(f"OK summary.json: marketPipelineVersion={summary.get('marketPipelineVersion', 'not generated')}")
+    review_path = DATA / "duplicate_review_candidates.json"
+    if review_path.exists():
+        review = load(review_path)
+        if not isinstance(review, dict) or not isinstance(review.get("candidates"), list):
+            raise ValueError("duplicate_review_candidates.json must contain a candidates list")
+        seen_candidates = set()
+        for item in review["candidates"]:
+            if not isinstance(item, dict) or not item.get("candidateId"):
+                raise ValueError("duplicate review candidate missing candidateId")
+            if item["candidateId"] in seen_candidates:
+                raise ValueError(f"duplicate review candidate ID {item['candidateId']}")
+            seen_candidates.add(item["candidateId"])
+        print(f"OK duplicate_review_candidates.json: {len(seen_candidates)} candidates")
     print("DB validation passed.")
     return 0
 

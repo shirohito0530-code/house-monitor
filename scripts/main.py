@@ -52,17 +52,11 @@ except ImportError:
     )
 
 
-try:
-    from detail_enrichment import enrich_detail_record, summarize_field_coverage
-except ImportError:
-    from scripts.detail_enrichment import enrich_detail_record, summarize_field_coverage
-
-
 # ============================================================
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-18-v45-phase12-field-audit-lifecycle"
+MAIN_PARSER_VERSION = "2026-10-14-v44-detail-field-coverage-counter-fix"
 
 
 # ============================================================
@@ -104,6 +98,12 @@ DISCOVERY_FIELDS = (
     "areaDetected",
     "areaClassification",
     "areaStatus",
+    # Phase 4 derived area decisions must survive main.py's discovery projection so
+    # quarantine timestamps remain stable across daily runs.
+    "areaDecision",
+    "areaDecisionReason",
+    "areaQuarantinedAt",
+    "areaPolicyVersion",
     "area",
     "areaCandidate",
     "areaMatched",
@@ -5463,7 +5463,6 @@ def run_pipeline() -> None:
                 prop["detailFetchErrorAt"] = now_iso()
             enrich_with_detail(prop, detail_res)
             promote_detail_fields(prop)
-            enrich_detail_record(prop)
             canonicalize_property_identity(prop)
             evaluate_property_criteria(prop, search_config)
             apply_detail_quality(prop)
@@ -5656,7 +5655,6 @@ def run_pipeline() -> None:
         "criteriaPendingByField": dict(criteria_pending_by_field),
         "marketDbEmptyWarning": len(deduplicated_houses) == 0,
         "fieldCoverage": field_coverage,
-        "fieldExtractionAudit": summarize_field_coverage(deduplicated_houses),
         "parserVersion": MAIN_PARSER_VERSION,
         **lifecycle_analytics,
     }
