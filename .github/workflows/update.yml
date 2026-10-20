@@ -88,15 +88,15 @@ jobs:
         run: |
           python scripts/db_maintenance.py
 
+      
       # --------------------------------------------------
       # 7. MLIT transaction data
       #
-      # If the API secret is unavailable, preserve the
-      # existing transactions.json and continue.
-      #
-      # If the secret is configured but API retrieval fails,
-      # fail the workflow rather than replacing valid data
-      # with an empty dataset.
+      # - Missing API key: preserve existing data and continue.
+      # - HTTP 404: search older quarters inside get_transactions.py.
+      # - API retrieval errors: record status and preserve existing data.
+      # - Invalid local database / failed atomic save: fail safely.
+      # - Market analysis continues after ordinary API retrieval errors.
       # --------------------------------------------------
       - name: Fetch MLIT transaction data
         env:
@@ -108,6 +108,7 @@ jobs:
           else
             python scripts/get_transactions.py
           fi
+
 
       # --------------------------------------------------
       # 8. Area classification, quarantine, duplicate review,
