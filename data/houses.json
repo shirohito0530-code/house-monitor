@@ -1,7 +1,7 @@
 {
   "version": "2.0",
-  "updatedAt": "2026-10-20T21:54:31.955642+00:00",
-  "count": 592,
+  "updatedAt": "2026-10-22T00:01:58.931457+00:00",
+  "count": 604,
   "properties": [
     {
       "propertyId": "suumo:nc_21108615",
@@ -52,16 +52,18 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 43900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
       "priceHistory": [],
-      "detailFetched": true,
-      "detailQuality": "complete",
-      "detailQualityScore": 100,
-      "detailQualityReasons": [],
+      "detailFetched": false,
+      "detailQuality": "unknown",
+      "detailQualityScore": 0,
+      "detailQualityReasons": [
+        "detail page has not been fetched"
+      ],
       "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
       "priceSource": "price_label_dom",
       "priceConfidence": "high",
@@ -81,10 +83,10 @@
         "landAreaMatched": true,
         "buildingAreaMatched": true
       },
-      "detailFetchStatus": "success",
+      "detailFetchStatus": "error",
       "lastDetailFetchAt": "2026-10-19T23:41:21.609164+00:00",
-      "detailFetchAttempts": 5,
-      "detailFetchSuccess": true,
+      "detailFetchAttempts": 6,
+      "detailFetchSuccess": false,
       "duplicateListings": [
         {
           "propertyId": "suumo:nc_21108615",
@@ -120,13 +122,13 @@
         "reasons": [
           "類似取引中央値との差：-37.2%（比較120件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+1.1%（比較14件）"
         ],
         "transactionComparableCount": 120,
         "similarListingCount": 14,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -178,18 +180,17 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
       "priceHistory": [],
-      "detailFetched": true,
-      "detailQuality": "partial",
-      "detailQualityScore": 71,
+      "detailFetched": false,
+      "detailQuality": "unknown",
+      "detailQualityScore": 0,
       "detailQualityReasons": [
-        "missing: station",
-        "missing: walkMinutes"
+        "detail page has not been fetched"
       ],
       "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
       "priceSource": "price_label_dom",
@@ -211,10 +212,10 @@
         "landAreaMatched": true,
         "buildingAreaMatched": true
       },
-      "detailFetchStatus": "success",
+      "detailFetchStatus": "error",
       "lastDetailFetchAt": "2026-10-19T23:41:23.125937+00:00",
-      "detailFetchAttempts": 5,
-      "detailFetchSuccess": true,
+      "detailFetchAttempts": 6,
+      "detailFetchSuccess": false,
       "duplicateListings": [
         {
           "propertyId": "suumo:nc_21602223",
@@ -296,16 +297,18 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 35800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
       "priceHistory": [],
-      "detailFetched": true,
-      "detailQuality": "complete",
-      "detailQualityScore": 100,
-      "detailQualityReasons": [],
+      "detailFetched": false,
+      "detailQuality": "unknown",
+      "detailQualityScore": 0,
+      "detailQualityReasons": [
+        "detail page has not been fetched"
+      ],
       "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
       "priceSource": "price_label_dom",
       "priceConfidence": "high",
@@ -325,10 +328,10 @@
         "landAreaMatched": true,
         "buildingAreaMatched": true
       },
-      "detailFetchStatus": "success",
+      "detailFetchStatus": "error",
       "lastDetailFetchAt": "2026-10-19T23:41:24.606017+00:00",
-      "detailFetchAttempts": 5,
-      "detailFetchSuccess": true,
+      "detailFetchAttempts": 6,
+      "detailFetchSuccess": false,
       "duplicateListings": [
         {
           "propertyId": "suumo:nc_21108950",
@@ -364,13 +367,13 @@
         "reasons": [
           "類似取引中央値との差：-11.9%（比較116件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+17.3%（比較12件）"
         ],
         "transactionComparableCount": 116,
         "similarListingCount": 12,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -422,7 +425,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -540,7 +543,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 86800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -615,13 +618,13 @@
         "reasons": [
           "類似取引中央値との差：-95.1%（比較32件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-20.9%（比較15件）"
         ],
         "transactionComparableCount": 32,
         "similarListingCount": 15,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -673,7 +676,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 30990000,
       "totalPriceReduction": 6000000,
       "priceReductionRate": 0.193611,
@@ -792,7 +795,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41950000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -910,7 +913,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 42800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1028,7 +1031,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 43800000,
       "totalPriceReduction": 1800000,
       "priceReductionRate": 0.041096,
@@ -1096,13 +1099,13 @@
         "reasons": [
           "類似取引中央値との差：-31.2%（比較114件）",
           "初回価格から4.1%値下げ",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+4.2%（比較12件）"
         ],
         "transactionComparableCount": 114,
         "similarListingCount": 12,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1154,7 +1157,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 47800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1222,13 +1225,13 @@
         "reasons": [
           "類似取引中央値との差：-49.4%（比較125件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-7.6%（比較16件）"
         ],
         "transactionComparableCount": 125,
         "similarListingCount": 16,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1280,7 +1283,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 59800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1348,13 +1351,13 @@
         "reasons": [
           "類似取引中央値との差：-81.2%（比較101件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-1.4%（比較19件）"
         ],
         "transactionComparableCount": 101,
         "similarListingCount": 19,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1406,7 +1409,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 61000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1531,7 +1534,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 61900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1599,13 +1602,13 @@
         "reasons": [
           "類似取引中央値との差：-87.6%（比較109件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-4.9%（比較19件）"
         ],
         "transactionComparableCount": 109,
         "similarListingCount": 19,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1657,7 +1660,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 69800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1725,13 +1728,13 @@
         "reasons": [
           "類似取引中央値との差：-55.1%（比較52件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-10.8%（比較23件）"
         ],
         "transactionComparableCount": 52,
         "similarListingCount": 23,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1783,7 +1786,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 79800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -1851,13 +1854,13 @@
         "reasons": [
           "類似取引中央値との差：-141.8%（比較102件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-22.8%（比較11件）"
         ],
         "transactionComparableCount": 102,
         "similarListingCount": 11,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -1909,7 +1912,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 25800000,
       "totalPriceReduction": 810000,
       "priceReductionRate": 0.031395,
@@ -2027,7 +2030,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 72400000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2091,13 +2094,13 @@
         },
         "reasons": [
           "類似取引中央値との差：-111.3%（比較104件）",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-17.8%（比較13件）"
         ],
         "transactionComparableCount": 104,
         "similarListingCount": 13,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -2149,7 +2152,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 77800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2213,13 +2216,13 @@
         },
         "reasons": [
           "類似取引中央値との差：-134.7%（比較102件）",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-22.8%（比較11件）"
         ],
         "transactionComparableCount": 102,
         "similarListingCount": 11,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -2271,7 +2274,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 0,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2336,12 +2339,12 @@
           "listing_duration": 35
         },
         "reasons": [
-          "掲載観測期間：約8日"
+          "掲載観測期間：約9日"
         ],
         "transactionComparableCount": 84,
         "similarListingCount": 0,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -2393,7 +2396,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 30880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2638,7 +2641,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 31900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2755,7 +2758,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2872,7 +2875,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -2989,7 +2992,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 30800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -3121,7 +3124,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 51990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -3166,13 +3169,6 @@
           "priceYen": 51990000
         },
         {
-          "propertyId": "suumo:nc_20257615",
-          "source": "suumo",
-          "sourceId": "nc_20257615",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_20257615/",
-          "priceYen": 51990000
-        },
-        {
           "propertyId": "suumo:nc_20655397",
           "source": "suumo",
           "sourceId": "nc_20655397",
@@ -3185,6 +3181,13 @@
           "sourceId": "nc_20305491",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_20305491/",
           "priceYen": 59900000
+        },
+        {
+          "propertyId": "suumo:nc_20257615",
+          "source": "suumo",
+          "sourceId": "nc_20257615",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_20257615/",
+          "priceYen": 51990000
         }
       ],
       "duplicateListingCount": 4,
@@ -3260,7 +3263,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -3524,7 +3527,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 42800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -3590,13 +3593,13 @@
         "reasons": [
           "類似取引中央値との差：-29.7%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+2.4%（比較12件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 12,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -3648,7 +3651,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 45900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -3714,13 +3717,13 @@
         "reasons": [
           "類似取引中央値との差：-39.1%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-3.3%（比較16件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 16,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -3772,7 +3775,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 47980000,
       "totalPriceReduction": 3000000,
       "priceReductionRate": 0.062526,
@@ -3873,13 +3876,13 @@
         "reasons": [
           "類似取引中央値との差：-36.3%（比較69件）",
           "初回価格から6.3%値下げ",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-2.5%（比較15件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 15,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -3931,7 +3934,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 46990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -4023,13 +4026,13 @@
         },
         "reasons": [
           "類似取引中央値との差：-45.4%（比較69件）",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-8.0%（比較16件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 16,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -4081,7 +4084,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 58990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -4154,13 +4157,13 @@
         "reasons": [
           "類似取引中央値との差：-76.1%（比較104件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-20.5%（比較16件）"
         ],
         "transactionComparableCount": 104,
         "similarListingCount": 16,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -4212,7 +4215,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 71980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -4276,13 +4279,13 @@
         },
         "reasons": [
           "類似取引中央値との差：-111.3%（比較100件）",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-17.8%（比較13件）"
         ],
         "transactionComparableCount": 100,
         "similarListingCount": 13,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -4334,7 +4337,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 37980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -4465,7 +4468,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 48990000,
       "totalPriceReduction": 90000,
       "priceReductionRate": 0.001837,
@@ -4583,7 +4586,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": "suumo:nc_21514117",
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 2000000,
       "priceReductionRate": 0.050125,
@@ -4701,7 +4704,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -4941,7 +4944,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -5059,7 +5062,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41980000,
       "totalPriceReduction": 2000000,
       "priceReductionRate": 0.047642,
@@ -5183,7 +5186,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 43900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -5300,7 +5303,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 54800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -5417,7 +5420,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 58990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -5483,13 +5486,13 @@
         "reasons": [
           "類似取引中央値との差：-76.1%（比較100件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-20.5%（比較16件）"
         ],
         "transactionComparableCount": 100,
         "similarListingCount": 16,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -5541,7 +5544,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 98600000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -5607,13 +5610,13 @@
         "reasons": [
           "類似取引中央値との差：-194.3%（比較100件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-35.3%（比較7件）"
         ],
         "transactionComparableCount": 100,
         "similarListingCount": 7,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -5665,7 +5668,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 47980000,
       "totalPriceReduction": 3000000,
       "priceReductionRate": 0.062526,
@@ -5949,7 +5952,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 32900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -6067,7 +6070,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 31900000,
       "totalPriceReduction": 1020000,
       "priceReductionRate": 0.031975,
@@ -6184,7 +6187,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 34900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -6301,7 +6304,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 37800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -6619,7 +6622,7 @@
         "transactionComparableCount": 119,
         "similarListingCount": 18,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -6671,7 +6674,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 64990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -6737,13 +6740,13 @@
         "reasons": [
           "類似取引中央値との差：-91.1%（比較102件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-10.2%（比較18件）"
         ],
         "transactionComparableCount": 102,
         "similarListingCount": 18,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -6795,7 +6798,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 28980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7044,7 +7047,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 35990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7169,7 +7172,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 34800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7256,13 +7259,13 @@
         "reasons": [
           "類似取引中央値との差：-3.9%（比較104件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+17.9%（比較10件）"
         ],
         "transactionComparableCount": 104,
         "similarListingCount": 10,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -7314,7 +7317,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 36900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7431,7 +7434,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7548,7 +7551,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 39980000,
       "totalPriceReduction": 990000,
       "priceReductionRate": 0.024762,
@@ -7672,7 +7675,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -7906,7 +7909,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 72800000,
       "totalPriceReduction": 1000000,
       "priceReductionRate": 0.013736,
@@ -8141,7 +8144,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 80900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -8209,13 +8212,13 @@
         "reasons": [
           "類似取引中央値との差：-83.9%（比較56件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-14.2%（比較18件）"
         ],
         "transactionComparableCount": 56,
         "similarListingCount": 18,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -8267,7 +8270,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 120000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -8335,13 +8338,13 @@
         "reasons": [
           "類似取引中央値との差：-179.1%（比較54件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-22.6%（比較15件）"
         ],
         "transactionComparableCount": 54,
         "similarListingCount": 15,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -8512,7 +8515,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 6,
+      "daysListed": 7,
       "firstPrice": 22980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -8637,7 +8640,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 31800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -8873,7 +8876,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 19500000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9006,7 +9009,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9332,7 +9335,7 @@
         "transactionComparableCount": 57,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -9384,7 +9387,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 59800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9498,7 +9501,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 59990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9612,7 +9615,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 63800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9733,7 +9736,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 69800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -9801,13 +9804,13 @@
         "reasons": [
           "類似取引中央値との差：-56.9%（比較54件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-10.8%（比較23件）"
         ],
         "transactionComparableCount": 54,
         "similarListingCount": 23,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -9859,7 +9862,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 45800000,
       "totalPriceReduction": 33000000,
       "priceReductionRate": 0.720524,
@@ -9977,7 +9980,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 23400000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -10215,7 +10218,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 70000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -10281,13 +10284,13 @@
         },
         "reasons": [
           "類似取引中央値との差：-63.2%（比較55件）",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-14.0%（比較23件）"
         ],
         "transactionComparableCount": 55,
         "similarListingCount": 23,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -10339,7 +10342,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 72800000,
       "totalPriceReduction": 3000000,
       "priceReductionRate": 0.041209,
@@ -10457,7 +10460,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 74800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -10525,13 +10528,13 @@
         "reasons": [
           "類似取引中央値との差：-66.2%（比較51件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-15.6%（比較25件）"
         ],
         "transactionComparableCount": 51,
         "similarListingCount": 25,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -10583,7 +10586,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 82800000,
       "totalPriceReduction": 3000000,
       "priceReductionRate": 0.036232,
@@ -10651,13 +10654,13 @@
         "reasons": [
           "類似取引中央値との差：-77.3%（比較52件）",
           "初回価格から3.6%値下げ",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-14.2%（比較19件）"
         ],
         "transactionComparableCount": 52,
         "similarListingCount": 19,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -10709,7 +10712,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 87990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -10777,13 +10780,13 @@
         "reasons": [
           "類似取引中央値との差：-93.4%（比較36件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-10.3%（比較16件）"
         ],
         "transactionComparableCount": 36,
         "similarListingCount": 16,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -10835,7 +10838,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 89800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -10903,13 +10906,13 @@
         "reasons": [
           "類似取引中央値との差：-91.1%（比較35件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-11.8%（比較16件）"
         ],
         "transactionComparableCount": 35,
         "similarListingCount": 16,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -10961,7 +10964,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 118000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -11029,13 +11032,13 @@
         "reasons": [
           "類似取引中央値との差：-165.2%（比較54件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-20.5%（比較15件）"
         ],
         "transactionComparableCount": 54,
         "similarListingCount": 15,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -11087,7 +11090,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 126800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -11155,13 +11158,13 @@
         "reasons": [
           "類似取引中央値との差：-191.5%（比較56件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-15.3%（比較11件）"
         ],
         "transactionComparableCount": 56,
         "similarListingCount": 11,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -11213,7 +11216,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 128000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -11281,13 +11284,13 @@
         "reasons": [
           "類似取引中央値との差：-184.4%（比較48件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-8.5%（比較9件）"
         ],
         "transactionComparableCount": 48,
         "similarListingCount": 9,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -11339,7 +11342,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 129800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -11407,13 +11410,13 @@
         "reasons": [
           "類似取引中央値との差：-188.4%（比較51件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-13.9%（比較10件）"
         ],
         "transactionComparableCount": 51,
         "similarListingCount": 10,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -11539,7 +11542,7 @@
         "transactionComparableCount": 17,
         "similarListingCount": 5,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -11637,6 +11640,13 @@
           "priceYen": 27990000
         },
         {
+          "propertyId": "suumo:nc_20430164",
+          "source": "suumo",
+          "sourceId": "nc_20430164",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20430164/",
+          "priceYen": 22800000
+        },
+        {
           "propertyId": "suumo:nc_20735910",
           "source": "suumo",
           "sourceId": "nc_20735910",
@@ -11649,13 +11659,6 @@
           "sourceId": "nc_20638500",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20638500/",
           "priceYen": 27990000
-        },
-        {
-          "propertyId": "suumo:nc_20430164",
-          "source": "suumo",
-          "sourceId": "nc_20430164",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20430164/",
-          "priceYen": 22800000
         }
       ],
       "duplicateListingCount": 4,
@@ -11853,7 +11856,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 4,
+      "daysListed": 5,
       "firstPrice": 27800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -12340,7 +12343,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 40800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -12457,7 +12460,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 49900000,
       "totalPriceReduction": 5000000,
       "priceReductionRate": 0.1002,
@@ -12574,7 +12577,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 62900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -12691,7 +12694,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 74900000,
       "totalPriceReduction": 5000000,
       "priceReductionRate": 0.066756,
@@ -12757,13 +12760,13 @@
         "reasons": [
           "類似取引中央値との差：-55.3%（比較50件）",
           "初回価格から6.7%値下げ",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-9.5%（比較24件）"
         ],
         "transactionComparableCount": 50,
         "similarListingCount": 24,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -13437,7 +13440,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 45800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -13554,7 +13557,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 48800000,
       "totalPriceReduction": 1000000,
       "priceReductionRate": 0.020492,
@@ -13671,7 +13674,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 55800000,
       "totalPriceReduction": 810000,
       "priceReductionRate": 0.014516,
@@ -13744,13 +13747,13 @@
         "reasons": [
           "類似取引中央値との差：-22.2%（比較43件）",
           "初回価格から1.5%値下げ",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+3.2%（比較17件）"
         ],
         "transactionComparableCount": 43,
         "similarListingCount": 17,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -13802,7 +13805,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 79800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -13868,13 +13871,13 @@
         "reasons": [
           "類似取引中央値との差：-77.3%（比較51件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-12.6%（比較20件）"
         ],
         "transactionComparableCount": 51,
         "similarListingCount": 20,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -13926,7 +13929,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 97900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -13992,13 +13995,13 @@
         "reasons": [
           "類似取引中央値との差：-117.6%（比較49件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-18.0%（比較19件）"
         ],
         "transactionComparableCount": 49,
         "similarListingCount": 19,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -14050,7 +14053,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 135000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -14116,13 +14119,13 @@
         "reasons": [
           "類似取引中央値との差：-206.8%（比較51件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-18.4%（比較10件）"
         ],
         "transactionComparableCount": 51,
         "similarListingCount": 10,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -14174,7 +14177,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 0,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -14904,7 +14907,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 36800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -15022,7 +15025,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 47000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -15139,7 +15142,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 58990000,
       "totalPriceReduction": 2000000,
       "priceReductionRate": 0.033904,
@@ -15493,7 +15496,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 38300000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -15538,13 +15541,6 @@
           "priceYen": 38300000
         },
         {
-          "propertyId": "suumo:nc_21503570",
-          "source": "suumo",
-          "sourceId": "nc_21503570",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21503570/",
-          "priceYen": 38300000
-        },
-        {
           "propertyId": "suumo:nc_21444896",
           "source": "suumo",
           "sourceId": "nc_21444896",
@@ -15563,6 +15559,13 @@
           "source": "suumo",
           "sourceId": "nc_21203491",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21203491/",
+          "priceYen": 38300000
+        },
+        {
+          "propertyId": "suumo:nc_21503570",
+          "source": "suumo",
+          "sourceId": "nc_21503570",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21503570/",
           "priceYen": 38300000
         },
         {
@@ -15808,6 +15811,13 @@
           "priceYen": 38900000
         },
         {
+          "propertyId": "suumo:nc_21467052",
+          "source": "suumo",
+          "sourceId": "nc_21467052",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21467052/",
+          "priceYen": 38900000
+        },
+        {
           "propertyId": "suumo:nc_20663954",
           "source": "suumo",
           "sourceId": "nc_20663954",
@@ -15819,13 +15829,6 @@
           "source": "suumo",
           "sourceId": "nc_21536957",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21536957/",
-          "priceYen": 38900000
-        },
-        {
-          "propertyId": "suumo:nc_21467052",
-          "source": "suumo",
-          "sourceId": "nc_21467052",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21467052/",
           "priceYen": 38900000
         }
       ],
@@ -16141,7 +16144,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 62990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -16207,13 +16210,13 @@
         "reasons": [
           "類似取引中央値との差：-40.0%（比較38件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-10.9%（比較19件）"
         ],
         "transactionComparableCount": 38,
         "similarListingCount": 19,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -16265,7 +16268,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 54900000,
       "totalPriceReduction": 15020000,
       "priceReductionRate": 0.273588,
@@ -16397,7 +16400,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 29900000,
       "totalPriceReduction": 2000000,
       "priceReductionRate": 0.06689,
@@ -16653,7 +16656,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 38990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -16691,6 +16694,13 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
+          "propertyId": "suumo:nc_21564727",
+          "source": "suumo",
+          "sourceId": "nc_21564727",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21564727/",
+          "priceYen": 38990000
+        },
+        {
           "propertyId": "suumo:nc_21825818",
           "source": "suumo",
           "sourceId": "nc_21825818",
@@ -16702,13 +16712,6 @@
           "source": "suumo",
           "sourceId": "nc_21029277",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21029277/",
-          "priceYen": 38990000
-        },
-        {
-          "propertyId": "suumo:nc_21564727",
-          "source": "suumo",
-          "sourceId": "nc_21564727",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21564727/",
           "priceYen": 38990000
         }
       ],
@@ -16785,7 +16788,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 63800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -17270,7 +17273,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 48800000,
       "totalPriceReduction": 4000000,
       "priceReductionRate": 0.081967,
@@ -17513,7 +17516,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 45980000,
       "totalPriceReduction": 2000000,
       "priceReductionRate": 0.043497,
@@ -17752,7 +17755,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 48800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -17818,13 +17821,13 @@
         "reasons": [
           "類似取引中央値との差：-8.4%（比較48件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+6.2%（比較13件）"
         ],
         "transactionComparableCount": 48,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -18227,7 +18230,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 25800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -18336,12 +18339,12 @@
         "reasons": [
           "類似取引中央値との差：+21.8%（比較109件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約7日"
+          "掲載観測期間：約8日"
         ],
         "transactionComparableCount": 109,
         "similarListingCount": 2,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -18594,13 +18597,13 @@
         "reasons": [
           "類似取引中央値との差：-13.7%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+6.0%（比較13件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -18979,7 +18982,7 @@
         "transactionComparableCount": 69,
         "similarListingCount": 6,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -19031,7 +19034,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 32900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -19521,7 +19524,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 58800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -19932,6 +19935,13 @@
           "priceYen": 39800000
         },
         {
+          "propertyId": "suumo:nc_21939262",
+          "source": "suumo",
+          "sourceId": "nc_21939262",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21939262/",
+          "priceYen": 27990000
+        },
+        {
           "propertyId": "suumo:nc_21192623",
           "source": "suumo",
           "sourceId": "nc_21192623",
@@ -19944,13 +19954,6 @@
           "sourceId": "nc_20781402",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20781402/",
           "priceYen": 43000000
-        },
-        {
-          "propertyId": "suumo:nc_21939262",
-          "source": "suumo",
-          "sourceId": "nc_21939262",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21939262/",
-          "priceYen": 27990000
         }
       ],
       "duplicateListingCount": 4,
@@ -20001,7 +20004,7 @@
       "constructionMonth": "2022-04",
       "constructionAgeYears": 4.5,
       "constructionYear": 2022,
-      "builtAgeYears": 4.5,
+      "builtAgeYears": null,
       "propertyType": "中古戸建",
       "targetStation": null,
       "targetStationWalkMinutes": null,
@@ -20025,7 +20028,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 27990000,
       "totalPriceReduction": 190000,
       "priceReductionRate": 0.006788,
@@ -20047,10 +20050,11 @@
       "marketReviewStatus": "pending",
       "criteriaExcludedFields": [],
       "criteriaPendingFields": [
+        "builtAgeMatched",
         "walkMatched"
       ],
       "candidateCriteria": {
-        "builtAgeMatched": true,
+        "builtAgeMatched": null,
         "propertyTypeMatched": true,
         "priceMatched": true,
         "walkMatched": null,
@@ -20063,17 +20067,17 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21616363",
-          "source": "suumo",
-          "sourceId": "nc_21616363",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_21616363/",
-          "priceYen": 27800000
-        },
-        {
           "propertyId": "suumo:nc_20988198",
           "source": "suumo",
           "sourceId": "nc_20988198",
           "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_20988198/",
+          "priceYen": 27800000
+        },
+        {
+          "propertyId": "suumo:nc_21616363",
+          "source": "suumo",
+          "sourceId": "nc_21616363",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_21616363/",
           "priceYen": 27800000
         }
       ],
@@ -20394,7 +20398,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33490000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -20631,7 +20635,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 18800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -20868,7 +20872,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 5900000,
       "priceReductionRate": 0.14787,
@@ -21974,7 +21978,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 38900000,
       "totalPriceReduction": 4910000,
       "priceReductionRate": 0.126221,
@@ -22019,17 +22023,17 @@
           "priceYen": 33990000
         },
         {
-          "propertyId": "suumo:nc_21133082",
-          "source": "suumo",
-          "sourceId": "nc_21133082",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21133082/",
-          "priceYen": 33990000
-        },
-        {
           "propertyId": "suumo:nc_21517961",
           "source": "suumo",
           "sourceId": "nc_21517961",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21517961/",
+          "priceYen": 33990000
+        },
+        {
+          "propertyId": "suumo:nc_21133082",
+          "source": "suumo",
+          "sourceId": "nc_21133082",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21133082/",
           "priceYen": 33990000
         }
       ],
@@ -22238,7 +22242,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 59980000,
       "totalPriceReduction": 14180000,
       "priceReductionRate": 0.236412,
@@ -23334,7 +23338,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33990000,
       "totalPriceReduction": 3000000,
       "priceReductionRate": 0.088261,
@@ -23372,17 +23376,17 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_20875921",
-          "source": "suumo",
-          "sourceId": "nc_20875921",
-          "sourceUrl": "https://suumo.jp/ikkodate/saitama/sc_kasukabe/nc_20875921/",
-          "priceYen": 30990000
-        },
-        {
           "propertyId": "suumo:nc_21439335",
           "source": "suumo",
           "sourceId": "nc_21439335",
           "sourceUrl": "https://suumo.jp/ikkodate/saitama/sc_kasukabe/nc_21439335/",
+          "priceYen": 30990000
+        },
+        {
+          "propertyId": "suumo:nc_20875921",
+          "source": "suumo",
+          "sourceId": "nc_20875921",
+          "sourceUrl": "https://suumo.jp/ikkodate/saitama/sc_kasukabe/nc_20875921/",
           "priceYen": 30990000
         }
       ],
@@ -23956,7 +23960,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": "suumo:nc_21272413",
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 37900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -23994,17 +23998,17 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21271928",
-          "source": "suumo",
-          "sourceId": "nc_21271928",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21271928/",
-          "priceYen": 52900000
-        },
-        {
           "propertyId": "suumo:nc_21641158",
           "source": "suumo",
           "sourceId": "nc_21641158",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21641158/",
+          "priceYen": 52900000
+        },
+        {
+          "propertyId": "suumo:nc_21271928",
+          "source": "suumo",
+          "sourceId": "nc_21271928",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21271928/",
           "priceYen": 52900000
         },
         {
@@ -24453,7 +24457,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 32980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -25544,7 +25548,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 38990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -26278,7 +26282,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 32900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -27262,7 +27266,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 46980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -27380,7 +27384,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 42800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -28087,7 +28091,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 22990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -28206,7 +28210,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 31990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -28802,7 +28806,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 35800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -29985,7 +29989,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 39800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -30352,7 +30356,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 40980000,
       "totalPriceReduction": 1180000,
       "priceReductionRate": 0.028795,
@@ -31331,7 +31335,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 27990000,
       "totalPriceReduction": 6500000,
       "priceReductionRate": 0.232226,
@@ -31462,7 +31466,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 79800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -31530,13 +31534,13 @@
         "reasons": [
           "類似取引中央値との差：-141.8%（比較102件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約7日",
+          "掲載観測期間：約8日",
           "類似掲載中央値との比較：-22.8%（比較11件）"
         ],
         "transactionComparableCount": 102,
         "similarListingCount": 11,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -32183,7 +32187,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 83000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -32251,13 +32255,13 @@
         "reasons": [
           "類似取引中央値との差：-84.4%（比較53件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約7日",
+          "掲載観測期間：約8日",
           "類似掲載中央値との比較：-15.6%（比較19件）"
         ],
         "transactionComparableCount": 53,
         "similarListingCount": 19,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -32428,7 +32432,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 24290000,
       "totalPriceReduction": 1490000,
       "priceReductionRate": 0.061342,
@@ -32829,17 +32833,17 @@
           "priceYen": 35880000
         },
         {
-          "propertyId": "suumo:nc_21621803",
-          "source": "suumo",
-          "sourceId": "nc_21621803",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_ichikawa/nc_21621803/",
-          "priceYen": 35880000
-        },
-        {
           "propertyId": "suumo:nc_21663793",
           "source": "suumo",
           "sourceId": "nc_21663793",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_ichikawa/nc_21663793/",
+          "priceYen": 35880000
+        },
+        {
+          "propertyId": "suumo:nc_21621803",
+          "source": "suumo",
+          "sourceId": "nc_21621803",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_ichikawa/nc_21621803/",
           "priceYen": 35880000
         }
       ],
@@ -33033,7 +33037,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 38900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -33888,7 +33892,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": "suumo:nc_21649020",
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 46990000,
       "totalPriceReduction": 11090000,
       "priceReductionRate": 0.236008,
@@ -33926,6 +33930,13 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
+          "propertyId": "suumo:nc_21726380",
+          "source": "suumo",
+          "sourceId": "nc_21726380",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21726380/",
+          "priceYen": 35900000
+        },
+        {
           "propertyId": "suumo:nc_21721752",
           "source": "suumo",
           "sourceId": "nc_21721752",
@@ -33937,13 +33948,6 @@
           "source": "suumo",
           "sourceId": "nc_21736946",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21736946/",
-          "priceYen": 35900000
-        },
-        {
-          "propertyId": "suumo:nc_21726380",
-          "source": "suumo",
-          "sourceId": "nc_21726380",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21726380/",
           "priceYen": 35900000
         }
       ],
@@ -35715,7 +35719,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 6,
+      "daysListed": 7,
       "firstPrice": 150000000,
       "totalPriceReduction": 125010000,
       "priceReductionRate": 0.8334,
@@ -35834,7 +35838,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 6,
+      "daysListed": 7,
       "firstPrice": 18800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -36078,7 +36082,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 6,
+      "daysListed": 7,
       "firstPrice": 23400000,
       "totalPriceReduction": 5600000,
       "priceReductionRate": 0.239316,
@@ -36316,7 +36320,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 6,
+      "daysListed": 7,
       "firstPrice": 46990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -38000,7 +38004,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 150000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -38044,17 +38048,17 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21864218",
-          "source": "suumo",
-          "sourceId": "nc_21864218",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21864218/",
-          "priceYen": 150000000
-        },
-        {
           "propertyId": "suumo:nc_21889731",
           "source": "suumo",
           "sourceId": "nc_21889731",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21889731/",
+          "priceYen": 150000000
+        },
+        {
+          "propertyId": "suumo:nc_21864218",
+          "source": "suumo",
+          "sourceId": "nc_21864218",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21864218/",
           "priceYen": 150000000
         }
       ],
@@ -38083,13 +38087,13 @@
       }
     },
     {
-      "propertyId": "suumo:nc_21828158",
+      "propertyId": "suumo:nc_21843791",
       "physicalIdentityKey": "property:c7ef09571adf1c87dd407dbd",
       "physicalIdentityType": "address_land_building",
       "physicalIdentityCompleteness": 1.0,
       "source": "suumo",
-      "sourceId": "nc_21828158",
-      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_yachiyo/nc_21828158/",
+      "sourceId": "nc_21843791",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_yachiyo/nc_21843791/",
       "name": "大和田新田（八千代中央駅） 3149万円",
       "listingTitle": "大和田新田（八千代中央駅） 3149万円",
       "priceYen": 31490000,
@@ -38119,19 +38123,19 @@
       "searchArea": "柏の葉キャンパス",
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": "柏の葉小学校区",
-      "firstSeenAt": "2026-10-14T21:49:41.074874+00:00",
-      "lastSeenAt": "2026-10-14T21:49:41.074874+00:00",
-      "endedObservedAt": "2026-10-15T21:49:08.770768+00:00",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
       "endedAt": null,
       "isListingEnded": false,
-      "listingEndReason": "missing_from_healthy_searches",
-      "listingStatusUpdatedAt": "2026-10-15T21:49:08.770768+00:00",
-      "missedSearchRuns": 9,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
       "relistedAt": null,
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
-      "status": "observed_ended",
-      "daysListed": 0,
+      "status": "active",
+      "daysListed": 1,
       "firstPrice": 31490000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -38170,7 +38174,7 @@
         "buildingAreaMatched": null
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-14T21:52:40.844195+00:00",
+      "lastDetailFetchAt": "2026-10-20T21:53:09.500123+00:00",
       "detailFetchAttempts": 1,
       "detailFetchSuccess": true,
       "duplicateListings": [
@@ -38180,18 +38184,25 @@
           "sourceId": "nc_21828158",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_yachiyo/nc_21828158/",
           "priceYen": 31490000
+        },
+        {
+          "propertyId": "suumo:nc_21843791",
+          "source": "suumo",
+          "sourceId": "nc_21843791",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_yachiyo/nc_21843791/",
+          "priceYen": 31490000
         }
       ],
-      "duplicateListingCount": 1,
-      "areaQuarantinedAt": "2026-10-19T13:51:11.129213+00:00",
+      "duplicateListingCount": 2,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
       "areaDecision": "rejected",
       "areaDecisionReason": "municipality_outside_target:八千代市",
       "areaPolicyVersion": "2026-10-19-v1",
       "schoolDistrictStatus": "unconfirmed",
       "schoolDistrictSource": "official_source_required_exact_address",
       "schoolDistrictVerifiedAt": null,
-      "canonicalPropertyId": "suumo:nc_21828158",
-      "propertyGroupId": "property-group:cf23d7fd27b4f2688763",
+      "canonicalPropertyId": "suumo:nc_21843791",
+      "propertyGroupId": "property-group:0b501400a05d302cc7a0",
       "duplicateStatus": "unique",
       "duplicateReviewCandidateCount": 0,
       "isCanonicalProperty": true,
@@ -38545,18 +38556,18 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_79203878",
-          "source": "suumo",
-          "sourceId": "nc_79203878",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_79203878/",
-          "priceYen": 29990000
-        },
-        {
           "propertyId": "suumo:nc_21682389",
           "source": "suumo",
           "sourceId": "nc_21682389",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21682389/",
           "priceYen": 45800000
+        },
+        {
+          "propertyId": "suumo:nc_79203878",
+          "source": "suumo",
+          "sourceId": "nc_79203878",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_79203878/",
+          "priceYen": 29990000
         }
       ],
       "duplicateListingCount": 2,
@@ -40090,7 +40101,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 34880000,
       "totalPriceReduction": 1900000,
       "priceReductionRate": 0.054472,
@@ -40443,7 +40454,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 59980000,
       "totalPriceReduction": 22990000,
       "priceReductionRate": 0.383294,
@@ -40574,7 +40585,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 2,
+      "daysListed": 4,
       "firstPrice": 35880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -40942,7 +40953,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 63800000,
       "totalPriceReduction": 18000000,
       "priceReductionRate": 0.282132,
@@ -41183,7 +41194,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33990000,
       "totalPriceReduction": 6090000,
       "priceReductionRate": 0.17917,
@@ -41506,13 +41517,13 @@
         "reasons": [
           "類似取引中央値との差：-132.1%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約1日",
+          "掲載観測期間：約2日",
           "類似掲載中央値との比較：-15.0%（比較19件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 19,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -42264,19 +42275,19 @@
       }
     },
     {
-      "propertyId": "suumo:nc_21113393",
+      "propertyId": "suumo:nc_21225757",
       "physicalIdentityKey": "property:f5114efbdb40b9fda9b7cd6d",
       "physicalIdentityType": "address_land_building",
       "physicalIdentityCompleteness": 1.0,
       "source": "suumo",
-      "sourceId": "nc_21113393",
-      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21113393/",
-      "name": "市場４（東船橋駅） 5490万円",
-      "listingTitle": "市場４（東船橋駅） 5490万円",
-      "priceYen": 54900000,
-      "currentPrice": 54900000,
-      "price": 54900000,
-      "priceMan": 5490,
+      "sourceId": "nc_21225757",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21225757/",
+      "name": "市場４（東船橋駅） 5390万円・5490万円",
+      "listingTitle": "市場４（東船橋駅） 5390万円・5490万円",
+      "priceYen": 53900000,
+      "currentPrice": 53900000,
+      "price": 53900000,
+      "priceMan": 5390,
       "address": "千葉県船橋市市場４",
       "landAreaM2": null,
       "land": null,
@@ -42300,20 +42311,20 @@
       "searchArea": "流山おおたかの森",
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
-      "firstSeenAt": "2026-10-17T22:29:16.029910+00:00",
-      "lastSeenAt": "2026-10-17T22:29:16.029910+00:00",
-      "endedObservedAt": "2026-10-19T21:48:35.998705+00:00",
+      "firstSeenAt": "2026-10-12T11:36:39.505682+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-17T22:29:16.029910+00:00",
       "endedAt": null,
       "isListingEnded": false,
-      "listingEndReason": "missing_from_healthy_searches",
-      "listingStatusUpdatedAt": "2026-10-19T21:48:35.998705+00:00",
-      "missedSearchRuns": 5,
-      "relistedAt": null,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
-      "status": "observed_ended",
-      "daysListed": 1,
-      "firstPrice": 54900000,
+      "status": "active",
+      "daysListed": 9,
+      "firstPrice": 53900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
       "priceReductionCount": 0,
@@ -42349,8 +42360,8 @@
         "buildingAreaMatched": null
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-17T22:32:50.263098+00:00",
-      "detailFetchAttempts": 1,
+      "lastDetailFetchAt": "2026-10-20T21:54:21.214351+00:00",
+      "detailFetchAttempts": 4,
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
@@ -42359,9 +42370,16 @@
           "sourceId": "nc_21113393",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21113393/",
           "priceYen": 54900000
+        },
+        {
+          "propertyId": "suumo:nc_21225757",
+          "source": "suumo",
+          "sourceId": "nc_21225757",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21225757/",
+          "priceYen": 53900000
         }
       ],
-      "duplicateListingCount": 1,
+      "duplicateListingCount": 2,
       "areaQuarantinedAt": "2026-10-19T13:51:11.129213+00:00",
       "areaDecision": "rejected",
       "areaDecisionReason": "municipality_outside_target:船橋市",
@@ -42369,8 +42387,8 @@
       "schoolDistrictStatus": "unconfirmed",
       "schoolDistrictSource": "official_source_required_exact_address",
       "schoolDistrictVerifiedAt": null,
-      "canonicalPropertyId": "suumo:nc_21113393",
-      "propertyGroupId": "property-group:6d61b28f44b6d68caf78",
+      "canonicalPropertyId": "suumo:nc_21225757",
+      "propertyGroupId": "property-group:6d349db00c6b24b2725c",
       "duplicateStatus": "unique",
       "duplicateReviewCandidateCount": 0,
       "isCanonicalProperty": true,
@@ -42805,7 +42823,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": "suumo:nc_21514756",
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 58990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -43042,7 +43060,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 45800000,
       "totalPriceReduction": 13900000,
       "priceReductionRate": 0.303493,
@@ -43080,18 +43098,18 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21549215",
-          "source": "suumo",
-          "sourceId": "nc_21549215",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_21549215/",
-          "priceYen": 32900000
-        },
-        {
           "propertyId": "suumo:nc_21197924",
           "source": "suumo",
           "sourceId": "nc_21197924",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_21197924/",
           "priceYen": 31900000
+        },
+        {
+          "propertyId": "suumo:nc_21549215",
+          "source": "suumo",
+          "sourceId": "nc_21549215",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_noda/nc_21549215/",
+          "priceYen": 32900000
         }
       ],
       "duplicateListingCount": 2,
@@ -43167,7 +43185,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 4,
+      "daysListed": 5,
       "firstPrice": 54990000,
       "totalPriceReduction": 1000000,
       "priceReductionRate": 0.018185,
@@ -44143,7 +44161,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 4,
+      "daysListed": 5,
       "firstPrice": 50000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -44209,13 +44227,13 @@
         "reasons": [
           "類似取引中央値との差：-11.1%（比較49件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約4日",
+          "掲載観測期間：約5日",
           "類似掲載中央値との比較：+3.8%（比較13件）"
         ],
         "transactionComparableCount": 49,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -46789,7 +46807,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 36990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -47652,7 +47670,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 2,
+      "daysListed": 4,
       "firstPrice": 61900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -48476,7 +48494,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 23990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -48980,7 +48998,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 4,
+      "daysListed": 5,
       "firstPrice": 34800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -49246,7 +49264,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 29990000,
       "totalPriceReduction": 7190000,
       "priceReductionRate": 0.239747,
@@ -49297,13 +49315,6 @@
           "priceYen": 22800000
         },
         {
-          "propertyId": "suumo:nc_21143895",
-          "source": "suumo",
-          "sourceId": "nc_21143895",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21143895/",
-          "priceYen": 46270000
-        },
-        {
           "propertyId": "suumo:nc_21317406",
           "source": "suumo",
           "sourceId": "nc_21317406",
@@ -49323,6 +49334,13 @@
           "sourceId": "nc_21719677",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21719677/",
           "priceYen": 29990000
+        },
+        {
+          "propertyId": "suumo:nc_21143895",
+          "source": "suumo",
+          "sourceId": "nc_21143895",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21143895/",
+          "priceYen": 46270000
         },
         {
           "propertyId": "suumo:nc_20960096",
@@ -49357,15 +49375,15 @@
       }
     },
     {
-      "propertyId": "suumo:nc_21824670",
+      "propertyId": "suumo:nc_21281638",
       "physicalIdentityKey": "property:8f1cc36e4c0a9df303304a73",
       "physicalIdentityType": "address_land_building",
       "physicalIdentityCompleteness": 1.0,
       "source": "suumo",
-      "sourceId": "nc_21824670",
-      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21824670/",
+      "sourceId": "nc_21281638",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21281638/",
       "name": "柏（柏駅） 3980万円",
-      "listingTitle": "柏3980万円・3LDK",
+      "listingTitle": "柏（柏駅） 3980万円",
       "priceYen": 39800000,
       "currentPrice": 39800000,
       "price": 39800000,
@@ -49393,19 +49411,19 @@
       "searchArea": "流山おおたかの森",
       "schoolDistrictCandidate": false,
       "schoolDistrictCandidateArea": null,
-      "firstSeenAt": "2026-10-16T21:48:03.559209+00:00",
-      "lastSeenAt": "2026-10-19T21:48:35.998705+00:00",
-      "endedObservedAt": "2026-10-20T14:30:03.349080+00:00",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
       "endedAt": null,
       "isListingEnded": false,
-      "listingEndReason": "missing_from_healthy_searches",
-      "listingStatusUpdatedAt": "2026-10-20T14:30:03.349080+00:00",
-      "missedSearchRuns": 3,
-      "relistedAt": "2026-10-19T14:56:22.457509+00:00",
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
-      "status": "observed_ended",
-      "daysListed": 3,
+      "status": "active",
+      "daysListed": 1,
       "firstPrice": 39800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -49442,8 +49460,8 @@
         "buildingAreaMatched": null
       },
       "detailFetchStatus": "success",
-      "lastDetailFetchAt": "2026-10-19T15:00:23.971677+00:00",
-      "detailFetchAttempts": 2,
+      "lastDetailFetchAt": "2026-10-20T21:53:41.270806+00:00",
+      "detailFetchAttempts": 1,
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
@@ -49459,17 +49477,24 @@
           "sourceId": "nc_21848757",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21848757/",
           "priceYen": 39800000
+        },
+        {
+          "propertyId": "suumo:nc_21281638",
+          "source": "suumo",
+          "sourceId": "nc_21281638",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21281638/",
+          "priceYen": 39800000
         }
       ],
-      "duplicateListingCount": 2,
+      "duplicateListingCount": 3,
       "areaDecision": "review",
       "areaDecisionReason": "target_city_station_unverified",
       "areaPolicyVersion": "2026-10-19-v1",
       "schoolDistrictStatus": "unconfirmed",
       "schoolDistrictSource": "official_source_required_exact_address",
       "schoolDistrictVerifiedAt": null,
-      "canonicalPropertyId": "suumo:nc_21824670",
-      "propertyGroupId": "property-group:b23b085fdaa126df30c6",
+      "canonicalPropertyId": "suumo:nc_21281638",
+      "propertyGroupId": "property-group:4fcef1db021d63092d5b",
       "duplicateStatus": "unique",
       "duplicateReviewCandidateCount": 0,
       "isCanonicalProperty": true,
@@ -50646,7 +50671,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 62800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -50763,7 +50788,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 27800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -51122,7 +51147,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": "suumo:nc_21067195",
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 36900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -51160,17 +51185,17 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21075590",
-          "source": "suumo",
-          "sourceId": "nc_21075590",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21075590/",
-          "priceYen": 56480000
-        },
-        {
           "propertyId": "suumo:nc_21144781",
           "source": "suumo",
           "sourceId": "nc_21144781",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21144781/",
+          "priceYen": 56480000
+        },
+        {
+          "propertyId": "suumo:nc_21075590",
+          "source": "suumo",
+          "sourceId": "nc_21075590",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kamagaya/nc_21075590/",
           "priceYen": 56480000
         }
       ],
@@ -53826,7 +53851,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 29990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -53950,7 +53975,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -54426,7 +54451,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 110000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -54494,13 +54519,13 @@
         "reasons": [
           "類似取引中央値との差：-144.4%（比較53件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約1日",
+          "掲載観測期間：約2日",
           "類似掲載中央値との比較：-17.2%（比較16件）"
         ],
         "transactionComparableCount": 53,
         "similarListingCount": 16,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -54787,7 +54812,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 43980000,
       "totalPriceReduction": 7080000,
       "priceReductionRate": 0.160982,
@@ -54904,7 +54929,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 32800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55139,7 +55164,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 12800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55190,18 +55215,18 @@
           "priceYen": 12800000
         },
         {
-          "propertyId": "suumo:nc_21118617",
-          "source": "suumo",
-          "sourceId": "nc_21118617",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21118617/",
-          "priceYen": 22800000
-        },
-        {
           "propertyId": "suumo:nc_21438259",
           "source": "suumo",
           "sourceId": "nc_21438259",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21438259/",
           "priceYen": 12800000
+        },
+        {
+          "propertyId": "suumo:nc_21118617",
+          "source": "suumo",
+          "sourceId": "nc_21118617",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21118617/",
+          "priceYen": 22800000
         }
       ],
       "duplicateListingCount": 3,
@@ -55276,7 +55301,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 27990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55421,7 +55446,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55549,7 +55574,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 43000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55600,17 +55625,17 @@
           "priceYen": 59800000
         },
         {
-          "propertyId": "suumo:nc_21882979",
-          "source": "suumo",
-          "sourceId": "nc_21882979",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21882979/",
-          "priceYen": 43000000
-        },
-        {
           "propertyId": "suumo:nc_21884150",
           "source": "suumo",
           "sourceId": "nc_21884150",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21884150/",
+          "priceYen": 43000000
+        },
+        {
+          "propertyId": "suumo:nc_21882979",
+          "source": "suumo",
+          "sourceId": "nc_21882979",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21882979/",
           "priceYen": 43000000
         }
       ],
@@ -55687,7 +55712,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 20800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55731,6 +55756,13 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
+          "propertyId": "suumo:nc_21867079",
+          "source": "suumo",
+          "sourceId": "nc_21867079",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21867079/",
+          "priceYen": 20800000
+        },
+        {
           "propertyId": "suumo:nc_21960838",
           "source": "suumo",
           "sourceId": "nc_21960838",
@@ -55750,13 +55782,6 @@
           "sourceId": "nc_21844845",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21844845/",
           "priceYen": 22800000
-        },
-        {
-          "propertyId": "suumo:nc_21867079",
-          "source": "suumo",
-          "sourceId": "nc_21867079",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21867079/",
-          "priceYen": 20800000
         }
       ],
       "duplicateListingCount": 4,
@@ -55831,7 +55856,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -55882,6 +55907,13 @@
           "priceYen": 24990000
         },
         {
+          "propertyId": "suumo:nc_21918997",
+          "source": "suumo",
+          "sourceId": "nc_21918997",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21918997/",
+          "priceYen": 15800000
+        },
+        {
           "propertyId": "suumo:nc_21327233",
           "source": "suumo",
           "sourceId": "nc_21327233",
@@ -55894,13 +55926,6 @@
           "sourceId": "nc_21341969",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21341969/",
           "priceYen": 24990000
-        },
-        {
-          "propertyId": "suumo:nc_21918997",
-          "source": "suumo",
-          "sourceId": "nc_21918997",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21918997/",
-          "priceYen": 15800000
         },
         {
           "propertyId": "suumo:nc_21845617",
@@ -56073,18 +56098,18 @@
           "priceYen": 39900000
         },
         {
-          "propertyId": "suumo:nc_21638371",
-          "source": "suumo",
-          "sourceId": "nc_21638371",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21638371/",
-          "priceYen": 33900000
-        },
-        {
           "propertyId": "suumo:nc_21554771",
           "source": "suumo",
           "sourceId": "nc_21554771",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21554771/",
           "priceYen": 42990000
+        },
+        {
+          "propertyId": "suumo:nc_21638371",
+          "source": "suumo",
+          "sourceId": "nc_21638371",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21638371/",
+          "priceYen": 33900000
         }
       ],
       "duplicateListingCount": 3,
@@ -56159,7 +56184,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 40000000,
       "totalPriceReduction": 12010000,
       "priceReductionRate": 0.30025,
@@ -56222,9 +56247,16 @@
           "sourceId": "nc_20554202",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20554202/",
           "priceYen": 32800000
+        },
+        {
+          "propertyId": "suumo:nc_21565418",
+          "source": "suumo",
+          "sourceId": "nc_21565418",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21565418/",
+          "priceYen": 31990000
         }
       ],
-      "duplicateListingCount": 3,
+      "duplicateListingCount": 4,
       "areaDecision": "review",
       "areaDecisionReason": "target_city_station_unverified",
       "areaPolicyVersion": "2026-10-19-v1",
@@ -56296,7 +56328,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 23800000,
       "totalPriceReduction": 6000000,
       "priceReductionRate": 0.252101,
@@ -56563,7 +56595,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 24980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -56939,7 +56971,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 29880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -57191,7 +57223,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 41800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -57239,6 +57271,13 @@
           "priceYen": 41800000
         },
         {
+          "propertyId": "suumo:nc_21985887",
+          "source": "suumo",
+          "sourceId": "nc_21985887",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21985887/",
+          "priceYen": 41800000
+        },
+        {
           "propertyId": "suumo:nc_21974914",
           "source": "suumo",
           "sourceId": "nc_21974914",
@@ -57260,7 +57299,7 @@
           "priceYen": 41800000
         }
       ],
-      "duplicateListingCount": 4,
+      "duplicateListingCount": 5,
       "areaDecision": "review",
       "areaDecisionReason": "target_station_mismatch",
       "areaPolicyVersion": "2026-10-19-v1",
@@ -57332,7 +57371,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 52000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -57406,13 +57445,13 @@
         "reasons": [
           "類似取引中央値との差：-20.9%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約1日",
+          "掲載観測期間：約2日",
           "類似掲載中央値との比較：+7.0%（比較16件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 16,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -57464,7 +57503,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -57977,7 +58016,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -58357,7 +58396,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 43800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -58445,13 +58484,13 @@
         "reasons": [
           "類似取引中央値との差：-41.3%（比較165件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+1.4%（比較14件）"
         ],
         "transactionComparableCount": 165,
         "similarListingCount": 14,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -58625,7 +58664,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 33990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -58704,13 +58743,13 @@
         "reasons": [
           "類似取引中央値との差：-9.6%（比較165件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+19.1%（比較9件）"
         ],
         "transactionComparableCount": 165,
         "similarListingCount": 9,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -58762,7 +58801,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 56800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -58887,7 +58926,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 49990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -58966,13 +59005,13 @@
         "reasons": [
           "類似取引中央値との差：-16.3%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+3.9%（比較13件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -59024,7 +59063,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 39900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -59145,7 +59184,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 36800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -59266,7 +59305,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 1,
+      "daysListed": 2,
       "firstPrice": 27990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -59390,7 +59429,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 36990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -59515,7 +59554,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 37900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -59998,7 +60037,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 2,
       "firstPrice": 19800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -60706,7 +60745,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 2,
       "firstPrice": 46800000,
       "totalPriceReduction": 9900000,
       "priceReductionRate": 0.211538,
@@ -60942,7 +60981,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 2,
       "firstPrice": 37900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -61177,7 +61216,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 2,
       "firstPrice": 42880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -61413,7 +61452,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 38900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -61541,7 +61580,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 34880000,
       "totalPriceReduction": 80000,
       "priceReductionRate": 0.002294,
@@ -62281,7 +62320,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 23400000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -62525,7 +62564,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -62649,7 +62688,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 27990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -62773,7 +62812,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 15800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -62897,7 +62936,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 2,
+      "daysListed": 4,
       "firstPrice": 38990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -63018,7 +63057,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 34500000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -63279,7 +63318,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 59800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -63323,6 +63362,13 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
+          "propertyId": "suumo:nc_20694216",
+          "source": "suumo",
+          "sourceId": "nc_20694216",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20694216/",
+          "priceYen": 59800000
+        },
+        {
           "propertyId": "suumo:nc_20728546",
           "source": "suumo",
           "sourceId": "nc_20728546",
@@ -63334,13 +63380,6 @@
           "source": "suumo",
           "sourceId": "nc_20718242",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20718242/",
-          "priceYen": 59800000
-        },
-        {
-          "propertyId": "suumo:nc_20694216",
-          "source": "suumo",
-          "sourceId": "nc_20694216",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_20694216/",
           "priceYen": 59800000
         }
       ],
@@ -63461,18 +63500,18 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_20988199",
-          "source": "suumo",
-          "sourceId": "nc_20988199",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_20988199/",
-          "priceYen": 28990000
-        },
-        {
           "propertyId": "suumo:nc_21322240",
           "source": "suumo",
           "sourceId": "nc_21322240",
           "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_21322240/",
           "priceYen": 19500000
+        },
+        {
+          "propertyId": "suumo:nc_20988199",
+          "source": "suumo",
+          "sourceId": "nc_20988199",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/saitama/sc_kasukabe/nc_20988199/",
+          "priceYen": 28990000
         }
       ],
       "duplicateListingCount": 2,
@@ -63592,18 +63631,18 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21863658",
-          "source": "suumo",
-          "sourceId": "nc_21863658",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21863658/",
-          "priceYen": 21990000
-        },
-        {
           "propertyId": "suumo:nc_21843160",
           "source": "suumo",
           "sourceId": "nc_21843160",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21843160/",
           "priceYen": 18800000
+        },
+        {
+          "propertyId": "suumo:nc_21863658",
+          "source": "suumo",
+          "sourceId": "nc_21863658",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21863658/",
+          "priceYen": 21990000
         }
       ],
       "duplicateListingCount": 2,
@@ -63721,13 +63760,6 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
-          "propertyId": "suumo:nc_21151649",
-          "source": "suumo",
-          "sourceId": "nc_21151649",
-          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21151649/",
-          "priceYen": 34800000
-        },
-        {
           "propertyId": "suumo:nc_21694343",
           "source": "suumo",
           "sourceId": "nc_21694343",
@@ -63747,6 +63779,13 @@
           "sourceId": "nc_21100717",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21100717/",
           "priceYen": 59980000
+        },
+        {
+          "propertyId": "suumo:nc_21151649",
+          "source": "suumo",
+          "sourceId": "nc_21151649",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21151649/",
+          "priceYen": 34800000
         }
       ],
       "duplicateListingCount": 4,
@@ -63822,7 +63861,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -63943,7 +63982,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 32900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64064,7 +64103,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64187,7 +64226,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 2,
+      "daysListed": 4,
       "firstPrice": 36000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64261,13 +64300,13 @@
         "reasons": [
           "類似取引中央値との差：-16.1%（比較165件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約2日",
+          "掲載観測期間：約4日",
           "類似掲載中央値との比較：+16.9%（比較12件）"
         ],
         "transactionComparableCount": 165,
         "similarListingCount": 12,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -64319,7 +64358,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 5,
+      "daysListed": 6,
       "firstPrice": 23990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64368,9 +64407,16 @@
           "sourceId": "nc_21941515",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21941515/",
           "priceYen": 43000000
+        },
+        {
+          "propertyId": "suumo:nc_21946479",
+          "source": "suumo",
+          "sourceId": "nc_21946479",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_21946479/",
+          "priceYen": 23990000
         }
       ],
-      "duplicateListingCount": 1,
+      "duplicateListingCount": 2,
       "areaQuarantinedAt": "2026-10-19T13:51:11.129213+00:00",
       "areaDecision": "rejected",
       "areaDecisionReason": "municipality_outside_target:船橋市",
@@ -64443,7 +64489,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 32800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64566,7 +64612,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 56800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64638,13 +64684,13 @@
         "reasons": [
           "類似取引中央値との差：-32.1%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-1.6%（比較18件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 18,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -64696,7 +64742,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 2,
       "firstPrice": 59980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -64942,7 +64988,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 56800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -65014,13 +65060,13 @@
         "reasons": [
           "類似取引中央値との差：-32.1%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-1.6%（比較18件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 18,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -65072,7 +65118,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 13000000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -65196,7 +65242,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 22800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -65440,7 +65486,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 41800000,
       "totalPriceReduction": 14810000,
       "priceReductionRate": 0.354306,
@@ -65694,7 +65740,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -65954,7 +66000,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 37980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -66075,7 +66121,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 64800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -66149,13 +66195,13 @@
         "reasons": [
           "類似取引中央値との差：-109.0%（比較165件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-9.8%（比較18件）"
         ],
         "transactionComparableCount": 165,
         "similarListingCount": 18,
         "area": "柏の葉キャンパス",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -66207,7 +66253,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 32980000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -66579,7 +66625,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 57800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -66653,13 +66699,13 @@
         "reasons": [
           "類似取引中央値との差：-34.4%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-3.4%（比較18件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 18,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -66711,7 +66757,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 2,
+      "daysListed": 4,
       "firstPrice": 40900000,
       "totalPriceReduction": 1910000,
       "priceReductionRate": 0.046699,
@@ -67449,7 +67495,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 19990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -67696,7 +67742,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -67819,7 +67865,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 20800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -67942,7 +67988,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 150000000,
       "totalPriceReduction": 127200000,
       "priceReductionRate": 0.848,
@@ -68066,7 +68112,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 19800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -68314,7 +68360,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 43800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -68561,7 +68607,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -68684,7 +68730,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 39900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -68927,7 +68973,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 49800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -68999,13 +69045,13 @@
         "reasons": [
           "類似取引中央値との差：-15.8%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：+4.2%（比較13件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 13,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -69057,7 +69103,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 24900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69180,7 +69226,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 25800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69299,7 +69345,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 25800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69418,7 +69464,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 27800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69537,7 +69583,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 29990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69656,7 +69702,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 34500000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -69775,7 +69821,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 38900000,
       "totalPriceReduction": 11100000,
       "priceReductionRate": 0.285347,
@@ -69893,7 +69939,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 29880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70010,7 +70056,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 31800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70128,7 +70174,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 64700000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70169,6 +70215,13 @@
       "detailFetchSuccess": true,
       "duplicateListings": [
         {
+          "propertyId": "suumo:nc_21266770",
+          "source": "suumo",
+          "sourceId": "nc_21266770",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21266770/",
+          "priceYen": 64700000
+        },
+        {
           "propertyId": "suumo:nc_21230090",
           "source": "suumo",
           "sourceId": "nc_21230090",
@@ -70180,13 +70233,6 @@
           "source": "suumo",
           "sourceId": "nc_78478095",
           "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78478095/",
-          "priceYen": 64700000
-        },
-        {
-          "propertyId": "suumo:nc_21266770",
-          "source": "suumo",
-          "sourceId": "nc_21266770",
-          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21266770/",
           "priceYen": 64700000
         },
         {
@@ -70223,13 +70269,13 @@
         "reasons": [
           "類似取引中央値との差：-50.5%（比較69件）",
           "初回価格からの値下げは未確認",
-          "掲載観測期間：約8日",
+          "掲載観測期間：約9日",
           "類似掲載中央値との比較：-7.1%（比較22件）"
         ],
         "transactionComparableCount": 69,
         "similarListingCount": 22,
         "area": "流山おおたかの森",
-        "asOf": "2026-10-20T21:54:31.955642+00:00"
+        "asOf": "2026-10-22T00:01:58.931457+00:00"
       }
     },
     {
@@ -70281,7 +70327,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 48800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70403,7 +70449,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 32900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70525,7 +70571,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 9800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70649,7 +70695,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 31990000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70772,7 +70818,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 31900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -70819,9 +70865,16 @@
           "sourceId": "nc_21889297",
           "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_21889297/",
           "priceYen": 31900000
+        },
+        {
+          "propertyId": "suumo:nc_21859097",
+          "source": "suumo",
+          "sourceId": "nc_21859097",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_matsudo/nc_21859097/",
+          "priceYen": 31900000
         }
       ],
-      "duplicateListingCount": 1,
+      "duplicateListingCount": 2,
       "areaQuarantinedAt": "2026-10-20T14:34:56.836550+00:00",
       "areaDecision": "rejected",
       "areaDecisionReason": "municipality_outside_target:松戸市",
@@ -70894,7 +70947,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 12800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71018,7 +71071,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 7300000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71142,7 +71195,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 8,
+      "daysListed": 9,
       "firstPrice": 46270000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71265,7 +71318,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 12800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71389,7 +71442,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 7,
+      "daysListed": 8,
       "firstPrice": 17800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71513,7 +71566,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "possibly_ended",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 14490000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71613,7 +71666,7 @@
       "constructionMonth": "2006-10",
       "constructionAgeYears": 20.0,
       "constructionYear": 2006,
-      "builtAgeYears": 20.0,
+      "builtAgeYears": null,
       "propertyType": "中古戸建",
       "targetStation": null,
       "targetStationWalkMinutes": null,
@@ -71637,7 +71690,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 36800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71659,10 +71712,11 @@
       "marketReviewStatus": "pending",
       "criteriaExcludedFields": [],
       "criteriaPendingFields": [
+        "builtAgeMatched",
         "walkMatched"
       ],
       "candidateCriteria": {
-        "builtAgeMatched": true,
+        "builtAgeMatched": null,
         "propertyTypeMatched": true,
         "priceMatched": true,
         "walkMatched": null,
@@ -71731,7 +71785,7 @@
       "constructionMonth": "2022-10",
       "constructionAgeYears": 4.0,
       "constructionYear": 2022,
-      "builtAgeYears": 4.0,
+      "builtAgeYears": null,
       "propertyType": "中古戸建",
       "targetStation": null,
       "targetStationWalkMinutes": null,
@@ -71755,7 +71809,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 36800000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71777,10 +71831,11 @@
       "marketReviewStatus": "pending",
       "criteriaExcludedFields": [],
       "criteriaPendingFields": [
+        "builtAgeMatched",
         "walkMatched"
       ],
       "candidateCriteria": {
-        "builtAgeMatched": true,
+        "builtAgeMatched": null,
         "propertyTypeMatched": true,
         "priceMatched": true,
         "walkMatched": null,
@@ -71849,7 +71904,7 @@
       "constructionMonth": "2016-12",
       "constructionAgeYears": 9.83,
       "constructionYear": 2016,
-      "builtAgeYears": 9.83,
+      "builtAgeYears": null,
       "propertyType": "中古戸建",
       "targetStation": null,
       "targetStationWalkMinutes": null,
@@ -71873,7 +71928,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 91500000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -71895,10 +71950,11 @@
       "marketReviewStatus": "pending",
       "criteriaExcludedFields": [],
       "criteriaPendingFields": [
+        "builtAgeMatched",
         "walkMatched"
       ],
       "candidateCriteria": {
-        "builtAgeMatched": true,
+        "builtAgeMatched": null,
         "propertyTypeMatched": true,
         "priceMatched": true,
         "walkMatched": null,
@@ -71966,7 +72022,7 @@
       "constructionMonth": "2010-10",
       "constructionAgeYears": 16.0,
       "constructionYear": 2010,
-      "builtAgeYears": 16.0,
+      "builtAgeYears": null,
       "propertyType": "中古戸建",
       "targetStation": null,
       "targetStationWalkMinutes": null,
@@ -71990,7 +72046,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 46800000,
       "totalPriceReduction": 23810000,
       "priceReductionRate": 0.508761,
@@ -72012,10 +72068,11 @@
       "marketReviewStatus": "pending",
       "criteriaExcludedFields": [],
       "criteriaPendingFields": [
+        "builtAgeMatched",
         "walkMatched"
       ],
       "candidateCriteria": {
-        "builtAgeMatched": true,
+        "builtAgeMatched": null,
         "propertyTypeMatched": true,
         "priceMatched": true,
         "walkMatched": null,
@@ -72108,7 +72165,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 32880000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -72225,7 +72282,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 27900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -72343,7 +72400,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 37900000,
       "totalPriceReduction": 0,
       "priceReductionRate": 0,
@@ -72460,7 +72517,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 56990000,
       "totalPriceReduction": 9090000,
       "priceReductionRate": 0.159502,
@@ -72578,7 +72635,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 38990000,
       "totalPriceReduction": 1190000,
       "priceReductionRate": 0.030521,
@@ -72696,7 +72753,7 @@
       "duplicateCandidate": false,
       "duplicateCandidateOf": null,
       "status": "active",
-      "daysListed": 0,
+      "daysListed": 1,
       "firstPrice": 45800000,
       "totalPriceReduction": 9920000,
       "priceReductionRate": 0.216594,
@@ -72753,6 +72810,1487 @@
       "propertyGroupId": "property-group:b1fa503b1dc5b9283958",
       "duplicateStatus": "unique",
       "duplicateReviewCandidateCount": 1,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_78830411",
+      "physicalIdentityKey": "property:4d398252be1e2a73ad508c42",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_78830411",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_78830411/",
+      "name": "坪井東５（船橋日大前駅） 5180万円",
+      "listingTitle": "坪井東５（船橋日大前駅） 5180万円",
+      "priceYen": 51800000,
+      "currentPrice": 51800000,
+      "price": 51800000,
+      "priceMan": 5180,
+      "address": "千葉県船橋市坪井東５",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 51800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:16.324175+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_78830411",
+          "source": "suumo",
+          "sourceId": "nc_78830411",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_funabashi/nc_78830411/",
+          "priceYen": 51800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:船橋市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_78830411",
+      "propertyGroupId": "property-group:ce43eaed2b3f1f9e928d",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21901430",
+      "physicalIdentityKey": "property:a4ddc04af701b373e61d58f3",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21901430",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kimitsu/nc_21901430/",
+      "name": "人見２（君津駅） 1540万円",
+      "listingTitle": "人見２（君津駅） 1540万円",
+      "priceYen": 15400000,
+      "currentPrice": 15400000,
+      "price": 15400000,
+      "priceMan": 1540,
+      "address": "千葉県君津市人見２",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 15400000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:14.652606+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21901430",
+          "source": "suumo",
+          "sourceId": "nc_21901430",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kimitsu/nc_21901430/",
+          "priceYen": 15400000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:君津市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21901430",
+      "propertyGroupId": "property-group:af63e9a1ba58d458aacc",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21900524",
+      "physicalIdentityKey": "property:96bf8b88774128814d23f392",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21900524",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/tokyo/sc_edogawa/nc_21900524/",
+      "name": "南小岩４（小岩駅） 4680万円",
+      "listingTitle": "南小岩４（小岩駅） 4680万円",
+      "priceYen": 46800000,
+      "currentPrice": 46800000,
+      "price": 46800000,
+      "priceMan": 4680,
+      "address": "東京都江戸川区南小岩４",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 46800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:24.893131+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21900524",
+          "source": "suumo",
+          "sourceId": "nc_21900524",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/tokyo/sc_edogawa/nc_21900524/",
+          "priceYen": 46800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:__outside_prefecture__",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21900524",
+      "propertyGroupId": "property-group:a73c81247240cf693e46",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21871634",
+      "physicalIdentityKey": "property:5b9cc23c6a1714134e98fbef",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21871634",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21871634/",
+      "name": "古ケ崎２（松戸駅） 3680万円",
+      "listingTitle": "古ケ崎２（松戸駅） 3680万円",
+      "priceYen": 36800000,
+      "currentPrice": 36800000,
+      "price": 36800000,
+      "priceMan": 3680,
+      "address": "千葉県松戸市古ケ崎２",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 36800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:19.663329+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21871634",
+          "source": "suumo",
+          "sourceId": "nc_21871634",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_matsudo/nc_21871634/",
+          "priceYen": 36800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:松戸市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21871634",
+      "propertyGroupId": "property-group:a6153bb6565e32a9c16e",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21848967",
+      "physicalIdentityKey": "property:35ea36d2ca47ff4077a6592b",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21848967",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_21848967/",
+      "name": "東道野辺６（鎌ヶ谷大仏駅） 2500万円",
+      "listingTitle": "東道野辺６（鎌ヶ谷大仏駅） 2500万円",
+      "priceYen": 25000000,
+      "currentPrice": 25000000,
+      "price": 25000000,
+      "priceMan": 2500,
+      "address": "千葉県鎌ケ谷市東道野辺６",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "流山おおたかの森",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": null,
+      "firstSeenAt": "2026-10-12T03:11:55.611255+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-16T21:48:03.559209+00:00",
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 9,
+      "firstPrice": 25000000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:54:05.056664+00:00",
+      "detailFetchAttempts": 4,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21848967",
+          "source": "suumo",
+          "sourceId": "nc_21848967",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kamagaya/nc_21848967/",
+          "priceYen": 25000000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-19T13:51:11.129213+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:鎌ケ谷市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21848967",
+      "propertyGroupId": "property-group:0f0eadf9099d1bccaefc",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21843213",
+      "physicalIdentityKey": "property:b63796b6ba75872e62bfe7de",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21843213",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21843213/",
+      "name": "戸張（柏駅） 2080万円",
+      "listingTitle": "戸張（柏駅） 2080万円",
+      "priceYen": 20800000,
+      "currentPrice": 20800000,
+      "price": 20800000,
+      "priceMan": 2080,
+      "address": "千葉県柏市戸張",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": "柏の葉キャンパス",
+      "areaCandidate": null,
+      "searchArea": "流山おおたかの森",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": null,
+      "firstSeenAt": "2026-10-13T16:49:05.973238+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-19T23:37:45.107532+00:00",
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 8,
+      "firstPrice": 20800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:54:08.602023+00:00",
+      "detailFetchAttempts": 4,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21843213",
+          "source": "suumo",
+          "sourceId": "nc_21843213",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21843213/",
+          "priceYen": 20800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaDecision": "review",
+      "areaDecisionReason": "target_city_station_unverified",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21843213",
+      "propertyGroupId": "property-group:e1035cc8a8654a9bb9ea",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21823396",
+      "physicalIdentityKey": "property:3f7457e2f8fbbde231c5421e",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21823396",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21823396/",
+      "name": "夏見３（船橋駅） 5580万円",
+      "listingTitle": "夏見３（船橋駅） 5580万円",
+      "priceYen": 55800000,
+      "currentPrice": 55800000,
+      "price": 55800000,
+      "priceMan": 5580,
+      "address": "千葉県船橋市夏見３",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": 0.0,
+      "propertyType": "新築戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "流山おおたかの森",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": null,
+      "firstSeenAt": "2026-10-12T11:36:39.505682+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-13T16:49:05.973238+00:00",
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 9,
+      "firstPrice": 55800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 43,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": true,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:59.553247+00:00",
+      "detailFetchAttempts": 3,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21823396",
+          "source": "suumo",
+          "sourceId": "nc_21823396",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_funabashi/nc_21823396/",
+          "priceYen": 55800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-19T13:51:11.129213+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:船橋市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21823396",
+      "propertyGroupId": "property-group:d55fe455249fe92f8a47",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21722202",
+      "physicalIdentityKey": "property:2542de947c7e5876976f14fb",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21722202",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21722202/",
+      "name": "西原７（初石駅） 2840万円",
+      "listingTitle": "西原７（初石駅） 2840万円",
+      "priceYen": 28400000,
+      "currentPrice": 28400000,
+      "price": 28400000,
+      "priceMan": 2840,
+      "address": "千葉県柏市西原７",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": "柏の葉キャンパス",
+      "areaCandidate": null,
+      "searchArea": "流山おおたかの森",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": null,
+      "firstSeenAt": "2026-10-12T03:11:55.611255+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-19T21:48:35.998705+00:00",
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 9,
+      "firstPrice": 28400000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:54:10.013363+00:00",
+      "detailFetchAttempts": 5,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21722202",
+          "source": "suumo",
+          "sourceId": "nc_21722202",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21722202/",
+          "priceYen": 28400000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaDecision": "review",
+      "areaDecisionReason": "target_city_station_unverified",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21722202",
+      "propertyGroupId": "property-group:8202b519d9edb55fc01d",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21663748",
+      "physicalIdentityKey": "property:f7e76dc382595276484d19b5",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21663748",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_chibashihanamigawa/nc_21663748/",
+      "name": "み春野１ 2499万円",
+      "listingTitle": "み春野１ 2499万円",
+      "priceYen": 24990000,
+      "currentPrice": 24990000,
+      "price": 24990000,
+      "priceMan": 2499,
+      "address": "千葉県千葉市花見川区み春野１",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 24990000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:07.804405+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21663748",
+          "source": "suumo",
+          "sourceId": "nc_21663748",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_chibashihanamigawa/nc_21663748/",
+          "priceYen": 24990000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:千葉市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21663748",
+      "propertyGroupId": "property-group:42f847ccc7de60dc61ab",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21524138",
+      "physicalIdentityKey": "property:9c39d11a94958ddbd57aac8e",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21524138",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21524138/",
+      "name": "大字西平井（平和台駅） 4290万円",
+      "listingTitle": "大字西平井（平和台駅） 4290万円",
+      "priceYen": 42900000,
+      "currentPrice": 42900000,
+      "price": 42900000,
+      "priceMan": 4290,
+      "address": "千葉県流山市大字西平井",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": 0.0,
+      "propertyType": "新築戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": "流山おおたかの森",
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-12T03:11:55.611255+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": "2026-10-14T21:49:41.074874+00:00",
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": "2026-10-20T21:50:07.061364+00:00",
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 9,
+      "firstPrice": 42900000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 43,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": true,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:56.307809+00:00",
+      "detailFetchAttempts": 3,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21524138",
+          "source": "suumo",
+          "sourceId": "nc_21524138",
+          "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21524138/",
+          "priceYen": 42900000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaDecision": "review",
+      "areaDecisionReason": "target_city_station_unverified",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21524138",
+      "propertyGroupId": "property-group:a6711eaad0546829d0da",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21308150",
+      "physicalIdentityKey": "property:e1264fac718a024c1d2f87d5",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_21308150",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_narashino/nc_21308150/",
+      "name": "実籾３（実籾駅） 3650万円",
+      "listingTitle": "実籾３（実籾駅） 3650万円",
+      "priceYen": 36500000,
+      "currentPrice": 36500000,
+      "price": 36500000,
+      "priceMan": 3650,
+      "address": "千葉県習志野市実籾３",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 36500000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:21.435909+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_21308150",
+          "source": "suumo",
+          "sourceId": "nc_21308150",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_narashino/nc_21308150/",
+          "priceYen": 36500000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:習志野市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_21308150",
+      "propertyGroupId": "property-group:042bb7355333ab3f01a7",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
+      "isCanonicalProperty": true,
+      "marketAnalysisEligible": false,
+      "marketIndicators": {
+        "score": null,
+        "label": "分析対象外",
+        "confidence": "low",
+        "components": {},
+        "reasons": [
+          "対象エリア外・要確認・重複統合先のため通常評価から除外"
+        ]
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20502987",
+      "physicalIdentityKey": "property:9cf30f579d0c199abb308943",
+      "physicalIdentityType": "address_land_building",
+      "physicalIdentityCompleteness": 1.0,
+      "source": "suumo",
+      "sourceId": "nc_20502987",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_isumi/nc_20502987/",
+      "name": "荻原 1380万円",
+      "listingTitle": "荻原 1380万円",
+      "priceYen": 13800000,
+      "currentPrice": 13800000,
+      "price": 13800000,
+      "priceMan": 1380,
+      "address": "千葉県いすみ市荻原",
+      "landAreaM2": null,
+      "land": null,
+      "buildingAreaM2": null,
+      "building": null,
+      "buildingFootprintAreaM2": null,
+      "layout": null,
+      "layoutRaw": null,
+      "constructionMonth": null,
+      "constructionAgeYears": null,
+      "constructionYear": null,
+      "builtAgeYears": null,
+      "propertyType": "中古戸建",
+      "targetStation": null,
+      "targetStationWalkMinutes": null,
+      "stationWalkMinutes": null,
+      "areaClassification": "detailPending",
+      "areaStatus": "pending",
+      "area": null,
+      "areaCandidate": null,
+      "searchArea": "柏の葉キャンパス",
+      "schoolDistrictCandidate": false,
+      "schoolDistrictCandidateArea": "柏の葉小学校区",
+      "firstSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "lastSeenAt": "2026-10-20T21:50:07.061364+00:00",
+      "endedObservedAt": null,
+      "endedAt": null,
+      "isListingEnded": false,
+      "listingEndReason": null,
+      "listingStatusUpdatedAt": "2026-10-20T21:50:07.061364+00:00",
+      "missedSearchRuns": 0,
+      "relistedAt": null,
+      "duplicateCandidate": false,
+      "duplicateCandidateOf": null,
+      "status": "active",
+      "daysListed": 1,
+      "firstPrice": 13800000,
+      "totalPriceReduction": 0,
+      "priceReductionRate": 0,
+      "priceReductionCount": 0,
+      "priceHistory": [],
+      "detailFetched": true,
+      "detailQuality": "partial",
+      "detailQualityScore": 29,
+      "detailQualityReasons": [
+        "missing: landArea",
+        "missing: buildingArea",
+        "missing: builtYear",
+        "missing: station",
+        "missing: walkMinutes"
+      ],
+      "parserVersion": "2026-10-14-v44-detail-field-coverage-counter-fix",
+      "priceSource": null,
+      "priceConfidence": "high",
+      "priceWarning": null,
+      "priceStatus": "normal",
+      "houseDbSchemaVersion": "2.0",
+      "marketReviewStatus": "pending",
+      "criteriaExcludedFields": [],
+      "criteriaPendingFields": [
+        "builtAgeMatched",
+        "walkMatched",
+        "landAreaMatched",
+        "buildingAreaMatched"
+      ],
+      "candidateCriteria": {
+        "builtAgeMatched": null,
+        "propertyTypeMatched": true,
+        "priceMatched": true,
+        "walkMatched": null,
+        "landAreaMatched": null,
+        "buildingAreaMatched": null
+      },
+      "detailFetchStatus": "success",
+      "lastDetailFetchAt": "2026-10-20T21:53:23.335289+00:00",
+      "detailFetchAttempts": 1,
+      "detailFetchSuccess": true,
+      "duplicateListings": [
+        {
+          "propertyId": "suumo:nc_20502987",
+          "source": "suumo",
+          "sourceId": "nc_20502987",
+          "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_isumi/nc_20502987/",
+          "priceYen": 13800000
+        }
+      ],
+      "duplicateListingCount": 1,
+      "areaQuarantinedAt": "2026-10-20T21:54:31.955642+00:00",
+      "areaDecision": "rejected",
+      "areaDecisionReason": "municipality_outside_target:いすみ市",
+      "areaPolicyVersion": "2026-10-19-v1",
+      "schoolDistrictStatus": "unconfirmed",
+      "schoolDistrictSource": "official_source_required_exact_address",
+      "schoolDistrictVerifiedAt": null,
+      "canonicalPropertyId": "suumo:nc_20502987",
+      "propertyGroupId": "property-group:37e64974f3efcf5a2124",
+      "duplicateStatus": "unique",
+      "duplicateReviewCandidateCount": 0,
       "isCanonicalProperty": true,
       "marketAnalysisEligible": false,
       "marketIndicators": {
