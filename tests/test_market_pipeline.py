@@ -78,6 +78,18 @@ class MarketIndicatorTests(unittest.TestCase):
         self.assertEqual(metrics["柏の葉キャンパス"]["transactionCount"], 3)
         self.assertEqual(metrics["柏の葉キャンパス"]["medianTransactionPriceYen"], 45000000)
 
+    def test_transaction_metrics_by_window_uses_quarter_end_and_does_not_treat_missing_as_zero_market_activity(self):
+        now = mp.datetime(2026, 10, 23, tzinfo=mp.timezone.utc)
+        rows = [
+            {"_cityName": "柏市", "_period": "2026Q3", "TradePrice": 50000000, "Area": 120},
+            {"_cityName": "柏市", "_period": "2025Q4", "TradePrice": 40000000, "Area": 110},
+            {"_cityName": "柏市", "_period": "2025Q2", "TradePrice": 30000000, "Area": 100},
+        ]
+        metrics = mp.build_transaction_metrics_by_window(rows, now)
+        self.assertEqual(metrics["柏の葉キャンパス"]["3m"]["transactionCount"], 1)
+        self.assertEqual(metrics["柏の葉キャンパス"]["12m"]["transactionCount"], 2)
+        self.assertEqual(metrics["柏の葉キャンパス"]["3m"]["periodBasis"], "quarter_end_proxy")
+
     def test_score_explains_reduction(self):
         now = mp.utc_now()
         item = {"currentPrice": 40000000, "firstPrice": 45000000, "priceReductionRate": 11.1, "daysListed": 100}
