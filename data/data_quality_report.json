@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-10-23T15:18:04.979509+00:00",
+  "sourceFiles": {
+    "housesCount": 538,
+    "discoveredCount": 1173,
+    "observationCount": 7398,
+    "transactionPeriodCount": 1
+  },
+  "listingStatusCounts": {
+    "possibly_ended": 98,
+    "observed_ended": 494,
+    "active": 581
+  },
+  "canonicalAcceptedHouseCount": 56,
+  "fieldCoverage": {
+    "price": {
+      "count": 55,
+      "total": 56,
+      "coveragePct": 98.2
+    },
+    "landArea": {
+      "count": 49,
+      "total": 56,
+      "coveragePct": 87.5
+    },
+    "buildingArea": {
+      "count": 49,
+      "total": 56,
+      "coveragePct": 87.5
+    },
+    "stationWalk": {
+      "count": 56,
+      "total": 56,
+      "coveragePct": 100.0
+    },
+    "constructionYear": {
+      "count": 50,
+      "total": 56,
+      "coveragePct": 89.3
+    },
+    "schoolDistrictConfirmed": {
+      "count": 0,
+      "total": 56,
+      "coveragePct": 0.0
+    }
+  },
+  "observationHistory": {
+    "validTimestampCount": 7398,
+    "spanDays": 11,
+    "oldestObservedAt": "2026-10-12T11:42:30.547898+00:00",
+    "newestObservedAt": "2026-10-23T15:17:59.757684+00:00"
+  },
+  "transactionRetrieval": {
+    "updatedAt": "2026-10-23T15:18:03.596738+00:00",
+    "source": "REINFOLIB_API_KEY 未設定時は取得をスキップ",
+    "cities": {
+      "kashiwa": {
+        "name": "柏市",
+        "status": "already_stored",
+        "selectedPeriod": null,
+        "recordsSaved": 0,
+        "errors": [],
+        "periodsChecked": [
+          {
+            "period": "2026Q3",
+            "status": "no_data",
+            "message": "HTTP 404: no data returned for this city/period"
+          },
+          {
+            "period": "2026Q2",
+            "status": "no_data",
+            "message": "HTTP 404: no data returned for this city/period"
+          },
+          {
+            "period": "2026Q1",
+            "status": "already_stored"
+          }
+        ]
+      },
+      "nagareyama": {
+        "name": "流山市",
+        "status": "already_stored",
+        "selectedPeriod": null,
+        "recordsSaved": 0,
+        "errors": [],
+        "periodsChecked": [
+          {
+            "period": "2026Q3",
+            "status": "no_data",
+            "message": "HTTP 404: no data returned for this city/period"
+          },
+          {
+            "period": "2026Q2",
+            "status": "no_data",
+            "message": "HTTP 404: no data returned for this city/period"
+          },
+          {
+            "period": "2026Q1",
+            "status": "already_stored"
+          }
+        ]
+      }
+    },
+    "storedPeriods": [
+      {
+        "period": "2026Q1",
+        "cities": {
+          "kashiwa": {
+            "name": "柏市",
+            "count": 165,
+            "retrievedAt": "2026-10-20T14:34:54.934958+00:00",
+            "status": "stored_data"
+          },
+          "nagareyama": {
+            "name": "流山市",
+            "count": 69,
+            "retrievedAt": "2026-10-20T14:34:56.726500+00:00",
+            "status": "stored_data"
+          }
+        }
+      }
+    ],
+    "interpretation": "取得失敗・未取得・データなし・保存済みデータありを区別。取引件数0を市場で取引がなかった証拠として扱わない。"
+  },
+  "warnings": [
+    "掲載観測履歴が11日しかなく、3か月・12か月の価格トレンドは限定的です"
+  ]
+}

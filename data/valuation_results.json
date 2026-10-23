@@ -1,0 +1,3991 @@
+{
+  "schemaVersion": "1.0",
+  "updatedAt": "2026-10-23T15:18:03.696517+00:00",
+  "modelVersion": "2026-10-23-v1",
+  "count": 56,
+  "properties": [
+    {
+      "propertyId": "suumo:nc_21108615",
+      "canonicalPropertyId": "suumo:nc_21108615",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21108615/",
+      "name": "柏市若柴 戸建て",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 22480000,
+        "estimatedBuildingValueYen": 10656800,
+        "estimatedBaseValueYen": 33136800,
+        "estimatedTotalComparableTransactionMedianYen": 40000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 187333,
+        "currentAskingPriceYen": 43900000.0,
+        "valueGapYen": -10763200,
+        "valueGapPct": -32.48,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 51.7,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "掲載情報に「整形地」の記載あり（要確認）",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-32.5%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：40,000,000円（比較7件）",
+          "推定土地単価：約187,333円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21108950",
+      "canonicalPropertyId": "suumo:nc_21108950",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21108950/",
+      "name": "花野井（柏の葉キャンパス駅） 3580万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 12962757,
+        "estimatedBuildingValueYen": 11220587,
+        "estimatedBaseValueYen": 24183344,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 28000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 109994,
+        "currentAskingPriceYen": 35800000.0,
+        "valueGapYen": -11616656,
+        "valueGapPct": -48.04,
+        "comparableCount": 14,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-48.0%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較14件）",
+          "推定土地単価：約109,994円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21422353",
+      "canonicalPropertyId": "suumo:nc_21422353",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21422353/",
+      "name": "市野谷（流山おおたかの森駅） 8680万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 21841587,
+        "estimatedBuildingValueYen": 21311327,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 37000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 86800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 54,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩19分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較54件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20714889",
+      "canonicalPropertyId": "suumo:nc_20714889",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_20714889/",
+      "name": "花野井（柏の葉キャンパス駅） 4200万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 12480984,
+        "estimatedBuildingValueYen": 8756000,
+        "estimatedBaseValueYen": 21236984,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 28000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 109994,
+        "currentAskingPriceYen": 42000000.0,
+        "valueGapYen": -20763016,
+        "valueGapPct": -97.77,
+        "comparableCount": 14,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 52,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 55.7,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "初回価格から4.1%値下げ",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-97.8%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較14件）",
+          "推定土地単価：約109,994円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21696243",
+      "canonicalPropertyId": "suumo:nc_21696243",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21696243/",
+      "name": "若柴（柏の葉キャンパス駅） 4780万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 23766980,
+        "estimatedBuildingValueYen": 11339900,
+        "estimatedBaseValueYen": 35106880,
+        "estimatedTotalComparableTransactionMedianYen": 40000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 187333,
+        "currentAskingPriceYen": 47800000.0,
+        "valueGapYen": -12693120,
+        "valueGapPct": -36.16,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-36.2%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：40,000,000円（比較7件）",
+          "推定土地単価：約187,333円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21167486",
+      "canonicalPropertyId": "suumo:nc_21167486",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21167486/",
+      "name": "花野井（柏の葉キャンパス駅） 5980万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 13203643,
+        "estimatedBuildingValueYen": 23157273,
+        "estimatedBaseValueYen": 36360916,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 28000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 109994,
+        "currentAskingPriceYen": 59800000.0,
+        "valueGapYen": -23439084,
+        "valueGapPct": -64.46,
+        "comparableCount": 14,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-64.5%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較14件）",
+          "推定土地単価：約109,994円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21543710",
+      "canonicalPropertyId": "suumo:nc_21543710",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21543710/",
+      "name": "若柴（柏の葉キャンパス駅） 6190万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 22573667,
+        "estimatedBuildingValueYen": 16104000,
+        "estimatedBaseValueYen": 38677667,
+        "estimatedTotalComparableTransactionMedianYen": 40000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 187333,
+        "currentAskingPriceYen": 61900000.0,
+        "valueGapYen": -23222333,
+        "valueGapPct": -60.04,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩13分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-60.0%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：40,000,000円（比較7件）",
+          "推定土地単価：約187,333円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_78472545",
+      "canonicalPropertyId": "suumo:nc_78472545",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78472545/",
+      "name": "美田（流山おおたかの森駅） 6980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 28204225,
+        "estimatedBuildingValueYen": 23158080,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 36000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 69800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 58,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,500,000円（比較58件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21635348",
+      "canonicalPropertyId": "suumo:nc_21635348",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21635348/",
+      "name": "正連寺（柏の葉キャンパス駅） 7980万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 15537500,
+        "estimatedBuildingValueYen": 18946400,
+        "estimatedBaseValueYen": 34483900,
+        "estimatedTotalComparableTransactionMedianYen": 39500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 16000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 137500,
+        "currentAskingPriceYen": 79800000.0,
+        "valueGapYen": -45316100,
+        "valueGapPct": -131.41,
+        "comparableCount": 4,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 75,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-131.4%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：39,500,000円（比較4件）",
+          "推定土地単価：約137,500円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20451896",
+      "canonicalPropertyId": "suumo:nc_20451896",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20451896/",
+      "name": "ヘリオスタウン柏の葉10 【新価格】にて販売開始 ー最終2棟ー",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 21640800,
+        "estimatedBuildingValueYen": 24409000,
+        "estimatedBaseValueYen": 46049800,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 152400,
+        "currentAskingPriceYen": 72900000.0,
+        "valueGapYen": -26850200,
+        "valueGapPct": -58.31,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-58.3%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較7件）",
+          "推定土地単価：約152,400円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21883026",
+      "canonicalPropertyId": "suumo:nc_21883026",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21883026/",
+      "name": "SEKISUI HOUSE noie 柏の葉キャンパス",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 20740116,
+        "estimatedBuildingValueYen": 21678800,
+        "estimatedBaseValueYen": 42418916,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 152400,
+        "currentAskingPriceYen": 79800000.0,
+        "valueGapYen": -37381084,
+        "valueGapPct": -88.12,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 50.0,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩16分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-88.1%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較7件）",
+          "推定土地単価：約152,400円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20173694",
+      "canonicalPropertyId": "suumo:nc_20173694",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20173694/",
+      "name": "【住友林業の戸建分譲】フォレストガーデン柏の葉キャンパス",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 24211000,
+        "estimatedBuildingValueYen": 24530000,
+        "estimatedBaseValueYen": 48741000,
+        "estimatedTotalComparableTransactionMedianYen": 39500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 16000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 137500,
+        "currentAskingPriceYen": null,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 4,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 72,
+        "label": "価格評価データ不足",
+        "confidence": "medium",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩13分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地単価：約137,500円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "売出価格が不明"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20448861",
+      "canonicalPropertyId": "suumo:nc_20448861",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20448861/",
+      "name": "十余二住宅 柏駅 柏の葉キャンパス駅両方使えるお家です。",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 12400990,
+        "estimatedBuildingValueYen": 22772200,
+        "estimatedBaseValueYen": 35173190,
+        "estimatedTotalComparableTransactionMedianYen": 34000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 39000000.0
+        },
+        "estimatedLandUnitYenPerM2": 122600,
+        "currentAskingPriceYen": 42800000.0,
+        "valueGapYen": -7626810,
+        "valueGapPct": -21.68,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 49,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 75,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-21.7%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：34,000,000円（比較7件）",
+          "推定土地単価：約122,600円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21132660",
+      "canonicalPropertyId": "suumo:nc_21132660",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21132660/",
+      "name": "飯田グループホールディングス ハートフルタウン 柏市松葉町5丁目17番",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 15845391,
+        "estimatedBuildingValueYen": 21131000,
+        "estimatedBaseValueYen": 36976391,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 158422,
+        "currentAskingPriceYen": 45900000.0,
+        "valueGapYen": -8923609,
+        "valueGapPct": -24.13,
+        "comparableCount": 8,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 49,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 75,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩17分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-24.1%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較8件）",
+          "推定土地単価：約158,422円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21536425",
+      "canonicalPropertyId": "suumo:nc_21536425",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21536425/",
+      "name": "柏の葉２（柏の葉キャンパス駅） 4498万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 15686532,
+        "estimatedBuildingValueYen": 22624800,
+        "estimatedBaseValueYen": 38311332,
+        "estimatedTotalComparableTransactionMedianYen": 43000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 16000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 152400,
+        "currentAskingPriceYen": 44980000.0,
+        "valueGapYen": -6668668,
+        "valueGapPct": -17.41,
+        "comparableCount": 5,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 6.5,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 75,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 60.0,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "初回価格から6.3%値下げ",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-17.4%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：43,000,000円（比較5件）",
+          "推定土地単価：約152,400円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21180867",
+      "canonicalPropertyId": "suumo:nc_21180867",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21180867/",
+      "name": "花野井（柏の葉キャンパス駅） 4799万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 11318549,
+        "estimatedBuildingValueYen": 22033000,
+        "estimatedBaseValueYen": 33351549,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 28000000.0,
+          "high": 31000000.0
+        },
+        "estimatedLandUnitYenPerM2": 111458,
+        "currentAskingPriceYen": 47990000.0,
+        "valueGapYen": -14638451,
+        "valueGapPct": -43.89,
+        "comparableCount": 12,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-43.9%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較12件）",
+          "推定土地単価：約111,458円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21244280",
+      "canonicalPropertyId": "suumo:nc_21244280",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21244280/",
+      "name": "FiT 柏市松葉町1期",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 20091106,
+        "estimatedBuildingValueYen": 23042800,
+        "estimatedBaseValueYen": 43133906,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 158422,
+        "currentAskingPriceYen": 58990000.0,
+        "valueGapYen": -15856094,
+        "valueGapPct": -36.76,
+        "comparableCount": 8,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-36.8%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較8件）",
+          "推定土地単価：約158,422円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21784706",
+      "canonicalPropertyId": "suumo:nc_21784706",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21784706/",
+      "name": "ヘリオスタウン 柏の葉14 ー早くも2棟ご成約ー",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 16551000,
+        "estimatedBuildingValueYen": 22679800,
+        "estimatedBaseValueYen": 39230800,
+        "estimatedTotalComparableTransactionMedianYen": 34000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 39000000.0
+        },
+        "estimatedLandUnitYenPerM2": 122600,
+        "currentAskingPriceYen": 72900000.0,
+        "valueGapYen": -33669200,
+        "valueGapPct": -85.82,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩17分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-85.8%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：34,000,000円（比較7件）",
+          "推定土地単価：約122,600円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21514756",
+      "canonicalPropertyId": "suumo:nc_21514756",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21514756/",
+      "name": "車庫並列2台20畳越え新築戸建て",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 18807886,
+        "estimatedBuildingValueYen": 22983400,
+        "estimatedBaseValueYen": 41791286,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 158422,
+        "currentAskingPriceYen": 58990000.0,
+        "valueGapYen": -17198714,
+        "valueGapPct": -41.15,
+        "comparableCount": 8,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-41.2%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較8件）",
+          "推定土地単価：約158,422円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20944633",
+      "canonicalPropertyId": "suumo:nc_20944633",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20944633/",
+      "name": "MOCX GARDEN 柏の葉26-1 【NO.６号棟】",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 20527375,
+        "estimatedBuildingValueYen": 25436400,
+        "estimatedBaseValueYen": 45963775,
+        "estimatedTotalComparableTransactionMedianYen": 39500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 16000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 137500,
+        "currentAskingPriceYen": 98600000.0,
+        "valueGapYen": -52636225,
+        "valueGapPct": -114.52,
+        "comparableCount": 4,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-114.5%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：39,500,000円（比較4件）",
+          "推定土地単価：約137,500円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21682362",
+      "canonicalPropertyId": "suumo:nc_21682362",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21682362/",
+      "name": "花野井（柏の葉キャンパス駅） 4799万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 27000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 108600,
+        "currentAskingPriceYen": 49900000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 15,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 62,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 50.0,
+        "components": {
+          "building": {
+            "label": "建物の価値",
+            "score": 70.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩14分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較15件）",
+          "推定土地単価：約108,600円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21629248",
+      "canonicalPropertyId": "suumo:nc_21629248",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21629248/",
+      "name": "花野井（柏の葉キャンパス駅） 6499万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 14633850,
+        "estimatedBuildingValueYen": 23335400,
+        "estimatedBaseValueYen": 37969250,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 27000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 108600,
+        "currentAskingPriceYen": 64990000.0,
+        "valueGapYen": -27020750,
+        "valueGapPct": -71.16,
+        "comparableCount": 15,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 53,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-71.2%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較15件）",
+          "推定土地単価：約108,600円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20925089",
+      "canonicalPropertyId": "suumo:nc_20925089",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_20925089/",
+      "name": "大室（柏たなか駅） 3480万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 18647664,
+        "estimatedBuildingValueYen": 18761600,
+        "estimatedBaseValueYen": 37409264,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 152400,
+        "currentAskingPriceYen": 34800000.0,
+        "valueGapYen": 2609264,
+        "valueGapPct": 6.97,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 68,
+        "label": "条件次第で有望",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 67.4,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：+7.0%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較7件）",
+          "推定土地単価：約152,400円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21814086",
+      "canonicalPropertyId": "suumo:nc_21814086",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21814086/",
+      "name": "Asobi+ 流山市おおたかの森北3丁目",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 46794682,
+        "estimatedBuildingValueYen": 13400640,
+        "estimatedBaseValueYen": 60195322,
+        "estimatedTotalComparableTransactionMedianYen": 61000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 26000000.0,
+          "high": 61000000.0
+        },
+        "estimatedLandUnitYenPerM2": 345654,
+        "currentAskingPriceYen": 80900000.0,
+        "valueGapYen": -20704678,
+        "valueGapPct": -34.4,
+        "comparableCount": 3,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 52,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-34.4%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：61,000,000円（比較3件）",
+          "推定土地単価：約345,654円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21057868",
+      "canonicalPropertyId": "suumo:nc_21057868",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21057868/",
+      "name": "流山市おおたかの森南三丁目 中古戸建",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 32171387,
+        "estimatedBuildingValueYen": 16767520,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 43500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 33000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 202718,
+        "currentAskingPriceYen": 120000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 60,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩11分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：43,500,000円（比較60件）",
+          "推定土地単価：約202,718円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21796210",
+      "canonicalPropertyId": "suumo:nc_21796210",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21796210/",
+      "name": "西初石４（初石駅） 5080万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 28830552,
+        "estimatedBuildingValueYen": 11022293,
+        "estimatedBaseValueYen": 39852845,
+        "estimatedTotalComparableTransactionMedianYen": 26000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 22000000.0,
+          "high": 26000000.0
+        },
+        "estimatedLandUnitYenPerM2": 207042,
+        "currentAskingPriceYen": 50800000.0,
+        "valueGapYen": -10947155,
+        "valueGapPct": -27.47,
+        "comparableCount": 3,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-27.5%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：26,000,000円（比較3件）",
+          "推定土地単価：約207,042円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21904762",
+      "canonicalPropertyId": "suumo:nc_21904762",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21904762/",
+      "name": "西初石５（流山おおたかの森駅） 6980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27695208,
+        "estimatedBuildingValueYen": 15942960,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204167,
+        "currentAskingPriceYen": 69800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 61,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較61件）",
+          "推定土地単価：約204,167円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21312860",
+      "canonicalPropertyId": "suumo:nc_21312860",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21312860/",
+      "name": "おおたかの森北２（流山おおたかの森駅） 7180万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27582917,
+        "estimatedBuildingValueYen": 16193100,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204167,
+        "currentAskingPriceYen": 71800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 61,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 72,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 45,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較61件）",
+          "推定土地単価：約204,167円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21677333",
+      "canonicalPropertyId": "suumo:nc_21677333",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21677333/",
+      "name": "おおたかの森北３（流山おおたかの森駅） 7480万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 29014912,
+        "estimatedBuildingValueYen": 17851680,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 205575,
+        "currentAskingPriceYen": 74800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 60,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較60件）",
+          "推定土地単価：約205,575円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_78794833",
+      "canonicalPropertyId": "suumo:nc_78794833",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_78794833/",
+      "name": "おおたかの森北３（流山おおたかの森駅） 7980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27704794,
+        "estimatedBuildingValueYen": 21422427,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 37000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 201270,
+        "currentAskingPriceYen": 79800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 57,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 70,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 54.7,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩16分を立地評価に反映",
+          "初回価格から3.6%値下げ",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較57件）",
+          "推定土地単価：約201,270円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21098293",
+      "canonicalPropertyId": "suumo:nc_21098293",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21098293/",
+      "name": "おおたかの森南１（流山おおたかの森駅） 8799万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 40284771,
+        "estimatedBuildingValueYen": 15347640,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 33000000.0,
+          "high": 61000000.0
+        },
+        "estimatedLandUnitYenPerM2": 200571,
+        "currentAskingPriceYen": 87990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 46,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 67,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 60,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 65,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩10分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較46件）",
+          "推定土地単価：約200,571円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21532809",
+      "canonicalPropertyId": "suumo:nc_21532809",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21532809/",
+      "name": "おおたかの森西４（流山おおたかの森駅） 8980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 36433006,
+        "estimatedBuildingValueYen": 27964200,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 37000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 201143,
+        "currentAskingPriceYen": 89800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 55,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 68,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 70,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 65,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩7分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較55件）",
+          "推定土地単価：約201,143円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21634932",
+      "canonicalPropertyId": "suumo:nc_21634932",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21634932/",
+      "name": "おおたかの森北２（流山おおたかの森駅） 1億1800万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 31239237,
+        "estimatedBuildingValueYen": 20053440,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 205575,
+        "currentAskingPriceYen": 118000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 60,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 75,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 65,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 76.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩8分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較60件）",
+          "推定土地単価：約205,575円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21072504",
+      "canonicalPropertyId": "suumo:nc_21072504",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21072504/",
+      "name": "おおたかの森北２（流山おおたかの森駅） 1億2680万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 50949447,
+        "estimatedBuildingValueYen": 19522800,
+        "estimatedBaseValueYen": 70472247,
+        "estimatedTotalComparableTransactionMedianYen": 61000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 26000000.0,
+          "high": 61000000.0
+        },
+        "estimatedLandUnitYenPerM2": 345654,
+        "currentAskingPriceYen": 126800000.0,
+        "valueGapYen": -56327753,
+        "valueGapPct": -79.93,
+        "comparableCount": 3,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 57.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 65,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩6分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-79.9%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：61,000,000円（比較3件）",
+          "推定土地単価：約345,654円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20773892",
+      "canonicalPropertyId": "suumo:nc_20773892",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_20773892/",
+      "name": "おおたかの森西２（流山おおたかの森駅） 1億2800万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 26323208,
+        "estimatedBuildingValueYen": 21955267,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 36000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204167,
+        "currentAskingPriceYen": 128000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 59,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩13分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較59件）",
+          "推定土地単価：約204,167円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_76132181",
+      "canonicalPropertyId": "suumo:nc_76132181",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_76132181/",
+      "name": "おおたかの森南２（流山おおたかの森駅） 1億2980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 28826292,
+        "estimatedBuildingValueYen": 21390893,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 36000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204167,
+        "currentAskingPriceYen": 129800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 59,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩13分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較59件）",
+          "推定土地単価：約204,167円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21532135",
+      "canonicalPropertyId": "suumo:nc_21532135",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21532135/",
+      "name": "おおたかの森北３（流山おおたかの森駅） 1億3800万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 44388672,
+        "estimatedBuildingValueYen": 25210973,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 33000000.0,
+          "high": 61000000.0
+        },
+        "estimatedLandUnitYenPerM2": 194969,
+        "currentAskingPriceYen": 138000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 36,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 52,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 40,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 57.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 58.3,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,500,000円（比較36件）",
+          "推定土地単価：約194,969円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20667069",
+      "canonicalPropertyId": "suumo:nc_20667069",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20667069/",
+      "name": "星ふる郷 流山おおたかの森〈2期〉【千葉グランディハウス】",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 30849711,
+        "estimatedBuildingValueYen": 22132000,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 69900000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 70,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 60.9,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "初回価格から6.7%値下げ",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21638604",
+      "canonicalPropertyId": "suumo:nc_21638604",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21638604/",
+      "name": "オープンプレイス美田ストリート",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 24652416,
+        "estimatedBuildingValueYen": 22475200,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 54990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 70,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 50.4,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "初回価格から1.5%値下げ",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20960507",
+      "canonicalPropertyId": "suumo:nc_20960507",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20960507/",
+      "name": "【フレスコの分譲住宅】～フレスティア流山おおたかの森北～《限定1邸》",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 31311038,
+        "estimatedBuildingValueYen": 23500400,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 79800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩19分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21171960",
+      "canonicalPropertyId": "suumo:nc_21171960",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21171960/",
+      "name": "ウィザースガーデン流山おおたかの森サードステージ～全5邸～現地モデルハウスまもなく公開予定｜最終2邸販売",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27557143,
+        "estimatedBuildingValueYen": 21223400,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 97900000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_78359385",
+      "canonicalPropertyId": "suumo:nc_78359385",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_78359385/",
+      "name": "【住友林業】【街角一番】フォレストリータウン流山おおたかの森[1号地]",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 31993822,
+        "estimatedBuildingValueYen": 25843253,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 37000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 201206,
+        "currentAskingPriceYen": 135000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 68,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩19分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,500,000円（比較56件）",
+          "推定土地単価：約201,206円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21827710",
+      "canonicalPropertyId": "suumo:nc_21827710",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21827710/",
+      "name": "美田（流山おおたかの森駅） 6299万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 21931403,
+        "estimatedBuildingValueYen": 24094400,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 37000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 62990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 54,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較54件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_78486743",
+      "canonicalPropertyId": "suumo:nc_78486743",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_78486743/",
+      "name": "長崎１（豊四季駅） 4880万円～5980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 28775781,
+        "estimatedBuildingValueYen": 20768000,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 48800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 69,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩20分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21932991",
+      "canonicalPropertyId": "suumo:nc_21932991",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21932991/",
+      "name": "花野井（柏の葉キャンパス駅） 2580万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 14317824,
+        "estimatedBuildingValueYen": 15027833,
+        "estimatedBaseValueYen": 29345657,
+        "estimatedTotalComparableTransactionMedianYen": 30000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 27000000.0,
+          "high": 44000000.0
+        },
+        "estimatedLandUnitYenPerM2": 108600,
+        "currentAskingPriceYen": 25800000.0,
+        "valueGapYen": 3545657,
+        "valueGapPct": 12.08,
+        "comparableCount": 15,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 71,
+        "label": "条件次第で有望",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 80.2,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩19分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：+12.1%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：30,000,000円（比較15件）",
+          "推定土地単価：約108,600円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21732870",
+      "canonicalPropertyId": "suumo:nc_21732870",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21732870/",
+      "name": "東初石３（流山おおたかの森駅） 4890万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 41000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 26000000.0,
+          "high": 45000000.0
+        },
+        "estimatedLandUnitYenPerM2": 177810,
+        "currentAskingPriceYen": 48900000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 5,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 60,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 50.0,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩14分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：41,000,000円（比較5件）",
+          "推定土地単価：約177,810円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_20867106",
+      "canonicalPropertyId": "suumo:nc_20867106",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20867106/",
+      "name": "◆オープンハウスグループ／流山市駒木◆穏やかな住宅地×新築戸建てで始める新生活♪",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 43000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 32000000.0,
+          "high": 56000000.0
+        },
+        "estimatedLandUnitYenPerM2": 201270,
+        "currentAskingPriceYen": 37990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 69,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 60,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：43,000,000円（比較69件）",
+          "推定土地単価：約201,270円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21933034",
+      "canonicalPropertyId": "suumo:nc_21933034",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21933034/",
+      "name": "正連寺（柏の葉キャンパス駅） 7980万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 15537500,
+        "estimatedBuildingValueYen": 19528960,
+        "estimatedBaseValueYen": 35066460,
+        "estimatedTotalComparableTransactionMedianYen": 39500000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 16000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 137500,
+        "currentAskingPriceYen": 79800000.0,
+        "valueGapYen": -44733540,
+        "valueGapPct": -127.57,
+        "comparableCount": 4,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "割高傾向",
+        "confidence": "medium",
+        "componentCoveragePct": 95.0,
+        "components": {
+          "price": {
+            "label": "価格の割安度",
+            "score": 0,
+            "weight": 25
+          },
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 75,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩15分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "推定土地・建物価値との価格乖離率：-127.6%（簡易推計）",
+          "条件抽出した戸建て取引総額中央値：39,500,000円（比較4件）",
+          "推定土地単価：約137,500円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21936055",
+      "canonicalPropertyId": "suumo:nc_21936055",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21936055/",
+      "name": "おおたかの森北２（流山おおたかの森駅） 8300万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27974700,
+        "estimatedBuildingValueYen": 20580707,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 205575,
+        "currentAskingPriceYen": 83000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 60,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較60件）",
+          "推定土地単価：約205,575円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21948675",
+      "canonicalPropertyId": "suumo:nc_21948675",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21948675/",
+      "name": "おおたかの森東４（流山おおたかの森駅） 9980万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 87000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 26000000.0,
+          "high": 87000000.0
+        },
+        "estimatedLandUnitYenPerM2": 453881,
+        "currentAskingPriceYen": 99800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 3,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 60,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩15分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：87,000,000円（比較3件）",
+          "推定土地単価：約453,881円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21547132",
+      "canonicalPropertyId": "suumo:nc_21547132",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_21547132/",
+      "name": "－柏市松葉町6丁目 2号棟 新築戸建－「柏の葉キャンパス」駅徒歩15分(*^^*)♪",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 42000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 158422,
+        "currentAskingPriceYen": 58990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 8,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 58,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 55,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 70,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩15分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：42,000,000円（比較8件）",
+          "推定土地単価：約158,422円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21842732",
+      "canonicalPropertyId": "suumo:nc_21842732",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21842732/",
+      "name": "ウィザースガーデン流山おおたかの森北～全4邸～【第2期販売予告】 販売開始前の事前案内会を開催中",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27877622,
+        "estimatedBuildingValueYen": 22195800,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 45000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 38000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204127,
+        "currentAskingPriceYen": 50000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 56,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 73,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 57.5,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 71.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩14分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：45,000,000円（比較56件）",
+          "推定土地単価：約204,127円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21978339",
+      "canonicalPropertyId": "suumo:nc_21978339",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21978339/",
+      "name": "おおたかの森東４（流山おおたかの森駅） 1億1000万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27910972,
+        "estimatedBuildingValueYen": 18283467,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 205575,
+        "currentAskingPriceYen": 110000000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 60,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 75,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 85.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 65,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 76.7,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩6分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較60件）",
+          "推定土地単価：約205,575円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21266770",
+      "canonicalPropertyId": "suumo:nc_21266770",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_nagareyama/nc_21266770/",
+      "name": "市野谷（流山おおたかの森駅） 6470万円",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": 27731958,
+        "estimatedBuildingValueYen": 13706000,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 44000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 35000000.0,
+          "high": 60000000.0
+        },
+        "estimatedLandUnitYenPerM2": 204167,
+        "currentAskingPriceYen": 64700000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 61,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+        "buildingValueConfidence": "low",
+        "score": 68,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 70.0,
+        "components": {
+          "land": {
+            "label": "土地価値・土地条件",
+            "score": 85,
+            "weight": 20
+          },
+          "building": {
+            "label": "建物の価値",
+            "score": 77.0,
+            "weight": 15
+          },
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 65,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "土地価値は戸建て取引総額から建物残価モデルを差し引いた参考推計",
+          "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
+          "駅徒歩18分を立地評価に反映",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：44,000,000円（比較61件）",
+          "推定土地単価：約204,167円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21525430",
+      "canonicalPropertyId": "suumo:nc_21525430",
+      "sourceUrl": "https://suumo.jp/chukoikkodate/chiba/sc_kashiwa/nc_21525430/",
+      "name": "若柴（柏の葉キャンパス駅） 4380万円",
+      "area": "柏の葉キャンパス",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 40000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 30000000.0,
+          "high": 49000000.0
+        },
+        "estimatedLandUnitYenPerM2": 187333,
+        "currentAskingPriceYen": 43800000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 7,
+        "comparableLevel": "same_district",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 50,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 50,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 50,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩20分を立地評価に反映",
+          "柏の葉小学校区は未確認のため加点していない",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：40,000,000円（比較7件）",
+          "推定土地単価：約187,333円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    },
+    {
+      "propertyId": "suumo:nc_21264215",
+      "canonicalPropertyId": "suumo:nc_21264215",
+      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_21264215/",
+      "name": "◆オープンハウスグループ／流山市美田◆水回り集約プラン＆大型WIC完備の新築戸建て♪",
+      "area": "流山おおたかの森",
+      "valuation": {
+        "modelVersion": "2026-10-23-v1",
+        "asOfYear": 2026,
+        "estimatedLandValueYen": null,
+        "estimatedBuildingValueYen": null,
+        "estimatedBaseValueYen": null,
+        "estimatedTotalComparableTransactionMedianYen": 43000000.0,
+        "comparableTransactionPriceRange20to80Yen": {
+          "low": 32000000.0,
+          "high": 56000000.0
+        },
+        "estimatedLandUnitYenPerM2": 201270,
+        "currentAskingPriceYen": 49990000.0,
+        "valueGapYen": null,
+        "valueGapPct": null,
+        "comparableCount": 69,
+        "comparableLevel": "city_wide_fallback",
+        "buildingValueMethod": "unavailable",
+        "buildingValueConfidence": "low",
+        "score": 51,
+        "label": "価格評価データ不足",
+        "confidence": "low",
+        "componentCoveragePct": 35.0,
+        "components": {
+          "premium": {
+            "label": "立地・プレミアム",
+            "score": 52,
+            "weight": 20
+          },
+          "resale": {
+            "label": "将来の売却・保有価値",
+            "score": 50,
+            "weight": 10
+          },
+          "listing": {
+            "label": "売出状況・交渉余地",
+            "score": 47.5,
+            "weight": 5
+          }
+        },
+        "reasons": [
+          "駅徒歩17分を立地評価に反映",
+          "掲載情報に「角地」の記載あり（要確認）",
+          "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
+          "条件抽出した戸建て取引総額中央値：43,000,000円（比較69件）",
+          "推定土地単価：約201,270円/㎡（建物残価を差し引く簡易モデル）"
+        ],
+        "limitations": [
+          "比較可能な取引から土地価値を推定できない",
+          "建物面積が不足し建物価値を推定できない",
+          "同一町丁目の取引が3件未満のため市内取引を代替比較に使用",
+          "築年が不明のため建物残価は仮定値"
+        ],
+        "disclaimer": "自動推定による参考値であり、不動産鑑定・査定ではありません。取引総額からの土地/建物分解は簡易モデルです。個別の接道・形状・地勢・ハザード・建物状態を保証しません。"
+      }
+    }
+  ]
+}
