@@ -19,6 +19,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
+from property_valuation import build_property_valuation, VERSION as VALUATION_VERSION
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 CONFIG = ROOT / "config"
@@ -27,10 +29,11 @@ DISCOVERED_PATH = DATA / "discovered_listings.json"
 OBSERVATIONS_PATH = DATA / "listing_observations.json"
 TRANSACTIONS_PATH = DATA / "transactions.json"
 SUMMARY_PATH = DATA / "summary.json"
+VALUATION_RESULTS_PATH = DATA / "valuation_results.json"
 USER_SELECTIONS_PATH = DATA / "user_selections.json"
 SCHOOL_CONFIG_PATH = CONFIG / "school_districts.json"
 QUARANTINE_RETENTION_DAYS = 90
-VERSION = "2026-10-19-v1"
+VERSION = "2026-10-23-v2-total-value-scoring"
 
 TARGET_CITY = {
     "柏市": "柏の葉キャンパス",
@@ -440,7 +443,7 @@ def tx_land(row: dict[str, Any]) -> float | None:
 
 
 def tx_building(row: dict[str, Any]) -> float | None:
-    return tx_num(row, "BuildingArea", "buildingArea", "建物面積", "建物面積（㎡）")
+    return tx_num(row, "TotalFloorArea", "BuildingArea", "buildingArea", "建物面積", "建物面積（㎡）")
 
 
 def tx_year(row: dict[str, Any]) -> int | None:
@@ -463,6 +466,41 @@ def median_or_none(values: list[float]) -> float | None:
     return round(statistics.median(values), 2) if values else None
 
 
+def transaction_period_end(row: dict[str, Any]) -> datetime | None:
+    raw = str(row.get("_period") or row.get("Period") or "")
+    match = re.search(r"(?<!\d)(20\d{2})\s*Q([1-4])", raw, re.I)
+    if not match:
+        match = re.search(r"(20\d{2})年?第?([1-4])四半期", raw)
+    if not match:
+        return None
+    year, quarter = int(match.group(1)), int(match.group(2))
+    month = quarter * 3
+    # Quarter-level API data can only be assigned to quarter end, not an exact trade date.
+    return datetime(year, month, [31, 30, 30, 31][quarter - 1], 23, 59, tzinfo=timezone.utc)
+
+
+def build_transaction_metrics_by_window(rows: list[dict[str, Any]], now: datetime) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for area in TARGET_CITY.values():
+        result[area] = {}
+        for key, days in (("3m", 90), ("12m", 365)):
+            cutoff = now - timedelta(days=days)
+            scoped = []
+            for row in rows:
+                if transaction_area(row) != area:
+                    continue
+                period_end = transaction_period_end(row)
+                if period_end and cutoff <= period_end <= now:
+                    scoped.append(row)
+            result[area][key] = build_transaction_metrics(scoped).get(area, {})
+            result[area][key]["periodDays"] = days
+            result[area][key]["periodBasis"] = "quarter_end_proxy"
+            if not scoped:
+                result[area][key]["dataConfidence"] = "low"
+                result[area][key]["note"] = "対象期間に含まれる保存済み四半期データなし。取引ゼロを意味しません。"
+    return result
+
+
 def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for area in TARGET_CITY.values():
@@ -476,7 +514,10 @@ def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         out[area] = {
             "transactionCount": len(subset),
             "medianTransactionPriceYen": median_or_none(prices),
-            "medianLandPricePerM2Yen": median_or_none(land_prices),
+            # XIT001 rows are detached-house transactions, not land-only deals.
+            # This ratio must never be presented as a pure land unit price.
+            "medianHouseTransactionPricePerLandM2Yen": median_or_none(land_prices),
+            "landPriceMetricNote": "戸建て取引総額÷土地面積の参考比率。純粋な土地単価ではありません。",
             "dataConfidence": "medium" if len(subset) >= 10 else "low" if len(subset) < 3 else "limited",
             "source": "国土交通省 不動産情報ライブラリ XIT001",
         }
@@ -597,7 +638,8 @@ def market_window_metrics(area: str, houses: list[dict[str, Any]], observations:
         reduction = number_value(x, "priceReductionRate")
         if reduction is not None and reduction > 0:
             reductions.append(reduction * 100 if reduction <= 1 else reduction)
-    tx = transactions.get(area, {})
+    area_tx = transactions.get(area, {})
+    tx = area_tx.get("3m" if days <= 90 else "12m", area_tx) if isinstance(area_tx, dict) else {}
     observed_dates = [parse_dt(x.get("observedAt") or x.get("timestamp")) for x in area_obs]
     observed_dates = [x for x in observed_dates if x]
     span_days = max(0, (max(observed_dates) - min(observed_dates)).days) if observed_dates else 0
@@ -619,7 +661,8 @@ def market_window_metrics(area: str, houses: list[dict[str, Any]], observations:
         "medianRecordedReductionPct": round(statistics.median(reductions), 2) if reductions else None,
         "transactionCountAvailable": tx.get("transactionCount", 0),
         "medianTransactionPriceYen": tx.get("medianTransactionPriceYen"),
-        "medianLandPricePerM2Yen": tx.get("medianLandPricePerM2Yen"),
+        "medianHouseTransactionPricePerLandM2Yen": tx.get("medianHouseTransactionPricePerLandM2Yen"),
+        "landPriceMetricNote": tx.get("landPriceMetricNote"),
         "confidence": "medium" if sufficient else "low",
         "limitations": ([] if sufficient else [f"期間内の観測カバー率は{coverage_pct:.1f}%（観測期間{span_days}日）。十分な長期履歴が蓄積するまでは参考値です"])
             + ([] if len(price_deltas) >= 5 else ["期間内の複数回観測が少なく、価格トレンドは参考値です"]),
@@ -688,7 +731,9 @@ def apply_pipeline() -> dict[str, Any]:
 
     tx_rows = transaction_rows(tx_data)
     transaction_metrics = build_transaction_metrics(tx_rows)
+    transaction_metrics_by_window = build_transaction_metrics_by_window(tx_rows, now)
     accepted_canonical = [x for x in houses if x.get("areaDecision") == "accepted" and x.get("canonicalPropertyId", pid(x)) == pid(x)]
+    valuation_results: list[dict[str, Any]] = []
     for item in houses:
         key = pid(item)
         canonical = item.get("canonicalPropertyId", key)
@@ -696,20 +741,47 @@ def apply_pipeline() -> dict[str, Any]:
         item["marketAnalysisEligible"] = item.get("areaDecision") == "accepted" and canonical == key
         if not item["marketAnalysisEligible"]:
             item["marketIndicators"] = {"score": None, "label": "分析対象外", "confidence": "low", "components": {}, "reasons": ["対象エリア外・要確認・重複統合先のため通常評価から除外"]}
+            item.pop("valuation", None)
             continue
         comparables = find_comparables(item, tx_rows)
         addr = text_value(item, "address")
         city = municipality(addr)
         similar = [x for x in accepted_canonical if x is not item and municipality(text_value(x, "address")) == city and price(x) and price(item) and abs(price(x) - price(item)) <= max(price(item) * 0.35, 1_000_000) and (not number_value(item, "landAreaM2", "land") or not number_value(x, "landAreaM2", "land") or abs(number_value(x, "landAreaM2", "land") - number_value(item, "landAreaM2", "land")) <= max(25, number_value(item, "landAreaM2", "land") * 0.35))]
-        item["marketIndicators"] = score_property(item, comparables, similar, now)
-        item["marketIndicators"]["area"] = item.get("area")
-        item["marketIndicators"]["asOf"] = iso(now)
+        valuation = build_property_valuation(item, tx_rows, now)
+        # Compatibility fields remain for the current dashboard; score is now the
+        # multi-factor total-value score, not the old asking-price-only indicator.
+        item["valuation"] = valuation
+        item["marketIndicators"] = {
+            "score": valuation.get("score"),
+            "label": valuation.get("label", "データ不足"),
+            "confidence": valuation.get("confidence", "low"),
+            "components": {
+                key: value.get("score")
+                for key, value in valuation.get("components", {}).items()
+            },
+            "componentDetails": valuation.get("components", {}),
+            "reasons": valuation.get("reasons", []),
+            "limitations": valuation.get("limitations", []),
+            "transactionComparableCount": valuation.get("comparableCount", 0),
+            "similarListingCount": len(similar),
+            "area": item.get("area"),
+            "asOf": iso(now),
+            "valuation": valuation,
+        }
+        valuation_results.append({
+            "propertyId": key,
+            "canonicalPropertyId": canonical,
+            "sourceUrl": text_value(item, "sourceUrl", "url"),
+            "name": text_value(item, "name", "listingTitle"),
+            "area": item.get("area"),
+            "valuation": valuation,
+        })
 
     area_metrics: dict[str, Any] = {}
     for area in TARGET_CITY.values():
         area_metrics[area] = {
-            "3m": market_window_metrics(area, houses, observations, transaction_metrics, now, 90),
-            "12m": market_window_metrics(area, houses, observations, transaction_metrics, now, 365),
+            "3m": market_window_metrics(area, houses, observations, transaction_metrics_by_window, now, 90),
+            "12m": market_window_metrics(area, houses, observations, transaction_metrics_by_window, now, 365),
         }
 
     # Candidate review pairs are stored separately from canonical records to avoid
@@ -771,12 +843,31 @@ def apply_pipeline() -> dict[str, Any]:
         "periods": ["3m", "12m"],
         "areas": area_metrics,
         "transactionMetrics": transaction_metrics,
-        "limitations": ["観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます", "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません"],
+        "transactionMetricsByWindow": transaction_metrics_by_window,
+        "limitations": ["観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます", "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません", "自治体全域の取引は駅徒歩圏・町丁目の相場と一致しない場合があります", "四半期単位データの期間判定は四半期末日による近似です"],
     }
     summary["bargainIndicator"] = {
-        "method": "explainable_rule_based_v1",
-        "labels": {"65-100": "割安候補", "40-64": "相場並み", "0-39": "割高候補", "null": "データ不足"},
-        "note": "比較対象が少ない場合は信頼度を低くし、根拠を併記する",
+        "method": "multi_factor_total_value_v2",
+        "valuationModelVersion": VALUATION_VERSION,
+        "weights": {
+            "price": 25, "land": 20, "building": 15, "premium": 20,
+            "resale": 10, "listing": 5, "risk": 5,
+        },
+        "labels": {
+            "75+": "優先検討（信頼度・価格条件を併せて確認）",
+            "65-74": "条件次第で有望",
+            "45-64": "適正価格帯",
+            "0-44": "割高傾向",
+            "null": "データ不足",
+        },
+        "policy": [
+            "土地・建物の参考推計と多要素スコアを分離して表示",
+            "市場プレミアムは根拠未確定の金額に換算せずスコアで反映",
+            "学区は公式確認済み住所のみ確認済みとして扱う",
+            "不明なハザード・接道・建物状態は安全・良好とみなさない",
+            "低信頼度の高スコアは優先検討ラベルにしない",
+        ],
+        "note": "自動推定は査定・鑑定ではない。比較件数、推定方式、限界、信頼度を併記する。",
     }
     summary["schoolDistrictPolicy"] = {
         "school": "柏の葉小学校区",
@@ -796,9 +887,25 @@ def apply_pipeline() -> dict[str, Any]:
     else:
         observations_data = {"version": "2.0", "updatedAt": iso(now), "count": len(observations), "observations": observations}
 
+    valuation_results_data = {
+        "schemaVersion": "1.0",
+        "updatedAt": iso(now),
+        "modelVersion": VALUATION_VERSION,
+        "count": len(valuation_results),
+        "properties": valuation_results,
+    }
+    summary["valuationSummary"] = {
+        "modelVersion": VALUATION_VERSION,
+        "evaluatedCanonicalProperties": len(valuation_results),
+        "highConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "high"),
+        "mediumConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "medium"),
+        "lowConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "low"),
+        "propertiesWithEstimatedBaseValue": sum(1 for x in valuation_results if x["valuation"].get("estimatedBaseValueYen") is not None),
+    }
     atomic_save(HOUSES_PATH, houses_data)
     atomic_save(DISCOVERED_PATH, discovered_data)
     atomic_save(OBSERVATIONS_PATH, observations_data)
+    atomic_save(VALUATION_RESULTS_PATH, valuation_results_data)
     atomic_save(SUMMARY_PATH, summary)
     return {
         "areaCounts": dict(area_counts),
@@ -810,6 +917,8 @@ def apply_pipeline() -> dict[str, Any]:
         "manualMergedListingCount": duplicate_info["manualMergedListingCount"],
         "pruned": {"houses": pruned_houses, "discovered": pruned_discovered},
         "transactionMetrics": transaction_metrics,
+        "valuationModelVersion": VALUATION_VERSION,
+        "valuedProperties": len(valuation_results),
     }
 
 
