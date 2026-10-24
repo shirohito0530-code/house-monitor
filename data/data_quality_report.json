@@ -1,16 +1,16 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-10-24T00:01:12.906914+00:00",
+  "generatedAt": "2026-10-24T23:25:47.035435+00:00",
   "sourceFiles": {
-    "housesCount": 607,
-    "discoveredCount": 1188,
-    "observationCount": 8059,
+    "housesCount": 615,
+    "discoveredCount": 1214,
+    "observationCount": 8544,
     "transactionPeriodCount": 1
   },
   "listingStatusCounts": {
-    "possibly_ended": 98,
-    "observed_ended": 527,
-    "active": 563
+    "possibly_ended": 89,
+    "observed_ended": 551,
+    "active": 574
   },
   "canonicalAcceptedHouseCount": 63,
   "fieldCoverage": {
@@ -46,13 +46,13 @@
     }
   },
   "observationHistory": {
-    "validTimestampCount": 8059,
-    "spanDays": 11,
+    "validTimestampCount": 8544,
+    "spanDays": 12,
     "oldestObservedAt": "2026-10-12T11:42:30.547898+00:00",
-    "newestObservedAt": "2026-10-24T00:01:07.895703+00:00"
+    "newestObservedAt": "2026-10-24T23:25:41.178863+00:00"
   },
   "transactionRetrieval": {
-    "updatedAt": "2026-10-24T00:01:11.444537+00:00",
+    "updatedAt": "2026-10-24T23:25:45.559765+00:00",
     "source": "REINFOLIB_API_KEY 未設定時は取得をスキップ",
     "cities": {
       "kashiwa": {
@@ -124,6 +124,6 @@
     "interpretation": "取得失敗・未取得・データなし・保存済みデータありを区別。取引件数0を市場で取引がなかった証拠として扱わない。"
   },
   "warnings": [
-    "掲載観測履歴が11日しかなく、3か月・12か月の価格トレンドは限定的です"
+    "掲載観測履歴が12日しかなく、3か月・12か月の価格トレンドは限定的です"
   ]
 }

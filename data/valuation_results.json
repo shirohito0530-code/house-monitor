@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-24T00:01:11.546573+00:00",
+  "updatedAt": "2026-10-24T23:25:45.662931+00:00",
   "modelVersion": "2026-10-23-v1",
   "count": 63,
   "properties": [
@@ -772,7 +772,7 @@
         "comparableLevel": "same_district",
         "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
         "buildingValueConfidence": "low",
-        "score": 52,
+        "score": 51,
         "label": "割高傾向",
         "confidence": "medium",
         "componentCoveragePct": 95.0,
@@ -804,7 +804,7 @@
           },
           "listing": {
             "label": "売出状況・交渉余地",
-            "score": 50.0,
+            "score": 47.5,
             "weight": 5
           }
         },
@@ -1137,21 +1137,21 @@
           "high": 31000000.0
         },
         "estimatedLandUnitYenPerM2": 111458,
-        "currentAskingPriceYen": 47990000.0,
-        "valueGapYen": -14638451,
-        "valueGapPct": -43.89,
+        "currentAskingPriceYen": 27980000.0,
+        "valueGapYen": 5371549,
+        "valueGapPct": 16.11,
         "comparableCount": 12,
         "comparableLevel": "same_district",
         "buildingValueMethod": "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
         "buildingValueConfidence": "low",
-        "score": 53,
-        "label": "割高傾向",
+        "score": 78,
+        "label": "優先検討",
         "confidence": "medium",
         "componentCoveragePct": 95.0,
         "components": {
           "price": {
             "label": "価格の割安度",
-            "score": 0,
+            "score": 90.3,
             "weight": 25
           },
           "land": {
@@ -1176,7 +1176,7 @@
           },
           "listing": {
             "label": "売出状況・交渉余地",
-            "score": 45,
+            "score": 72.5,
             "weight": 5
           }
         },
@@ -1185,8 +1185,9 @@
           "再調達単価×延床面積×残価率（木造、耐用年数30年の簡易仮定）",
           "駅徒歩14分を立地評価に反映",
           "柏の葉小学校区は未確認のため加点していない",
+          "初回価格から40.5%値下げ",
           "ハザード・接道・擁壁・法的制約は未確認（安全を意味しない）",
-          "推定土地・建物価値との価格乖離率：-43.9%（簡易推計）",
+          "推定土地・建物価値との価格乖離率：+16.1%（簡易推計）",
           "条件抽出した戸建て取引総額中央値：30,000,000円（比較12件）",
           "推定土地単価：約111,458円/㎡（建物残価を差し引く簡易モデル）"
         ],
@@ -3588,7 +3589,7 @@
           },
           "listing": {
             "label": "売出状況・交渉余地",
-            "score": 50.0,
+            "score": 47.5,
             "weight": 5
           }
         },
