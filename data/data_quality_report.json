@@ -1,58 +1,58 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-10-23T15:18:04.979509+00:00",
+  "generatedAt": "2026-10-24T00:01:12.906914+00:00",
   "sourceFiles": {
-    "housesCount": 538,
-    "discoveredCount": 1173,
-    "observationCount": 7398,
+    "housesCount": 607,
+    "discoveredCount": 1188,
+    "observationCount": 8059,
     "transactionPeriodCount": 1
   },
   "listingStatusCounts": {
     "possibly_ended": 98,
-    "observed_ended": 494,
-    "active": 581
+    "observed_ended": 527,
+    "active": 563
   },
-  "canonicalAcceptedHouseCount": 56,
+  "canonicalAcceptedHouseCount": 63,
   "fieldCoverage": {
     "price": {
-      "count": 55,
-      "total": 56,
-      "coveragePct": 98.2
+      "count": 62,
+      "total": 63,
+      "coveragePct": 98.4
     },
     "landArea": {
       "count": 49,
-      "total": 56,
-      "coveragePct": 87.5
+      "total": 63,
+      "coveragePct": 77.8
     },
     "buildingArea": {
       "count": 49,
-      "total": 56,
-      "coveragePct": 87.5
+      "total": 63,
+      "coveragePct": 77.8
     },
     "stationWalk": {
-      "count": 56,
-      "total": 56,
+      "count": 63,
+      "total": 63,
       "coveragePct": 100.0
     },
     "constructionYear": {
       "count": 50,
-      "total": 56,
-      "coveragePct": 89.3
+      "total": 63,
+      "coveragePct": 79.4
     },
     "schoolDistrictConfirmed": {
       "count": 0,
-      "total": 56,
+      "total": 63,
       "coveragePct": 0.0
     }
   },
   "observationHistory": {
-    "validTimestampCount": 7398,
+    "validTimestampCount": 8059,
     "spanDays": 11,
     "oldestObservedAt": "2026-10-12T11:42:30.547898+00:00",
-    "newestObservedAt": "2026-10-23T15:17:59.757684+00:00"
+    "newestObservedAt": "2026-10-24T00:01:07.895703+00:00"
   },
   "transactionRetrieval": {
-    "updatedAt": "2026-10-23T15:18:03.596738+00:00",
+    "updatedAt": "2026-10-24T00:01:11.444537+00:00",
     "source": "REINFOLIB_API_KEY 未設定時は取得をスキップ",
     "cities": {
       "kashiwa": {
