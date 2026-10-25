@@ -3,6 +3,7 @@ import re
 import unicodedata
 from collections import Counter
 from datetime import datetime, timezone
+import time
 from typing import Any, Dict, List, Optional, Tuple
 from urllib.parse import urlparse, urlsplit, urlunparse
 
@@ -14,7 +15,7 @@ from bs4 import BeautifulSoup
 # Parser version
 # ============================================================
 
-DETAIL_PARSER_VERSION = "2026-10-14-v44-area-layout-fallback"
+DETAIL_PARSER_VERSION = "2026-10-25-v45-detail-persistence-retry"
 
 
 # ============================================================
@@ -3199,25 +3200,31 @@ def classify_http_error(
     exception: Optional[Exception] = None,
     status_code: Optional[int] = None,
 ) -> str:
-    if status_code == 403:
+    if status_code in (401, 403):
         return "forbidden"
-
+    if status_code == 404:
+        return "not_found"
     if status_code == 429:
         return "rate_limited"
-
-    if (
-        status_code
-        and 500 <= status_code <= 599
-    ):
+    if status_code and 500 <= status_code <= 599:
         return "server_error"
-
-    if isinstance(
-        exception,
-        requests.exceptions.Timeout,
-    ):
+    if isinstance(exception, requests.exceptions.Timeout):
         return "timeout"
-
+    if isinstance(exception, requests.exceptions.ConnectionError):
+        return "network_error"
     return "network_error"
+
+
+def _retry_delay(response: Any, attempt: int) -> float:
+    """Bounded backoff; honor a short Retry-After but never sleep excessively."""
+    retry_after = None
+    try:
+        retry_after = float(response.headers.get("Retry-After", "")) if response is not None else None
+    except (TypeError, ValueError):
+        retry_after = None
+    if retry_after is not None:
+        return max(0.5, min(retry_after, 8.0))
+    return min(1.0 * (2 ** attempt), 4.0)
 
 
 def fetch_html(
@@ -3225,71 +3232,106 @@ def fetch_html(
     headers: Dict[str, str],
     timeout: int,
 ) -> Dict[str, Any]:
-    try:
-        response = requests.get(
-            request_url,
-            headers=headers,
-            timeout=timeout,
-            allow_redirects=True,
-        )
+    """Fetch HTML with bounded retries and sanitized errors (never log page body)."""
+    max_attempts = 3
+    last_error: Optional[str] = None
+    last_error_type = "network_error"
+    last_status: Optional[int] = None
+    last_url: Optional[str] = None
 
-        status_code = response.status_code
+    for attempt in range(max_attempts):
+        response = None
+        try:
+            response = requests.get(
+                request_url,
+                headers=headers,
+                timeout=timeout,
+                allow_redirects=True,
+            )
+            last_status = response.status_code
+            last_url = response.url
 
-        if (
-            status_code in (403, 429)
-            or 500 <= status_code <= 599
-        ):
+            if response.status_code in (401, 403, 404):
+                error_type = classify_http_error(status_code=response.status_code)
+                return {
+                    "success": False,
+                    "html": "",
+                    "response": None,
+                    "finalUrl": response.url,
+                    "error": f"http_{response.status_code}",
+                    "errorType": error_type,
+                    "httpStatus": response.status_code,
+                    "attempts": attempt + 1,
+                }
+
+            if response.status_code == 429 or 500 <= response.status_code <= 599:
+                last_error = f"http_{response.status_code}"
+                last_error_type = classify_http_error(status_code=response.status_code)
+                if attempt < max_attempts - 1:
+                    time.sleep(_retry_delay(response, attempt))
+                    continue
+                return {
+                    "success": False,
+                    "html": "",
+                    "response": None,
+                    "finalUrl": response.url,
+                    "error": last_error,
+                    "errorType": last_error_type,
+                    "httpStatus": response.status_code,
+                    "attempts": attempt + 1,
+                }
+
+            response.raise_for_status()
+            if not response.encoding or response.encoding.lower() in {"iso-8859-1", "latin-1"}:
+                response.encoding = response.apparent_encoding or "utf-8"
+            return {
+                "success": True,
+                "html": response.text or "",
+                "response": None,
+                "finalUrl": response.url,
+                "error": None,
+                "errorType": None,
+                "httpStatus": response.status_code,
+                "attempts": attempt + 1,
+            }
+
+        except requests.exceptions.HTTPError as exc:
+            status = exc.response.status_code if exc.response is not None else last_status
+            error_type = classify_http_error(exception=exc, status_code=status)
+            # Client errors are not transient; do not retry them.
             return {
                 "success": False,
                 "html": "",
-                "response": response,
-                "finalUrl": response.url,
-                "error": (
-                    f"http_{status_code}"
-                ),
-                "errorType": classify_http_error(
-                    status_code=status_code
-                ),
-                "httpStatus": status_code,
+                "response": None,
+                "finalUrl": last_url,
+                "error": f"http_{status}" if status else "http_error",
+                "errorType": error_type,
+                "httpStatus": status,
+                "attempts": attempt + 1,
             }
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
+            last_error = type(exc).__name__
+            last_error_type = classify_http_error(exception=exc)
+            if attempt < max_attempts - 1:
+                time.sleep(_retry_delay(None, attempt))
+                continue
+        except Exception as exc:
+            # Unexpected exceptions are not retried; log only the type/message,
+            # never the response body or a potentially huge HTML fragment.
+            last_error = f"{type(exc).__name__}: {str(exc)[:180]}"
+            last_error_type = classify_http_error(exception=exc)
+            break
 
-        response.raise_for_status()
-
-        if (
-            not response.encoding
-            or response.encoding.lower()
-            in {
-                "iso-8859-1",
-                "latin-1",
-            }
-        ):
-            response.encoding = (
-                response.apparent_encoding
-                or "utf-8"
-            )
-
-        return {
-            "success": True,
-            "html": response.text or "",
-            "response": response,
-            "finalUrl": response.url,
-            "error": None,
-            "errorType": None,
-            "httpStatus": status_code,
-        }
-
-    except Exception as exc:
-        return {
-            "success": False,
-            "html": "",
-            "response": None,
-            "finalUrl": None,
-            "error": str(exc),
-            "errorType": classify_http_error(
-                exception=exc
-            ),
-            "httpStatus": None,
-        }
+    return {
+        "success": False,
+        "html": "",
+        "response": None,
+        "finalUrl": last_url,
+        "error": last_error or "request_failed",
+        "errorType": last_error_type,
+        "httpStatus": last_status,
+        "attempts": max_attempts,
+    }
 
 
 # ============================================================
@@ -4004,6 +4046,19 @@ class SuumoDetailAdapter:
             first_error = fetch_result.get(
                 "errorType"
             )
+            # Do not issue a second request for a non-transient response.
+            # 401/403/404 and exhausted 429 responses should be recorded once,
+            # not amplified by trying a second user-agent immediately.
+            if first_error in {"forbidden", "not_found", "rate_limited"}:
+                return {
+                    "success": False,
+                    "detail": None,
+                    "error": fetch_result.get("error") or first_error,
+                    "errorType": first_error,
+                    "httpStatus": fetch_result.get("httpStatus"),
+                    "finalUrl": fetch_result.get("finalUrl") or request_url,
+                    "requestAttempts": int(fetch_result.get("attempts") or 1),
+                }
 
             mobile_result = fetch_html(
                 request_url,
@@ -4051,6 +4106,7 @@ class SuumoDetailAdapter:
                             "finalUrl"
                         )
                     ),
+                    "requestAttempts": int(fetch_result.get("attempts") or 1) + int(mobile_result.get("attempts") or 1),
                 }
 
         html = fetch_result.get(
@@ -4082,6 +4138,7 @@ class SuumoDetailAdapter:
                 "errorType": "parser_error",
                 "httpStatus": http_status,
                 "finalUrl": final_url,
+                "requestAttempts": int(fetch_result.get("attempts") or 1),
             }
 
         # ----------------------------------------------------
@@ -4107,6 +4164,7 @@ class SuumoDetailAdapter:
                 "errorType": "parser_error",
                 "httpStatus": http_status,
                 "finalUrl": final_url,
+                "requestAttempts": int(fetch_result.get("attempts") or 1),
             }
 
         if not isinstance(
@@ -4122,6 +4180,7 @@ class SuumoDetailAdapter:
                 "errorType": "parser_error",
                 "httpStatus": http_status,
                 "finalUrl": final_url,
+                "requestAttempts": int(fetch_result.get("attempts") or 1),
             }
 
         return {
@@ -4131,4 +4190,5 @@ class SuumoDetailAdapter:
             "errorType": None,
             "httpStatus": http_status,
             "finalUrl": final_url,
+            "requestAttempts": int(fetch_result.get("attempts") or 1),
         }
