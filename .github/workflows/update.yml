@@ -121,16 +121,27 @@ jobs:
           python scripts/market_pipeline.py
 
       # --------------------------------------------------
-      # 9. Data quality and retrieval-state report
-      # Does not fail solely because the upstream API has no data.
+      # 9. Validate JSON files and identity consistency
       # --------------------------------------------------
-      - name: Generate data quality report
+      - name: Report duplicate resolution status
         run: |
-          python scripts/data_quality_report.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
 
-      # --------------------------------------------------
-      # 10. Validate JSON files and identity consistency
-      # --------------------------------------------------
+          path = Path("data/duplicate_review_candidates.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          candidates = data.get("candidates", [])
+          queue = data.get("detailEnrichmentQueue", [])
+          if not isinstance(candidates, list) or not isinstance(queue, list):
+              raise SystemExit("duplicate review output schema is invalid")
+          print(f"Manual duplicate candidates: {len(candidates)}")
+          print(f"Missing-detail enrichment queue: {len(queue)}")
+          print(f"Pairs suppressed by physical conflicts: {data.get('suppressedConflictCount', 0)}")
+          for item in queue[:10]:
+              print(f"  ENRICH {item.get('propertyId')}: missing={','.join(item.get('missingFields', []))}")
+          PY
+
       - name: Validate generated databases
         run: |
           python - <<'PY'
@@ -315,41 +326,6 @@ jobs:
           print(f"  marketPipelineVersion={summary.get('marketPipelineVersion')}")
           print(f"  areaDecisionCounts={summary.get('areaDecisionCounts', {})}")
           print(f"  duplicateManagement={summary.get('duplicateManagement', {})}")
-          print(f"  valuationSummary={summary.get('valuationSummary', {})}")
-
-          # Per-property valuation output
-          valuation_path = ROOT / "data/valuation_results.json"
-          valuation_data = load_json(valuation_path)
-          if not isinstance(valuation_data, dict):
-              fail("data/valuation_results.json must be a JSON object")
-          if not valuation_data.get("updatedAt") or not valuation_data.get("modelVersion"):
-              fail("data/valuation_results.json requires updatedAt and modelVersion")
-          valuation_properties = valuation_data.get("properties")
-          if not isinstance(valuation_properties, list):
-              fail("data/valuation_results.json: properties must be a list")
-          valuation_ids = set()
-          for i, record in enumerate(valuation_properties):
-              if not isinstance(record, dict) or not record.get("propertyId"):
-                  fail(f"valuation_results.json: invalid record at index {i}")
-              if record["propertyId"] in valuation_ids:
-                  fail(f"valuation_results.json: duplicate propertyId {record['propertyId']}")
-              valuation_ids.add(record["propertyId"])
-              valuation = record.get("valuation")
-              if not isinstance(valuation, dict):
-                  fail(f"valuation_results.json: valuation object missing at index {i}")
-              score = valuation.get("score")
-              if score is not None and not (0 <= float(score) <= 100):
-                  fail(f"valuation_results.json: score out of range at index {i}")
-          print(f"OK: {valuation_path} properties={len(valuation_properties)} model={valuation_data.get('modelVersion')}")
-
-          # Data quality report
-          quality_path = ROOT / "data/data_quality_report.json"
-          quality_data = load_json(quality_path)
-          if not isinstance(quality_data, dict) or not quality_data.get("generatedAt"):
-              fail("data/data_quality_report.json requires generatedAt")
-          if not isinstance(quality_data.get("fieldCoverage"), dict):
-              fail("data_quality_report.json: fieldCoverage must be an object")
-          print(f"OK: {quality_path} warnings={len(quality_data.get('warnings', []))}")
 
           # Duplicate review candidates
           review_path = ROOT / "data/duplicate_review_candidates.json"
@@ -377,7 +353,7 @@ jobs:
           PY
 
       # --------------------------------------------------
-      # 11. Output summary
+      # 10. Output summary
       # --------------------------------------------------
       - name: Display output summary
         run: |
@@ -392,8 +368,6 @@ jobs:
               Path("data/transactions.json"),
               Path("data/summary.json"),
               Path("data/duplicate_review_candidates.json"),
-              Path("data/valuation_results.json"),
-              Path("data/data_quality_report.json"),
           ]
 
           for path in paths:
@@ -437,7 +411,7 @@ jobs:
           git diff --stat
 
       # --------------------------------------------------
-      # 12. Commit all generated data together
+      # 11. Commit all generated data together
       # --------------------------------------------------
       - name: Commit and push changes
         run: |
@@ -450,9 +424,7 @@ jobs:
             data/listing_observations.json \
             data/transactions.json \
             data/summary.json \
-            data/duplicate_review_candidates.json \
-            data/valuation_results.json \
-            data/data_quality_report.json
+            data/duplicate_review_candidates.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
