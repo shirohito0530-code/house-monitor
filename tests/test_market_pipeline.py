@@ -100,6 +100,24 @@ class MarketIndicatorTests(unittest.TestCase):
         self.assertEqual(metrics["柏の葉キャンパス"]["transactionCount"], 3)
         self.assertEqual(metrics["柏の葉キャンパス"]["medianTransactionPriceYen"], 45000000)
 
+    def test_transaction_window_filters_by_quarter_end(self):
+        now = mp.parse_dt("2026-10-25T00:00:00+00:00")
+        rows = [
+            {"_period": "2026Q1", "_cityName": "柏市", "TradePrice": 40000000, "Area": 120},
+            {"_period": "2026Q2", "_cityName": "柏市", "TradePrice": 45000000, "Area": 130},
+        ]
+        self.assertEqual(mp.filter_transactions_for_window(rows, now, 90), [])
+        self.assertEqual(len(mp.filter_transactions_for_window(rows, now, 365)), 2)
+
+    def test_japanese_transaction_period_is_parsed(self):
+        period_end = mp.transaction_period_end({"Period": "2026年第1四半期"})
+        self.assertEqual(period_end.isoformat(), "2026-03-31T23:59:59+00:00")
+
+    def test_transaction_metrics_disclose_municipality_scope(self):
+        metrics = mp.build_transaction_metrics([{"_cityName": "柏市", "TradePrice": 40000000, "Area": 120}])
+        self.assertEqual(metrics["柏の葉キャンパス"]["geographyScope"], "municipality_wide")
+        self.assertIn("市全体", metrics["柏の葉キャンパス"]["geographyScopeLabel"])
+
     def test_score_explains_reduction(self):
         now = mp.utc_now()
         item = {"currentPrice": 40000000, "firstPrice": 45000000, "priceReductionRate": 11.1, "daysListed": 100}
