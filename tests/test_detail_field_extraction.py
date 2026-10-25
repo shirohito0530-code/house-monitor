@@ -79,7 +79,7 @@ class DetailFieldExtractionTests(unittest.TestCase):
         self.assertEqual(record["constructionYear"], 2022)
         self.assertEqual(record["constructionMonth"], "2022-06")
         self.assertEqual(record["propertyType"], "中古戸建")
-        self.assertEqual(record["detailDataVersion"], "1.0")
+        self.assertEqual(record["detailDataVersion"], "1.1")
 
     def test_backfill_discovery_detail_from_matching_house_id(self):
         discovery = [{
@@ -103,6 +103,90 @@ class DetailFieldExtractionTests(unittest.TestCase):
         self.assertEqual(rows[0]["layout"], "4LDK")
         self.assertEqual(rows[0]["propertyType"], "中古戸建")
         self.assertEqual(counts["landAreaM2"], 1)
+
+    def test_legacy_built_age_zero_is_promoted_and_persisted(self):
+        row = {
+            "propertyId": "suumo:nc_12345001",
+            "sourceId": "nc_12345001",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345001/",
+            "builtAgeYears": 0.0,
+        }
+
+        promoted = main._promote_discovery_detail_fields(row)
+        self.assertEqual(promoted["constructionAgeYears"], 0.0)
+        self.assertEqual(promoted["builtAgeYears"], 0.0)
+
+        discovery = main.build_discovery_record(row)
+        self.assertEqual(discovery["constructionAgeYears"], 0.0)
+        self.assertEqual(discovery["builtAgeYears"], 0.0)
+
+        house = main.build_market_house_record(row)
+        self.assertEqual(house["constructionAgeYears"], 0.0)
+        self.assertEqual(house["builtAgeYears"], 0.0)
+
+    def test_legacy_built_age_nested_detail_is_promoted(self):
+        row = {
+            "propertyId": "suumo:nc_12345002",
+            "detail": {"builtAgeYears": 3},
+        }
+        promoted = main._promote_discovery_detail_fields(row)
+        self.assertEqual(promoted["constructionAgeYears"], 3)
+        self.assertEqual(promoted["builtAgeYears"], 3)
+
+    def test_existing_canonical_age_is_not_overwritten_by_alias(self):
+        row = {
+            "constructionAgeYears": 4,
+            "builtAgeYears": 5,
+            "detail": {"builtAgeYears": 6},
+        }
+        promoted = main._promote_discovery_detail_fields(row)
+        self.assertEqual(promoted["constructionAgeYears"], 4)
+        self.assertEqual(promoted["builtAgeYears"], 5)
+
+    def test_backfill_legacy_built_age_from_exact_matching_house(self):
+        discovery = [{
+            "propertyId": "suumo:nc_12345003",
+            "sourceId": "nc_12345003",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345003/",
+        }]
+        houses = [{
+            "propertyId": "suumo:nc_12345003",
+            "sourceId": "nc_12345003",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345003/",
+            "builtAgeYears": 0.0,
+        }]
+        rows, counts = main.backfill_discovery_records_from_houses(discovery, houses)
+        self.assertEqual(rows[0]["constructionAgeYears"], 0.0)
+        self.assertEqual(rows[0]["builtAgeYears"], 0.0)
+        self.assertGreaterEqual(counts["builtAgeYears"], 1)
+
+    def test_backfill_does_not_overwrite_existing_age_or_merge_ambiguous_ids(self):
+        discovery = [{
+            "propertyId": "suumo:nc_12345004",
+            "sourceId": "nc_12345004",
+            "constructionAgeYears": 2,
+        }]
+        houses = [{
+            "propertyId": "suumo:nc_12345004",
+            "sourceId": "nc_12345004",
+            "builtAgeYears": 7,
+        }]
+        rows, _ = main.backfill_discovery_records_from_houses(discovery, houses)
+        self.assertEqual(rows[0]["constructionAgeYears"], 2)
+
+        ambiguous_discovery = [{
+            "propertyId": "suumo:nc_12345005",
+            "sourceId": "nc_12345005",
+        }]
+        ambiguous_houses = [
+            {"propertyId": "suumo:nc_12345005", "sourceId": "nc_12345005", "builtAgeYears": 2},
+            {"propertyId": "suumo:nc_12345005", "sourceId": "nc_12345005", "builtAgeYears": 3},
+        ]
+        rows, _ = main.backfill_discovery_records_from_houses(
+            ambiguous_discovery, ambiguous_houses
+        )
+        self.assertNotIn("constructionAgeYears", rows[0])
+        self.assertNotIn("builtAgeYears", rows[0])
 
     def test_area_with_commas_and_units(self):
         self.assertEqual(suumo_detail.parse_area_m2("1,234.56 m²"), 1234.56)
