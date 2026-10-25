@@ -56,6 +56,54 @@ class DetailFieldExtractionTests(unittest.TestCase):
         self.assertEqual(record["constructionMonth"], "2026-10")
         self.assertEqual(record["buildingFootprintAreaM2"], 55.1)
 
+
+    def test_discovery_record_persists_detail_fields(self):
+        row = {
+            "propertyId": "suumo:nc_12345678",
+            "sourceId": "nc_12345678",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345678/",
+            "detail": {
+                "address": "千葉県柏市柏の葉一丁目1",
+                "landAreaM2": 120.5,
+                "buildingAreaM2": 95.2,
+                "layout": "4LDK",
+                "constructionYear": 2022,
+                "constructionMonth": "2022-06",
+                "propertyType": "中古戸建",
+            },
+        }
+        record = main.build_discovery_record(row)
+        self.assertEqual(record["landAreaM2"], 120.5)
+        self.assertEqual(record["buildingAreaM2"], 95.2)
+        self.assertEqual(record["layout"], "4LDK")
+        self.assertEqual(record["constructionYear"], 2022)
+        self.assertEqual(record["constructionMonth"], "2022-06")
+        self.assertEqual(record["propertyType"], "中古戸建")
+        self.assertEqual(record["detailDataVersion"], "1.0")
+
+    def test_backfill_discovery_detail_from_matching_house_id(self):
+        discovery = [{
+            "propertyId": "suumo:nc_12345678",
+            "sourceId": "nc_12345678",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345678/",
+        }]
+        houses = [{
+            "propertyId": "suumo:nc_12345678",
+            "sourceId": "nc_12345678",
+            "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_kashiwa/nc_12345678/",
+            "landAreaM2": 120.5,
+            "buildingAreaM2": 95.2,
+            "layout": "4LDK",
+            "constructionMonth": "2022-06",
+            "propertyType": "中古戸建",
+        }]
+        rows, counts = main.backfill_discovery_records_from_houses(discovery, houses)
+        self.assertEqual(rows[0]["landAreaM2"], 120.5)
+        self.assertEqual(rows[0]["buildingAreaM2"], 95.2)
+        self.assertEqual(rows[0]["layout"], "4LDK")
+        self.assertEqual(rows[0]["propertyType"], "中古戸建")
+        self.assertEqual(counts["landAreaM2"], 1)
+
     def test_area_with_commas_and_units(self):
         self.assertEqual(suumo_detail.parse_area_m2("1,234.56 m²"), 1234.56)
         self.assertEqual(suumo_detail.parse_area_m2("９５．２㎡"), 95.2)
