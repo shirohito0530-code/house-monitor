@@ -90,6 +90,14 @@ jobs:
 
       
       # --------------------------------------------------
+      # 6b. Validate that detail facts persist from houses.json
+      # into discovered_listings.json. Catch schema projection regressions.
+      # --------------------------------------------------
+      - name: Validate detail field persistence
+        run: |
+          python scripts/validate_detail_persistence.py
+
+      # --------------------------------------------------
       # 7. MLIT transaction data
       #
       # - Missing API key: preserve existing data and continue.
