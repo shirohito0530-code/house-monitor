@@ -1,24 +1,10 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-25T22:56:16.740847+00:00",
+  "updatedAt": "2026-10-25T23:33:29.202850+00:00",
   "algorithmVersion": "2026-10-26-v3-transaction-window-scope-fix",
   "count": 0,
   "decisionsApplied": 0,
   "candidates": [],
-  "detailEnrichmentQueue": [
-    {
-      "propertyId": "suumo:nc_20602394",
-      "sourceUrl": "https://suumo.jp/ikkodate/chiba/sc_nagareyama/nc_20602394/",
-      "missingFields": [
-        "landAreaM2",
-        "buildingAreaM2",
-        "constructionYear"
-      ],
-      "candidatePropertyIds": [
-        "suumo:nc_20573963"
-      ],
-      "priority": "duplicate_candidate_missing_identity_fields"
-    }
-  ],
+  "detailEnrichmentQueue": [],
   "suppressedConflictCount": 0
 }
