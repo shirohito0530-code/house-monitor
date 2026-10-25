@@ -19,8 +19,6 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from property_valuation import build_property_valuation, VERSION as VALUATION_VERSION
-
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 CONFIG = ROOT / "config"
@@ -29,11 +27,10 @@ DISCOVERED_PATH = DATA / "discovered_listings.json"
 OBSERVATIONS_PATH = DATA / "listing_observations.json"
 TRANSACTIONS_PATH = DATA / "transactions.json"
 SUMMARY_PATH = DATA / "summary.json"
-VALUATION_RESULTS_PATH = DATA / "valuation_results.json"
 USER_SELECTIONS_PATH = DATA / "user_selections.json"
 SCHOOL_CONFIG_PATH = CONFIG / "school_districts.json"
 QUARANTINE_RETENTION_DAYS = 90
-VERSION = "2026-10-23-v2-total-value-scoring"
+VERSION = "2026-10-25-v2-duplicate-detail-first"
 
 TARGET_CITY = {
     "柏市": "柏の葉キャンパス",
@@ -232,19 +229,75 @@ def physical_signature(item: dict[str, Any]) -> tuple[str, float | None, float |
     return address, land, building, int(year) if year else None
 
 
+def address_specificity(address: str) -> int:
+    """Return the count of numeric address components; one digit/chome is not a house-level address."""
+    normalized = normalize_address(address)
+    return len(re.findall(r"\d+", normalized))
+
+
+def identity_missing_fields(item: dict[str, Any]) -> list[str]:
+    missing: list[str] = []
+    address, land, building, year = physical_signature(item)
+    if not address or address_specificity(address) < 2:
+        missing.append("fullAddress")
+    if land is None:
+        missing.append("landAreaM2")
+    if building is None:
+        missing.append("buildingAreaM2")
+    if year is None:
+        missing.append("constructionYear")
+    # Layout/property type are useful corroborating fields, but are not mandatory
+    # when full address + land/building area + construction year are already available.
+    return missing
+
+
+def _type_token(item: dict[str, Any]) -> str:
+    value = text_value(item, "propertyType", "listingType", "type")
+    value = re.sub(r"[\s　]", "", value)
+    return value
+
+
+def _layout_token(item: dict[str, Any]) -> str:
+    value = text_value(item, "layout", "layoutRaw", "floorPlan")
+    return re.sub(r"[\s　]", "", value).upper()
+
+
+def identity_contradictions(a: dict[str, Any], b: dict[str, Any]) -> list[str]:
+    """Hard conflicts that should prevent automatic merge and generally suppress review noise."""
+    _, al, ab, ay = physical_signature(a)
+    _, bl, bb, by = physical_signature(b)
+    conflicts: list[str] = []
+    if al is not None and bl is not None and abs(al - bl) / max(al, bl) > 0.15:
+        conflicts.append("land_area_conflict")
+    if ab is not None and bb is not None and abs(ab - bb) / max(ab, bb) > 0.15:
+        conflicts.append("building_area_conflict")
+    if ay is not None and by is not None and abs(ay - by) > 2:
+        conflicts.append("construction_year_conflict")
+    ta, tb = _type_token(a), _type_token(b)
+    if ta and tb and ta != tb:
+        # A new/used label can change after relisting, so keep this as an auto-merge blocker,
+        # but not a standalone proof of different physical houses.
+        conflicts.append("property_type_mismatch")
+    return conflicts
+
+
 def high_confidence_same(a: dict[str, Any], b: dict[str, Any]) -> bool:
     aa, al, ab, ay = physical_signature(a)
     ba, bl, bb, by = physical_signature(b)
-    if not aa or aa != ba or len(aa) < 8:
-        return False
-    # Town-level addresses such as "千葉県柏市若柴" do not uniquely identify a house.
-    if not re.search(r"\d", aa):
+    if not aa or aa != ba or address_specificity(aa) < 2:
         return False
     if al is None or bl is None or ab is None or bb is None:
         return False
-    if abs(al - bl) > max(2.0, al * 0.02) or abs(ab - bb) > max(2.0, ab * 0.02):
+    if abs(al - bl) > max(2.0, max(al, bl) * 0.02):
         return False
-    if ay is not None and by is not None and ay != by:
+    if abs(ab - bb) > max(2.0, max(ab, bb) * 0.02):
+        return False
+    if ay is not None and by is not None and abs(ay - by) > 1:
+        return False
+    if identity_contradictions(a, b):
+        return False
+    la, lb = _layout_token(a), _layout_token(b)
+    if la and lb and la != lb:
         return False
     return True
 
@@ -253,33 +306,51 @@ def duplicate_similarity(a: dict[str, Any], b: dict[str, Any]) -> tuple[float, l
     aa, al, ab, ay = physical_signature(a)
     ba, bl, bb, by = physical_signature(b)
     score, reasons = 0.0, []
-    if aa and ba and aa == ba:
-        score += 0.45; reasons.append("normalized_address_match")
-    elif aa and ba and (aa in ba or ba in aa) and min(len(aa), len(ba)) >= 8:
-        score += 0.25; reasons.append("address_partial_match")
-    if al and bl:
+    if aa and ba and aa == ba and address_specificity(aa) >= 2:
+        score += 0.45; reasons.append("full_address_match")
+    elif aa and ba and (aa in ba or ba in aa) and min(address_specificity(aa), address_specificity(ba)) >= 2:
+        score += 0.30; reasons.append("detailed_address_partial_match")
+    if al is not None and bl is not None:
         ratio = abs(al - bl) / max(al, bl)
         if ratio <= 0.02: score += 0.20; reasons.append("land_area_match")
         elif ratio <= 0.08: score += 0.10; reasons.append("land_area_close")
-    if ab and bb:
+    if ab is not None and bb is not None:
         ratio = abs(ab - bb) / max(ab, bb)
         if ratio <= 0.02: score += 0.20; reasons.append("building_area_match")
         elif ratio <= 0.08: score += 0.10; reasons.append("building_area_close")
-    if ay and by and ay == by:
+    if ay is not None and by is not None and abs(ay - by) <= 1:
         score += 0.10; reasons.append("construction_year_match")
-    if a.get("layout") and b.get("layout") and str(a.get("layout")) == str(b.get("layout")):
+    la, lb = _layout_token(a), _layout_token(b)
+    if la and lb and la == lb:
         score += 0.05; reasons.append("layout_match")
+    ta, tb = _type_token(a), _type_token(b)
+    if ta and tb and ta == tb:
+        score += 0.05; reasons.append("property_type_match")
     return min(1.0, score), reasons
 
 
 def build_duplicate_groups(houses: list[dict[str, Any]], discovered: list[dict[str, Any]], decisions: dict[str, str] | None = None) -> dict[str, Any]:
-    # Merge decisions are logical only: listing IDs and source URLs are never rewritten.
+    """Conservative duplicate resolution: enrich first, auto-merge only on full physical evidence."""
     decisions = decisions or {}
     all_records: dict[str, dict[str, Any]] = {}
     for item in houses + discovered:
         key = pid(item)
-        if key:
-            all_records.setdefault(key, item)
+        if not key:
+            continue
+        if key not in all_records:
+            all_records[key] = dict(item)
+        else:
+            # Preserve fields from either representation, preferring non-empty values and
+            # the record with more physical identity fields.
+            existing = all_records[key]
+            incoming = dict(item)
+            if len(identity_missing_fields(incoming)) < len(identity_missing_fields(existing)):
+                merged = dict(existing)
+                merged.update({k: v for k, v in incoming.items() if v not in (None, "", [], {})})
+            else:
+                merged = dict(incoming)
+                merged.update({k: v for k, v in existing.items() if v not in (None, "", [], {})})
+            all_records[key] = merged
     items = list(all_records.values())
     parent = {pid(x): pid(x) for x in items}
 
@@ -291,95 +362,145 @@ def build_duplicate_groups(houses: list[dict[str, Any]], discovered: list[dict[s
 
     def union(a: str, b: str) -> None:
         ra, rb = find(a), find(b)
-        if ra != rb:
-            # deterministic canonical ID: keep the one with better detail completeness,
-            # then oldest first-seen, then lexical ID.
-            def rank(k: str) -> tuple[int, str, str]:
-                item = all_records[k]
-                complete = int(bool(item.get("detailFetched"))) + int(bool(item.get("address"))) + int(bool(item.get("landAreaM2") or item.get("land"))) + int(bool(item.get("buildingAreaM2") or item.get("building")))
-                first = str(item.get("firstSeenAt") or "9999")
-                return (-complete, first, k)
-            keep, drop = sorted([ra, rb], key=rank)
-            parent[drop] = keep
+        if ra == rb:
+            return
+        def rank(k: str) -> tuple[int, str, str]:
+            item = all_records[k]
+            complete = 6 - len(identity_missing_fields(item))
+            first = str(item.get("firstSeenAt") or "9999")
+            return (-complete, first, k)
+        keep, drop = sorted([ra, rb], key=rank)
+        parent[drop] = keep
 
-    # Block candidates by normalized address / town key rather than O(n^2) comparisons
-    # across every listing. Town-level addresses are candidate-only and never auto-merged.
-    exact_address_buckets: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    address_block_buckets: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    exact_buckets: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    locality_buckets: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for item in items:
         address, _, _, _ = physical_signature(item)
-        if not address:
+        if not address or item.get("areaDecision") == "rejected":
             continue
-        exact_address_buckets[address].append(item)
-        # Removing digits and punctuation yields a coarse neighborhood block.
+        if not any(city in address for city in TARGET_CITY):
+            continue
+        if address_specificity(address) >= 2:
+            exact_buckets[address].append(item)
+        # A locality block is used only to discover likely pairs and prioritize details;
+        # never to merge all homes in a subdivision.
         block = re.sub(r"[0-9\-]", "", address)
-        if len(block) >= 8:
-            address_block_buckets[block].append(item)
+        if len(block) >= 6:
+            locality_buckets[block].append(item)
 
-    auto_pairs: set[tuple[str, str]] = set()
     candidate_pairs: set[tuple[str, str]] = set()
-    for bucket in exact_address_buckets.values():
+    enrichment_pairs: set[tuple[str, str]] = set()
+    for bucket in exact_buckets.values():
         if len(bucket) > 1:
             for i, a in enumerate(bucket):
                 for b in bucket[i + 1:]:
-                    auto_pairs.add(tuple(sorted((pid(a), pid(b)))))
                     candidate_pairs.add(tuple(sorted((pid(a), pid(b)))))
-    for bucket in address_block_buckets.values():
-        if len(bucket) > 1:
-            # Large town blocks can produce noisy candidate floods; use exact address buckets
-            # for town-only records and coarse blocks only where at least one full address exists.
-            for i, a in enumerate(bucket):
-                addr_a = physical_signature(a)[0]
-                for b in bucket[i + 1:]:
-                    addr_b = physical_signature(b)[0]
-                    if re.search(r"\d", addr_a) or re.search(r"\d", addr_b):
-                        candidate_pairs.add(tuple(sorted((pid(a), pid(b)))))
+    for bucket in locality_buckets.values():
+        # Avoid candidate floods in large town blocks; they are not useful evidence.
+        if not (2 <= len(bucket) <= 12):
+            continue
+        for i, a in enumerate(bucket):
+            for b in bucket[i + 1:]:
+                aid, bid = pid(a), pid(b)
+                if aid == bid:
+                    continue
+                aa = physical_signature(a)[0]
+                ba = physical_signature(b)[0]
+                if not aa or not ba or not (address_specificity(aa) >= 2 or address_specificity(ba) >= 2):
+                    continue
+                if aa == ba or aa in ba or ba in aa:
+                    pair = tuple(sorted((aid, bid)))
+                    candidate_pairs.add(pair)
+                    if identity_missing_fields(a) or identity_missing_fields(b):
+                        enrichment_pairs.add(pair)
 
     auto_merge_operations = 0
-    for aid, bid in sorted(auto_pairs):
-        if aid in parent and bid in parent and find(aid) != find(bid) and high_confidence_same(all_records[aid], all_records[bid]):
+    for aid, bid in sorted(candidate_pairs):
+        if aid not in all_records or bid not in all_records:
+            continue
+        candidate_id = stable_hash("|".join(sorted([aid, bid])), "dup:")
+        # A persisted user decision always outranks the current automatic rule.
+        if candidate_id in decisions:
+            continue
+        if high_confidence_same(all_records[aid], all_records[bid]) and find(aid) != find(bid):
             union(aid, bid)
             auto_merge_operations += 1
 
-    review_candidates = []
+    review_candidates: list[dict[str, Any]] = []
+    enrichment_map: dict[str, dict[str, Any]] = {}
     manually_merged_pairs: list[tuple[str, str]] = []
+    suppressed_conflict_count = 0
     for aid, bid in sorted(candidate_pairs):
-        if not aid or not bid or aid not in all_records or bid not in all_records or find(aid) == find(bid):
+        if aid not in all_records or bid not in all_records or find(aid) == find(bid):
             continue
         a, b = all_records[aid], all_records[bid]
+        aa, _, _, _ = physical_signature(a)
+        ba, _, _, _ = physical_signature(b)
+        # Require a detailed address on both records. Town/chome-only matches do not
+        # enter the manual queue at all.
+        detailed_address_match = (
+            address_specificity(aa) >= 2 and address_specificity(ba) >= 2
+            and (aa == ba or aa in ba or ba in aa)
+        )
+        if not detailed_address_match:
+            continue
+        candidate_id = stable_hash("|".join(sorted([aid, bid])), "dup:")
+        decision = decisions.get(candidate_id, "")
+        if decision == "same":
+            manually_merged_pairs.append((aid, bid))
+            continue
+        if decision == "different":
+            continue
+        missing_a, missing_b = identity_missing_fields(a), identity_missing_fields(b)
+        if missing_a or missing_b:
+            for key, record, missing, other_id in ((aid, a, missing_a, bid), (bid, b, missing_b, aid)):
+                if missing:
+                    row = enrichment_map.setdefault(key, {
+                        "propertyId": key,
+                        "sourceUrl": record.get("sourceUrl") or record.get("url"),
+                        "missingFields": missing,
+                        "candidatePropertyIds": [],
+                        "priority": "duplicate_candidate_missing_identity_fields",
+                    })
+                    if other_id not in row["candidatePropertyIds"]:
+                        row["candidatePropertyIds"].append(other_id)
+            continue
+        conflicts = identity_contradictions(a, b)
         score, reasons = duplicate_similarity(a, b)
-        has_address_evidence = any(r in reasons for r in ("normalized_address_match", "address_partial_match"))
-        if score >= 0.55 and has_address_evidence:
-            candidate_id = stable_hash("|".join(sorted([aid, bid])), "dup:")
-            decision = decisions.get(candidate_id, "")
-            if decision == "same":
-                manually_merged_pairs.append((aid, bid))
-            elif decision != "different":
-                review_candidates.append({
-                    "candidateId": candidate_id,
-                    "propertyIdA": aid,
-                    "propertyIdB": bid,
-                    "similarityScore": round(score, 2),
-                    "reasons": reasons,
-                    "decisionStatus": "review_required",
-                })
+        # If two detailed addresses differ only partially, hard conflicts suppress noisy
+        # review candidates. For an exact detailed-address match, retain one review item
+        # because source extraction can disagree on areas even for the same house.
+        hard_conflicts = [x for x in conflicts if x != "property_type_mismatch"]
+        if hard_conflicts and aa != ba:
+            suppressed_conflict_count += 1
+            continue
+        if score < 0.72:
+            continue
+        if decision != "different":
+            review_candidates.append({
+                "candidateId": candidate_id,
+                "propertyIdA": aid,
+                "propertyIdB": bid,
+                "similarityScore": round(score, 2),
+                "reasons": reasons,
+                "decisionStatus": "review_required",
+                "detailCompletenessA": 4 - len(missing_a),
+                "detailCompletenessB": 4 - len(missing_b),
+                "contradictions": conflicts,
+            })
     manual_merge_operations = 0
     for aid, bid in manually_merged_pairs:
         if aid in parent and bid in parent and find(aid) != find(bid):
             union(aid, bid)
             manual_merge_operations += 1
 
-    # Rebuild final groups after manually approved merges.
     groups = defaultdict(list)
     for item in items:
         groups[find(pid(item))].append(pid(item))
-
-    # Annotate all source records with canonical group ID; retain each listing record.
     canonical_by_id: dict[str, str] = {}
     for root, members in groups.items():
-        canonical = root
         for member in members:
-            canonical_by_id[member] = canonical
+            canonical_by_id[member] = root
     for item in houses + discovered:
         key = pid(item)
         if not key:
@@ -398,6 +519,8 @@ def build_duplicate_groups(houses: list[dict[str, Any]], discovered: list[dict[s
         "groups": groups,
         "canonicalById": canonical_by_id,
         "reviewCandidates": review_candidates,
+        "detailEnrichmentQueue": sorted(enrichment_map.values(), key=lambda x: (len(x["missingFields"]), x["propertyId"])),
+        "suppressedConflictCount": suppressed_conflict_count,
         "autoMergedListingCount": auto_merge_operations,
         "manualMergedListingCount": manual_merge_operations,
         "mergedListingCount": sum(max(0, len(v) - 1) for v in groups.values()),
@@ -443,7 +566,7 @@ def tx_land(row: dict[str, Any]) -> float | None:
 
 
 def tx_building(row: dict[str, Any]) -> float | None:
-    return tx_num(row, "TotalFloorArea", "BuildingArea", "buildingArea", "建物面積", "建物面積（㎡）")
+    return tx_num(row, "BuildingArea", "buildingArea", "建物面積", "建物面積（㎡）")
 
 
 def tx_year(row: dict[str, Any]) -> int | None:
@@ -466,41 +589,6 @@ def median_or_none(values: list[float]) -> float | None:
     return round(statistics.median(values), 2) if values else None
 
 
-def transaction_period_end(row: dict[str, Any]) -> datetime | None:
-    raw = str(row.get("_period") or row.get("Period") or "")
-    match = re.search(r"(?<!\d)(20\d{2})\s*Q([1-4])", raw, re.I)
-    if not match:
-        match = re.search(r"(20\d{2})年?第?([1-4])四半期", raw)
-    if not match:
-        return None
-    year, quarter = int(match.group(1)), int(match.group(2))
-    month = quarter * 3
-    # Quarter-level API data can only be assigned to quarter end, not an exact trade date.
-    return datetime(year, month, [31, 30, 30, 31][quarter - 1], 23, 59, tzinfo=timezone.utc)
-
-
-def build_transaction_metrics_by_window(rows: list[dict[str, Any]], now: datetime) -> dict[str, Any]:
-    result: dict[str, Any] = {}
-    for area in TARGET_CITY.values():
-        result[area] = {}
-        for key, days in (("3m", 90), ("12m", 365)):
-            cutoff = now - timedelta(days=days)
-            scoped = []
-            for row in rows:
-                if transaction_area(row) != area:
-                    continue
-                period_end = transaction_period_end(row)
-                if period_end and cutoff <= period_end <= now:
-                    scoped.append(row)
-            result[area][key] = build_transaction_metrics(scoped).get(area, {})
-            result[area][key]["periodDays"] = days
-            result[area][key]["periodBasis"] = "quarter_end_proxy"
-            if not scoped:
-                result[area][key]["dataConfidence"] = "low"
-                result[area][key]["note"] = "対象期間に含まれる保存済み四半期データなし。取引ゼロを意味しません。"
-    return result
-
-
 def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for area in TARGET_CITY.values():
@@ -514,10 +602,7 @@ def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
         out[area] = {
             "transactionCount": len(subset),
             "medianTransactionPriceYen": median_or_none(prices),
-            # XIT001 rows are detached-house transactions, not land-only deals.
-            # This ratio must never be presented as a pure land unit price.
-            "medianHouseTransactionPricePerLandM2Yen": median_or_none(land_prices),
-            "landPriceMetricNote": "戸建て取引総額÷土地面積の参考比率。純粋な土地単価ではありません。",
+            "medianLandPricePerM2Yen": median_or_none(land_prices),
             "dataConfidence": "medium" if len(subset) >= 10 else "low" if len(subset) < 3 else "limited",
             "source": "国土交通省 不動産情報ライブラリ XIT001",
         }
@@ -638,8 +723,7 @@ def market_window_metrics(area: str, houses: list[dict[str, Any]], observations:
         reduction = number_value(x, "priceReductionRate")
         if reduction is not None and reduction > 0:
             reductions.append(reduction * 100 if reduction <= 1 else reduction)
-    area_tx = transactions.get(area, {})
-    tx = area_tx.get("3m" if days <= 90 else "12m", area_tx) if isinstance(area_tx, dict) else {}
+    tx = transactions.get(area, {})
     observed_dates = [parse_dt(x.get("observedAt") or x.get("timestamp")) for x in area_obs]
     observed_dates = [x for x in observed_dates if x]
     span_days = max(0, (max(observed_dates) - min(observed_dates)).days) if observed_dates else 0
@@ -661,8 +745,7 @@ def market_window_metrics(area: str, houses: list[dict[str, Any]], observations:
         "medianRecordedReductionPct": round(statistics.median(reductions), 2) if reductions else None,
         "transactionCountAvailable": tx.get("transactionCount", 0),
         "medianTransactionPriceYen": tx.get("medianTransactionPriceYen"),
-        "medianHouseTransactionPricePerLandM2Yen": tx.get("medianHouseTransactionPricePerLandM2Yen"),
-        "landPriceMetricNote": tx.get("landPriceMetricNote"),
+        "medianLandPricePerM2Yen": tx.get("medianLandPricePerM2Yen"),
         "confidence": "medium" if sufficient else "low",
         "limitations": ([] if sufficient else [f"期間内の観測カバー率は{coverage_pct:.1f}%（観測期間{span_days}日）。十分な長期履歴が蓄積するまでは参考値です"])
             + ([] if len(price_deltas) >= 5 else ["期間内の複数回観測が少なく、価格トレンドは参考値です"]),
@@ -731,9 +814,7 @@ def apply_pipeline() -> dict[str, Any]:
 
     tx_rows = transaction_rows(tx_data)
     transaction_metrics = build_transaction_metrics(tx_rows)
-    transaction_metrics_by_window = build_transaction_metrics_by_window(tx_rows, now)
     accepted_canonical = [x for x in houses if x.get("areaDecision") == "accepted" and x.get("canonicalPropertyId", pid(x)) == pid(x)]
-    valuation_results: list[dict[str, Any]] = []
     for item in houses:
         key = pid(item)
         canonical = item.get("canonicalPropertyId", key)
@@ -741,47 +822,20 @@ def apply_pipeline() -> dict[str, Any]:
         item["marketAnalysisEligible"] = item.get("areaDecision") == "accepted" and canonical == key
         if not item["marketAnalysisEligible"]:
             item["marketIndicators"] = {"score": None, "label": "分析対象外", "confidence": "low", "components": {}, "reasons": ["対象エリア外・要確認・重複統合先のため通常評価から除外"]}
-            item.pop("valuation", None)
             continue
         comparables = find_comparables(item, tx_rows)
         addr = text_value(item, "address")
         city = municipality(addr)
         similar = [x for x in accepted_canonical if x is not item and municipality(text_value(x, "address")) == city and price(x) and price(item) and abs(price(x) - price(item)) <= max(price(item) * 0.35, 1_000_000) and (not number_value(item, "landAreaM2", "land") or not number_value(x, "landAreaM2", "land") or abs(number_value(x, "landAreaM2", "land") - number_value(item, "landAreaM2", "land")) <= max(25, number_value(item, "landAreaM2", "land") * 0.35))]
-        valuation = build_property_valuation(item, tx_rows, now)
-        # Compatibility fields remain for the current dashboard; score is now the
-        # multi-factor total-value score, not the old asking-price-only indicator.
-        item["valuation"] = valuation
-        item["marketIndicators"] = {
-            "score": valuation.get("score"),
-            "label": valuation.get("label", "データ不足"),
-            "confidence": valuation.get("confidence", "low"),
-            "components": {
-                key: value.get("score")
-                for key, value in valuation.get("components", {}).items()
-            },
-            "componentDetails": valuation.get("components", {}),
-            "reasons": valuation.get("reasons", []),
-            "limitations": valuation.get("limitations", []),
-            "transactionComparableCount": valuation.get("comparableCount", 0),
-            "similarListingCount": len(similar),
-            "area": item.get("area"),
-            "asOf": iso(now),
-            "valuation": valuation,
-        }
-        valuation_results.append({
-            "propertyId": key,
-            "canonicalPropertyId": canonical,
-            "sourceUrl": text_value(item, "sourceUrl", "url"),
-            "name": text_value(item, "name", "listingTitle"),
-            "area": item.get("area"),
-            "valuation": valuation,
-        })
+        item["marketIndicators"] = score_property(item, comparables, similar, now)
+        item["marketIndicators"]["area"] = item.get("area")
+        item["marketIndicators"]["asOf"] = iso(now)
 
     area_metrics: dict[str, Any] = {}
     for area in TARGET_CITY.values():
         area_metrics[area] = {
-            "3m": market_window_metrics(area, houses, observations, transaction_metrics_by_window, now, 90),
-            "12m": market_window_metrics(area, houses, observations, transaction_metrics_by_window, now, 365),
+            "3m": market_window_metrics(area, houses, observations, transaction_metrics, now, 90),
+            "12m": market_window_metrics(area, houses, observations, transaction_metrics, now, 365),
         }
 
     # Candidate review pairs are stored separately from canonical records to avoid
@@ -793,6 +847,8 @@ def apply_pipeline() -> dict[str, Any]:
         "count": len(duplicate_info["reviewCandidates"]),
         "decisionsApplied": len(decision_map),
         "candidates": duplicate_info["reviewCandidates"],
+        "detailEnrichmentQueue": duplicate_info["detailEnrichmentQueue"],
+        "suppressedConflictCount": duplicate_info["suppressedConflictCount"],
     }
     atomic_save(DATA / "duplicate_review_candidates.json", review_data)
 
@@ -835,7 +891,9 @@ def apply_pipeline() -> dict[str, Any]:
         "manualMergeOperations": duplicate_info["manualMergedListingCount"],
         "manualDecisionsLoaded": len(decision_map),
         "reviewCandidateCount": len(duplicate_info["reviewCandidates"]),
-        "autoMergePolicy": "high_confidence_only; preserve_listing_ids_and_urls",
+        "detailEnrichmentQueueCount": len(duplicate_info["detailEnrichmentQueue"]),
+        "suppressedConflictCount": duplicate_info["suppressedConflictCount"],
+        "autoMergePolicy": "detailed_address_and_matching_land_building; preserve_listing_ids_and_urls",
     }
     summary["marketAnalysis"] = {
         "updatedAt": iso(now),
@@ -843,31 +901,12 @@ def apply_pipeline() -> dict[str, Any]:
         "periods": ["3m", "12m"],
         "areas": area_metrics,
         "transactionMetrics": transaction_metrics,
-        "transactionMetricsByWindow": transaction_metrics_by_window,
-        "limitations": ["観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます", "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません", "自治体全域の取引は駅徒歩圏・町丁目の相場と一致しない場合があります", "四半期単位データの期間判定は四半期末日による近似です"],
+        "limitations": ["観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます", "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません"],
     }
     summary["bargainIndicator"] = {
-        "method": "multi_factor_total_value_v2",
-        "valuationModelVersion": VALUATION_VERSION,
-        "weights": {
-            "price": 25, "land": 20, "building": 15, "premium": 20,
-            "resale": 10, "listing": 5, "risk": 5,
-        },
-        "labels": {
-            "75+": "優先検討（信頼度・価格条件を併せて確認）",
-            "65-74": "条件次第で有望",
-            "45-64": "適正価格帯",
-            "0-44": "割高傾向",
-            "null": "データ不足",
-        },
-        "policy": [
-            "土地・建物の参考推計と多要素スコアを分離して表示",
-            "市場プレミアムは根拠未確定の金額に換算せずスコアで反映",
-            "学区は公式確認済み住所のみ確認済みとして扱う",
-            "不明なハザード・接道・建物状態は安全・良好とみなさない",
-            "低信頼度の高スコアは優先検討ラベルにしない",
-        ],
-        "note": "自動推定は査定・鑑定ではない。比較件数、推定方式、限界、信頼度を併記する。",
+        "method": "explainable_rule_based_v1",
+        "labels": {"65-100": "割安候補", "40-64": "相場並み", "0-39": "割高候補", "null": "データ不足"},
+        "note": "比較対象が少ない場合は信頼度を低くし、根拠を併記する",
     }
     summary["schoolDistrictPolicy"] = {
         "school": "柏の葉小学校区",
@@ -887,25 +926,9 @@ def apply_pipeline() -> dict[str, Any]:
     else:
         observations_data = {"version": "2.0", "updatedAt": iso(now), "count": len(observations), "observations": observations}
 
-    valuation_results_data = {
-        "schemaVersion": "1.0",
-        "updatedAt": iso(now),
-        "modelVersion": VALUATION_VERSION,
-        "count": len(valuation_results),
-        "properties": valuation_results,
-    }
-    summary["valuationSummary"] = {
-        "modelVersion": VALUATION_VERSION,
-        "evaluatedCanonicalProperties": len(valuation_results),
-        "highConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "high"),
-        "mediumConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "medium"),
-        "lowConfidenceCount": sum(1 for x in valuation_results if x["valuation"].get("confidence") == "low"),
-        "propertiesWithEstimatedBaseValue": sum(1 for x in valuation_results if x["valuation"].get("estimatedBaseValueYen") is not None),
-    }
     atomic_save(HOUSES_PATH, houses_data)
     atomic_save(DISCOVERED_PATH, discovered_data)
     atomic_save(OBSERVATIONS_PATH, observations_data)
-    atomic_save(VALUATION_RESULTS_PATH, valuation_results_data)
     atomic_save(SUMMARY_PATH, summary)
     return {
         "areaCounts": dict(area_counts),
@@ -917,8 +940,6 @@ def apply_pipeline() -> dict[str, Any]:
         "manualMergedListingCount": duplicate_info["manualMergedListingCount"],
         "pruned": {"houses": pruned_houses, "discovered": pruned_discovered},
         "transactionMetrics": transaction_metrics,
-        "valuationModelVersion": VALUATION_VERSION,
-        "valuedProperties": len(valuation_results),
     }
 
 
