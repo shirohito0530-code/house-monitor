@@ -97,6 +97,10 @@ jobs:
         run: |
           python scripts/validate_detail_persistence.py
 
+
+      - name: Audit detail coverage and duplicate identities
+        run: |
+          python scripts/audit_detail_and_duplicates.py
       # --------------------------------------------------
       # 7. MLIT transaction data
       #
