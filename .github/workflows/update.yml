@@ -422,6 +422,11 @@ jobs:
           git status --short
           git diff --stat
 
+
+      - name: Audit station walk extraction and persistence
+        run: python scripts/audit_station_walk.py
+
+
       # --------------------------------------------------
       # 11. Commit all generated data together
       # --------------------------------------------------
@@ -445,3 +450,4 @@ jobs:
             git commit -m "Update house listings and market analysis"
             git push
           fi
+
