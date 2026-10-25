@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-25T22:05:20.447654+00:00",
-  "algorithmVersion": "2026-10-25-v2-duplicate-detail-first",
+  "updatedAt": "2026-10-25T22:56:16.740847+00:00",
+  "algorithmVersion": "2026-10-26-v3-transaction-window-scope-fix",
   "count": 0,
   "decisionsApplied": 0,
   "candidates": [],
