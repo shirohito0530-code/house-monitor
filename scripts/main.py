@@ -56,14 +56,14 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-25-v45-duplicate-detail-enrichment"
+MAIN_PARSER_VERSION = "2026-10-25-v46-detail-persistence-repair"
 
 
 # ============================================================
 # Discovery DB retention / schema
 # ============================================================
 
-DISCOVERY_SCHEMA_VERSION = "3.0"
+DISCOVERY_SCHEMA_VERSION = "3.1"
 DISCOVERY_RETENTION_DAYS = 180
 OBSERVATION_RETENTION_DAYS = 365
 OBSERVATION_MAX_RECORDS = 20000
@@ -94,6 +94,8 @@ DISCOVERY_FIELDS = (
     # Address / Area
     # --------------------------------------------------------
     "address",
+    "fullAddress",
+    "propertyAddress",
     "detectedArea",
     "areaDetected",
     "areaClassification",
@@ -121,6 +123,25 @@ DISCOVERY_FIELDS = (
     "targetStationWalkSource",
     "walkMinutes",
     "walkMatched",
+    # Normalized property facts required for duplicate resolution. These fields
+    # must be persisted in the discovery DB, not only in houses.json.
+    "landAreaM2",
+    "landArea",
+    "buildingAreaM2",
+    "buildingArea",
+    "buildingFootprintAreaM2",
+    "layout",
+    "layoutRaw",
+    "constructionYear",
+    "constructionMonth",
+    "constructionYearMonth",
+    "constructionAgeYears",
+    "yearBuilt",
+    "builtYear",
+    "propertyType",
+    "detailDataVersion",
+    "fieldExtractionAudit",
+    "fieldExtractionUpdatedAt",
 
     # --------------------------------------------------------
     # Criteria
@@ -167,6 +188,7 @@ DISCOVERY_FIELDS = (
     "missedSearchRuns",
     "relistedAt",
     "lastDetailFetchAt",
+    "lastSuccessfulDetailAt",
     "lastDetailAttemptAt",
     "detailFetchStatus",
     "detailFetchErrorType",
@@ -174,6 +196,7 @@ DISCOVERY_FIELDS = (
     "detailFetchSuccess",
     "detailFetchLastError",
     "detailFetchHttpStatus",
+    "detailFetchHttpAttempts",
     "detailFetchErrorAt",
     "duplicateCandidate",
     "duplicateCandidateOf",
@@ -202,12 +225,14 @@ DETAIL_REFRESH_DAYS_ACTIVE = 2
 DETAIL_REFRESH_DAYS_ENDED = 14
 
 RETRYABLE_DETAIL_ERROR_TYPES = {
-    "forbidden",
+    # 401/403 is generally an access-policy/block response, not a transient error.
+    # Do not hammer it with repeated daily retries; keep it visible for diagnosis.
     "rate_limited",
     "timeout",
     "network_error",
     "server_error",
 }
+DETAIL_CONNECTIVITY_ERROR_TYPES = RETRYABLE_DETAIL_ERROR_TYPES | {"forbidden"}
 
 
 # ============================================================
@@ -1366,40 +1391,171 @@ def apply_url_area_prefilter(
 # Lightweight Discovery DB
 # ============================================================
 
+def _has_discovery_value(value: Any) -> bool:
+    if value is None:
+        return False
+    if isinstance(value, str):
+        return value.strip() not in {"", "-", "－", "不明", "未定"}
+    return True
+
+
+def _promote_discovery_detail_fields(property_data: Dict[str, Any]) -> Dict[str, Any]:
+    """Copy known detail values into canonical top-level fields before persistence."""
+    result = deepcopy(property_data)
+    detail = result.get("detail")
+    if not isinstance(detail, dict):
+        detail = result.get("lastSuccessfulDetail")
+    if not isinstance(detail, dict):
+        detail = {}
+
+    aliases = {
+        "address": ("address", "fullAddress", "propertyAddress"),
+        "fullAddress": ("fullAddress", "address", "propertyAddress"),
+        "propertyAddress": ("propertyAddress", "address", "fullAddress"),
+        "landAreaM2": ("landAreaM2", "landArea", "land"),
+        "landArea": ("landArea", "landAreaM2", "land"),
+        "buildingAreaM2": ("buildingAreaM2", "buildingArea", "building"),
+        "buildingArea": ("buildingArea", "buildingAreaM2", "building"),
+        "buildingFootprintAreaM2": ("buildingFootprintAreaM2", "buildingFootprintArea"),
+        "layout": ("layout", "layoutRaw", "floorPlan", "floor_plan"),
+        "layoutRaw": ("layoutRaw", "layout", "floorPlan", "floor_plan"),
+        "constructionYear": ("constructionYear", "yearBuilt", "builtYear"),
+        "constructionMonth": ("constructionMonth", "constructionYearMonth", "builtMonth"),
+        "constructionYearMonth": ("constructionYearMonth", "constructionMonth"),
+        "constructionAgeYears": ("constructionAgeYears", "builtAgeYears"),
+        "yearBuilt": ("yearBuilt", "constructionYear", "builtYear"),
+        "builtYear": ("builtYear", "constructionYear", "yearBuilt"),
+        "propertyType": ("propertyType", "listingType", "type"),
+        "targetStationWalkMinutes": ("targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"),
+        "stationWalkMinutes": ("stationWalkMinutes", "targetStationWalkMinutes", "walkMinutes"),
+        "walkMinutes": ("walkMinutes", "targetStationWalkMinutes", "stationWalkMinutes"),
+    }
+    for target, sources in aliases.items():
+        if _has_discovery_value(result.get(target)):
+            continue
+        for source in sources:
+            value = detail.get(source)
+            if _has_discovery_value(value):
+                result[target] = value
+                break
+
+    # Keep legacy aliases populated to make older downstream code compatible.
+    if _has_discovery_value(result.get("landAreaM2")) and not _has_discovery_value(result.get("landArea")):
+        result["landArea"] = result["landAreaM2"]
+    if _has_discovery_value(result.get("landAreaM2")) and not _has_discovery_value(result.get("land")):
+        result["land"] = result["landAreaM2"]
+    if _has_discovery_value(result.get("buildingAreaM2")) and not _has_discovery_value(result.get("buildingArea")):
+        result["buildingArea"] = result["buildingAreaM2"]
+    if _has_discovery_value(result.get("buildingAreaM2")) and not _has_discovery_value(result.get("building")):
+        result["building"] = result["buildingAreaM2"]
+    return result
+
+
 def build_discovery_record(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
+    """Build a compact discovery row while preserving normalized detail facts."""
+    source = _promote_discovery_detail_fields(property_data)
+    # Existing promotion logic also normalizes values extracted from detail pages.
+    try:
+        source = promote_detail_fields(source)
+        source = _promote_discovery_detail_fields(source)
+    except NameError:
+        # Allows unit tests to call this helper during module initialization.
+        pass
 
     record: Dict[str, Any] = {}
-
     for field in DISCOVERY_FIELDS:
-
-        value = property_data.get(field)
-
+        value = source.get(field)
         if value is not None:
             if field == "priceHistory" and isinstance(value, list):
-                # 初回価格を残しつつ直近履歴だけを保持し、1レコードの肥大化を防ぐ。
+                # Keep first and recent observations only to limit database growth.
                 record[field] = value if len(value) <= 30 else [value[0]] + value[-29:]
+            elif field == "fieldExtractionAudit" and isinstance(value, dict):
+                # Keep compact per-field status, not page HTML or full parser payloads.
+                record[field] = value
             else:
                 record[field] = value
 
-    property_id = (
-        property_data.get("propertyId")
-        or get_property_id(property_data)
-    )
-
+    property_id = source.get("propertyId") or get_property_id(source)
     if property_id:
         record["propertyId"] = property_id
 
-    source_url = (
-        property_data.get("sourceUrl")
-        or property_data.get("url")
-    )
-
+    source_url = source.get("sourceUrl") or source.get("url")
     if source_url:
         record["sourceUrl"] = source_url
 
+    # Mark the schema that actually wrote the normalized fields.
+    record["detailDataVersion"] = "1.0"
     return record
+
+
+def _listing_id_from_url(value: Any) -> Optional[str]:
+    if not value:
+        return None
+    match = re.search(r"/(nc_\d+)(?:/|$)", str(value), re.IGNORECASE)
+    return match.group(1).lower() if match else None
+
+
+def backfill_discovery_records_from_houses(
+    discovery_records: List[Dict[str, Any]],
+    house_records: List[Dict[str, Any]],
+) -> Tuple[List[Dict[str, Any]], Dict[str, int]]:
+    """Restore missing detail facts from the richer houses DB using stable IDs only."""
+    key_index: Dict[Tuple[str, str], List[Dict[str, Any]]] = {}
+    for house in house_records:
+        if not isinstance(house, dict):
+            continue
+        keys = []
+        for field in ("propertyId", "sourceId", "listingId"):
+            value = house.get(field)
+            if value:
+                keys.append((field, str(value).strip().lower()))
+        url_id = _listing_id_from_url(house.get("sourceUrl") or house.get("url"))
+        if url_id:
+            keys.append(("urlListingId", url_id))
+        for key in set(keys):
+            key_index.setdefault(key, []).append(house)
+
+    detail_fields = (
+        "address", "fullAddress", "propertyAddress", "landAreaM2", "landArea",
+        "buildingAreaM2", "buildingArea", "buildingFootprintAreaM2", "layout",
+        "layoutRaw", "constructionYear", "constructionMonth", "constructionYearMonth",
+        "constructionAgeYears", "yearBuilt", "builtYear", "propertyType",
+        "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
+    )
+    counts = {field: 0 for field in detail_fields}
+    result = []
+    for raw in discovery_records:
+        if not isinstance(raw, dict):
+            continue
+        record = _promote_discovery_detail_fields(raw)
+        candidate_keys = []
+        for field in ("propertyId", "sourceId", "listingId"):
+            value = record.get(field)
+            if value:
+                candidate_keys.append((field, str(value).strip().lower()))
+        url_id = _listing_id_from_url(record.get("sourceUrl") or record.get("url"))
+        if url_id:
+            candidate_keys.append(("urlListingId", url_id))
+
+        matches = []
+        for key in candidate_keys:
+            rows = key_index.get(key, [])
+            if len(rows) == 1:
+                matches = rows
+                break
+        if len(matches) == 1:
+            house = matches[0]
+            house = _promote_discovery_detail_fields(house)
+            for field in detail_fields:
+                if not _has_discovery_value(record.get(field)) and _has_discovery_value(house.get(field)):
+                    record[field] = deepcopy(house[field])
+                    counts[field] += 1
+            # Canonical/legacy aliases should agree after backfill.
+            record = _promote_discovery_detail_fields(record)
+        result.append(record)
+    return result, counts
 
 
 def parse_iso_datetime(
@@ -1477,8 +1633,8 @@ def _merge_property_records(
         "lastSeenAt", "status", "priceYen", "priceMan", "currentPrice",
         "currentPriceMan", "searchPriceYen", "searchPriceMan",
         "listingTitle", "searchTitle", "searchArea", "sourceUrl",
-        "lastDetailFetchAt", "detailFetchStatus", "detailFetchSuccess",
-        "listingStatusUpdatedAt", "missedSearchRuns", "endedObservedAt",
+        "lastDetailFetchAt", "lastSuccessfulDetailAt", "detailFetchStatus", "detailFetchSuccess",
+        "detailFetchHttpAttempts", "listingStatusUpdatedAt", "missedSearchRuns", "endedObservedAt",
         "endedAt", "relistedAt", "isListingEnded", "listingEndReason",
         "listingEndEvidence", "detailFetchLastError", "detailFetchHttpStatus",
         "detailFetchErrorAt", "lastDetailAttemptAt",
@@ -1487,7 +1643,9 @@ def _merge_property_records(
         "address", "detectedArea", "areaDetected", "targetStation",
         "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
         "landArea", "landAreaM2", "buildingArea", "buildingAreaM2",
-        "yearBuilt", "builtYear", "propertyType", "layout", "detail",
+        "buildingFootprintAreaM2", "yearBuilt", "builtYear", "constructionYear",
+        "constructionMonth", "constructionYearMonth", "constructionAgeYears",
+        "propertyType", "layout", "layoutRaw", "fieldExtractionAudit", "detail",
     }
 
     for key, value in incoming.items():
@@ -5516,6 +5674,7 @@ def run_pipeline() -> None:
             prop["detailFetchAttempts"] = int(prop.get("detailFetchAttempts") or 0) + 1
             detail_res = detail_adapter.fetch_detail(url)
             prop["detailFetchHttpStatus"] = detail_res.get("httpStatus")
+            prop["detailFetchHttpAttempts"] = int(detail_res.get("requestAttempts") or detail_res.get("attempts") or 1)
             if detail_res.get("success") is True:
                 prop["lastDetailFetchAt"] = now_iso()
                 prop["detailFetchLastError"] = None
@@ -5550,7 +5709,7 @@ def run_pipeline() -> None:
                 if detail_res.get("success") is True:
                     detail_failed_count += 1
                 err_type = prop.get("detailFetchErrorType")
-                if err_type in RETRYABLE_DETAIL_ERROR_TYPES:
+                if err_type in DETAIL_CONNECTIVITY_ERROR_TYPES:
                     consecutive_errors += 1
 
         except Exception as exc:
@@ -5573,15 +5732,8 @@ def run_pipeline() -> None:
 
     # 6a. Discovered DB (全掲載・全IDを保持)
     discovered_records = compact_discovery_db(list(db.values()))
-    save_json(
-        DISCOVERED_PATH,
-        {
-            "version": DISCOVERY_SCHEMA_VERSION,
-            "updatedAt": now_iso(),
-            "count": len(discovered_records),
-            "properties": discovered_records,
-        },
-    )
+    # The discovery records are finalized and saved after houses.json is rebuilt,
+    # so a last-pass backfill can restore any missing normalized fields safely.
 
     # 6b. Listing Observations (差分のみ追記。毎回全件を上書きしない)
     previous_observations_raw = load_json(
@@ -5646,6 +5798,25 @@ def run_pipeline() -> None:
     # UI表示用 houses.json 生成直前に物理キーでの重複排除を適用
     deduplicated_houses = deduplicate_by_physical_identity(market_house_records)
 
+    discovered_records, detail_backfill_counts = backfill_discovery_records_from_houses(
+        discovered_records,
+        deduplicated_houses,
+    )
+    save_json(
+        DISCOVERED_PATH,
+        {
+            "version": DISCOVERY_SCHEMA_VERSION,
+            "updatedAt": now_iso(),
+            "count": len(discovered_records),
+            "detailBackfillFromHouses": detail_backfill_counts,
+            "properties": discovered_records,
+        },
+    )
+    print(
+        "[DETAIL-PERSISTENCE] backfilled from houses.json: "
+        + ", ".join(f"{key}={value}" for key, value in detail_backfill_counts.items() if value)
+    )
+
     save_json(
         HOUSES_PATH,
         {
@@ -5687,6 +5858,8 @@ def run_pipeline() -> None:
         "address": "address",
         "targetStationWalkMinutes": "targetStationWalkMinutes",
         "constructionMonth": "constructionMonth",
+        "constructionYear": "constructionYear",
+        "propertyType": "propertyType",
     }
 
     def _coverage(records: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -5733,6 +5906,16 @@ def run_pipeline() -> None:
         "criteriaPendingByField": dict(criteria_pending_by_field),
         "marketDbEmptyWarning": len(deduplicated_houses) == 0,
         "fieldCoverage": field_coverage,
+        "detailPersistence": {
+            "schemaVersion": DISCOVERY_SCHEMA_VERSION,
+            "backfillFromHouses": detail_backfill_counts,
+            "discoveryFieldCount": len(discovered_records),
+            "detailFieldsPersisted": [
+                "landAreaM2", "buildingAreaM2", "buildingFootprintAreaM2",
+                "layout", "constructionYear", "constructionMonth", "constructionYearMonth",
+                "constructionAgeYears", "propertyType", "fieldExtractionAudit",
+            ],
+        },
         "parserVersion": MAIN_PARSER_VERSION,
         **lifecycle_analytics,
     }
