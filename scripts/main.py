@@ -56,7 +56,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-25-v46-detail-persistence-repair"
+MAIN_PARSER_VERSION = "2026-10-26-v47-detail-persistence-alias-repair"
 
 
 # ============================================================
@@ -134,8 +134,11 @@ DISCOVERY_FIELDS = (
     "layoutRaw",
     "constructionYear",
     "constructionMonth",
+    "builtMonth",
     "constructionYearMonth",
+    "builtYearMonth",
     "constructionAgeYears",
+    "builtAgeYears",
     "yearBuilt",
     "builtYear",
     "propertyType",
@@ -1399,14 +1402,22 @@ def _has_discovery_value(value: Any) -> bool:
     return True
 
 
-def _promote_discovery_detail_fields(property_data: Dict[str, Any]) -> Dict[str, Any]:
-    """Copy known detail values into canonical top-level fields before persistence."""
+def _promote_discovery_detail_fields(
+    property_data: Dict[str, Any],
+) -> Dict[str, Any]:
+    """Normalize detail aliases from top-level and nested detail objects.
+
+    Valid existing values are preserved. Missing values are filled from
+    top-level aliases first, then nested detail payloads. Numeric zero is a
+    valid value (for example, a newly built property can have age 0).
+    """
     result = deepcopy(property_data)
-    detail = result.get("detail")
-    if not isinstance(detail, dict):
-        detail = result.get("lastSuccessfulDetail")
-    if not isinstance(detail, dict):
-        detail = {}
+
+    detail_candidates = (
+        result.get("detail"),
+        result.get("lastSuccessfulDetail"),
+    )
+    details = [item for item in detail_candidates if isinstance(item, dict)]
 
     aliases = {
         "address": ("address", "fullAddress", "propertyAddress"),
@@ -1416,38 +1427,81 @@ def _promote_discovery_detail_fields(property_data: Dict[str, Any]) -> Dict[str,
         "landArea": ("landArea", "landAreaM2", "land"),
         "buildingAreaM2": ("buildingAreaM2", "buildingArea", "building"),
         "buildingArea": ("buildingArea", "buildingAreaM2", "building"),
-        "buildingFootprintAreaM2": ("buildingFootprintAreaM2", "buildingFootprintArea"),
+        "buildingFootprintAreaM2": (
+            "buildingFootprintAreaM2", "buildingFootprintArea",
+        ),
         "layout": ("layout", "layoutRaw", "floorPlan", "floor_plan"),
         "layoutRaw": ("layoutRaw", "layout", "floorPlan", "floor_plan"),
         "constructionYear": ("constructionYear", "yearBuilt", "builtYear"),
-        "constructionMonth": ("constructionMonth", "constructionYearMonth", "builtMonth"),
-        "constructionYearMonth": ("constructionYearMonth", "constructionMonth"),
-        "constructionAgeYears": ("constructionAgeYears", "builtAgeYears"),
         "yearBuilt": ("yearBuilt", "constructionYear", "builtYear"),
         "builtYear": ("builtYear", "constructionYear", "yearBuilt"),
+        "constructionMonth": ("constructionMonth", "builtMonth"),
+        "builtMonth": ("builtMonth", "constructionMonth"),
+        "constructionYearMonth": (
+            "constructionYearMonth", "builtYearMonth",
+        ),
+        "builtYearMonth": ("builtYearMonth", "constructionYearMonth"),
+        "constructionAgeYears": ("constructionAgeYears", "builtAgeYears"),
+        "builtAgeYears": ("builtAgeYears", "constructionAgeYears"),
         "propertyType": ("propertyType", "listingType", "type"),
-        "targetStationWalkMinutes": ("targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"),
-        "stationWalkMinutes": ("stationWalkMinutes", "targetStationWalkMinutes", "walkMinutes"),
-        "walkMinutes": ("walkMinutes", "targetStationWalkMinutes", "stationWalkMinutes"),
+        "targetStationWalkMinutes": (
+            "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
+        ),
+        "stationWalkMinutes": (
+            "stationWalkMinutes", "targetStationWalkMinutes", "walkMinutes",
+        ),
+        "walkMinutes": (
+            "walkMinutes", "targetStationWalkMinutes", "stationWalkMinutes",
+        ),
     }
+
     for target, sources in aliases.items():
         if _has_discovery_value(result.get(target)):
             continue
+
+        found = None
         for source in sources:
-            value = detail.get(source)
+            value = result.get(source)
             if _has_discovery_value(value):
-                result[target] = value
+                found = value
                 break
 
-    # Keep legacy aliases populated to make older downstream code compatible.
-    if _has_discovery_value(result.get("landAreaM2")) and not _has_discovery_value(result.get("landArea")):
-        result["landArea"] = result["landAreaM2"]
-    if _has_discovery_value(result.get("landAreaM2")) and not _has_discovery_value(result.get("land")):
-        result["land"] = result["landAreaM2"]
-    if _has_discovery_value(result.get("buildingAreaM2")) and not _has_discovery_value(result.get("buildingArea")):
-        result["buildingArea"] = result["buildingAreaM2"]
-    if _has_discovery_value(result.get("buildingAreaM2")) and not _has_discovery_value(result.get("building")):
-        result["building"] = result["buildingAreaM2"]
+        if found is None:
+            for detail in details:
+                for source in sources:
+                    value = detail.get(source)
+                    if _has_discovery_value(value):
+                        found = value
+                        break
+                if found is not None:
+                    break
+
+        if found is not None:
+            result[target] = deepcopy(found)
+
+    # Keep legacy age aliases synchronized without treating zero as missing.
+    canonical_age = result.get("constructionAgeYears")
+    legacy_age = result.get("builtAgeYears")
+    if _has_discovery_value(canonical_age):
+        if not _has_discovery_value(legacy_age):
+            result["builtAgeYears"] = deepcopy(canonical_age)
+    elif _has_discovery_value(legacy_age):
+        result["constructionAgeYears"] = deepcopy(legacy_age)
+
+    # Maintain legacy area aliases for existing downstream consumers.
+    alias_pairs = (
+        ("landAreaM2", "landArea"),
+        ("landAreaM2", "land"),
+        ("buildingAreaM2", "buildingArea"),
+        ("buildingAreaM2", "building"),
+    )
+    for canonical, legacy in alias_pairs:
+        if (
+            _has_discovery_value(result.get(canonical))
+            and not _has_discovery_value(result.get(legacy))
+        ):
+            result[legacy] = deepcopy(result[canonical])
+
     return result
 
 
@@ -1486,7 +1540,7 @@ def build_discovery_record(
         record["sourceUrl"] = source_url
 
     # Mark the schema that actually wrote the normalized fields.
-    record["detailDataVersion"] = "1.0"
+    record["detailDataVersion"] = "1.1"
     return record
 
 
@@ -1521,7 +1575,8 @@ def backfill_discovery_records_from_houses(
         "address", "fullAddress", "propertyAddress", "landAreaM2", "landArea",
         "buildingAreaM2", "buildingArea", "buildingFootprintAreaM2", "layout",
         "layoutRaw", "constructionYear", "constructionMonth", "constructionYearMonth",
-        "constructionAgeYears", "yearBuilt", "builtYear", "propertyType",
+        "constructionAgeYears", "builtAgeYears", "yearBuilt", "builtYear",
+        "builtMonth", "builtYearMonth", "propertyType",
         "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
     )
     counts = {field: 0 for field in detail_fields}
@@ -4530,6 +4585,8 @@ def build_listing_observation(
 def build_market_house_record(
     property_data: Dict[str, Any],
 ) -> Dict[str, Any]:
+    # Normalize legacy aliases before projecting into houses.json as well.
+    property_data = _promote_discovery_detail_fields(property_data)
 
     detail = get_detail(
         property_data
@@ -5913,7 +5970,8 @@ def run_pipeline() -> None:
             "detailFieldsPersisted": [
                 "landAreaM2", "buildingAreaM2", "buildingFootprintAreaM2",
                 "layout", "constructionYear", "constructionMonth", "constructionYearMonth",
-                "constructionAgeYears", "propertyType", "fieldExtractionAudit",
+                "constructionAgeYears", "builtAgeYears", "propertyType",
+                "fieldExtractionAudit",
             ],
         },
         "parserVersion": MAIN_PARSER_VERSION,

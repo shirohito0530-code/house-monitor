@@ -121,6 +121,7 @@ def main() -> int:
     missing_among_comparable = {field: 0 for field in FIELDS}
     comparable = {field: 0 for field in FIELDS}
     ambiguous_match_keys = 0
+    persistence_examples: dict[str, list[str]] = {field: [] for field in FIELDS}
 
     for row in houses:
         for field, aliases in FIELDS.items():
@@ -148,6 +149,20 @@ def main() -> int:
                 comparable[field] += 1
                 if not has_value(discovery_value):
                     missing_among_comparable[field] += 1
+                    if len(persistence_examples[field]) < 20:
+                        record_id = (
+                            row.get("propertyId")
+                            or row.get("sourceId")
+                            or row.get("listingId")
+                            or listing_id_from_url(row)
+                            or "unknown"
+                        )
+                        persistence_examples[field].append(
+                            f"{record_id}: houses="
+                            f"{ {key: row.get(key) for key in aliases} } ; "
+                            f"discovered="
+                            f"{ {key: match.get(key) for key in aliases} }"
+                        )
 
     print(
         "[DETAIL-PERSISTENCE-CHECK] "
@@ -179,6 +194,8 @@ def main() -> int:
                 file=sys.stderr,
             )
             failed = True
+            for example in persistence_examples[field]:
+                print(f"  [MISSING-EXAMPLE] {example}", file=sys.stderr)
 
     # Detect complete field disappearance only when the source houses DB has values.
     for field, aliases in FIELDS.items():
