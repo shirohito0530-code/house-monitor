@@ -56,7 +56,7 @@ except ImportError:
 # Constants
 # ============================================================
 
-MAIN_PARSER_VERSION = "2026-10-14-v44-detail-field-coverage-counter-fix"
+MAIN_PARSER_VERSION = "2026-10-25-v45-duplicate-detail-enrichment"
 
 
 # ============================================================
@@ -195,6 +195,7 @@ SUMMARY_PATH = DATA_DIR / "summary.json"
 
 DEFAULT_DETAIL_FETCH_LIMIT = 400
 MAX_DETAIL_FETCH_ATTEMPTS = 3
+MAX_DUPLICATE_ENRICHMENT_ATTEMPTS = 5
 MAX_CONSECUTIVE_DETAIL_CONNECTIVITY_ERRORS = 3
 
 DETAIL_REFRESH_DAYS_ACTIVE = 2
@@ -1906,8 +1907,68 @@ def is_detail_stale(
     )
 
 
+def _detail_missing_identity_fields(property_data: Dict[str, Any]) -> List[str]:
+    """Fields needed for physical-duplicate decisions; success alone is not completeness."""
+    detail = get_detail(property_data)
+    aliases = {
+        "address": ("address", "fullAddress", "propertyAddress"),
+        "landAreaM2": ("landAreaM2", "land", "landArea"),
+        "buildingAreaM2": ("buildingAreaM2", "building", "buildingArea"),
+        "constructionYear": ("constructionYear", "builtYear", "year"),
+        "layout": ("layout", "layoutRaw", "floorPlan"),
+        "propertyType": ("propertyType", "type", "listingType"),
+    }
+    missing = []
+    for target, keys in aliases.items():
+        value = next((property_data.get(k) for k in keys if property_data.get(k) not in (None, "", "-")), None)
+        if value is None:
+            value = next((detail.get(k) for k in keys if detail.get(k) not in (None, "", "-")), None)
+        if value is None:
+            missing.append(target)
+    return missing
+
+
+def _duplicate_enrichment_ids(properties: List[Dict[str, Any]]) -> Set[str]:
+    """Prioritize incomplete listings in small, plausible address blocks for detail fetch.
+
+    Town-only matches are not considered proof of duplication. This is only a fetch-priority
+    heuristic; final auto-merge requires stronger evidence in market_pipeline.py.
+    """
+    buckets: Dict[str, List[Dict[str, Any]]] = {}
+    for prop in properties:
+        if not isinstance(prop, dict):
+            continue
+        address = str(prop.get("address") or prop.get("fullAddress") or prop.get("propertyAddress") or "")
+        if prop.get("areaDecision") == "rejected" or not any(city in address for city in ("柏市", "流山市")):
+            continue
+        address = address.translate(str.maketrans("０１２３４５６７８９", "0123456789"))
+        address = re.sub(r"[\s　、,，。．.]", "", address).replace("丁目", "-").replace("番地", "-").replace("番", "-").replace("号", "")
+        address = re.sub(r"[-ー―‐−]+", "-", address)
+        if not address or len(address) < 8:
+            continue
+        # Strip house numbers only to create a coarse locality block. Never use this
+        # block to merge records; only to decide which incomplete pages to fetch first.
+        block = re.sub(r"[0-9-]", "", address)
+        if len(block) >= 6:
+            buckets.setdefault(block, []).append(prop)
+    urgent: Set[str] = set()
+    for group in buckets.values():
+        if not (2 <= len(group) <= 12):
+            continue  # avoid fetching an entire subdivision/town on a noisy block
+        if not any(re.search(r"\d", str(x.get("address") or x.get("fullAddress") or x.get("propertyAddress") or "")) for x in group):
+            continue
+        for prop in group:
+            missing = _detail_missing_identity_fields(prop)
+            attempts = int(prop.get("detailFetchAttempts") or 0)
+            if missing and attempts < MAX_DUPLICATE_ENRICHMENT_ATTEMPTS and (prop.get("sourceUrl") or prop.get("url")):
+                urgent.add(str(prop.get("propertyId") or ""))
+    urgent.discard("")
+    return urgent
+
+
 def detail_fetch_priority(
     property_data: Dict[str, Any],
+    force_duplicate_enrichment: bool = False,
 ) -> int:
 
     attempts = int(
@@ -1917,6 +1978,10 @@ def detail_fetch_priority(
         )
         or 0
     )
+
+    if force_duplicate_enrichment and _detail_missing_identity_fields(property_data):
+        if attempts < MAX_DUPLICATE_ENRICHMENT_ATTEMPTS:
+            return 0
 
     error_type = property_data.get(
         "detailFetchErrorType"
@@ -5408,12 +5473,20 @@ def run_pipeline() -> None:
     # ========================================================
 
     detail_adapter = SuumoDetailAdapter(config=search_config)
+    duplicate_enrichment_ids = _duplicate_enrichment_ids(list(db.values()))
     detail_candidates = [
         prop for prop in db.values()
         if is_detail_target_property(prop, search_config, search_urls)
-        and detail_fetch_priority(prop) < 999
+        and detail_fetch_priority(
+            prop,
+            str(prop.get("propertyId") or "") in duplicate_enrichment_ids,
+        ) < 999
     ]
-    detail_candidates.sort(key=detail_fetch_priority)
+    detail_candidates.sort(key=lambda prop: (
+        0 if str(prop.get("propertyId") or "") in duplicate_enrichment_ids else 1,
+        detail_fetch_priority(prop, str(prop.get("propertyId") or "") in duplicate_enrichment_ids),
+        str(prop.get("propertyId") or ""),
+    ))
 
     fetch_limit = search_config.get("detailFetchLimit", DEFAULT_DETAIL_FETCH_LIMIT)
     fetched_count = 0
@@ -5421,7 +5494,10 @@ def run_pipeline() -> None:
     detail_failed_count = 0
     consecutive_errors = 0
 
-    print(f"--- Detail Fetching (対象候補: {len(detail_candidates)}件, 上限: {fetch_limit}件) ---")
+    print(
+        f"--- Detail Fetching (対象候補: {len(detail_candidates)}件, "
+        f"重複詳細優先: {len(duplicate_enrichment_ids)}件, 上限: {fetch_limit}件) ---"
+    )
 
     for prop in detail_candidates:
         if attempted_count >= fetch_limit:
@@ -5636,6 +5712,8 @@ def run_pipeline() -> None:
         "statusCounts": dict(status_counts),
         "detailFetchedInRun": fetched_count,
         "detailCandidates": len(detail_candidates),
+        "duplicateEnrichmentPriorityCount": len(duplicate_enrichment_ids),
+        "duplicateEnrichmentAttemptLimit": MAX_DUPLICATE_ENRICHMENT_ATTEMPTS,
         "detailFetchLimit": fetch_limit,
         "detailAttemptsInRun": attempted_count,
         "detailFailuresInRun": detail_failed_count,
