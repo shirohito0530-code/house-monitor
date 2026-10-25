@@ -1,21 +1,39 @@
 #!/usr/bin/env python3
-"""Validate that detail facts available in houses.json survive in discovered_listings.json."""
+"""Validate that detail facts in houses.json persist in discovered_listings.json.
+
+Read-only validator. It does not modify either database.
+Run from repository root or with: python scripts/validate_detail_persistence.py
+"""
 from __future__ import annotations
+
 import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-FIELDS = {
+
+# Canonical field -> aliases accepted in older database records.
+FIELDS: dict[str, tuple[str, ...]] = {
+    "address": ("address", "fullAddress", "propertyAddress"),
     "landAreaM2": ("landAreaM2", "landArea", "land"),
     "buildingAreaM2": ("buildingAreaM2", "buildingArea", "building"),
-    "layout": ("layout", "layoutRaw", "floorPlan"),
-    "constructionMonth": ("constructionMonth", "constructionYearMonth"),
+    # Footprint area is distinct from total floor area; never substitute one for the other.
+    "buildingFootprintAreaM2": ("buildingFootprintAreaM2", "buildingFootprintArea"),
+    "layout": ("layout", "layoutRaw", "floorPlan", "floor_plan"),
     "constructionYear": ("constructionYear", "yearBuilt", "builtYear"),
+    "constructionMonth": ("constructionMonth", "builtMonth"),
+    "constructionYearMonth": ("constructionYearMonth", "builtYearMonth"),
+    "constructionAgeYears": ("constructionAgeYears", "builtAgeYears"),
     "propertyType": ("propertyType", "listingType", "type"),
+    "targetStationWalkMinutes": (
+        "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"
+    ),
 }
+
+EMPTY_STRINGS = {"", "-", "－", "不明", "未定", "なし", "N/A", "n/a"}
 
 
 def load_properties(path: Path) -> list[dict[str, Any]]:
@@ -25,100 +43,165 @@ def load_properties(path: Path) -> list[dict[str, Any]]:
     rows = data.get("properties", []) if isinstance(data, dict) else data
     if not isinstance(rows, list):
         raise RuntimeError(f"invalid properties list: {path.relative_to(ROOT)}")
-    return [x for x in rows if isinstance(x, dict)]
+    return [row for row in rows if isinstance(row, dict)]
 
 
 def has_value(value: Any) -> bool:
     if value is None:
         return False
     if isinstance(value, str):
-        return value.strip() not in {"", "-", "－", "不明", "未定"}
+        return value.strip() not in EMPTY_STRINGS
+    if isinstance(value, (list, dict)):
+        return bool(value)
     return True
 
 
 def first_value(row: dict[str, Any], aliases: tuple[str, ...]) -> Any:
     for key in aliases:
-        if has_value(row.get(key)):
-            return row[key]
+        value = row.get(key)
+        if has_value(value):
+            return value
     return None
 
 
-def url_id(row: dict[str, Any]) -> str | None:
-    value = row.get("sourceUrl") or row.get("url")
-    match = re.search(r"/(nc_\d+)(?:/|$)", str(value or ""), re.I)
+def listing_id_from_url(row: dict[str, Any]) -> str | None:
+    value = row.get("sourceUrl") or row.get("detailUrl") or row.get("url")
+    normalized = unicodedata.normalize("NFKC", str(value or ""))
+    match = re.search(r"/(nc_\d+)(?:/|$|[?#])", normalized, re.I)
     return match.group(1).lower() if match else None
 
 
 def keys(row: dict[str, Any]) -> list[tuple[str, str]]:
-    result = []
+    result: list[tuple[str, str]] = []
     for field in ("propertyId", "sourceId", "listingId"):
-        if row.get(field):
-            result.append((field, str(row[field]).strip().lower()))
-    if url_id(row):
-        result.append(("urlListingId", url_id(row) or ""))
-    return result
+        value = row.get(field)
+        if value is not None and str(value).strip():
+            result.append((field, str(value).strip().lower()))
+    url_id = listing_id_from_url(row)
+    if url_id:
+        result.append(("urlListingId", url_id))
+    return list(dict.fromkeys(result))
+
+
+def build_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], list[dict[str, Any]]]:
+    index: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        for key in keys(row):
+            index.setdefault(key, []).append(row)
+    return index
+
+
+def find_unique_match(
+    row: dict[str, Any],
+    index: dict[tuple[str, str], list[dict[str, Any]]],
+) -> dict[str, Any] | None:
+    # A key mapping to multiple rows is ambiguous and is not used to claim a match.
+    for key in keys(row):
+        found = index.get(key, [])
+        if len(found) == 1:
+            return found[0]
+    return None
 
 
 def main() -> int:
-    houses = load_properties(ROOT / "data/houses.json")
-    discovered = load_properties(ROOT / "data/discovered_listings.json")
+    houses = load_properties(ROOT / "data" / "houses.json")
+    discovered = load_properties(ROOT / "data" / "discovered_listings.json")
+
     if houses and not discovered:
         raise RuntimeError("houses.json has records but discovered_listings.json is empty")
 
-    index: dict[tuple[str, str], list[dict[str, Any]]] = {}
-    for row in discovered:
-        for key in set(keys(row)):
-            index.setdefault(key, []).append(row)
+    discovered_index = build_index(discovered)
+    houses_index = build_index(houses)
 
-    houses_coverage = {field: 0 for field in FIELDS}
+    matched = 0
+    unmatched_houses = 0
+    ambiguous_houses = 0
+    house_coverage = {field: 0 for field in FIELDS}
     discovered_coverage = {field: 0 for field in FIELDS}
-    matched_records = 0
-    missing_by_field = {field: 0 for field in FIELDS}
-    comparable_by_field = {field: 0 for field in FIELDS}
+    missing_among_comparable = {field: 0 for field in FIELDS}
+    comparable = {field: 0 for field in FIELDS}
+    ambiguous_match_keys = 0
 
     for row in houses:
         for field, aliases in FIELDS.items():
             if has_value(first_value(row, aliases)):
-                houses_coverage[field] += 1
-        matches = []
-        for key in keys(row):
-            found = index.get(key, [])
-            if len(found) == 1:
-                matches = found
-                break
-        if not matches:
+                house_coverage[field] += 1
+
+        match = find_unique_match(row, discovered_index)
+        if match is None:
+            row_keys = keys(row)
+            is_ambiguous = any(len(discovered_index.get(key, [])) > 1 for key in row_keys)
+            if is_ambiguous:
+                ambiguous_houses += 1
+                ambiguous_match_keys += 1
+            else:
+                unmatched_houses += 1
             continue
-        matched_records += 1
-        target = matches[0]
+
+        matched += 1
         for field, aliases in FIELDS.items():
             house_value = first_value(row, aliases)
-            discovery_value = first_value(target, aliases)
+            discovery_value = first_value(match, aliases)
             if has_value(discovery_value):
                 discovered_coverage[field] += 1
             if has_value(house_value):
-                comparable_by_field[field] += 1
+                comparable[field] += 1
                 if not has_value(discovery_value):
-                    missing_by_field[field] += 1
+                    missing_among_comparable[field] += 1
 
-    print(f"[DETAIL-PERSISTENCE-CHECK] houses={len(houses)} discovered={len(discovered)} matched={matched_records}")
+    print(
+        "[DETAIL-PERSISTENCE-CHECK] "
+        f"houses={len(houses)} discovered={len(discovered)} "
+        f"matched={matched} unmatched={unmatched_houses} ambiguous={ambiguous_houses}"
+    )
+    print("Coverage below is field availability, not proof that SUUMO publishes the field.")
     failed = False
+
     for field in FIELDS:
+        total_houses = len(houses)
+        coverage_count = house_coverage[field]
+        ratio = coverage_count / total_houses if total_houses else 0.0
+        total_comparable = comparable[field]
+        missing = missing_among_comparable[field]
+        loss_ratio = missing / total_comparable if total_comparable else 0.0
+
         print(
-            f"  {field}: houses={houses_coverage[field]}/{len(houses)}; "
-            f"discovered-covered-in-matched={discovered_coverage[field]}; "
-            f"missing-among-comparable={missing_by_field[field]}/{comparable_by_field[field]}"
+            f"  {field}: houses={coverage_count}/{total_houses} ({ratio:.1%}); "
+            f"discovered-present-in-matches={discovered_coverage[field]}; "
+            f"missing-among-known={missing}/{total_comparable} ({loss_ratio:.1%})"
         )
-        if houses_coverage[field] > 0 and discovered and not any(
-            has_value(first_value(row, FIELDS[field])) for row in discovered
-        ):
-            print(f"ERROR: {field} exists in houses.json but is completely absent from discovered_listings.json", file=sys.stderr)
+
+        # Fail if known values in houses disappear from discovered rows.
+        if total_comparable >= 10 and loss_ratio > 0.10:
+            print(
+                f"ERROR: {field} persistence loss exceeds 10% "
+                f"({missing}/{total_comparable})",
+                file=sys.stderr,
+            )
             failed = True
-        total = comparable_by_field[field]
-        missing = missing_by_field[field]
-        # For a sizeable matched set, fail if more than 10% of known detail facts disappear.
-        if total >= 10 and missing / total > 0.10:
-            print(f"ERROR: {field} persistence loss exceeds 10% ({missing}/{total})", file=sys.stderr)
+
+    # Detect complete field disappearance only when the source houses DB has values.
+    for field, aliases in FIELDS.items():
+        source_has_any = any(has_value(first_value(row, aliases)) for row in houses)
+        target_has_any = any(has_value(first_value(row, aliases)) for row in discovered)
+        if source_has_any and not target_has_any:
+            print(
+                f"ERROR: {field} exists in houses.json but is absent from "
+                "discovered_listings.json",
+                file=sys.stderr,
+            )
             failed = True
+
+    # Duplicate keys are reported but do not fail the persistence check:
+    # repeated/ambiguous keys need a separate identity audit, not destructive merging.
+    def duplicate_key_count(index: dict[tuple[str, str], list[dict[str, Any]]]) -> int:
+        return sum(1 for rows in index.values() if len(rows) > 1)
+
+    print(
+        f"[IDENTITY-KEY-AUDIT] duplicated_keys_houses={duplicate_key_count(houses_index)} "
+        f"duplicated_keys_discovered={duplicate_key_count(discovered_index)} "
+        f"ambiguous_match_keys={ambiguous_match_keys}"
+    )
 
     if failed:
         return 1
@@ -130,5 +213,8 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except Exception as exc:
-        print(f"ERROR: detail persistence validation failed: {type(exc).__name__}: {exc}", file=sys.stderr)
+        print(
+            f"ERROR: detail persistence validation failed: {type(exc).__name__}: {exc}",
+            file=sys.stderr,
+        )
         raise SystemExit(1)
