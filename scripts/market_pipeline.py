@@ -8,6 +8,7 @@ its own retention policy.
 """
 from __future__ import annotations
 
+import calendar
 import hashlib
 import json
 import re
@@ -30,7 +31,7 @@ SUMMARY_PATH = DATA / "summary.json"
 USER_SELECTIONS_PATH = DATA / "user_selections.json"
 SCHOOL_CONFIG_PATH = CONFIG / "school_districts.json"
 QUARANTINE_RETENTION_DAYS = 90
-VERSION = "2026-10-25-v2-duplicate-detail-first"
+VERSION = "2026-10-26-v3-transaction-window-scope-fix"
 
 TARGET_CITY = {
     "柏市": "柏の葉キャンパス",
@@ -589,6 +590,36 @@ def median_or_none(values: list[float]) -> float | None:
     return round(statistics.median(values), 2) if values else None
 
 
+def transaction_period_end(row: dict[str, Any]) -> datetime | None:
+    """Return the end of the transaction quarter; unknown periods are not windowed."""
+    value = str(row.get("_period") or row.get("Period") or row.get("period") or "").strip()
+    match = re.search(r"((?:19|20)\d{2})\s*Q([1-4])", value, re.IGNORECASE)
+    if not match:
+        match = re.search(r"((?:19|20)\d{2})年\s*第?([1-4])四半期", value)
+    if match:
+        year, quarter = int(match.group(1)), int(match.group(2))
+        month = quarter * 3
+        return datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59, tzinfo=timezone.utc)
+
+    # Some future data sources may provide an exact transaction date instead.
+    for key in ("TransactionDate", "TradeDate", "transactionDate", "tradeDate", "date"):
+        parsed = parse_dt(row.get(key))
+        if parsed:
+            return parsed
+    return None
+
+
+def filter_transactions_for_window(rows: list[dict[str, Any]], now: datetime, days: int) -> list[dict[str, Any]]:
+    """Keep only transactions whose known quarter/date falls inside the requested window."""
+    cutoff = now - timedelta(days=days)
+    selected: list[dict[str, Any]] = []
+    for row in rows:
+        period_end = transaction_period_end(row)
+        if period_end is not None and cutoff <= period_end <= now:
+            selected.append(row)
+    return selected
+
+
 def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for area in TARGET_CITY.values():
@@ -605,6 +636,8 @@ def build_transaction_metrics(rows: list[dict[str, Any]]) -> dict[str, Any]:
             "medianLandPricePerM2Yen": median_or_none(land_prices),
             "dataConfidence": "medium" if len(subset) >= 10 else "low" if len(subset) < 3 else "limited",
             "source": "国土交通省 不動産情報ライブラリ XIT001",
+            "geographyScope": "municipality_wide",
+            "geographyScopeLabel": "市全体の参考値（駅徒歩圏・学区限定ではありません）",
         }
     return out
 
@@ -814,6 +847,8 @@ def apply_pipeline() -> dict[str, Any]:
 
     tx_rows = transaction_rows(tx_data)
     transaction_metrics = build_transaction_metrics(tx_rows)
+    transaction_metrics_3m = build_transaction_metrics(filter_transactions_for_window(tx_rows, now, 90))
+    transaction_metrics_12m = build_transaction_metrics(filter_transactions_for_window(tx_rows, now, 365))
     accepted_canonical = [x for x in houses if x.get("areaDecision") == "accepted" and x.get("canonicalPropertyId", pid(x)) == pid(x)]
     for item in houses:
         key = pid(item)
@@ -834,8 +869,8 @@ def apply_pipeline() -> dict[str, Any]:
     area_metrics: dict[str, Any] = {}
     for area in TARGET_CITY.values():
         area_metrics[area] = {
-            "3m": market_window_metrics(area, houses, observations, transaction_metrics, now, 90),
-            "12m": market_window_metrics(area, houses, observations, transaction_metrics, now, 365),
+            "3m": market_window_metrics(area, houses, observations, transaction_metrics_3m, now, 90),
+            "12m": market_window_metrics(area, houses, observations, transaction_metrics_12m, now, 365),
         }
 
     # Candidate review pairs are stored separately from canonical records to avoid
@@ -901,7 +936,12 @@ def apply_pipeline() -> dict[str, Any]:
         "periods": ["3m", "12m"],
         "areas": area_metrics,
         "transactionMetrics": transaction_metrics,
-        "limitations": ["観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます", "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません"],
+        "limitations": [
+            "観測履歴が短い場合、3か月・12か月指標も実質的には取得済み履歴の範囲に限定されます",
+            "取引価格は売出価格ではなく過去の取引情報です。個別物件の参考値として扱い、成約価格の保証には使いません",
+            "国交省の取引指標は柏市全体・流山市全体の集計であり、柏の葉キャンパス駅・流山おおたかの森駅の徒歩圏や学区を直接表すものではありません",
+            "期間別の取引件数は取引四半期の終了日を基準に集計します。期間情報が不明な取引は期間別指標から除外します",
+        ],
     }
     summary["bargainIndicator"] = {
         "method": "explainable_rule_based_v1",
