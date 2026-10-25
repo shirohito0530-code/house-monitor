@@ -3232,9 +3232,7 @@ function renderPropertyCard(property) {
   const label =
     getQualityLabel(property);
   const marketIndicator = property.marketIndicators || {};
-  const valuation = marketIndicator.valuation || property.valuation || {};
-  const valuationComponents = valuation.components && typeof valuation.components === "object" ? Object.values(valuation.components) : [];
-  const marketScoreClass = marketIndicator.score === null || marketIndicator.score === undefined ? "" : ["優先検討", "条件次第で有望"].includes(marketIndicator.label) ? "market-score-good" : ["割高傾向", "要注意・保留"].includes(marketIndicator.label) ? "market-score-bad" : "market-score-neutral";
+  const marketScoreClass = marketIndicator.score === null || marketIndicator.score === undefined ? "" : marketIndicator.score >= 65 ? "market-score-good" : marketIndicator.score >= 40 ? "market-score-neutral" : "market-score-bad";
   const schoolStatusText = property.schoolDistrictStatus === "confirmed" ? "柏の葉小学校区：公式情報確認済み" : (property.area === "柏の葉キャンパス" || property.schoolDistrictCandidate) ? "柏の葉小学校区：未確認" : "";
 
   const uiArea =
@@ -3298,7 +3296,7 @@ function renderPropertyCard(property) {
         <span class="area-badge ${areaClassificationClass}">
           ${escapeHtml(areaClassificationLabel)}
         </span>
-        ${marketIndicator.label ? `<span class="flag ${marketScoreClass}">総合評価：${escapeHtml(marketIndicator.label)}${marketIndicator.score !== null && marketIndicator.score !== undefined ? ` ${marketIndicator.score}/100${["価格評価データ不足", "信頼度低・要確認", "データ不足"].includes(marketIndicator.label) ? "（参考スコア）" : ""}` : ""}</span>` : ""}
+        ${marketIndicator.label ? `<span class="flag ${marketScoreClass}">お買い得度：${escapeHtml(marketIndicator.label)}${marketIndicator.score !== null && marketIndicator.score !== undefined ? ` ${marketIndicator.score}/100` : ""}</span>` : ""}
         ${schoolStatusText ? `<span class="flag flag-unknown">${escapeHtml(schoolStatusText)}</span>` : ""}
         ${property.duplicateStatus === "canonical" ? `<span class="flag flag-good">重複統合グループ</span>` : ""}
 
@@ -3449,7 +3447,7 @@ function renderPropertyCard(property) {
 
 
       ${renderQualityReasons(property)}
-      ${valuation.estimatedBaseValueYen || valuation.estimatedLandValueYen || valuation.estimatedBuildingValueYen ? `<div class="quality-reasons"><strong>総合価値評価（推定・信頼度：${escapeHtml(valuation.confidence || marketIndicator.confidence || "low")}）</strong><div class="market-period-grid"><div class="market-kpi"><span>土地価値（推定）</span><strong>${formatYenShort(valuation.estimatedLandValueYen)}</strong></div><div class="market-kpi"><span>建物価値（推定）</span><strong>${formatYenShort(valuation.estimatedBuildingValueYen)}</strong></div><div class="market-kpi"><span>土地＋建物（推定）</span><strong>${formatYenShort(valuation.estimatedBaseValueYen)}</strong></div><div class="market-kpi"><span>価値との価格乖離</span><strong>${formatYenShort(valuation.valueGapYen === null || valuation.valueGapYen === undefined ? null : Math.abs(valuation.valueGapYen))}${valuation.valueGapYen !== null && valuation.valueGapYen !== undefined ? (Number(valuation.valueGapYen) >= 0 ? " 下回る" : " 上回る") : ""}</strong></div></div>${valuationComponents.length ? `<ul>${valuationComponents.map(component => `<li>${escapeHtml(component.label || "評価項目")}：${escapeHtml(String(component.score))}/100（配点比率 ${escapeHtml(String(component.weight))}%）</li>`).join("")}</ul>` : ""}${Array.isArray(valuation.limitations) && valuation.limitations.length ? `<div><strong>評価上の制約</strong><ul>${valuation.limitations.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul></div>` : ""}<p>${escapeHtml(valuation.disclaimer || "自動推定の参考値です。個別物件の査定・鑑定ではありません。")}</p></div>` : ""} ${Array.isArray(marketIndicator.reasons) && marketIndicator.reasons.length ? `<div class="quality-reasons"><strong>お買い得度の根拠（信頼度：${escapeHtml(marketIndicator.confidence || "low")}）</strong><ul>${marketIndicator.reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul></div>` : ""}
+      ${Array.isArray(marketIndicator.reasons) && marketIndicator.reasons.length ? `<div class="quality-reasons"><strong>お買い得度の根拠（信頼度：${escapeHtml(marketIndicator.confidence || "low")}）</strong><ul>${marketIndicator.reasons.map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul></div>` : ""}
 
       ${renderLocationPriority(property)}
 
@@ -3569,7 +3567,6 @@ function renderMarketDashboard() {
     const tx = analysis.transactionMetrics?.[area] || {};
     const panel = periodKey => {
       const m = periods[periodKey] || {};
-      const txPeriod = analysis.transactionMetricsByWindow?.[area]?.[periodKey] || tx;
       return `<div class="market-period"><div class="market-period-title">${periodKey === "3m" ? "直近3か月" : "直近12か月"}</div>
         <div class="market-kpi"><span>対象掲載</span><strong>${Number(m.activeCanonicalListingCount || 0).toLocaleString("ja-JP")}件</strong></div>
         <div class="market-kpi"><span>現在の売出中央値</span><strong>${formatYenShort(m.medianAskingPriceYen)}</strong></div>
@@ -3577,19 +3574,14 @@ function renderMarketDashboard() {
         <div class="market-kpi"><span>期間内最新観測中央値</span><strong>${formatYenShort(m.medianPriceAtWindowEndYen)}</strong></div>
         <div class="market-kpi"><span>観測価格変化中央値</span><strong>${formatPct(m.medianObservedPriceChangePct)}</strong></div>
         <div class="market-kpi"><span>反復観測物件</span><strong>${Number(m.propertiesWithRepeatedPriceObservation || 0).toLocaleString("ja-JP")}件</strong></div>
-        <div class="market-kpi"><span>期間内の成約データ</span><strong>${Number(txPeriod.transactionCount || 0).toLocaleString("ja-JP")}件</strong></div>
         <div class="market-kpi"><span>期間カバー率</span><strong>${Number(m.periodCoveragePct || 0).toFixed(1)}%</strong></div>
         <div class="market-kpi"><span>信頼度</span><strong>${escapeHtml(m.confidence || "low")}</strong></div></div>`;
     };
     return `<div class="market-panel"><h3>${escapeHtml(area)}</h3><div class="market-period-grid">${panel("3m")}${panel("12m")}</div>
-      <div class="market-note">保存済み国交省戸建て取引データ（全期間）：${Number(tx.transactionCount || 0).toLocaleString("ja-JP")}件／取引価格中央値：${formatYenShort(tx.medianTransactionPriceYen)}／戸建て取引総額÷土地面積：${tx.medianHouseTransactionPricePerLandM2Yen ? `${Math.round(tx.medianHouseTransactionPricePerLandM2Yen).toLocaleString("ja-JP")}円/㎡（参考比率・純粋な土地単価ではありません）` : "データなし"}</div></div>`;
+      <div class="market-note">国交省取引データ（市全体の参考値・駅徒歩圏や学区限定ではありません）：${Number(tx.transactionCount || 0).toLocaleString("ja-JP")}件／取引価格中央値：${formatYenShort(tx.medianTransactionPriceYen)}／土地単価中央値：${tx.medianLandPricePerM2Yen ? `${Math.round(tx.medianLandPricePerM2Yen).toLocaleString("ja-JP")}円/㎡` : "データなし"}</div></div>`;
   }).join("");
   const decisions = marketSummary?.areaDecisionCounts || {}, dup = marketSummary?.duplicateManagement || {}, q = marketSummary?.quarantinePrunedThisRun || {};
-  const dq = marketSummary?.dataQuality || {};
-  const dqWarnings = Array.isArray(dq.warnings) && dq.warnings.length ? `データ品質の注意：${dq.warnings.join("／")}` : "データ品質の警告なし（欠損ゼロを意味するものではありません）";
-  const txStatus = dq.transactionRetrieval || {};
-  const txStatusText = Object.entries(txStatus).map(([city, value]) => `${city}=${value.status || "unknown"}`).join("、");
-  document.getElementById("marketDashboardNote").textContent = `エリア判定：対象 ${decisions.accepted || 0}件／要確認 ${decisions.review || 0}件／隔離 ${decisions.rejected || 0}件。重複統合グループ ${dup.highConfidenceGroupsMergedLogically || 0}件、確認候補 ${dup.reviewCandidateCount || 0}件。今回整理した隔離データ：${q.discovered || 0}件。API取得状態：${txStatusText || "未記録"}。${dqWarnings}。${(analysis.limitations || []).join("。")}`;
+  document.getElementById("marketDashboardNote").textContent = `エリア判定：対象 ${decisions.accepted || 0}件／要確認 ${decisions.review || 0}件／隔離 ${decisions.rejected || 0}件。重複統合グループ ${dup.highConfidenceGroupsMergedLogically || 0}件、確認候補 ${dup.reviewCandidateCount || 0}件。今回整理した隔離データ：${q.discovered || 0}件。${(analysis.limitations || []).join("。")}`;
 }
 function getReviewProperty(id) { return properties.find(p => (p.propertyId || p.id) === id) || discoveredProperties.find(p => (p.propertyId || p.id) === id) || {}; }
 function renderDuplicateReview() {
