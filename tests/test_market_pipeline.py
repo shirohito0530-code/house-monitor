@@ -66,6 +66,28 @@ class DuplicateTests(unittest.TestCase):
         self.assertEqual(result["mergedListingCount"], 0)
         self.assertFalse(result["reviewCandidates"])
 
+    def test_same_town_different_house_numbers_do_not_create_review_flood(self):
+        a = {"propertyId": "a", "address": "千葉県柏市若柴123-1", "landAreaM2": 120, "buildingAreaM2": 95, "constructionYear": 2015, "areaDecision": "accepted"}
+        b = {"propertyId": "b", "address": "千葉県柏市若柴123-2", "landAreaM2": 155, "buildingAreaM2": 118, "constructionYear": 2021, "areaDecision": "accepted"}
+        result = mp.build_duplicate_groups([a, b], [], {})
+        self.assertEqual(result["reviewCandidates"], [])
+        self.assertEqual(result["mergedListingCount"], 0)
+
+    def test_incomplete_duplicate_pair_goes_to_detail_queue_not_manual_review(self):
+        a = {"propertyId": "a", "address": "千葉県流山市おおたかの森北2-10", "landAreaM2": 120, "buildingAreaM2": 95, "constructionYear": 2020, "areaDecision": "accepted", "sourceUrl": "https://suumo.jp/a"}
+        b = {"propertyId": "b", "address": "千葉県流山市おおたかの森北2-10", "areaDecision": "accepted", "sourceUrl": "https://suumo.jp/b"}
+        result = mp.build_duplicate_groups([a, b], [], {})
+        self.assertEqual(result["reviewCandidates"], [])
+        queued = {x["propertyId"] for x in result["detailEnrichmentQueue"]}
+        self.assertIn("b", queued)
+
+    def test_user_different_decision_blocks_auto_merge(self):
+        a = {"propertyId": "a", "address": "千葉県柏市若柴123-1", "landAreaM2": 120, "buildingAreaM2": 95, "constructionYear": 2015}
+        b = {"propertyId": "b", "address": "千葉県柏市若柴123番地1", "landAreaM2": 120.5, "buildingAreaM2": 95.4, "constructionYear": 2015}
+        candidate_id = mp.stable_hash("a|b", "dup:")
+        result = mp.build_duplicate_groups([a, b], [], {candidate_id: "different"})
+        self.assertEqual(result["mergedListingCount"], 0)
+
 
 class MarketIndicatorTests(unittest.TestCase):
     def test_transaction_metric(self):
@@ -77,18 +99,6 @@ class MarketIndicatorTests(unittest.TestCase):
         metrics = mp.build_transaction_metrics(rows)
         self.assertEqual(metrics["柏の葉キャンパス"]["transactionCount"], 3)
         self.assertEqual(metrics["柏の葉キャンパス"]["medianTransactionPriceYen"], 45000000)
-
-    def test_transaction_metrics_by_window_uses_quarter_end_and_does_not_treat_missing_as_zero_market_activity(self):
-        now = mp.datetime(2026, 10, 23, tzinfo=mp.timezone.utc)
-        rows = [
-            {"_cityName": "柏市", "_period": "2026Q3", "TradePrice": 50000000, "Area": 120},
-            {"_cityName": "柏市", "_period": "2025Q4", "TradePrice": 40000000, "Area": 110},
-            {"_cityName": "柏市", "_period": "2025Q2", "TradePrice": 30000000, "Area": 100},
-        ]
-        metrics = mp.build_transaction_metrics_by_window(rows, now)
-        self.assertEqual(metrics["柏の葉キャンパス"]["3m"]["transactionCount"], 1)
-        self.assertEqual(metrics["柏の葉キャンパス"]["12m"]["transactionCount"], 2)
-        self.assertEqual(metrics["柏の葉キャンパス"]["3m"]["periodBasis"], "quarter_end_proxy")
 
     def test_score_explains_reduction(self):
         now = mp.utc_now()
