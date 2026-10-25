@@ -14,9 +14,17 @@ This package applies the Phase 1/2 overlay to the supplied house-monitor reposit
 ## Validation performed locally
 
 - `python -m compileall -q scripts` — passed.
-- `python -m unittest discover -s tests -p 'test_*.py'` — 14 tests passed.
+- `python -m unittest discover -s tests -p 'test_*.py'` — 36 tests passed.
 - `python scripts/db_maintenance.py` — passed on the supplied data.
 - `python scripts/validate_db.py` — passed on the supplied data.
 - Inline JavaScript in `index.html` checked with `node --check` — passed.
 
 The workflow file copy `update.yml.txt` is synchronized with the active `update.yml` to avoid leaving a stale reference copy.
+
+
+## Follow-up repair v2
+
+- Added top-level and nested legacy age alias normalization (`builtAgeYears` ↔ `constructionAgeYears`), including valid zero values.
+- Added regression tests and enabled them in the GitHub Actions workflow.
+- Synchronized the root workflow copy and `.github/workflows/update.yml.txt` reference copy with the active workflow.
+- Updated bundled `discovered_listings.json` by exact-ID backfill only. No DB reset or fuzzy duplicate merge was performed.

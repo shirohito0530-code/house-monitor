@@ -36,3 +36,29 @@ python scripts/validate_detail_persistence.py
 ## Operational note
 
 The backfill only copies values from a matching `propertyId` / `sourceId` / `listingId` / unique SUUMO listing URL. It deliberately does not infer property facts from a shared town-level address. The validation runs after `main.py` and database compaction in GitHub Actions.
+
+
+## Follow-up repair v2 (2026-10-26)
+
+The supplied package still failed validation for `constructionAgeYears`: 145 of 452 known values (32.1%) were absent from matching discovery records. Inspection showed these records stored the value as the legacy top-level `builtAgeYears`, frequently `0.0`; the discovery projection/backfill did not include that alias. Numeric zero is a valid value and must not be treated as empty.
+
+### Follow-up changes
+
+- Normalize both top-level and nested `detail` / `lastSuccessfulDetail` payloads.
+- Normalize `builtAgeYears` and `constructionAgeYears` in both directions while preserving existing valid values.
+- Keep `builtMonth` / `constructionMonth` and `builtYearMonth` / `constructionYearMonth` as separate semantic aliases; do not substitute a year-month value for a month-only field.
+- Persist legacy aliases in the compact discovery projection and include them in the exact-ID backfill.
+- Normalize aliases before building `houses.json` records.
+- Add regression tests for zero-year age, nested aliases, precedence, exact-ID backfill, and ambiguous IDs.
+- Print sample IDs and both alias values when persistence validation fails.
+- Run unit tests in GitHub Actions before the live scraping workflow.
+- Backfill the bundled discovery sample only from uniquely matched property IDs / listing IDs / URLs; no fuzzy matching or duplicate merging.
+
+### Validation after follow-up repair
+
+- `python -m compileall -q scripts tests`: passed.
+- `python -m unittest discover -s tests -p 'test_*.py' -v`: 36 tests passed.
+- `python scripts/validate_detail_persistence.py`: passed; 452/452 known construction-age values persisted.
+- `python scripts/validate_db.py`: passed.
+
+`buildingFootprintAreaM2` remains 0/604 in the bundled sample. This is intentionally not filled from `buildingAreaM2`: total floor area and building footprint area are different measurements. Confirm actual source-page availability and extraction evidence before changing the parser.
