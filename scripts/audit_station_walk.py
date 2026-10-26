@@ -2,18 +2,21 @@
 #!/usr/bin/env python3
 """Read-only audit of station-walk extraction and persistence.
 
-Usage:
+Run from repository root:
     python scripts/audit_station_walk.py
 
-This script does not modify any database or JSON file.
+The script does not modify database files.
 """
 from __future__ import annotations
 
 import json
 import re
-from collections import Counter
+import unicodedata
+from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
+
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -24,43 +27,61 @@ WALK_FIELDS = (
     "walkMinutes",
 )
 
+RAW_FIELDS = (
+    "transportRaw",
+    "stationAccessRaw",
+    "accessRaw",
+    "access",
+    "transport",
+)
+
+WALK_SOURCE_FIELDS = (
+    "targetStationWalkSource",
+    "stationWalkSource",
+    "walkSource",
+)
+
+AVAILABILITY_FIELDS = (
+    "targetStationWalkAvailable",
+    "stationWalkAvailable",
+    "walkAvailable",
+)
+
 DETAIL_CONTAINERS = (
     "detail",
     "lastSuccessfulDetail",
+    "detailContent",
+    "detailData",
+    "detailResult",
 )
 
 EMPTY_VALUES = {
-    "",
-    "-",
-    "－",
-    "不明",
-    "未定",
-    "なし",
-    "N/A",
-    "n/a",
+    "", "-", "－", "不明", "未定", "なし", "N/A", "n/a",
 }
 
+SUUMO_ID_RE = re.compile(
+    r"/(nc_\d+)(?:/|$|[?#])",
+    re.IGNORECASE,
+)
 
-def load_rows(filename: str, key: str = "properties") -> list[dict[str, Any]]:
+
+def load_rows(filename: str) -> list[dict[str, Any]]:
     path = DATA / filename
-
     if not path.exists():
-        raise FileNotFoundError(
-            f"Required file not found: {path.relative_to(ROOT)}"
-        )
+        raise FileNotFoundError(f"Required file not found: {path}")
 
-    with path.open("r", encoding="utf-8") as file:
-        data = json.load(file)
+    with path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
 
     if isinstance(data, list):
         rows = data
     elif isinstance(data, dict):
-        rows = data.get(key, [])
+        rows = data.get("properties", [])
     else:
         raise ValueError(f"{filename}: unsupported JSON structure")
 
     if not isinstance(rows, list):
-        raise ValueError(f"{filename}: expected a list under '{key}'")
+        raise ValueError(f"{filename}: properties must be a list")
 
     return [row for row in rows if isinstance(row, dict)]
 
@@ -68,176 +89,311 @@ def load_rows(filename: str, key: str = "properties") -> list[dict[str, Any]]:
 def usable(value: Any) -> bool:
     if value is None:
         return False
-
     if isinstance(value, str):
         return value.strip() not in EMPTY_VALUES
-
+    if isinstance(value, (dict, list)):
+        return bool(value)
     return True
 
 
 def parse_walk(value: Any) -> float | None:
-    """Parse a numeric walking time without inventing missing values."""
+    """Parse a plausible walking time; reject booleans and invalid values."""
     if isinstance(value, bool) or value is None:
         return None
 
     if isinstance(value, (int, float)):
         number = float(value)
     else:
-        text = str(value).replace(",", "").replace("，", "")
-        match = re.search(r"\d+(?:\.\d+)?", text)
+        text = unicodedata.normalize("NFKC", str(value))
+        text = text.replace(",", "")
+        match = re.search(r"(?<!\d)(\d+(?:\.\d+)?)", text)
         if not match:
             return None
-        number = float(match.group(0))
+        number = float(match.group(1))
 
-    # Reject implausible values instead of silently accepting them.
     if not 1 <= number <= 120:
         return None
 
     return number
 
 
-def nested_details(row: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
-    result = []
+def normalized_text(value: Any) -> str:
+    if value is None:
+        return ""
+    return unicodedata.normalize("NFKC", str(value)).strip().lower()
 
-    for container in DETAIL_CONTAINERS:
-        value = row.get(container)
+
+def suumo_listing_id(value: Any) -> str | None:
+    if not value:
+        return None
+    normalized = unicodedata.normalize("NFKC", str(value))
+    match = SUUMO_ID_RE.search(normalized)
+    return match.group(1).lower() if match else None
+
+
+def identity_keys(row: dict[str, Any]) -> list[tuple[str, str]]:
+    """Return stable identity keys; URL listing ID has priority."""
+    result: list[tuple[str, str]] = []
+
+    # A SUUMO URL ID is usually stable across the two JSON databases.
+    for field in ("sourceUrl", "detailUrl", "url", "canonicalUrl"):
+        listing_id = suumo_listing_id(row.get(field))
+        if listing_id:
+            result.append(("suumo_listing_id", listing_id))
+
+    source = normalized_text(row.get("source") or "suumo")
+
+    for field in ("sourceId", "listingId"):
+        value = normalized_text(row.get(field))
+        if value:
+            result.append((f"{source}:{field}", value))
+
+    property_id = normalized_text(row.get("propertyId") or row.get("id"))
+    if property_id:
+        # Keep the raw property ID as a secondary key, not the sole key.
+        result.append(("property_id", property_id))
+
+    # Preserve ordering and remove duplicate keys.
+    return list(dict.fromkeys(result))
+
+
+def primary_id(row: dict[str, Any]) -> str:
+    keys = identity_keys(row)
+    if keys:
+        return f"{keys[0][0]}={keys[0][1]}"
+    return "(unknown)"
+
+
+def detail_objects(row: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
+    result: list[tuple[str, dict[str, Any]]] = []
+    for name in DETAIL_CONTAINERS:
+        value = row.get(name)
         if isinstance(value, dict):
-            result.append((container, value))
+            result.append((name, value))
+    return result
+
+
+def walk_values(
+    row: dict[str, Any],
+) -> list[tuple[str, Any, float]]:
+    """Find all valid walk values at top level and in recognized detail objects."""
+    objects = [("record", row), *detail_objects(row)]
+    result: list[tuple[str, Any, float]] = []
+
+    for object_name, obj in objects:
+        for field in WALK_FIELDS:
+            raw = obj.get(field)
+            parsed = parse_walk(raw)
+            if parsed is not None:
+                result.append((f"{object_name}.{field}", raw, parsed))
 
     return result
 
 
-def first_walk(
+def first_usable(
     row: dict[str, Any],
-    containers: list[tuple[str, dict[str, Any]]] | None = None,
-) -> tuple[float | None, str | None, Any]:
-    """Return first valid walk time, its source path, and original value."""
-    for field in WALK_FIELDS:
-        value = row.get(field)
-        number = parse_walk(value)
-        if number is not None:
-            return number, field, value
+    fields: tuple[str, ...],
+) -> tuple[str | None, Any]:
+    objects = [("record", row), *detail_objects(row)]
 
-    for container_name, detail in containers or nested_details(row):
-        for field in WALK_FIELDS:
-            value = detail.get(field)
-            number = parse_walk(value)
-            if number is not None:
-                return number, f"{container_name}.{field}", value
+    for object_name, obj in objects:
+        for field in fields:
+            value = obj.get(field)
+            if usable(value):
+                return f"{object_name}.{field}", value
 
-    return None, None, None
-
-
-def property_id(row: dict[str, Any]) -> str:
-    return str(
-        row.get("propertyId")
-        or row.get("id")
-        or row.get("sourceId")
-        or row.get("listingId")
-        or row.get("sourceUrl")
-        or row.get("detailUrl")
-        or "(unknown)"
-    )
+    return None, None
 
 
 def inspect_row(row: dict[str, Any]) -> dict[str, Any]:
-    details = nested_details(row)
-    walk, walk_path, raw_walk = first_walk(row, details)
+    walks = walk_values(row)
+    walk_path, raw_walk, walk = walks[0] if walks else (None, None, None)
 
-    top_walk = any(
-        parse_walk(row.get(field)) is not None
-        for field in WALK_FIELDS
+    raw_path, raw_transport = first_usable(row, RAW_FIELDS)
+    source_path, walk_source = first_usable(row, WALK_SOURCE_FIELDS)
+
+    availability_values = []
+    for object_name, obj in [
+        ("record", row),
+        *detail_objects(row),
+    ]:
+        for field in AVAILABILITY_FIELDS:
+            if field in obj:
+                availability_values.append({
+                    "path": f"{object_name}.{field}",
+                    "value": obj.get(field),
+                })
+
+    availability_true = any(
+        item["value"] is True for item in availability_values
+    )
+    availability_false = (
+        bool(availability_values)
+        and all(item["value"] is False for item in availability_values)
     )
 
-    nested_walk = any(
-        parse_walk(detail.get(field)) is not None
-        for _, detail in details
-        for field in WALK_FIELDS
+    station_path, station = first_usable(
+        row, ("targetStation", "station")
     )
 
-    all_objects = [("record", row), *details]
-
-    available_values = [
-        (name, obj.get("targetStationWalkAvailable"))
-        for name, obj in all_objects
-        if "targetStationWalkAvailable" in obj
-    ]
-
-    available_true = any(value is True for _, value in available_values)
-    available_false = any(value is False for _, value in available_values)
-
-    station = None
-    walk_source = None
-    transport_raw = None
-
-    for name, obj in all_objects:
-        if not station:
-            station = obj.get("targetStation") or obj.get("station")
-        if not walk_source:
-            walk_source = obj.get("targetStationWalkSource")
-        if not transport_raw:
-            transport_raw = obj.get("transportRaw")
-
-    if top_walk:
-        category = "top_level_walk"
-    elif nested_walk:
-        category = "nested_detail_only"
-    elif usable(transport_raw):
+    if walks:
+        if availability_false:
+            category = "walk_value_but_unavailable_flag"
+        elif not availability_values:
+            category = "walk_value_without_availability_flag"
+        else:
+            category = "walk_value_found"
+    elif usable(raw_transport):
         category = "raw_transport_without_walk"
-    elif available_true:
+    elif availability_true:
         category = "available_flag_without_walk"
     else:
         category = "no_walk_evidence"
 
-    if walk is not None and available_false and not available_true:
-        category = "walk_value_but_unavailable_flag"
-
     return {
-        "propertyId": property_id(row),
+        "id": primary_id(row),
+        "identityKeys": identity_keys(row),
         "walkMinutes": walk,
         "walkPath": walk_path,
         "rawWalkValue": raw_walk,
-        "topLevelWalk": top_walk,
-        "nestedWalk": nested_walk,
-        "availableValues": available_values,
-        "targetStation": station,
+        "allWalkValues": [
+            {"path": path, "raw": raw, "minutes": minutes}
+            for path, raw, minutes in walks
+        ],
+        "rawTransportPath": raw_path,
+        "transportRaw": raw_transport,
+        "walkSourcePath": source_path,
         "targetStationWalkSource": walk_source,
-        "transportRaw": transport_raw,
+        "stationPath": station_path,
+        "targetStation": station,
+        "availabilityValues": availability_values,
         "category": category,
+        "propertyId": row.get("propertyId"),
+        "sourceId": row.get("sourceId"),
+        "listingId": row.get("listingId"),
+        "sourceUrl": row.get("sourceUrl") or row.get("detailUrl") or row.get("url"),
+        "detailFetched": row.get("detailFetched"),
+        "detailFetchStatus": row.get("detailFetchStatus"),
+        "detailDataVersion": row.get("detailDataVersion"),
     }
 
 
-def coverage(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    total = len(rows)
-    inspected = [inspect_row(row) for row in rows]
-    categories = Counter(item["category"] for item in inspected)
+def build_identity_index(
+    rows: list[dict[str, Any]],
+) -> dict[tuple[str, str], list[int]]:
+    index: dict[tuple[str, str], list[int]] = defaultdict(list)
+    for i, row in enumerate(rows):
+        for key in identity_keys(row):
+            index[key].append(i)
+    return index
 
-    top_count = sum(item["topLevelWalk"] for item in inspected)
-    nested_count = sum(item["nestedWalk"] for item in inspected)
-    valid_count = sum(item["walkMinutes"] is not None for item in inspected)
+
+def find_matches(
+    row: dict[str, Any],
+    index: dict[tuple[str, str], list[int]],
+) -> tuple[list[int], str]:
+    """Only accept a unique matching identity key; report ambiguous matches."""
+    for key in identity_keys(row):
+        matches = index.get(key, [])
+        if len(matches) == 1:
+            return matches, "unique"
+        if len(matches) > 1:
+            return matches, "ambiguous"
+    return [], "unmatched"
+
+
+def compare_files(
+    discovered: list[dict[str, Any]],
+    houses: list[dict[str, Any]],
+) -> dict[str, Any]:
+    discovered_index = build_identity_index(discovered)
+    houses_index = build_identity_index(houses)
+
+    matched_pairs = []
+    unmatched_houses = []
+    ambiguous_houses = []
+
+    for house_i, house in enumerate(houses):
+        matches, status = find_matches(house, discovered_index)
+        if status == "unique":
+            matched_pairs.append((house_i, matches[0]))
+        elif status == "ambiguous":
+            ambiguous_houses.append(primary_id(house))
+        else:
+            unmatched_houses.append(primary_id(house))
+
+    discovered_has_walk_houses_missing = []
+    houses_has_walk_discovered_missing = []
+    matched_but_walk_conflict = []
+
+    for house_i, discovered_i in matched_pairs:
+        house_row = houses[house_i]
+        discovered_row = discovered[discovered_i]
+        house_audit = inspect_row(house_row)
+        discovered_audit = inspect_row(discovered_row)
+
+        hw = house_audit["walkMinutes"]
+        dw = discovered_audit["walkMinutes"]
+
+        if dw is not None and hw is None:
+            discovered_has_walk_houses_missing.append({
+                "id": primary_id(house_row),
+                "discoveredWalk": dw,
+                "discoveredPath": discovered_audit["walkPath"],
+                "houseDetailFetched": house_row.get("detailFetched"),
+                "houseStatus": house_row.get("status"),
+            })
+        elif hw is not None and dw is None:
+            houses_has_walk_discovered_missing.append({
+                "id": primary_id(house_row),
+                "housesWalk": hw,
+                "housesPath": house_audit["walkPath"],
+            })
+        elif hw is not None and dw is not None and hw != dw:
+            matched_but_walk_conflict.append({
+                "id": primary_id(house_row),
+                "housesWalk": hw,
+                "discoveredWalk": dw,
+            })
+
+    return {
+        "matchedUniquePairCount": len(matched_pairs),
+        "unmatchedHouseCount": len(unmatched_houses),
+        "ambiguousHouseCount": len(ambiguous_houses),
+        "unmatchedHouseExamples": unmatched_houses[:20],
+        "ambiguousHouseExamples": ambiguous_houses[:20],
+        "discoveredHasWalkButHousesMissing": discovered_has_walk_houses_missing,
+        "housesHasWalkButDiscoveredMissing": houses_has_walk_discovered_missing,
+        "walkValueConflicts": matched_but_walk_conflict,
+        "discoveredIdentityKeyCount": len(discovered_index),
+        "housesIdentityKeyCount": len(houses_index),
+    }
+
+
+def summarize(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    audits = [inspect_row(row) for row in rows]
+    counts = Counter(item["category"] for item in audits)
+    total = len(rows)
+    valid = sum(item["walkMinutes"] is not None for item in audits)
+
+    examples: dict[str, list[dict[str, Any]]] = {}
+    for category in (
+        "walk_value_but_unavailable_flag",
+        "walk_value_without_availability_flag",
+        "raw_transport_without_walk",
+        "available_flag_without_walk",
+        "no_walk_evidence",
+    ):
+        examples[category] = [
+            item for item in audits if item["category"] == category
+        ][:15]
 
     return {
         "total": total,
-        "validWalkCount": valid_count,
-        "validWalkPct": round(valid_count / total * 100, 1) if total else 0,
-        "topLevelWalkCount": top_count,
-        "topLevelWalkPct": round(top_count / total * 100, 1) if total else 0,
-        "nestedWalkCount": nested_count,
-        "nestedWalkPct": round(nested_count / total * 100, 1) if total else 0,
-        "categories": dict(categories),
-        "examples": {
-            category: [
-                item for item in inspected
-                if item["category"] == category
-            ][:10]
-            for category in (
-                "nested_detail_only",
-                "walk_value_but_unavailable_flag",
-                "raw_transport_without_walk",
-                "available_flag_without_walk",
-                "no_walk_evidence",
-            )
-        },
+        "validWalkCount": valid,
+        "validWalkPct": round(100 * valid / total, 2) if total else 0.0,
+        "categoryCounts": dict(counts),
+        "examples": examples,
     }
 
 
@@ -245,51 +401,9 @@ def main() -> int:
     discovered = load_rows("discovered_listings.json")
     houses = load_rows("houses.json")
 
-    discovered_report = coverage(discovered)
-    houses_report = coverage(houses)
-
-    discovered_by_id = {
-        property_id(row): inspect_row(row)
-        for row in discovered
-    }
-
-    houses_by_id = {
-        property_id(row): inspect_row(row)
-        for row in houses
-    }
-
-    # Compare IDs present in both files. These are diagnostic signals only:
-    # do not automatically overwrite or repair records based on this report.
-    shared_ids = set(discovered_by_id) & set(houses_by_id)
-    comparison = {
-        "sharedPropertyIdCount": len(shared_ids),
-        "discoveredHasWalkButHousesMissing": [],
-        "housesHasWalkButDiscoveredMissing": [],
-    }
-
-    for pid in sorted(shared_ids):
-        discovered_item = discovered_by_id[pid]
-        houses_item = houses_by_id[pid]
-
-        if (
-            discovered_item["walkMinutes"] is not None
-            and houses_item["walkMinutes"] is None
-        ):
-            comparison["discoveredHasWalkButHousesMissing"].append({
-                "propertyId": pid,
-                "discoveredWalk": discovered_item["walkMinutes"],
-                "discoveredPath": discovered_item["walkPath"],
-            })
-
-        if (
-            houses_item["walkMinutes"] is not None
-            and discovered_item["walkMinutes"] is None
-        ):
-            comparison["housesHasWalkButDiscoveredMissing"].append({
-                "propertyId": pid,
-                "housesWalk": houses_item["walkMinutes"],
-                "housesPath": houses_item["walkPath"],
-            })
+    discovered_report = summarize(discovered)
+    houses_report = summarize(houses)
+    comparison = compare_files(discovered, houses)
 
     report = {
         "readOnly": True,
@@ -297,12 +411,10 @@ def main() -> int:
         "houses": houses_report,
         "crossFileComparison": comparison,
         "interpretation": [
-            "nested_detail_only: a value exists in detail but not at top level.",
-            "walk_value_but_unavailable_flag: a walk value exists but all recorded availability flags are false.",
-            "raw_transport_without_walk: raw access text exists, but no valid walk value was parsed.",
-            "available_flag_without_walk: availability is true, but no valid walk value was found.",
-            "no_walk_evidence: inspect the original listing page and search result data.",
-            "These categories identify investigation targets; they do not prove the exact root cause.",
+            "This audit is diagnostic and does not modify any database.",
+            "A missing walk value does not prove that the source page lacks access information.",
+            "Ambiguous identity matches are not treated as successful matches.",
+            "Building footprint area is not interchangeable with total floor area.",
         ],
     }
 
@@ -317,28 +429,18 @@ def main() -> int:
             f"  valid walk: {metrics['validWalkCount']}/"
             f"{metrics['total']} ({metrics['validWalkPct']}%)"
         )
-        print(
-            f"  top-level walk: {metrics['topLevelWalkCount']}/"
-            f"{metrics['total']} ({metrics['topLevelWalkPct']}%)"
-        )
-        print(
-            f"  nested detail walk: {metrics['nestedWalkCount']}/"
-            f"{metrics['total']} ({metrics['nestedWalkPct']}%)"
-        )
-        print(f"  categories: {metrics['categories']}")
+        print(f"  categories: {metrics['categoryCounts']}")
 
-    print("\nCross-file comparison")
-    print(f"  shared IDs: {comparison['sharedPropertyIdCount']}")
-    print(
-        "  discovered has walk, houses missing: "
-        f"{len(comparison['discoveredHasWalkButHousesMissing'])}"
-    )
-    print(
-        "  houses has walk, discovered missing: "
-        f"{len(comparison['housesHasWalkButDiscoveredMissing'])}"
-    )
+    print("\n=== Cross-file comparison ===")
+    print(json.dumps(comparison, ensure_ascii=False, indent=2))
 
-    print("\n=== JSON DETAILS ===")
+    print("\n=== Representative examples ===")
+    print(json.dumps({
+        "discovered": discovered_report["examples"],
+        "houses": houses_report["examples"],
+    }, ensure_ascii=False, indent=2))
+
+    print("\n=== Full JSON report ===")
     print(json.dumps(report, ensure_ascii=False, indent=2))
     return 0
 
