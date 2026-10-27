@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-25T23:33:29.118309+00:00",
+  "updatedAt": "2026-10-27T00:38:11.811114+00:00",
   "source": "REINFOLIB_API_KEY 未設定時は取得をスキップ",
   "periods": [
     {
@@ -7288,7 +7288,7 @@
     }
   ],
   "retrievalStatus": {
-    "checkedAt": "2026-10-25T23:33:26.658150+00:00",
+    "checkedAt": "2026-10-27T00:38:08.833947+00:00",
     "source": "国土交通省 不動産情報ライブラリ XIT001",
     "priceClassification": "02",
     "maxQuartersSearched": 8,
