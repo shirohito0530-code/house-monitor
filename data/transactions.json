@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "updatedAt": "2026-10-29T01:10:23.047497+00:00",
+  "updatedAt": "2026-10-30T01:24:48.707329+00:00",
   "source": "REINFOLIB_API_KEY 未設定時は取得をスキップ",
   "periods": [
     {
@@ -13331,7 +13331,7 @@
     }
   ],
   "retrievalStatus": {
-    "checkedAt": "2026-10-29T01:10:20.757021+00:00",
+    "checkedAt": "2026-10-30T01:24:47.224646+00:00",
     "source": "国土交通省 不動産情報ライブラリ XIT001",
     "priceClassification": "02",
     "maxQuartersSearched": 8,
@@ -13339,9 +13339,9 @@
       "kashiwa": {
         "name": "柏市",
         "cityCode": "12217",
-        "status": "success",
-        "selectedPeriod": "2026Q2",
-        "recordsSaved": 138,
+        "status": "already_stored",
+        "selectedPeriod": null,
+        "recordsSaved": 0,
         "periodsChecked": [
           {
             "period": "2026Q3",
@@ -13350,9 +13350,7 @@
           },
           {
             "period": "2026Q2",
-            "status": "success",
-            "rawRecordCount": 253,
-            "detachedHouseRecordCount": 138
+            "status": "already_stored"
           }
         ],
         "errors": []
@@ -13360,9 +13358,9 @@
       "nagareyama": {
         "name": "流山市",
         "cityCode": "12220",
-        "status": "success",
-        "selectedPeriod": "2026Q2",
-        "recordsSaved": 56,
+        "status": "already_stored",
+        "selectedPeriod": null,
+        "recordsSaved": 0,
         "periodsChecked": [
           {
             "period": "2026Q3",
@@ -13371,9 +13369,7 @@
           },
           {
             "period": "2026Q2",
-            "status": "success",
-            "rawRecordCount": 93,
-            "detachedHouseRecordCount": 56
+            "status": "already_stored"
           }
         ],
         "errors": []
