@@ -2627,6 +2627,12 @@ def extract_station_info(
     normalized_targets = normalize_target_stations(
         target_stations
     )
+    station_walk_audit = {
+        "targetStations": normalized_targets,
+        "walkPatternMatchCount": 0,
+        "targetStationMatchCount": 0,
+        "unmatchedStationExamples": [],
+    }
 
     result = {
         "station": None,
@@ -2718,13 +2724,23 @@ def extract_station_info(
                 ):
                     continue
 
+                station_walk_audit["walkPatternMatchCount"] += 1
                 target_station = match_target_station(
                     station_str,
                     normalized_targets,
                 )
-
                 if not target_station:
+                    examples = station_walk_audit["unmatchedStationExamples"]
+                    example = {
+                        "stationText": station_str,
+                        "walkMinutes": walk_min,
+                        "raw": clean_text(match.group(0)),
+                        "source": source,
+                    }
+                    if len(examples) < 20 and example not in examples:
+                        examples.append(example)
                     continue
+                station_walk_audit["targetStationMatchCount"] += 1
 
                 candidate = {
                     "station": target_station,
@@ -2792,6 +2808,7 @@ def extract_station_info(
             target_walk_candidates[0]["value"]
         )
 
+    result["stationWalkAudit"] = station_walk_audit
     return (
         result,
         candidates,
