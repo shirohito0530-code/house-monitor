@@ -123,6 +123,12 @@ DISCOVERY_FIELDS = (
     "targetStationWalkSource",
     "walkMinutes",
     "walkMatched",
+    "transportRaw",
+    "stationAccessRaw",
+    "stationAccessType",
+    "busMinutes",
+    "busStop",
+    "busStopWalkMinutes",
     # Normalized property facts required for duplicate resolution. These fields
     # must be persisted in the discovery DB, not only in houses.json.
     "landAreaM2",
@@ -1444,6 +1450,23 @@ def _promote_discovery_detail_fields(
         "constructionAgeYears": ("constructionAgeYears", "builtAgeYears"),
         "builtAgeYears": ("builtAgeYears", "constructionAgeYears"),
         "propertyType": ("propertyType", "listingType", "type"),
+        "targetStation": ("targetStation", "station"),
+        "targetStationWalkAvailable": (
+            "targetStationWalkAvailable", "stationWalkAvailable", "walkAvailable",
+        ),
+        "targetStationWalkSource": (
+            "targetStationWalkSource", "stationWalkSource", "walkSource",
+        ),
+        "transportRaw": (
+            "transportRaw", "stationAccessRaw", "accessRaw", "access", "transport",
+        ),
+        "stationAccessRaw": (
+            "stationAccessRaw", "transportRaw", "accessRaw", "access", "transport",
+        ),
+        "stationAccessType": ("stationAccessType", "accessType"),
+        "busMinutes": ("busMinutes",),
+        "busStop": ("busStop",),
+        "busStopWalkMinutes": ("busStopWalkMinutes",),
         "targetStationWalkMinutes": (
             "targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes",
         ),
@@ -2708,42 +2731,25 @@ def get_building_area(
 def get_target_station_walk_minutes(
     property_data: Dict[str, Any],
 ) -> Optional[float]:
-
-    detail = get_detail(
-        property_data
-    )
-
-    available = detail.get(
-        "targetStationWalkAvailable"
-    )
-
-    if available is True:
-
-        value = detail.get(
-            "targetStationWalkMinutes"
-        )
-
-        if value is not None:
-            return to_number(
-                value
-            )
-
-    value = property_data.get(
-        "targetStationWalkMinutes"
-    )
-
-    if value is not None:
-
-        available = property_data.get(
-            "targetStationWalkAvailable"
-        )
-
-        if available is True:
-
-            return to_number(
-                value
-            )
-
+    """Return plausible target-station walk time, respecting explicit False flags."""
+    candidates = [property_data]
+    for key in ("detail", "lastSuccessfulDetail", "detailContent", "detailData"):
+        value = property_data.get(key)
+        if isinstance(value, dict):
+            candidates.append(value)
+    for item in candidates:
+        if item.get("targetStationWalkAvailable") is False:
+            continue
+        for field in ("targetStationWalkMinutes", "stationWalkMinutes", "walkMinutes"):
+            value = item.get(field)
+            if value is None or isinstance(value, bool):
+                continue
+            try:
+                minutes = float(value)
+            except (TypeError, ValueError):
+                continue
+            if 1 <= minutes <= 120:
+                return minutes
     return None
 
 
@@ -4832,9 +4838,26 @@ def build_market_house_record(
 
         "stationWalkMinutes":
             to_number(
+
                 walk_minutes
             ),
 
+        "targetStationWalkAvailable":
+            property_data.get("targetStationWalkAvailable", detail.get("targetStationWalkAvailable")),
+        "targetStationWalkSource":
+            property_data.get("targetStationWalkSource", detail.get("targetStationWalkSource")),
+        "transportRaw":
+            property_data.get("transportRaw") or property_data.get("stationAccessRaw")
+            or detail.get("transportRaw") or detail.get("stationAccessRaw"),
+        "stationAccessRaw":
+            property_data.get("stationAccessRaw") or property_data.get("transportRaw")
+            or detail.get("stationAccessRaw") or detail.get("transportRaw"),
+        "stationAccessType":
+            property_data.get("stationAccessType", detail.get("stationAccessType")),
+        "busMinutes": property_data.get("busMinutes", detail.get("busMinutes")),
+        "busStop": property_data.get("busStop", detail.get("busStop")),
+        "busStopWalkMinutes":
+            property_data.get("busStopWalkMinutes", detail.get("busStopWalkMinutes")),
         "areaClassification":
             property_data.get(
                 "areaClassification"
