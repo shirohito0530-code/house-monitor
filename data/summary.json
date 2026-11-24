@@ -1,125 +1,125 @@
 {
-  "updatedAt": "2026-11-23T01:54:10.125136+00:00",
-  "totalDiscovered": 1769,
-  "totalMarketHouses": 723,
+  "updatedAt": "2026-11-24T05:36:22.659105+00:00",
+  "totalDiscovered": 1790,
+  "totalMarketHouses": 713,
   "statusCounts": {
-    "active": 591,
-    "observed_ended": 1077,
-    "possibly_ended": 101
+    "active": 585,
+    "observed_ended": 1091,
+    "possibly_ended": 114
   },
-  "detailFetchedInRun": 109,
-  "detailCandidates": 129,
+  "detailFetchedInRun": 486,
+  "detailCandidates": 604,
   "duplicateEnrichmentPriorityCount": 0,
   "duplicateEnrichmentAttemptLimit": 5,
   "detailFetchLimit": 500,
-  "detailAttemptsInRun": 129,
-  "detailFailuresInRun": 20,
-  "detailFetchPartial": false,
+  "detailAttemptsInRun": 500,
+  "detailFailuresInRun": 14,
+  "detailFetchPartial": true,
   "searchTargetsHealthy": 6,
   "searchTargetsFailedOrIncomplete": 0,
-  "possiblyEndedCount": 101,
-  "observedEndedCount": 1077,
+  "possiblyEndedCount": 114,
+  "observedEndedCount": 1091,
   "confirmedEndedCount": 0,
-  "activeCount": 591,
-  "duplicateCandidateCount": 637,
-  "marketCriteriaMatchedCount": 46,
-  "marketCriteriaPendingCount": 1073,
-  "marketCriteriaExcludedCount": 650,
-  "marketAreaPendingCount": 1502,
+  "activeCount": 585,
+  "duplicateCandidateCount": 652,
+  "marketCriteriaMatchedCount": 69,
+  "marketCriteriaPendingCount": 1014,
+  "marketCriteriaExcludedCount": 707,
+  "marketAreaPendingCount": 1521,
   "criteriaExcludedByField": {
-    "builtAgeMatched": 30,
+    "builtAgeMatched": 128,
+    "landAreaMatched": 251,
+    "buildingAreaMatched": 63,
     "walkMatched": 416,
-    "landAreaMatched": 248,
-    "buildingAreaMatched": 62,
     "priceMatched": 4
   },
   "criteriaPendingByField": {
-    "builtAgeMatched": 637,
-    "walkMatched": 1195,
-    "priceMatched": 6,
+    "builtAgeMatched": 459,
+    "walkMatched": 1214,
     "landAreaMatched": 167,
-    "buildingAreaMatched": 167
+    "buildingAreaMatched": 167,
+    "priceMatched": 1
   },
   "marketDbEmptyWarning": false,
   "fieldCoverage": {
     "houses": {
-      "total": 723,
+      "total": 713,
       "fields": {
         "layout": {
-          "count": 679,
-          "ratio": 0.9391
+          "count": 667,
+          "ratio": 0.9355
         },
         "landAreaM2": {
-          "count": 669,
-          "ratio": 0.9253
+          "count": 657,
+          "ratio": 0.9215
         },
         "buildingAreaM2": {
-          "count": 669,
-          "ratio": 0.9253
+          "count": 657,
+          "ratio": 0.9215
         },
         "buildingFootprintAreaM2": {
           "count": 0,
           "ratio": 0.0
         },
         "address": {
-          "count": 718,
-          "ratio": 0.9931
+          "count": 708,
+          "ratio": 0.993
         },
         "targetStationWalkMinutes": {
-          "count": 82,
-          "ratio": 0.1134
+          "count": 79,
+          "ratio": 0.1108
         },
         "constructionMonth": {
-          "count": 666,
-          "ratio": 0.9212
+          "count": 654,
+          "ratio": 0.9173
         },
         "constructionYear": {
-          "count": 676,
-          "ratio": 0.935
+          "count": 664,
+          "ratio": 0.9313
         },
         "propertyType": {
-          "count": 723,
+          "count": 713,
           "ratio": 1.0
         }
       }
     },
     "discovered": {
-      "total": 1769,
+      "total": 1790,
       "fields": {
         "layout": {
-          "count": 1613,
-          "ratio": 0.9118
+          "count": 1634,
+          "ratio": 0.9128
         },
         "landAreaM2": {
-          "count": 1602,
-          "ratio": 0.9056
+          "count": 1623,
+          "ratio": 0.9067
         },
         "buildingAreaM2": {
-          "count": 1602,
-          "ratio": 0.9056
+          "count": 1623,
+          "ratio": 0.9067
         },
         "buildingFootprintAreaM2": {
           "count": 0,
           "ratio": 0.0
         },
         "address": {
-          "count": 1764,
+          "count": 1785,
           "ratio": 0.9972
         },
         "targetStationWalkMinutes": {
-          "count": 574,
-          "ratio": 0.3245
+          "count": 576,
+          "ratio": 0.3218
         },
         "constructionMonth": {
-          "count": 1596,
-          "ratio": 0.9022
+          "count": 1617,
+          "ratio": 0.9034
         },
         "constructionYear": {
-          "count": 1609,
-          "ratio": 0.9096
+          "count": 1630,
+          "ratio": 0.9106
         },
         "propertyType": {
-          "count": 1769,
+          "count": 1790,
           "ratio": 1.0
         }
       }
@@ -152,7 +152,7 @@
       "stationWalkMinutes": 0,
       "walkMinutes": 0
     },
-    "discoveryFieldCount": 1769,
+    "discoveryFieldCount": 1790,
     "detailFieldsPersisted": [
       "landAreaM2",
       "buildingAreaM2",
@@ -168,14 +168,14 @@
     ]
   },
   "parserVersion": "2026-10-26-v47-detail-persistence-alias-repair",
-  "recentlyEndedCount": 914,
-  "relistedCount": 888,
+  "recentlyEndedCount": 935,
+  "relistedCount": 901,
   "priceDownEndedCount": 0,
   "marketPipelineVersion": "2026-10-26-v3-transaction-window-scope-fix",
   "areaDecisionCounts": {
-    "accepted": 132,
-    "review": 577,
-    "rejected": 1060
+    "accepted": 134,
+    "review": 586,
+    "rejected": 1070
   },
   "quarantineRetentionDays": 90,
   "quarantinePrunedThisRun": {
@@ -192,7 +192,7 @@
     "autoMergePolicy": "detailed_address_and_matching_land_building; preserve_listing_ids_and_urls"
   },
   "marketAnalysis": {
-    "updatedAt": "2026-11-23T01:54:10.125136+00:00",
+    "updatedAt": "2026-11-24T05:36:22.659105+00:00",
     "source": "SUUMO observations + MLIT XIT001 transactions when available",
     "periods": [
       "3m",
@@ -203,16 +203,16 @@
         "3m": {
           "periodDays": 90,
           "area": "柏の葉キャンパス",
-          "activeCanonicalListingCount": 39,
-          "observationCount": 586,
-          "propertiesWithRepeatedPriceObservation": 50,
-          "observationSpanDays": 28,
-          "periodCoveragePct": 31.1,
-          "medianAskingPriceYen": 50850000.0,
-          "medianPriceAtWindowStartYen": 46400000.0,
-          "medianPriceAtWindowEndYen": 46445000.0,
+          "activeCanonicalListingCount": 38,
+          "observationCount": 591,
+          "propertiesWithRepeatedPriceObservation": 51,
+          "observationSpanDays": 29,
+          "periodCoveragePct": 32.2,
+          "medianAskingPriceYen": 49900000.0,
+          "medianPriceAtWindowStartYen": 46900000.0,
+          "medianPriceAtWindowEndYen": 44980000.0,
           "medianObservedPriceChangePct": 0.0,
-          "priceReductionPropertyCount": 5,
+          "priceReductionPropertyCount": 6,
           "medianRecordedReductionPct": 3.39,
           "transactionCountAvailable": 0,
           "medianTransactionPriceYen": null,
@@ -223,23 +223,23 @@
         "12m": {
           "periodDays": 365,
           "area": "柏の葉キャンパス",
-          "activeCanonicalListingCount": 39,
-          "observationCount": 586,
-          "propertiesWithRepeatedPriceObservation": 50,
-          "observationSpanDays": 28,
-          "periodCoveragePct": 7.7,
-          "medianAskingPriceYen": 50850000.0,
-          "medianPriceAtWindowStartYen": 46400000.0,
-          "medianPriceAtWindowEndYen": 46445000.0,
+          "activeCanonicalListingCount": 38,
+          "observationCount": 591,
+          "propertiesWithRepeatedPriceObservation": 51,
+          "observationSpanDays": 29,
+          "periodCoveragePct": 7.9,
+          "medianAskingPriceYen": 49900000.0,
+          "medianPriceAtWindowStartYen": 46900000.0,
+          "medianPriceAtWindowEndYen": 44980000.0,
           "medianObservedPriceChangePct": 0.0,
-          "priceReductionPropertyCount": 5,
+          "priceReductionPropertyCount": 6,
           "medianRecordedReductionPct": 3.39,
           "transactionCountAvailable": 303,
           "medianTransactionPriceYen": 32000000.0,
           "medianLandPricePerM2Yen": 238888.89,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は7.7%（観測期間28日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は7.9%（観測期間29日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         }
       },
@@ -247,12 +247,12 @@
         "3m": {
           "periodDays": 90,
           "area": "流山おおたかの森",
-          "activeCanonicalListingCount": 36,
-          "observationCount": 389,
+          "activeCanonicalListingCount": 35,
+          "observationCount": 392,
           "propertiesWithRepeatedPriceObservation": 21,
-          "observationSpanDays": 28,
-          "periodCoveragePct": 31.1,
-          "medianAskingPriceYen": 80900000.0,
+          "observationSpanDays": 29,
+          "periodCoveragePct": 32.2,
+          "medianAskingPriceYen": 81950000.0,
           "medianPriceAtWindowStartYen": 64700000.0,
           "medianPriceAtWindowEndYen": 64700000.0,
           "medianObservedPriceChangePct": 0.0,
@@ -267,12 +267,12 @@
         "12m": {
           "periodDays": 365,
           "area": "流山おおたかの森",
-          "activeCanonicalListingCount": 36,
-          "observationCount": 389,
+          "activeCanonicalListingCount": 35,
+          "observationCount": 392,
           "propertiesWithRepeatedPriceObservation": 21,
-          "observationSpanDays": 28,
-          "periodCoveragePct": 7.7,
-          "medianAskingPriceYen": 80900000.0,
+          "observationSpanDays": 29,
+          "periodCoveragePct": 7.9,
+          "medianAskingPriceYen": 81950000.0,
           "medianPriceAtWindowStartYen": 64700000.0,
           "medianPriceAtWindowEndYen": 64700000.0,
           "medianObservedPriceChangePct": 0.0,
@@ -283,7 +283,7 @@
           "medianLandPricePerM2Yen": 346666.67,
           "confidence": "low",
           "limitations": [
-            "期間内の観測カバー率は7.7%（観測期間28日）。十分な長期履歴が蓄積するまでは参考値です"
+            "期間内の観測カバー率は7.9%（観測期間29日）。十分な長期履歴が蓄積するまでは参考値です"
           ]
         }
       }
